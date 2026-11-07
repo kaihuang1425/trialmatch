@@ -122,6 +122,10 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @keyframes rlPress{0%,3%{transform:translateX(-50%) scale(1)}6%{transform:translateX(-50%) scale(.88)}10%,100%{transform:translateX(-50%) scale(1)}}
 /* phones and small tablets: the same relay (track, running light, glowing cards); the cards sit in a swipeable row that follows the light */
 @media (max-width:900px){
+  .tm .navlinks{display:none!important}   /* the nav's inline display:flex was beating the existing mobile rule and pushing "Try the demo" off screen */
+  .tm header.navIn{gap:16px!important}
+  .tm a.pill{height:auto!important;min-height:34px;padding:6px 6px 6px 14px!important;box-sizing:border-box;max-width:100%;text-align:left}
+  .tm a.pill>span{flex:none;white-space:nowrap}
   .tm .rl-track{cursor:pointer;-webkit-tap-highlight-color:transparent}
   .tm .rl-row{position:relative;display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -24px;padding:6px calc((100vw - min(78vw,340px)) / 2) 20px}
   .tm .rl-row::-webkit-scrollbar{display:none}
