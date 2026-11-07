@@ -54,6 +54,7 @@ async function googleToken() {
 
 // MedGemma 1.5 and 27B can "think" first; the answer follows the <unused95> marker.
 function stripThinking(text) {
+  if (text.includes('<unused94>') && !text.includes('<unused95>')) return '';   // still thinking when it hit the token limit
   const i = text.lastIndexOf('<unused95>');
   return (i >= 0 ? text.slice(i + '<unused95>'.length) : text).replace(/<unused\d+>/g, '').trim();
 }

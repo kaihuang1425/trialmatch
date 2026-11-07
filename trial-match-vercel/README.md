@@ -11,6 +11,17 @@ The landing page (`/`) and the demo app (`/app/`), with the app's agents connect
 | **Pre-check** (Matcher, live trials) | **MedGemma** + ClinicalTrials.gov | Reads a live trial's full entry rules and checks them against the record: met / not met / to check | Button hidden, with a note |
 | **Shared demo data** | **Upstash Redis** | Everyone who opens the site sees and changes the same demo | Changes stay in each browser |
 | Matching for the demo's own trials (LT-301…) | Rules in code | Unchanged and deterministic: an agent never decides eligibility | n/a |
+| **Ask your agent** (chat, patients and clinicians) | Built-in answers, or **MedGemma on the visitor's computer** (Ollama), or **MedGemma on this site** | Answers from the record and the trial rules; typed questions can go to MedGemma, labelled as a draft, with eligibility claims flagged | Built-in answers |
+
+### MedGemma for the chat
+
+The chat offers three sources, and visitors choose between them in the chat itself:
+
+- **Built-in.** This works everywhere and needs no setup. The answers are worked out from the record and the trial rules.
+- **MedGemma on this computer (desktop).** The chat detects Windows, Mac or Linux. It shows one copy-paste command that lets the site talk to Ollama, restarts Ollama and downloads `medgemma1.5:4b` (about 3.3 GB). It then finds the model by itself. Questions never leave that computer. The site's security policy allows only `localhost:11434`.
+- **MedGemma on this site.** This works on any device, phones included, once the deployment has a MedGemma server set in the variables below. Any OpenAI-compatible server works, including Ollama's own API (`MEDGEMMA_BASE_URL=http://<host>:11434/v1`, `MEDGEMMA_MODEL=medgemma1.5:4b`). If you serve it with Ollama, start it with `OLLAMA_CONTEXT_LENGTH=16384` so the longer trial pre-check prompts fit.
+
+These were tested with MedGemma 1.5 4B on an RTX 5070 Ti laptop: chat answers took about 8 to 20 seconds, including the model's thinking.
 
 The status endpoint `GET /api/status` shows which connectors are live, and the app's sign-in screen lists them.
 

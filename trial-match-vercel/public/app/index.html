@@ -393,6 +393,54 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 .pvbox .pv-cap { font-size: 14px; min-height: 40px; }
 .pvbox .pv-k, .pvbox .pv-d { font-weight: 500; }
 .pvbox .pv-honest, .pvbox .pv-pdb { font-size: 12px; }
+/* ---------- Ask your agent (chat) ---------- */
+.fab { position: fixed; z-index: 30; right: max(24px, env(safe-area-inset-right, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px 0 8px; border-radius: 26px; background: var(--grad-soft), var(--surface-2); color: var(--ink); font-size: 15px; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(155,114,203,.35); transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s; }
+.fab:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0,0,0,.5), inset 0 0 0 1px rgba(155,114,203,.55); }
+.fab:active { transform: scale(.96); }
+.fab .spark { width: 36px; height: 36px; }
+/* phones: the chat opens from an "Ask" tab in the bottom bar, so nothing floats over the cards */
+@media (max-width: 760px) { .fab { display: none; } .bnav .bn-ask .ic { color: var(--on-soft); } .bnav .bn-ask .ic svg { width: 22px; height: 22px; }
+  .chat-sug { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px; } .chat-sug::-webkit-scrollbar { display: none; } .chat-sug button { flex: none; white-space: nowrap; } .chat-thread { max-height: 46vh; } }
+.chat-src { display: flex; gap: 6px; flex-wrap: wrap; }
+.chat-src button { height: 32px; padding: 0 12px; border-radius: 16px; font-size: 13px; font-weight: 500; color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); display: inline-flex; align-items: center; gap: 6px; }
+.chat-src button[aria-pressed="true"] { background: var(--accent-soft); color: var(--on-soft); box-shadow: none; }
+.chat-src button:disabled { opacity: .45; cursor: default; }
+.chat-src .live { width: 7px; height: 7px; border-radius: 50%; background: var(--met); }
+.chat-thread { display: flex; flex-direction: column; gap: 16px; max-height: min(48vh, 440px); min-height: 120px; overflow-y: auto; overscroll-behavior: contain; padding: 4px 2px; }
+.msg.user { align-self: flex-end; background: var(--surface-3); border-radius: 18px 18px 4px 18px; padding: 10px 16px; max-width: 85%; font-size: 15px; white-space: pre-wrap; }
+.msg.agent { display: flex; flex-direction: column; gap: 10px; max-width: 100%; }
+.msg.agent > p { margin: 0; font-size: 15px; }
+.msg.agent.model > p { white-space: pre-wrap; }
+.msg.agent ul { margin: 0; padding-left: 20px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.msg .by { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--faint); }
+.msg .by .spark { width: 22px; height: 22px; }
+.msg .by .spark svg { width: 12px; height: 12px; }
+.msg .note { margin: 0; }
+.msg.pending p { color: var(--faint); }
+.dots::after { content: ""; display: inline-block; width: 1.2em; text-align: left; animation: chatDots 1.2s steps(4) infinite; }
+@keyframes chatDots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+.chat-sug { display: flex; gap: 8px; flex-wrap: wrap; }
+.chat-sug button { min-height: 34px; padding: 6px 14px; line-height: 1.35; max-width: 100%; border-radius: 17px; box-shadow: inset 0 0 0 1px var(--line); font-size: 13.5px; color: var(--muted); text-align: left; }
+.chat-sug button:hover { background: var(--surface-2); color: var(--ink); }
+.chat-sug button:disabled { opacity: .45; }
+.chat-ask { display: flex; gap: 8px; align-items: center; background: var(--surface-2); border-radius: 28px; padding: 6px 6px 6px 20px; }
+.chat-ask input { flex: 1; min-width: 0; height: 44px; background: none; border: 0; font-size: 16px; color: var(--ink); }
+.chat-ask input:focus { outline: none; }
+.chat-ask:focus-within { box-shadow: inset 0 0 0 2px var(--accent); }
+.chat-ask .send { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; flex: none; }
+.chat-ask .send:disabled { opacity: .4; }
+.chat-ask .send svg { width: 20px; height: 20px; }
+.setup { display: flex; flex-direction: column; gap: 14px; }
+.setup ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
+.setup li b { font-weight: 500; }
+.cmd { display: flex; align-items: center; gap: 8px; margin-top: 8px; background: var(--bg); border-radius: 12px; padding: 8px 8px 8px 14px; }
+.cmd code { flex: 1; min-width: 0; font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--on-soft); overflow-x: auto; white-space: nowrap; }
+.cmd button { flex: none; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 12.5px; font-weight: 500; background: var(--surface-3); color: var(--ink); }
+.setup-status { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.setup-status .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--faint); flex: none; }
+.setup-status.ok .dot { background: var(--met); }
+.setup-status.warn .dot { background: var(--unk); }
+.setup-status.bad .dot { background: var(--not); }
 </style>
 <div id="app"></div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
@@ -992,8 +1040,9 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       '<nav class="nav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + (S.who.role === 'patient' ? 'tab' : 'ctab') + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '>' + n[2] + n[1] + (n[3] ? ' <span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '</nav>' +
       '<span class="spacer"></span><span class="syn">Synthetic data</span>' +
       '<button class="me" data-act="logout" title="Sign out"><span class="who">' + esc(who) + '</span><span class="avatar ' + (cls || '') + '">' + esc(who.replace('Dr ', '').charAt(0)) + '</span></button></div></header>' +
-      '<nav class="bnav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + (S.who.role === 'patient' ? 'tab' : 'ctab') + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '><span class="ic">' + n[2] + '</span>' + n[1] + (n[3] ? '<span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '</nav>' +
-      (Store.note ? '<div style="max-width:1240px;margin:8px auto 0;padding:0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px))"><div class="banner">' + esc(Store.note) + '</div></div>' : '');
+      '<nav class="bnav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + (S.who.role === 'patient' ? 'tab' : 'ctab') + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '><span class="ic">' + n[2] + '</span>' + n[1] + (n[3] ? '<span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '<button data-act="chat" class="bn-ask"><span class="ic">' + ICON.spark + '</span>Ask</button></nav>' +
+      (Store.note ? '<div style="max-width:1240px;margin:8px auto 0;padding:0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px))"><div class="banner">' + esc(Store.note) + '</div></div>' : '') +
+      '<button class="fab" data-act="chat" aria-label="Ask your agent"><span class="spark">' + ICON.spark + '</span><span class="lbl">Ask your agent</span></button>';
   }
 
   /* ---------- login ---------- */
@@ -1448,6 +1497,313 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       event(pt.id, 'Matcher', 'MedGemma pre-checked ' + nct + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check.', false);
     }, function (e) { var el = $('#live-check'); if (el) el.innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
   }
+  /* ---------- Ask your agent: built-in answers worked out from the record and the trial rules, or MedGemma
+     (on this computer through Ollama, or on this site's server). Ported from the local Trial Match app. ---------- */
+  var CKEY = 'trialmatch-chat-v1';
+  var CH = (function () {
+    var d = { threads: {}, src: null, ctx: {}, local: { url: 'http://localhost:11434', model: 'medgemma1.5:4b' } };
+    try { var s = JSON.parse(localStorage.getItem(CKEY) || 'null'); if (s) { d.threads = s.threads || {}; d.src = s.src || null; d.ctx = s.ctx || {}; if (s.local && s.local.url) d.local = s.local; } } catch (e) {}
+    d.pending = false; d.localState = null; d.polls = 0; d.setup = null; return d;
+  })();
+  var IS_PHONE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  function chatSave() { try { localStorage.setItem(CKEY, JSON.stringify({ threads: CH.threads, src: CH.src, ctx: CH.ctx, local: CH.local })); } catch (e) {} }
+  function chatKey() { return S.who.role === 'patient' ? S.who.id : 'team:' + S.who.id; }
+  function chatThread() { var k = chatKey(); return (CH.threads[k] = CH.threads[k] || []); }
+  function chatPush(m) { var th = chatThread(); th.push(m); if (th.length > 40) th.splice(0, th.length - 40); chatSave(); }
+  function siteMG() { return !!(window.TMConnect && window.TMConnect.status().medgemma.on); }
+  function chatSource() { var s = CH.src || (siteMG() ? 'site' : 'builtin'); return s === 'site' && !siteMG() ? 'builtin' : s; }
+  function uniqIds(a) { return a.filter(function (x, i) { return x && a.indexOf(x) === i; }); }
+
+  var CHAT_STOP = ['trial', 'trials', 'about', 'which', 'where', 'what', 'there', 'their', 'these', 'those', 'would', 'could', 'should', 'after', 'first', 'second', 'third', 'treatment', 'tablet', 'cancer', 'with', 'from', 'that', 'this', 'does', 'have', 'apply', 'still', 'unknown', 'invite', 'missing', 'waited', 'longest', 'review', 'week', 'best', 'match', 'matches', 'involve', 'offer', 'data', 'when', 'your', 'mine', 'tell', 'more', 'like', 'want', 'need', 'help', 'show', 'list', 'give'];
+  function chatTrial(text, prefer) {
+    var m = text.match(/\bLT[\s-]?(\d{3})\b/i) || text.match(/(?:^|\s)(3[01]\d)(?:\s|$|\?)/);
+    if (m) { var hit = TRIALS.filter(function (x) { return x.code === 'LT-' + m[1]; })[0]; if (hit) return hit.id; }
+    var q = ' ' + text.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ') + ' ';
+    var ords = [['first', '1st', 'top one', 'top trial', 'number one'], ['second', '2nd', 'number two'], ['third', '3rd', 'number three']];
+    for (var i = 0; i < ords.length; i++) if (prefer[i] && ords[i].some(function (w) { return q.indexOf(' ' + w + ' ') >= 0; })) return prefer[i];
+    var words = q.trim().split(' ').filter(function (w) { return w.length >= 4 && CHAT_STOP.indexOf(w) < 0; });
+    if (!words.length) return null;
+    var best = null, bestN = 0;
+    uniqIds(prefer.concat(TRIALS.map(function (t) { return t.id; }))).forEach(function (id) {
+      var t = TRIAL[id], hay = (t.name + ' ' + t.type).toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/);
+      // whole words, or the start of a longer word ("radio" -> "radiotherapy"), never the middle of one
+      var n = words.filter(function (w) { return hay.some(function (h) { return h === w || (w.length >= 5 && h.indexOf(w) === 0); }); }).length;
+      if (n > bestN) { best = id; bestN = n; }
+    });
+    return best;
+  }
+  function rulesBy(r, s) { return r.rows.filter(function (x) { return x.s === s; }).map(function (x) { return x.c.text; }); }
+
+  function patientChat(text) {
+    var q = text.toLowerCase(), pt = me(), res = results(pt), by = {}, k = chatKey();
+    res.forEach(function (r) { by[r.t.id] = r; });
+    var deck = deckFor(pt), ot = onTrial(pt.id);
+    var prefer = uniqIds(deck.map(function (r) { return r.t.id; }).concat(res.filter(function (r) { return r.tier !== 'not'; }).map(function (r) { return r.t.id; })));
+    var tid = chatTrial(text, prefer);
+    if (!tid && /\b(it|this|that|this one|that one|the trial|this trial)\b/.test(q)) tid = CH.ctx[k] || null;
+    if (tid) { CH.ctx[k] = tid; chatSave(); }
+    var t = tid ? TRIAL[tid] : null, r = tid ? by[tid] : null, t0 = t || (prefer[0] ? TRIAL[prefer[0]] : null), r0 = t0 ? by[t0.id] : null, src = chatSource();
+    var out = (function () {
+      if (/privacy|my data|share|who (can )?see|stored|safe|private|secure/.test(q)) return { text: 'Who can see your data', lines: [
+        'Everyone in this demo is synthetic. In a real service your record is read only with your consent, and only to match you to trials.',
+        'A trial team sees your facts under your ID (' + pt.id + ') only when you apply. Your name stays hidden until you agree to meet them.',
+        Store.mode === 'db' ? 'This demo keeps its data in a shared store so everyone sees the same demo.' : 'This demo keeps its data in this browser.',
+        src === 'local' ? 'Typed questions go to MedGemma running on this computer. Nothing is sent online.' : src === 'site' ? 'Typed questions go to MedGemma on this site’s own server, with only the facts needed to answer.' : 'These answers are worked out here from your record and the trial rules. No AI service is used.',
+        'This chat stays in this browser.'] };
+      if (/my application|applied|status|progress|how is my|update on|where am i/.test(q) && !t) {
+        var A = appsOf(pt.id);
+        return A.length ? { text: 'Your applications', items: A.map(function (a) { var x = TRIAL[a.trial]; return { act: 'trial', id: x.id, label: x.code + ' · ' + STAGE_P[a.stage], sub: 'Updated ' + ago(a.upd) }; }) }
+          : { text: 'You haven’t applied to any trials yet.', actions: deck.length ? [{ act: 'tab', v: 'discover', label: 'See your matches' }] : [] };
+      }
+      if (/why not|ruled out|not eligible|excluded|doesn.?t fit|don.?t fit|other trials|hidden|why (was|were|is|are) .*(out|hidden|missing)/.test(q)) {
+        if (r) {
+          if (r.tier === 'not') return { text: t.code + ' doesn’t fit your record:', lines: rulesBy(r, NO), note: 'If something in your record is wrong or out of date, update it and your agent checks again. Missing information never rules a trial out; it becomes a question.', actions: [{ act: 'trial', id: t.id, label: 'See every rule' }] };
+          if (r.scope) return { text: t.code + ' is hidden: ' + r.scope + '.', note: 'You can change this in your search settings.', actions: [{ act: 'settings', label: 'Search settings' }] };
+          return { text: t.code + ' is still on your list as a ' + (r.tier === 'strong' ? 'strong' : 'possible') + ' match.', actions: [{ act: 'trial', id: t.id, label: 'Details' }] };
+        }
+        var off = res.filter(function (x) { return x.tier === 'not' || x.scope; });
+        return { text: off.length + ' of ' + res.length + ' trials aren’t on your list. Here’s why:', items: off.slice(0, 8).map(function (x) { return { act: 'trial', id: x.t.id, label: x.t.code + ' · ' + x.t.name, sub: x.tier === 'not' ? 'Doesn’t fit: ' + firstFail(x) : x.scope }; }), note: 'Missing information never rules a trial out; it becomes a question instead.' };
+      }
+      if (/\b(apply|sign me up|sign up|join|put me forward|i.?m interested|enrol)\b/.test(q)) {
+        if (!t) return { text: 'Which trial? Say “the first one”, or give its code, like ' + (t0 ? t0.code : 'LT-301') + '.' };
+        if (ot) return { text: 'Your agent is paused while you’re on ' + TRIAL[ot.trial].code + ', so it won’t apply to anything new.' };
+        var ap = appFor(pt.id, t.id); if (ap) return { text: t.code + ': ' + STAGE_P[ap.stage] + ' (updated ' + ago(ap.upd) + ').' };
+        if (r.tier === 'not') return { text: t.code + ' doesn’t fit your record: ' + firstFail(r) + '.' };
+        return { text: 'Ready to apply to ' + t.code + '?', lines: ['The ' + t.code + ' team gets the facts this trial checks, under your ID ' + pt.id + '.', 'Your name stays hidden until you agree to meet them.'], actions: [{ act: 'apply', id: t.id, label: 'Apply to ' + t.code }, { act: 'trial', id: t.id, label: 'Details first' }] };
+      }
+      if (/where|site|hospital|location|travel|city|near|far|miles|distance/.test(q) && t0) {
+        var ts = t || t0, rs = r || r0, lim = pt.settings.maxTravel === 'any' ? 'any distance' : (Number(pt.settings.maxTravel) || 50) + ' miles';
+        return { text: 'Where ' + ts.code + ' runs', lines: ['Nearest to you: ' + rs.site.name + ', ' + rs.site.city + ' (' + (rs.site.d < 5 ? 'in your city' : rs.site.d + ' miles') + ').', 'All sites: ' + ts.sites.map(function (s) { return s[0] + ', ' + s[1]; }).join('; ') + '.', 'Your travel limit: ' + lim + '.'], actions: [{ act: 'trial', id: ts.id, label: 'Full details' }] };
+      }
+      if (/involve|happen|visit|randomi|placebo|how often|how long|procedure|what (is|does) (it|this|the)|test(s|ing)?\b|design/.test(q) && t0) {
+        var ti = t || t0, ri = r || r0;
+        return { text: 'What taking part in ' + ti.code + ' involves', lines: [ti.plain, 'Design: ' + ti.design + '.', 'Visits: ' + VISIT[ti.visits][1] + '.', 'Treatment type: ' + ti.type + '.', 'It has ' + ti.crit.length + ' entry rules: ' + ri.met + ' met from your record, ' + ri.unk + ' still to check' + (ri.not ? ', ' + ri.not + ' not met' : '') + '.'], actions: [{ act: 'trial', id: ti.id, label: 'Full details' }] };
+      }
+      if (/benefit|offer|worth|cost|pay|paid|money|why should|in it for me|risk|side effect|downside/.test(q) && t0) {
+        var to = t || t0;
+        return { text: 'What ' + to.code + ' could offer you, and what to weigh up', lines: ['A new treatment, or the best standard treatment if you’re in the comparison group.', 'Closer check-ups and scans than usual care.', 'Travel costs are often covered. Ask the team.', 'To weigh: visits ' + VISIT[to.visits][1].toLowerCase() + '.', 'To weigh: it’s randomised, so you can’t choose your group.', 'To weigh: new treatments can have side effects that aren’t fully known yet.'], note: to.evidenceText + ' These are general points about phase III trials; the team can tell you the details.', actions: [{ act: 'trial', id: to.id, label: 'Full details' }] };
+      }
+      if (/still|unknown|missing|question|need from me|left to check|what do you need|not sure/.test(q)) {
+        if (r) { var u = rulesBy(r, U); return { text: u.length ? 'For ' + t.code + ', these are still open:' : 'Nothing about you is still open for ' + t.code + '.', lines: u }; }
+        var tq = ot ? null : topQuestion(pt, deck);
+        return tq ? { text: 'One answer would settle the most trials for you:', lines: [QUESTIONS[tq.key].ask + ' It affects ' + plural(tq.n, 'trial') + '.'], actions: [{ act: 'tab', v: 'discover', label: 'Answer it' }] }
+          : { text: 'There’s nothing more I can ask you right now. The rest needs a test or the trial team.' };
+      }
+      if (/\bwhy\b|fit|suit|match|good for me|qualify|eligible/.test(q) && r) {
+        if (r.tier === 'not') return { text: t.code + ' doesn’t fit your record:', lines: rulesBy(r, NO) };
+        return { text: 'Why ' + t.code + ' fits your record', lines: rulesBy(r, OK), note: 'Still to check: ' + (rulesBy(r, U).join('; ') || 'nothing from your record') + '. The trial team makes the final call.', actions: [{ act: 'trial', id: t.id, label: 'See every rule' }] };
+      }
+      if (/recommend|best|top|which trial|suggest|options|what trials|show me|any trials|list|matches|fits me/.test(q) && !t) {
+        if (ot) return { text: 'You’re on ' + TRIAL[ot.trial].code + ', so your agent has paused looking. When it ends, your results go into your record and it starts again.' };
+        var top = deck.slice(0, 3);
+        return top.length ? { text: 'These fit your record best right now:', items: top.map(function (x) { return { act: 'trial', id: x.t.id, label: x.t.code + ' · ' + x.t.name, sub: (x.tier === 'strong' ? 'Strong match' : 'Possible match') + ' · ' + x.score + ' · ' + x.site.city }; }) }
+          : { text: 'You’ve looked at every trial that fits. Your agent will tell you when something new appears.' };
+      }
+      if (t) {
+        var can = !ot && !appFor(pt.id, t.id) && r.tier !== 'not';
+        return { text: t.code + ' · ' + t.name, lines: [t.plain, 'Design: ' + t.design + '.', 'Nearest site: ' + r.site.name + ', ' + r.site.city + '.', 'For you: ' + ({ strong: 'strong match', possible: 'possible match', not: 'not a match' })[r.tier] + ' (' + r.score + '), ' + r.met + ' rules met, ' + r.unk + ' to check' + (r.not ? ', ' + r.not + ' not met' : '') + '.'], actions: [{ act: 'trial', id: t.id, label: 'Full details' }].concat(can ? [{ act: 'apply', id: t.id, label: 'Apply' }] : []) };
+      }
+      return { text: 'I can recommend trials, explain one (what it tests, where it runs, what it involves, what it could offer you), say what’s still unknown about you, or apply when you’re ready.', lines: ['Refer to a trial by its place in your list (“the second one”), its code (LT-310) or a word from its name (“the biopsy trial”).'] };
+    })();
+    out.tid = tid; return out;
+  }
+
+  function teamChat(text) {
+    var q = text.toLowerCase(), A = Store.all('apps'), k = chatKey();
+    function stats(id) { var L = A.filter(function (a) { return a.trial === id; }); return { all: L.length, fresh: L.filter(function (a) { return a.stage === 'applied' || a.stage === 'waitlist'; }).length, mid: L.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length, on: L.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length }; }
+    var busy = TRIALS.map(function (t) { return { t: t, st: stats(t.id) }; }).sort(function (a, b) { return b.st.fresh - a.st.fresh || b.st.all - a.st.all; });
+    var idm = text.match(/\bP-?\s?(\d{4})\b/i), who = idm ? Store.get('patients', 'P-' + idm[1]) : null;
+    var tid = chatTrial(text.replace(/\bP-?\s?\d{4}\b/ig, ' '), busy.map(function (b) { return b.t.id; }));
+    if (!tid && /\b(it|this|that|this trial|the trial)\b/.test(q)) tid = CH.ctx[k] || null;
+    if (tid) { CH.ctx[k] = tid; chatSave(); }
+    var t = tid ? TRIAL[tid] : null, tq = t || busy[0].t;
+    function judge(a) { var pt = pid(a); return { a: a, pt: pt, r: evaluate(P_(pt), TRIAL[a.trial]) }; }
+    function item(j, i) { return { act: 'app', id: j.a.id, label: (i != null ? (i + 1) + '. ' : '') + j.pt.id + ' · ' + j.pt.age + ' ' + j.pt.sex + ' · ' + TRIAL[j.a.trial].code, sub: STAGE_C[j.a.stage] + ' · score ' + j.r.score + ' · ' + j.r.met + ' met, ' + j.r.unk + ' to check' + (j.r.not ? ', ' + j.r.not + ' not met' : '') + ' · ' + ago(j.a.at) }; }
+    var out = (function () {
+      if (who && !t) {
+        var mine = A.filter(function (a) { return a.pid === who.id; });
+        if (!mine.length) return { text: who.id + ' hasn’t applied to any trials, so their record isn’t shared with the team.' };
+        return { text: who.id + ' has applied to ' + plural(mine.length, 'trial') + ':', items: mine.map(judge).map(function (j) { return item(j); }) };
+      }
+      if (/urgent|this week|soonest|priority|quick|asap/.test(q)) {
+        var fl = A.filter(function (a) { return ['applied', 'waitlist', 'prescreen'].indexOf(a.stage) >= 0; }).map(judge).filter(function (j) { var p = P_(j.pt); return p.stage === 'IV' && p.ecog != null && p.ecog >= 1 && j.r.tier !== 'not'; }).sort(function (x, y) { return x.a.at - y.a.at; });
+        return { text: plural(fl.length, 'applicant') + ' to review this week:', items: fl.slice(0, 8).map(function (j) { return item(j); }), note: 'Rule of thumb: stage IV with ECOG 1 or more, where waiting can cost someone the chance to join. Not a clinical score.' };
+      }
+      if (/missing|unknown|gap|still need|what.?s left|to check|open item/.test(q)) {
+        var fresh = A.filter(function (a) { return a.trial === tq.id && (a.stage === 'applied' || a.stage === 'waitlist'); }), cnt = {};
+        fresh.forEach(function (a) { judge(a).r.rows.forEach(function (x) { if (x.s === U) cnt[x.c.text] = (cnt[x.c.text] || 0) + 1; }); });
+        var keys = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; });
+        return { text: 'Open items across ' + plural(fresh.length, 'new applicant') + ' for ' + tq.code + ':', lines: keys.length ? keys.map(function (x) { return x + ': unknown for ' + cnt[x] + ' of ' + fresh.length; }) : ['Nothing is unknown. Every rule is settled from their records.'], actions: [{ act: 'chat-apps', id: tq.id, label: 'Open ' + tq.code + ' applicants' }] };
+      }
+      if (/who|invite|candidate|shortlist|rank|order|best|top/.test(q)) {
+        var qd = A.filter(function (a) { return a.trial === tq.id && (a.stage === 'applied' || a.stage === 'waitlist'); }).map(judge).sort(function (x, y) { return x.r.not - y.r.not || x.r.unk - y.r.unk || y.r.score - x.r.score || x.a.at - y.a.at; });
+        return { text: tq.code + ': ' + plural(qd.length, 'new applicant') + ', in the order I’d review them:', items: qd.slice(0, 6).map(item), note: 'Order: fewest rules not met, fewest open, highest score, then who applied first. You decide.', actions: [{ act: 'chat-rank', id: tq.id, label: 'Rank them' }] };
+      }
+      if (/waiting|waited|longest|oldest|backlog|queue|pending/.test(q)) {
+        var w = A.filter(function (a) { return a.stage === 'applied' || a.stage === 'waitlist'; }).sort(function (x, y) { return x.at - y.at; }).map(judge);
+        return { text: w.length ? plural(w.length, 'application') + ' waiting, oldest first:' : 'No applications are waiting.', items: w.slice(0, 8).map(function (j) { return item(j); }) };
+      }
+      if (t) { var st = stats(t.id); return { text: t.code + ' · ' + t.name, lines: [t.plain, 'Design: ' + t.design + '.', 'Applicants: ' + st.all + ' (' + st.fresh + ' new or waiting, ' + st.mid + ' in pre-screening to approval, ' + st.on + ' enrolled or finished). Goal: ' + t.goal + '.'], actions: [{ act: 'chat-apps', id: t.id, label: 'Applicants' }, { act: 'chat-rank', id: t.id, label: 'Rank' }] }; }
+      if (/which trial|busiest|most|start|focus|today|overview|summary/.test(q)) return { text: 'Where to start:', items: busy.slice(0, 3).map(function (b) { return { act: 'chat-apps', id: b.t.id, label: b.t.code + ' · ' + b.t.name, sub: b.st.fresh + ' new or waiting · ' + b.st.all + ' in total' }; }) };
+      return { text: 'I can order a trial’s applicants, list what’s missing, show who has waited longest, flag who to review this week, or describe any of the ' + TRIALS.length + ' trials.', lines: ['Name a trial by code (LT-301) or a word from its name, or a patient by ID (P-0388).'] };
+    })();
+    out.tid = tid || (out.actions && out.actions[0] && /^chat-/.test(out.actions[0].act) ? out.actions[0].id : null); return out;
+  }
+
+  // What a model may see: synthetic demo facts for the trials in question, trimmed to fit a small context window.
+  function chatContext(built, question) {
+    var named = (String(question || '').match(/\bLT[\s-]?\d{3}\b/ig) || []).map(function (c) { var t = TRIALS.filter(function (x) { return x.code === 'LT-' + c.replace(/\D/g, ''); })[0]; return t ? t.id : null; });
+    var ids = uniqIds(named.concat([built.tid]).concat((built.items || []).filter(function (x) { return x.act === 'trial'; }).map(function (x) { return x.id; })));
+    if (S.who.role === 'patient') {
+      var pt = me(), p = P_(pt), by = {}; results(pt).forEach(function (r) { by[r.t.id] = r; });
+      if (!ids.length) ids = deckFor(pt).slice(0, 2).map(function (r) { return r.t.id; });
+      return { data: 'synthetic demo', patient: { id: pt.id, age: pt.age, sex: pt.sex, city: pt.city, tumour: HIST[p.histology] + ', ' + STAGE[p.stage], tests: bioText(p).join('; '), treatment: txText(p), ecog: p.ecog, brain_scan: p.brain },
+        applications: appsOf(pt.id).map(function (a) { return { trial: TRIAL[a.trial].code, stage: STAGE_P[a.stage] }; }),
+        trials: ids.slice(0, 3).map(function (id) { var t = TRIAL[id], r = by[id]; return { code: t.code, name: t.name, summary: t.plain, design: t.design, type: t.type, visits: VISIT[t.visits][1], sites: t.sites.map(function (s) { return s[0] + ', ' + s[1]; }), nearest_site_miles: r.site.d, match: r.tier, score: r.score, rules: r.rows.map(function (x) { return x.c.text + ': ' + ({ met: 'met', not: 'not met', unk: 'unknown' })[x.s]; }) }; }),
+        agent_summary: built.text + ' ' + (built.lines || []).join(' ') };
+    }
+    if (!ids.length && built.items) ids = uniqIds(built.items.map(function (x) { var a = Store.get('apps', x.id); return a ? a.trial : null; }));
+    // Per-person facts, already worked out: a 4B model mixes people up when it has to tally a list itself.
+    return { data: 'synthetic demo', trials: ids.slice(0, 2).map(function (id) {
+      var t = TRIAL[id], all = Store.all('apps').filter(function (a) { return a.trial === id; });
+      var fresh = all.filter(function (a) { return a.stage === 'applied' || a.stage === 'waitlist'; }).map(function (a) { var x = pid(a), r = evaluate(P_(x), t), u = rulesBy(r, U), n = rulesBy(r, NO); return { a: a, x: x, r: r, u: u, n: n }; });
+      return { code: t.code, name: t.name, design: t.design, recruitment_goal: t.goal, applicants_in_later_stages: all.length - fresh.length,
+        new_applicants: fresh.map(function (f) { return { id: f.x.id, age: f.x.age, sex: f.x.sex, score: f.r.score, waiting_days: Math.round((Date.now() - f.a.at) / DAY), unknown_count: f.u.length, not_met_count: f.n.length }; }),
+        open_items_by_applicant: fresh.filter(function (f) { return f.u.length || f.n.length; }).sort(function (p, q) { return (q.u.length + q.n.length) - (p.u.length + p.n.length); }).map(function (f) { return f.x.id + ' — unknown: ' + (f.u.join('; ') || 'none') + '; not met: ' + (f.n.join('; ') || 'none'); }) };
+    }) };
+  }
+  var CHAT_SYS = 'You are the Trial Match assistant in a demo where every patient and trial is synthetic. Answer using only the JSON context. If the answer is not in it, say so and suggest asking the trial team. Never say someone is eligible or qualifies; the trial team decides. Do not give medical advice. Plain British English, at most 120 words.';
+  function chatFinal(s) {   // MedGemma 1.5 thinks first; keep only the answer after <unused95>
+    s = String(s || '');
+    if (/<unused94>/.test(s) && s.indexOf('<unused95>') < 0) return '';
+    var i = s.lastIndexOf('<unused95>'); if (i >= 0) s = s.slice(i + 10);
+    s = s.replace(/<unused\d+>/g, '').trim();
+    if (/\b(you are|you're|you would be|you'd be|they are|they're|s?he is) (definitely |likely |probably )?(eligible|qualified)\b|\b(you|they|s?he) qualif(y|ies)\b/i.test(s)) s += '\n\n(Only the trial team can decide eligibility.)';
+    return s;
+  }
+  function askLocal(question, ctx) {
+    var ctrl = new AbortController(), timer = setTimeout(function () { ctrl.abort(); }, 150000);
+    return fetch(CH.local.url.replace(/\/+$/, '') + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
+      body: JSON.stringify({ model: CH.local.model, stream: false, options: { temperature: 0.2, num_predict: 1500, num_ctx: 8192 }, messages: [{ role: 'system', content: CHAT_SYS }, { role: 'user', content: 'Context (JSON):\n' + JSON.stringify(ctx) + '\n\nQuestion: ' + question }] }) })
+      .then(function (r) { if (!r.ok) throw new Error('Ollama answered ' + r.status); return r.json(); })
+      .then(function (j) { var out = chatFinal(j.message && j.message.content); if (!out) throw new Error('it ran out of room while thinking'); return { text: out, model: CH.local.model }; })
+      .catch(function (e) { throw new Error(e.name === 'AbortError' ? 'it took too long' : /fetch|network|load/i.test(e.message) ? 'nothing answered at ' + CH.local.url : e.message); })
+      .finally(function () { clearTimeout(timer); });
+  }
+  function askSite(question, ctx) {
+    return fetch('/api/agents/ask', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: question, context: ctx }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.message || 'the server answered ' + r.status); var out = chatFinal(j.text); if (!out) throw new Error('it returned an empty answer'); return { text: out, model: j.model || 'MedGemma' }; }); });
+  }
+  function chatSend(text, fromChip) {
+    text = String(text || '').trim();
+    if (CH.pending || !text) return;
+    chatPush({ who: 'user', text: text });
+    var built = S.who.role === 'patient' ? patientChat(text) : teamChat(text), src = chatSource();
+    if (src !== 'builtin' && !fromChip) {
+      CH.pending = true; paintChat(true);
+      (src === 'local' ? askLocal : askSite)(text, chatContext(built, text))
+        .then(function (o) { chatPush({ who: 'agent', text: o.text, model: o.model, src: src, items: built.items, actions: built.actions }); },
+          function (e) { built.note = 'MedGemma didn’t answer (' + e.message + '), so this is the built-in answer.'; chatPush(built); })
+        .then(function () { CH.pending = false; paintChat(true); });
+    } else { chatPush(built); paintChat(true); }
+  }
+
+  function chatMsgHTML(m) {
+    if (m.who === 'user') return '<div class="msg user">' + esc(m.text) + '</div>';
+    var sp = '<span class="spark sm">' + ICON.spark + '</span>';
+    var by = m.pending ? sp + 'MedGemma' : m.model ? sp + 'MedGemma (' + esc(m.model) + ') ' + (m.src === 'local' ? 'on this computer' : 'on this site') + ' · a draft, check with the team' : sp + 'Your agent';
+    return '<div class="msg agent' + (m.model ? ' model' : '') + (m.pending ? ' pending' : '') + '"><span class="by">' + by + '</span>' +
+      (m.text ? '<p' + (m.pending ? ' class="dots"' : '') + '>' + esc(m.text) + '</p>' : '') +
+      (m.lines && m.lines.length ? '<ul>' + m.lines.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
+      (m.items && m.items.length ? '<div class="list">' + m.items.map(function (it) { return '<button class="item" data-act="' + it.act + '" data-id="' + esc(it.id || '') + '" data-v="' + esc(it.v || '') + '"><span class="grow"><b>' + esc(it.label) + '</b>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') + '</div>' : '') +
+      (m.actions && m.actions.length ? '<div class="row">' + m.actions.map(function (a, i) { return '<button class="btn ' + (i ? 'text' : 'tonal') + '" data-act="' + a.act + '" data-id="' + esc(a.id || '') + '" data-v="' + esc(a.v || '') + '">' + esc(a.label) + '</button>'; }).join('') + '</div>' : '') +
+      (m.note ? '<p class="note">' + esc(m.note) + '</p>' : '') + '</div>';
+  }
+  function chatSuggestions() {
+    if (S.who.role === 'patient') return onTrial(S.who.id) ? ['How is my trial going?', 'Who can see my data?'] : ['What fits me best?', 'What’s still unknown about me?', 'Why were other trials ruled out?', 'Where does the first one run?', 'What does the first one involve?', 'Who can see my data?'];
+    var A = Store.all('apps'), b = TRIALS.map(function (t) { return { t: t, n: A.filter(function (a) { return a.trial === t.id && (a.stage === 'applied' || a.stage === 'waitlist'); }).length }; }).sort(function (x, y) { return y.n - x.n; })[0].t;
+    return ['Who should I invite for ' + b.code + '?', 'What’s missing for ' + b.code + '?', 'Which applications have waited longest?', 'Who should I review this week?'];
+  }
+  function paintChat(scroll) {
+    var box = $('#chat-thread'); if (!box) return;
+    var src = chatSource(), team = S.who.role !== 'patient';
+    $('#chat-line').textContent = src === 'local' ? 'MedGemma on this computer · nothing leaves it' : src === 'site' ? 'MedGemma on this site’s server' : 'Built-in answers from ' + (team ? 'applications and the trial rules' : 'your record and the trial rules');
+    $('#chat-src').innerHTML = [['builtin', 'Built-in'], ['local', 'MedGemma · this computer'], ['site', 'MedGemma · this site']].map(function (o) {
+      var live = (o[0] === 'local' && CH.localState === 'ok') || (o[0] === 'site' && siteMG());
+      return '<button type="button" data-act="chat-src" data-v="' + o[0] + '" aria-pressed="' + (src === o[0]) + '">' + (live ? '<span class="live" aria-hidden="true"></span>' : '') + o[1] + '</button>';
+    }).join('');
+    var th = chatThread(), first = team ? clinName().replace('Dr ', '') : me().name.split(' ')[0];
+    box.innerHTML = (th.length ? th.map(chatMsgHTML).join('') : chatMsgHTML({ who: 'agent', text: 'Hi ' + first + '. ' + (team ? 'Ask me who to invite, what’s missing, or who has waited longest.' : 'Ask me about your matches, a trial, or what’s still unknown about you.') })) +
+      (CH.pending ? chatMsgHTML({ who: 'agent', pending: true, text: src === 'local' ? 'MedGemma is thinking on this computer' : 'MedGemma is thinking' }) : '');
+    $('#chat-sug').innerHTML = chatSuggestions().map(function (s) { return '<button type="button" data-act="chat-chip" data-v="' + esc(s) + '"' + (CH.pending ? ' disabled' : '') + '>' + esc(s) + '</button>'; }).join('');
+    var send = $('#chat-form .send'); if (send) send.disabled = CH.pending;
+    if (scroll) box.scrollTop = box.scrollHeight;
+  }
+  function openChat() {
+    var team = S.who.role !== 'patient';
+    sheet('<div class="sheet-h"><div><h2>Ask your agent</h2><p class="muted sm" id="chat-line"></p></div><button class="iconbtn" data-act="close" aria-label="Close">' + ICON.x + '</button></div>' +
+      '<div class="chat-src" role="group" aria-label="Who answers" id="chat-src"></div><div id="chat-setup" hidden></div>' +
+      '<div class="chat-thread" id="chat-thread" aria-live="polite"></div><div class="chat-sug" id="chat-sug"></div>' +
+      '<form class="chat-ask" id="chat-form" autocomplete="off"><label class="sr" for="chat-in">Ask your agent</label><input id="chat-in" maxlength="500" enterkeyhint="send" placeholder="' + (team ? 'Ask about a trial, an applicant or the queue' : 'Ask about a trial or your matches') + '"><button class="send" type="submit" aria-label="Send">' + ICON.up + '</button></form>' +
+      '<div class="row" style="justify-content:space-between;align-items:center"><p class="note" style="margin:0">The trial team always decides who can join. This chat stays in this browser.</p><button class="btn text" data-act="chat-clear" style="height:auto;padding:0">Clear</button></div>');
+    $('#chat-form').addEventListener('submit', function (e) { e.preventDefault(); var i = $('#chat-in'), v = i.value; i.value = ''; chatSend(v, false); });
+    paintChat(true);
+    if (chatSource() === 'local' && CH.localState !== 'ok') chatCheckLocal(false);
+    if (!IS_PHONE) setTimeout(function () { var i = $('#chat-in'); if (i) i.focus(); }, 60);
+  }
+
+  // Guided setup for MedGemma on this computer (Ollama). The page may only reach localhost:11434 (see vercel.json).
+  function chatOS() { var p = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '').toLowerCase(); return /win/.test(p) ? 'win' : /mac/.test(p) ? 'mac' : 'linux'; }
+  function chatCmd(os) {
+    var o = location.origin, m = CH.local.model;
+    if (os === 'win') return '$env:OLLAMA_ORIGINS="' + o + '"; setx OLLAMA_ORIGINS "' + o + '" | Out-Null; Stop-Process -Name "ollama app","ollama" -ErrorAction SilentlyContinue; Start-Process "$env:LOCALAPPDATA\\Programs\\Ollama\\ollama app.exe"; Start-Sleep 4; ollama pull ' + m;
+    if (os === 'mac') return 'launchctl setenv OLLAMA_ORIGINS "' + o + '" && osascript -e \'quit app "Ollama"\' && sleep 2 && open -a Ollama && sleep 4 && ollama pull ' + m;
+    return 'sudo systemctl set-environment OLLAMA_ORIGINS="' + o + '" && sudo systemctl restart ollama && ollama pull ' + m;
+  }
+  function chatSetupHTML(which) {
+    if (which === 'site') return '<div class="panel2"><b style="font-weight:500">MedGemma on this site isn’t switched on yet</b><p class="muted sm">When the site owner connects a MedGemma server, it works here on any device, phones included, with nothing to install. Until then, use the built-in answers' + (IS_PHONE ? '.' : ', or run MedGemma on this computer.') + '</p></div>';
+    if (IS_PHONE) return '<div class="panel2"><b style="font-weight:500">MedGemma runs on a computer</b><p class="muted sm">A phone can’t run it in the browser. Open this page on a Windows, Mac or Linux computer to set it up there in a few minutes' + (siteMG() ? ', or use MedGemma on this site.' : '. On this phone, the built-in answers work as usual.') + '</p></div>';
+    var os = chatOS(), name = { win: 'Windows (PowerShell)', mac: 'Mac (Terminal)', linux: 'Linux (terminal)' }[os], cmd = chatCmd(os);
+    return '<div class="panel2 setup"><b style="font-weight:500">Set up MedGemma on this computer</b><p class="muted sm" style="margin:0">Free, and private: your questions and record stay on this computer. It takes a few minutes and about 3.3 GB of space.</p>' +
+      '<ol><li><b>Install Ollama</b>, the free app that runs the model. <a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer">Download Ollama</a>, install it and open it once.</li>' +
+      '<li><b>Paste this into ' + name + '</b>. It lets this site talk to Ollama, restarts it and downloads MedGemma.<div class="cmd"><code id="chat-cmd">' + esc(cmd) + '</code><button type="button" data-act="chat-copy">Copy</button></div></li>' +
+      '<li><b>Come back here.</b> This page finds MedGemma by itself. If your browser asks to let this site connect to apps on your device, choose Allow.</li></ol>' +
+      '<div class="setup-status" id="chat-status"><span class="dot"></span><span>Checking…</span></div>' +
+      '<div class="row"><button class="btn tonal" data-act="chat-check">Check again</button></div>' +
+      '<details><summary>Different server or model</summary><div class="grid2" style="margin-top:8px"><label class="field"><span>Server</span><input class="input" id="chat-url" value="' + esc(CH.local.url) + '" spellcheck="false"></label><label class="field"><span>Model</span><input class="input" id="chat-model" value="' + esc(CH.local.model) + '" spellcheck="false"></label></div><p class="note">This site can only reach Ollama on this computer, at port 11434.</p></details></div>';
+  }
+  function chatShowSetup(which) {
+    var box = $('#chat-setup'); if (!box) return;
+    CH.setup = which; box.hidden = false; box.innerHTML = chatSetupHTML(which);
+    ['chat-url', 'chat-model'].forEach(function (id) { var el = $('#' + id); if (el) el.addEventListener('change', function () { CH.local = { url: ($('#chat-url').value || 'http://localhost:11434').trim(), model: ($('#chat-model').value || 'medgemma1.5:4b').trim() }; chatSave(); var c = $('#chat-cmd'); if (c) c.textContent = chatCmd(chatOS()); CH.polls = 0; chatCheckLocal(true); }); });
+    if (which === 'local' && !IS_PHONE) { CH.polls = 0; chatCheckLocal(true); }
+  }
+  function chatStatus(cls, text) { var el = $('#chat-status'); if (el) { el.className = 'setup-status ' + cls; el.innerHTML = '<span class="dot"></span><span>' + esc(text) + '</span>'; } }
+  function chatCheckLocal(poll) {
+    var url = CH.local.url.replace(/\/+$/, ''), ctrl = new AbortController(), timer = setTimeout(function () { ctrl.abort(); }, 4000);
+    return fetch(url + '/api/tags', { signal: ctrl.signal }).then(function (r) { return r.json(); }).then(function (j) {
+      var names = (j.models || []).map(function (m) { return m.name; }), want = CH.local.model;
+      var has = names.indexOf(want) >= 0 || names.indexOf(want + ':latest') >= 0;
+      CH.localState = has ? 'ok' : 'nomodel';
+      if (has) {
+        chatStatus('ok', 'Connected: ' + want + ' is ready on this computer. Typed questions now go to it.'); if (CH.src !== 'local') { CH.src = 'local'; chatSave(); }
+        setTimeout(function () { var b = $('#chat-setup'); if (b && CH.setup === 'local' && CH.localState === 'ok') { b.hidden = true; CH.setup = null; } }, 2500);   // fold the steps away once it works
+      }
+      else chatStatus('warn', 'Ollama is running, but ' + want + ' isn’t downloaded yet. Step 2 downloads it.');
+    }, function () { CH.localState = 'off'; chatStatus('bad', 'Can’t reach Ollama on this computer yet. Do steps 1 and 2, then leave this open.'); })
+      .then(function () {
+        clearTimeout(timer); paintChat(false);
+        if (poll && CH.localState !== 'ok' && CH.setup === 'local' && $('#chat-setup') && !$('#chat-setup').hidden && ++CH.polls < 60) setTimeout(function () { if (CH.setup === 'local' && $('#chat-status')) chatCheckLocal(true); }, 4000);
+      });
+  }
+  function chatSetSource(v) {
+    var box = $('#chat-setup');
+    if (v === 'builtin') { CH.src = 'builtin'; CH.setup = null; if (box) box.hidden = true; }
+    else if (v === 'local') { CH.src = 'local'; if (CH.localState === 'ok' && box) { box.hidden = true; CH.setup = null; } else chatShowSetup('local'); }
+    else if (v === 'site') { if (siteMG()) { CH.src = 'site'; CH.setup = null; if (box) box.hidden = true; } else chatShowSetup('site'); }
+    chatSave(); paintChat(false);
+  }
+
   function connLine() {
     var C = window.TMConnect; if (!C) return '';
     var s = C.status(), on = [];
@@ -1681,6 +2037,14 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     'letter-example': function () { var t = $('#a-letter'); if (t) t.value = LETTER; },
     'letter-read': readLetter, 'letter-save': saveLetter,
     'fhir-go': runFhir, 'fhir-save': saveFhir,
+    chat: function () { openChat(); },
+    'chat-src': function (el) { chatSetSource(el.dataset.v); },
+    'chat-chip': function (el) { chatSend(el.dataset.v, true); },
+    'chat-clear': function () { CH.threads[chatKey()] = []; delete CH.ctx[chatKey()]; chatSave(); paintChat(true); },
+    'chat-check': function () { CH.polls = 0; chatCheckLocal(true); },
+    'chat-copy': function (el) { var c = $('#chat-cmd'); if (!c) return; var t = c.textContent; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { el.textContent = 'Copied'; setTimeout(function () { el.textContent = 'Copy'; }, 1800); }, function () { var r = document.createRange(); r.selectNodeContents(c); var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Selected. Press Ctrl+C (or Cmd+C) to copy.'); }); },
+    'chat-apps': function (el) { S.atrial = el.dataset.id; S.ctab = 'apps'; saveSession(); closeSheet(); render(); window.scrollTo(0, 0); },
+    'chat-rank': function (el) { S.trial = el.dataset.id; S.ctab = 'rank'; saveSession(); closeSheet(); render(); window.scrollTo(0, 0); },
     live: function (el) { openLive(el.dataset.id); }, 'live-check': function (el) { runLiveCheck(el.dataset.id); },
     'scout-retry': function () { SCOUT.state = 'idle'; soon(); },
     close: function () { closeSheet(); }, 'close-go': function (el) { closeSheet(); S.tab = el.dataset.v; saveSession(); render(); },
