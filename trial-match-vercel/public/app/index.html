@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]:not([hidden=until-found i]){display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>Trial Match</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>
+/* Trial Match. Layout: dark, Gemini-like. One calm column for patients (Home, Trials, Health, Inbox); a wider workspace for clinicians (Overview, Rank, Applications). Surfaces step up in tone instead of using borders; the blue-violet gradient appears only where the agent speaks. */
+:root {
+  --bg: #131314; --surface: #1E1F20; --surface-2: #282A2C; --surface-3: #333537; --hover: #37393B;
+  --ink: #E3E3E3; --muted: #C4C7C5; --faint: #8E918F; --line: #444746;
+  --accent: #A8C7FA; --accent-ink: #062E6F; --accent-soft: #004A77; --on-soft: #C2E7FF;
+  --met: #6DD58C; --met-soft: rgba(109,213,140,.14); --not: #F2B8B5; --not-soft: rgba(242,184,181,.14); --unk: #FDD663; --unk-soft: rgba(253,214,99,.13);
+  --g1: #4285F4; --g2: #9B72CB; --g3: #D96570;
+  --grad: linear-gradient(90deg, var(--g1), var(--g2) 55%, var(--g3));
+  --grad-soft: linear-gradient(135deg, rgba(66,133,244,.16), rgba(155,114,203,.12) 55%, rgba(217,101,112,.08));
+  --sans: "Google Sans Flex", "Google Sans", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --r-sm: 8px; --r: 16px; --r-lg: 24px; --r-xl: 28px;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+* { box-sizing: border-box; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; background: none; padding: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+h1, h2, h3 { margin: 0; font-weight: 400; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+.num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.sm { font-size: 14px; }
+.xs { font-size: 12px; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+svg { flex: none; width: 20px; height: 20px; }
+
+/* ---------- top bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.bar-in { display: flex; align-items: center; gap: 16px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); max-width: 1240px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 500; }
+.logo svg { width: 28px; height: 28px; }
+.logo small { font-size: 12px; color: var(--faint); font-weight: 400; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+.nav { display: flex; gap: 4px; margin-left: 16px; }
+.nav button { height: 40px; padding: 0 16px; border-radius: 20px; color: var(--muted); font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; position: relative; }
+.nav button:hover { background: var(--surface-2); color: var(--ink); }
+.nav button[aria-current="page"] { background: var(--accent-soft); color: var(--on-soft); }
+.nav svg { width: 20px; height: 20px; }
+.badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--g3); color: #fff; font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
+.spacer { flex: 1; }
+.me { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 6px 0 14px; border-radius: 20px; background: var(--surface); font-size: 14px; }
+.me:hover { background: var(--surface-2); }
+.avatar { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 500; color: #fff; background: linear-gradient(135deg, var(--g1), var(--g2)); }
+.avatar.clin { background: linear-gradient(135deg, #1E8E3E, #4285F4); }
+.syn { font-size: 12px; color: var(--faint); }
+
+/* bottom nav on phones */
+.bnav { display: none; }
+@media (max-width: 760px) {
+  .nav, .me .who, .bar .syn { display: none; }
+  .bnav { display: flex; position: fixed; z-index: 25; left: 0; right: 0; bottom: 0; background: var(--surface); padding: 8px max(8px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); justify-content: space-around; }
+  .bnav button { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--muted); flex: 1; position: relative; }
+  .bnav button span.ic { width: 56px; height: 32px; border-radius: 16px; display: grid; place-items: center; }
+  .bnav button[aria-current="page"] { color: var(--ink); }
+  .bnav button[aria-current="page"] span.ic { background: var(--accent-soft); color: var(--on-soft); }
+  .bnav svg { width: 22px; height: 22px; }
+  .bnav .badge { position: absolute; top: -2px; left: 54%; }
+  main { padding-bottom: 96px !important; }
+}
+
+main { max-width: 1240px; margin: 0 auto; padding-block: 8px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+.wide { display: flex; flex-direction: column; gap: 24px; }
+.page-h { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 16px; }
+.page-h h1 { font-size: clamp(28px, 4.4vw, 36px); line-height: 1.2; }
+.page-h p { color: var(--muted); margin-top: 6px; }
+.hello { font-size: clamp(32px, 6vw, 44px); line-height: 1.15; padding-top: 24px; }
+.sub { color: var(--muted); font-size: 18px; margin-top: 8px; }
+.sect-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.sect-h h2 { font-size: 20px; }
+
+/* ---------- buttons ---------- */
+.btn { height: 40px; padding: 0 20px; border-radius: 20px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface-3); color: var(--ink); white-space: nowrap; transition: background .15s, filter .15s; }
+.btn:hover { background: var(--hover); }
+.btn.pri { background: var(--accent); color: var(--accent-ink); }
+.btn.pri:hover { filter: brightness(1.08); }
+.btn.tonal { background: var(--accent-soft); color: var(--on-soft); }
+.btn.tonal:hover { filter: brightness(1.15); }
+.btn.out { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--accent); }
+.btn.out:hover { background: var(--surface-2); }
+.btn.text { background: transparent; color: var(--accent); padding: 0 12px; }
+.btn.text:hover { background: var(--surface-2); }
+.btn.danger { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--not); }
+.btn.big { height: 52px; padding: 0 28px; border-radius: 26px; font-size: 16px; }
+.btn:disabled { opacity: .38; pointer-events: none; }
+.btn svg { width: 18px; height: 18px; }
+.iconbtn { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); }
+.iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+.iconbtn svg { width: 22px; height: 22px; }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.row.end { justify-content: flex-end; }
+
+/* ---------- surfaces ---------- */
+.card { background: var(--surface); border-radius: var(--r-lg); padding: 20px; min-width: 0; }
+.card.pad-lg { padding: 24px; }
+.card h3 { font-size: 18px; }
+.list { display: flex; flex-direction: column; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
+.item { background: var(--surface); padding: 16px 20px; display: flex; align-items: center; gap: 16px; text-align: left; width: 100%; min-width: 0; }
+button.item:hover, .item.click:hover { background: var(--surface-2); }
+.item .grow { flex: 1; min-width: 0; }
+.item b { font-weight: 500; display: block; }
+.item small { color: var(--muted); font-size: 14px; display: block; }
+.ic-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--surface-3); color: var(--muted); display: grid; place-items: center; flex: none; }
+.ic-circle svg { width: 20px; height: 20px; }
+.chev { color: var(--faint); width: 20px; height: 20px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; font-size: 13px; font-weight: 500; background: var(--surface-3); color: var(--muted); white-space: nowrap; }
+.chip.met { background: var(--met-soft); color: var(--met); }
+.chip.not { background: var(--not-soft); color: var(--not); }
+.chip.unk { background: var(--unk-soft); color: var(--unk); }
+.chip.acc { background: var(--accent-soft); color: var(--on-soft); }
+.chip.byagent { background: var(--grad-soft); color: var(--ink); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g1); display: inline-block; flex: none; }
+.empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+.empty h3 { color: var(--ink); font-size: 20px; margin-bottom: 8px; }
+
+/* ---------- agent card (the one gradient surface) ---------- */
+.agent { position: relative; border-radius: var(--r-xl); padding: 24px; background: var(--grad-soft), var(--surface); display: flex; flex-direction: column; gap: 18px; }
+.agent::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(66,133,244,.55), rgba(155,114,203,.35), rgba(217,101,112,.2)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.agent-top { display: flex; gap: 16px; align-items: center; }
+.spark { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(from 200deg, var(--g1), var(--g2), var(--g3), var(--g1)); position: relative; flex: none; }
+.spark::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; background: var(--surface); }
+.spark svg { position: relative; z-index: 1; width: 22px; height: 22px; color: var(--accent); }
+.spark.live { animation: spin 6s linear infinite; }
+.spark.live svg { animation: spin 6s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.agent-top h2 { font-size: 20px; line-height: 1.3; }
+.agent-top p { color: var(--muted); font-size: 14px; }
+.agent-now { display: flex; gap: 10px; align-items: center; font-size: 14px; color: var(--muted); }
+.agent-ctl { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.toggle { display: flex; align-items: center; gap: 12px; background: var(--surface-2); border-radius: 20px; height: 40px; padding: 0 6px 0 16px; font-size: 14px; font-weight: 500; }
+.switch { appearance: none; -webkit-appearance: none; width: 52px; height: 32px; border-radius: 16px; background: var(--surface-3); box-shadow: inset 0 0 0 2px var(--faint); position: relative; cursor: pointer; margin: 0; flex: none; transition: background .2s; }
+.switch::after { content: ""; position: absolute; top: 8px; left: 8px; width: 16px; height: 16px; border-radius: 50%; background: var(--faint); transition: all .2s; }
+.switch:checked { background: var(--accent); box-shadow: none; }
+.switch:checked::after { top: 4px; left: 24px; width: 24px; height: 24px; background: var(--accent-ink); }
+
+/* question card */
+.qcard { border-radius: var(--r-xl); background: var(--surface); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.qcard .from { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.qcard h3 { font-size: 22px; line-height: 1.3; }
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt { min-height: 52px; border-radius: var(--r); background: var(--surface-2); padding: 12px 18px; text-align: left; font-size: 15px; display: flex; align-items: center; gap: 12px; }
+.opt:hover { background: var(--hover); }
+.opt.on { background: var(--accent-soft); color: var(--on-soft); }
+
+/* trial rows */
+.trow { display: flex; gap: 16px; align-items: center; background: var(--surface); padding: 18px 20px; text-align: left; width: 100%; }
+.trow:hover { background: var(--surface-2); }
+.trow .grow { flex: 1; min-width: 0; }
+.trow h3 { font-size: 17px; font-weight: 500; line-height: 1.35; }
+.trow .meta { display: flex; gap: 6px 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 6px; }
+.score { font-size: 28px; line-height: 1; font-weight: 400; font-variant-numeric: tabular-nums; }
+.score small { display: block; font-size: 11px; color: var(--faint); margin-top: 4px; text-align: center; }
+.scorebox { text-align: center; min-width: 52px; }
+
+/* stage progress */
+.steps { display: flex; gap: 4px; margin-top: 12px; }
+.steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--surface-3); }
+.steps i.done { background: var(--accent); }
+.steps i.now { background: linear-gradient(90deg, var(--g1), var(--g2)); }
+.steps i.bad { background: var(--not); }
+
+/* segmented + chips */
+.seg { display: inline-flex; border-radius: 20px; box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; flex-wrap: wrap; }
+.seg button { height: 40px; padding: 0 16px; font-size: 14px; font-weight: 500; color: var(--muted); }
+.seg button + button { box-shadow: inset 1px 0 0 var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--on-soft); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.fchip { height: 34px; padding: 0 14px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+.fchip:hover { background: var(--surface-2); }
+.fchip[aria-pressed="true"] { background: var(--accent-soft); color: var(--on-soft); box-shadow: none; }
+.fchip .n { font-size: 12px; opacity: .8; }
+
+/* fields */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > span { font-size: 13px; color: var(--muted); font-weight: 500; }
+.input { height: 48px; border-radius: 12px; background: var(--surface-2); border: 0; padding: 0 14px; font-size: 16px; width: 100%; box-shadow: inset 0 0 0 1px transparent; }
+.input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+textarea.input { height: 140px; padding: 12px 14px; resize: vertical; line-height: 1.5; }
+select.input { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 20px) 21px, calc(100% - 15px) 21px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 36px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 560px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+/* ---------- sheet ---------- */
+.scrim { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--surface); width: min(640px, 100%); max-height: min(88vh, 900px); overflow: auto; border-radius: var(--r-xl) var(--r-xl) 0 0; padding: 8px max(20px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; animation: up .22s ease-out; }
+.sheet.wide { width: min(860px, 100%); }
+@media (min-width: 761px) { .scrim { align-items: center; padding: 24px; } .sheet { border-radius: var(--r-xl); padding: 8px 28px 28px; } }
+@keyframes up { from { transform: translateY(24px); opacity: 0; } }
+.sheet-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: -8px; background: var(--surface); padding-top: 16px; padding-bottom: 4px; z-index: 1; }
+.sheet-h h2 { font-size: 22px; line-height: 1.3; }
+.handle { width: 32px; height: 4px; border-radius: 2px; background: var(--line); margin: 6px auto 0; }
+@media (min-width: 761px) { .handle { display: none; } }
+
+/* rule list */
+.rules { display: flex; flex-direction: column; gap: 2px; border-radius: var(--r); overflow: hidden; }
+.rule { display: flex; gap: 12px; align-items: flex-start; background: var(--surface-2); padding: 12px 16px; font-size: 14px; }
+.rule .mk { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; margin-top: 1px; }
+.rule .mk.met { background: var(--met-soft); color: var(--met); }
+.rule .mk.not { background: var(--not-soft); color: var(--not); }
+.rule .mk.unk { background: var(--unk-soft); color: var(--unk); }
+.rule small { display: block; color: var(--faint); font-size: 12px; margin-top: 2px; }
+
+/* activity feed */
+.feed { display: flex; flex-direction: column; gap: 14px; }
+.ev { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+.ev .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 500; background: var(--surface-3); color: var(--muted); flex: none; }
+.ev .av.ag { background: var(--grad-soft); color: var(--on-soft); box-shadow: inset 0 0 0 1px rgba(155,114,203,.4); }
+.ev .av.hu { background: rgba(109,213,140,.16); color: var(--met); }
+.ev b { font-weight: 500; }
+.ev time { color: var(--faint); font-size: 12px; margin-left: 6px; }
+
+/* toast */
+.toast { position: fixed; z-index: 60; left: 50%; top: calc(16px + env(safe-area-inset-top, 0px)); transform: translate(-50%, -12px); opacity: 0; transition: all .25s; background: #E3E3E3; color: #1F1F1F; border-radius: 8px; padding: 12px 16px; font-size: 14px; width: max-content; max-width: min(460px, calc(100% - 32px)); display: flex; gap: 10px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- health ---------- */
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.stat .lbl { font-size: 13px; color: var(--muted); }
+.stat .val { font-size: 28px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.stat .val small { font-size: 13px; color: var(--faint); margin-left: 4px; }
+.stat .src { font-size: 12px; color: var(--faint); }
+.stat svg.spk { width: 100%; height: 34px; margin-top: 6px; }
+.stat.unknown .val { color: var(--faint); font-size: 18px; padding-top: 8px; }
+.dx { display: flex; flex-direction: column; gap: 12px; }
+.dx h2 { font-size: 24px; line-height: 1.3; }
+
+/* ---------- login ---------- */
+.login { min-height: 100%; display: grid; place-items: center; padding-block: 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(66,133,244,.16), transparent 70%), var(--bg); }
+.login-box { width: min(440px, 100%); display: flex; flex-direction: column; gap: 24px; }
+.login-box .logo { font-size: 24px; }
+.login-box h1 { font-size: 36px; line-height: 1.2; }
+.acct { display: flex; align-items: center; gap: 14px; background: var(--surface); padding: 14px 18px; text-align: left; width: 100%; }
+.acct:hover { background: var(--surface-2); }
+.acct .grow { flex: 1; min-width: 0; }
+.acct b { font-weight: 500; display: block; }
+.acct small { color: var(--muted); font-size: 13px; }
+.note { font-size: 13px; color: var(--faint); line-height: 1.5; }
+
+/* ---------- clinician ---------- */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+.kpi { background: var(--surface); border-radius: var(--r-lg); padding: 18px 20px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.kpi .lbl { font-size: 13px; color: var(--muted); }
+.kpi .val { font-size: 36px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.kpi .hint { font-size: 12px; color: var(--faint); }
+.two { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; align-items: start; }
+@media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+.funnel { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.frow { display: grid; grid-template-columns: 110px 1fr 36px; gap: 12px; align-items: center; font-size: 14px; }
+.frow .track { height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
+.frow .track i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--g1), var(--g2)); }
+.frow b { font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 500; color: var(--faint); font-size: 12px; padding: 0 12px 10px; white-space: nowrap; }
+td { padding: 12px; border-top: 1px solid var(--surface-3); vertical-align: middle; }
+tr.click { cursor: pointer; }
+tr.click:hover td { background: var(--surface-2); }
+.trialpick { min-width: 0; max-width: 100%; }
+.trialpick select { height: 40px; border-radius: 20px; padding-left: 16px; font-size: 14px; font-weight: 500; background-color: var(--surface-2); background-position: calc(100% - 20px) 17px, calc(100% - 15px) 17px; max-width: 100%; }
+
+/* rank: the swipe deck */
+.rank { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { .rank { grid-template-columns: 1fr; } }
+.rank-label { font-size: 13px; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.pcard { background: var(--surface); border-radius: var(--r-xl); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.pcard.bench { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.pcard .who { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pcard .who b { font-size: 20px; font-weight: 400; }
+.pcard .who small { display: block; color: var(--muted); font-size: 14px; }
+.facts { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.facts div { display: grid; grid-template-columns: 84px 1fr; gap: 10px; }
+.facts dt, .facts span.k { color: var(--faint); }
+.tally { display: flex; gap: 6px; }
+.deck { position: relative; touch-action: pan-y; padding-bottom: 14px; }
+.deck .ghost { position: absolute; inset: 0 0 14px 0; transform: translateY(14px) scale(.95); opacity: .5; pointer-events: none; }
+.deck .top { position: relative; z-index: 1; cursor: grab; box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: transform .3s ease, opacity .3s; will-change: transform; user-select: none; -webkit-user-select: none; }
+.deck .top.drag { transition: none; cursor: grabbing; }
+.stamp { position: absolute; top: 22px; padding: 6px 12px; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: .02em; opacity: 0; transition: opacity .1s; pointer-events: none; z-index: 2; }
+.stamp.up { right: 22px; color: var(--met); box-shadow: inset 0 0 0 2px var(--met); background: rgba(19,19,20,.85); }
+.stamp.down { left: 22px; color: var(--muted); box-shadow: inset 0 0 0 2px var(--muted); background: rgba(19,19,20,.85); }
+.swipe-btns { display: flex; justify-content: center; gap: 28px; margin-top: 18px; }
+.sbtn { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.sbtn span { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); color: var(--ink); transition: transform .12s, background .15s; }
+.sbtn:hover span { transform: scale(1.06); background: var(--hover); }
+.sbtn svg { width: 26px; height: 26px; }
+.sbtn.rej span { color: var(--not); }
+.sbtn.up span { background: var(--accent); color: var(--accent-ink); }
+.sbtn.up { color: var(--accent); }
+.progress { height: 4px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--grad); border-radius: 2px; transition: width .3s; }
+.ladder { display: flex; flex-direction: column; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
+.ladder .item .pos { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-3); display: grid; place-items: center; font-size: 14px; font-weight: 500; flex: none; }
+.ladder .item.top .pos { background: var(--accent); color: var(--accent-ink); }
+.kbd { font-size: 12px; color: var(--faint); text-align: center; margin-top: 12px; }
+
+/* stepper in detail */
+.stepper { display: flex; gap: 6px; flex-wrap: wrap; }
+.stepper span { font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 8px; background: var(--surface-2); color: var(--faint); }
+.stepper span.done { color: var(--muted); }
+.stepper span.now { background: var(--accent); color: var(--accent-ink); }
+.stepper span.bad { background: var(--not-soft); color: var(--not); }
+.panel2 { background: var(--surface-2); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+details summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; list-style: none; }
+details summary::-webkit-details-marker { display: none; }
+details[open] summary { margin-bottom: 10px; }
+.banner { background: var(--unk-soft); color: var(--unk); border-radius: var(--r); padding: 10px 14px; font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+/* ---------- swipe cards (patients) ---------- */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.disc { max-width: 560px; gap: 16px; }
+.disc-h { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: end; }
+.disc-h > div:first-child { grid-column: 1 / -1; }
+.deck .ghost > * { visibility: hidden; }
+.rank-label svg { width: 16px; height: 16px; }
+.agent-pill { display: flex; align-items: center; gap: 12px; text-align: left; padding: 10px 14px; border-radius: 20px; background: var(--grad-soft), var(--surface); min-width: 0; position: relative; }
+.agent-pill::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(66,133,244,.5), rgba(155,114,203,.3), rgba(217,101,112,.15)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.agent-pill:hover { background: var(--grad-soft), var(--surface-2); }
+.agent-pill .grow { flex: 1; min-width: 0; }
+.agent-pill b { font-weight: 500; font-size: 14px; display: block; }
+.agent-pill small { color: var(--muted); font-size: 13px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tune { background: var(--surface); width: 48px; height: 48px; }
+.spark.sm { width: 30px; height: 30px; }
+.spark.sm svg { width: 15px; height: 15px; }
+.deck-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); padding: 0 4px; flex-wrap: wrap; }
+.tcard { gap: 14px; padding: 24px; }
+.tc-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.code { font-size: 13px; color: var(--faint); margin-top: 8px; }
+.tc-title { font-size: clamp(22px, 5vw, 26px); line-height: 1.25; }
+.tc-plain { font-size: 15px; }
+.tc-facts { display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted); background: var(--surface-2); border-radius: var(--r); padding: 14px 16px; }
+.tc-facts span { display: flex; gap: 10px; align-items: center; }
+.tc-facts svg { width: 18px; height: 18px; color: var(--accent); }
+.why { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+.why li { display: flex; gap: 10px; align-items: flex-start; }
+.why svg { width: 18px; height: 18px; color: var(--met); margin-top: 2px; }
+.tbc { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--unk); }
+.tbc svg { width: 18px; height: 18px; }
+.qc .from { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.qt { font-size: 24px; line-height: 1.3; }
+.empty-card { align-items: center; text-align: center; padding: 40px 24px; gap: 14px; }
+.empty-card h3 { font-size: 22px; }
+.ring { position: relative; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; flex: none; --c: var(--met); }
+.ring.possible { --c: var(--unk); }
+.ring.not { --c: var(--not); }
+.ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--c) var(--deg), var(--surface-3) 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); }
+.ring span { font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.ic-circle.ag { background: var(--grad-soft); color: var(--on-soft); }
+.ic-circle.hu { background: var(--met-soft); color: var(--met); }
+.item.unread b { color: var(--ink); }
+.ev .av svg { width: 15px; height: 15px; }
+.mini { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; width: 120px; margin-bottom: 4px; }
+.mini i { display: block; height: 100%; background: linear-gradient(90deg, var(--g1), var(--g2)); }
+.chip svg { width: 14px; height: 14px; }
+.stamp.up { left: 22px; right: auto; }
+.stamp.down { right: 22px; left: auto; }
+input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: var(--accent); }
+@media (max-width: 860px) {
+  .pcard.bench { padding: 16px 18px; gap: 10px; }
+  .pcard.bench .facts, .pcard.bench > .faint { display: none; }
+  .pcard.bench .ring { width: 44px; height: 44px; }
+}
+/* ---------- 3D protein view in the applicant sheet ---------- */
+.pvbox { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.06); }
+.pvbox-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--faint); }
+.pvbox-h small { font-size: 12px; }
+.pvbox .pv-root.pv-embed { --pv-ink: #E3E3E3; --pv-muted: #8E918F; --pv-line: #444746; --pv-link: #A8C7FA; --pv-unk: #FDD663; --pv-unk-ink: #FDD663; --pv-unk-soft: rgba(253,214,99,.13); --pv-neg-ink: #C4C7C5; --pv-neg-soft: #333537; --pv-display: var(--sans); --pv-body: var(--sans); --pv-mono: var(--sans); min-height: 0; height: auto; background: transparent; font-size: 14px; }
+.pvbox .pv-embed .pv-stage { flex: none; height: clamp(220px, 36vh, 320px); border-radius: var(--r); }
+.pvbox .pv-embed .pv-ctl { padding: 10px 0 0; gap: 8px; }
+.pvbox .pv-embed .pv-calm { padding: 4px 0; }
+.pvbox .pv-segb { font-weight: 500; font-size: 14px; height: 42px; }
+.pvbox .pv-cap { font-size: 14px; min-height: 40px; }
+.pvbox .pv-k, .pvbox .pv-d { font-weight: 500; }
+.pvbox .pv-honest, .pvbox .pv-pdb { font-size: 12px; }
+</style>
+<div id="app"></div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<script src="connectors.js"></script>
+<script src="protein/protein-view.js"></script>
+<script>
+(function () {
+  'use strict';
+  var OK = 'met', NO = 'not', U = 'unk';
+  var CITIES = { London: [51.507, -0.128], Manchester: [53.48, -2.24], Birmingham: [52.48, -1.9], Leeds: [53.8, -1.55], Glasgow: [55.86, -4.25], Edinburgh: [55.95, -3.19], Bristol: [51.45, -2.59], Newcastle: [54.98, -1.61], Cambridge: [52.21, 0.12], Southampton: [50.9, -1.4], Cardiff: [51.48, -3.18], Norwich: [52.63, 1.3] };
+  function miles(a, b) { var R = 3959, r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLon = (b[1] - a[1]) * r, x = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLon / 2) * Math.sin(dLon / 2); return Math.round(2 * R * Math.asin(Math.sqrt(x))); }
+  var VISIT = { weekly: [4, 'Weekly for 6 weeks, then every 3 weeks'], fortnightly: [3, 'Every 2 weeks'], '3weekly': [2, 'Every 3 weeks'], monthly: [1, 'Every 4 weeks'] };
+
+  /* ---------- rule helpers ---------- */
+  var DRIVER_POS = ['ex19del', 'L858R', 'ex20ins', 'other', 'pos', 'egfr_unk'];
+  function nsclcIV(p) { return p.histology === 'sclc' ? NO : (p.stage === 'IV' ? OK : NO); }
+  function noDriver(p) { var v = [p.egfr, p.alk, p.ros1]; if (v.some(function (x) { return DRIVER_POS.indexOf(x) >= 0; })) return NO; if (v.indexOf('unk') >= 0) return U; return OK; }
+  function noPriorSystemic(p) { return (p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK) ? NO : OK; }
+  function noPriorNaive(p) { return p.priorChemo ? NO : OK; }
+  function ecogMax(m) { return function (p) { return p.ecog == null ? U : (p.ecog <= m ? OK : NO); }; }
+  function brainOK(p) { return p.brain === 'unk' ? U : (p.brain === 'untreated' ? NO : OK); }
+  function noILD(p) { return p.ild ? NO : OK; }
+  function noAuto(p) { return p.autoimmune ? NO : OK; }
+  function noInfection(p) { return p.infection ? NO : OK; }
+  function marrow(p) { return (p.anc == null || p.plt == null) ? U : (p.anc >= 1.5 && p.plt >= 100 ? OK : NO); }
+  function renal(min) { return function (p) { return p.crcl == null ? U : (p.crcl >= min ? OK : NO); }; }
+  function liver(p) { return p.bili == null ? U : (p.bili <= 1.5 ? OK : NO); }
+  function washout(w) { return function (p) { if (!(p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK || p.priorCRT)) return OK; return p.lastTxWeeks == null ? U : (p.lastTxWeeks >= w ? OK : NO); }; }
+
+  function SKEPTIC(p) { var l = [p.priorIO && 'immunotherapy', p.priorEGFR && 'an EGFR tablet', p.priorALK && 'an ALK tablet'].filter(Boolean); return 'The first reading only looked for “chemotherapy”. The record also shows ' + (l.join(' and ') || 'another earlier treatment') + ', which this rule excludes.'; }
+  function note(x, p) { return typeof x.c.skepticNote === 'function' ? x.c.skepticNote(p) : (x.c.skepticNote || 'Re-checked this rule.'); }
+  function C(t, text, f, agent, src, extra) { var c = { t: t, text: text, f: f, agent: agent, src: src }; for (var k in extra || {}) c[k] = extra[k]; return c; }
+
+  /* ---------- the synthetic trial set (modelled on typical phase III lung cancer criteria) ---------- */
+  var TRIALS = [
+    { id: 'egfr2', code: 'LT-301', name: 'A new targeted tablet after EGFR treatment stops working', plain: 'Compares a new targeted tablet with standard platinum chemotherapy for EGFR-positive lung cancer that has grown on osimertinib-type treatment.', design: 'Randomised 1:1, new tablet vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .85, evidenceText: 'Phase II results reported tumour shrinkage in a group with the same EGFR changes (synthetic summary).', sites: [['Thames Chest Centre', 'London'], ['Northern Lung Unit', 'Manchester']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'),
+      C('inc', 'EGFR exon 19 deletion or L858R', function (p) { return (p.egfr === 'unk' || p.egfr === 'egfr_unk') ? U : (p.egfr === 'ex19del' || p.egfr === 'L858R' ? OK : NO); }, 'Biomarker agent', 'bio', { q: 'drivers', key: true }),
+      C('inc', 'Cancer grew on a third-generation EGFR tablet (e.g. osimertinib)', function (p) { if (!p.priorEGFR) return NO; return p.progressed === 'yes' ? OK : (p.progressed === 'unk' ? U : NO); }, 'Matcher', 'tx', { timing: true, key: true }),
+      C('inc', 'At least 2 weeks since last cancer treatment', washout(2), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Kidney function: creatinine clearance ≥45 mL/min', renal(45), 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'alk1', code: 'LT-302', name: 'A newer ALK tablet as a first treatment', plain: 'Compares a newer ALK-targeted tablet with today’s standard ALK tablet for people starting treatment for advanced ALK-positive lung cancer.', design: 'Randomised 1:1, newer tablet vs standard tablet', visits: 'monthly', target: 'ALK', kind: 'target', evidence: .8, evidenceText: 'Earlier studies reported activity in the brain as well as the lungs (synthetic summary).', sites: [['Thames Chest Centre', 'London'], ['Pennine Cancer Centre', 'Leeds']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage III not operable or stage IV', function (p) { return p.histology === 'sclc' ? NO : (p.stage === 'IV' || p.stage === 'III_unres' ? OK : NO); }, 'Records Reader', 'dx'),
+      C('inc', 'ALK-positive', function (p) { return p.alk === 'unk' ? U : (p.alk === 'pos' ? OK : NO); }, 'Biomarker agent', 'bio', { q: 'drivers', key: true }),
+      C('inc', 'No earlier treatment for advanced disease', noPriorSystemic, 'Matcher', 'tx', { timing: true, key: true, naive: noPriorNaive, skepticNote: SKEPTIC }),
+      C('inc', 'Fitness (ECOG) 0–2', ecogMax(2), 'Records Reader', 'ecog'),
+      C('inc', 'Kidney function: creatinine clearance ≥30 mL/min', renal(30), 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'kras', code: 'LT-303', name: 'A KRAS G12C tablet combination after earlier treatment', plain: 'Compares a KRAS G12C-targeted tablet plus an antibody with docetaxel chemotherapy after chemotherapy and immunotherapy.', design: 'Randomised 2:1, combination vs docetaxel', visits: '3weekly', target: 'KRAS', kind: 'target', evidence: .78, evidenceText: 'Phase II results in KRAS G12C lung cancer were published as a conference abstract (synthetic summary).', sites: [['Midlands Cancer Institute', 'Birmingham'], ['Thames Chest Centre', 'London']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'),
+      C('inc', 'KRAS G12C mutation', function (p) { return p.kras === 'unk' ? U : (p.kras === 'G12C' ? OK : NO); }, 'Biomarker agent', 'bio', { q: 'drivers', key: true }),
+      C('inc', 'Cancer grew after platinum chemotherapy and immunotherapy', function (p) { if (!(p.priorChemo && p.priorIO)) return NO; return p.progressed === 'yes' ? OK : (p.progressed === 'unk' ? U : NO); }, 'Matcher', 'tx', { timing: true, key: true }),
+      C('inc', 'At least 3 weeks since last cancer treatment', washout(3), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'io50', code: 'LT-304', name: 'Immunotherapy combination for high PD-L1', plain: 'Compares a new immunotherapy combination with pembrolizumab alone as a first treatment, for PD-L1 of 50% or more and no targetable mutation.', design: 'Randomised 1:1, combination vs pembrolizumab', visits: '3weekly', target: null, kind: 'nodriver', pdl1: 'hi', evidence: .74, evidenceText: 'Phase II reported longer time before the cancer grew, in a small group (synthetic summary).', sites: [['Thames Chest Centre', 'London'], ['Clyde Cancer Centre', 'Glasgow'], ['Northern Lung Unit', 'Manchester']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'),
+      C('inc', 'PD-L1 score of 50% or more', function (p) { return p.pdl1 == null ? U : (p.pdl1 >= 50 ? OK : NO); }, 'Biomarker agent', 'bio', { q: 'pdl1', key: true }),
+      C('inc', 'No EGFR, ALK or ROS1 change', noDriver, 'Biomarker agent', 'bio', { q: 'drivers' }),
+      C('inc', 'No earlier treatment for advanced disease', noPriorSystemic, 'Matcher', 'tx', { timing: true, key: true, naive: noPriorNaive, skepticNote: SKEPTIC }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond'),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' })
+    ] },
+    { id: 'chemoio', code: 'LT-305', name: 'Adding a new antibody to chemo-immunotherapy', plain: 'Adds a new antibody to standard chemotherapy plus immunotherapy as a first treatment, for PD-L1 below 50% and no targetable mutation.', design: 'Randomised 1:1, with or without the new antibody (placebo-controlled)', visits: '3weekly', target: null, kind: 'nodriver', pdl1: 'lo', evidence: .7, evidenceText: 'Phase II showed a higher response rate, with more side effects (synthetic summary).', sites: [['Severn Oncology Centre', 'Bristol'], ['Solent Cancer Centre', 'Southampton'], ['Thames Chest Centre', 'London']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'),
+      C('inc', 'PD-L1 score below 50%', function (p) { return p.pdl1 == null ? U : (p.pdl1 < 50 ? OK : NO); }, 'Biomarker agent', 'bio', { q: 'pdl1', key: true }),
+      C('inc', 'No EGFR, ALK or ROS1 change', noDriver, 'Biomarker agent', 'bio', { q: 'drivers' }),
+      C('inc', 'No earlier treatment for advanced disease', noPriorSystemic, 'Matcher', 'tx', { timing: true, key: true, naive: noPriorNaive, skepticNote: SKEPTIC }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Kidney function: creatinine clearance ≥45 mL/min', renal(45), 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'stage3', code: 'LT-306', name: 'Immunotherapy after chemoradiotherapy for stage III', plain: 'Adds a new immunotherapy to standard follow-on treatment after chemoradiotherapy for stage III lung cancer that cannot be operated on.', design: 'Randomised 1:1, combination vs standard follow-on treatment', visits: '3weekly', target: null, kind: 'stage', evidence: .7, evidenceText: 'Phase II showed the combination was tolerable after chemoradiotherapy (synthetic summary).', sites: [['Tyne Cancer Centre', 'Newcastle'], ['Lothian Lung Unit', 'Edinburgh'], ['Pennine Cancer Centre', 'Leeds']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage III not operable', function (p) { return p.histology === 'sclc' ? NO : (p.stage === 'III_unres' ? OK : NO); }, 'Records Reader', 'dx', { key: true }),
+      C('inc', 'Finished chemoradiotherapy in the last 6 weeks', function (p) { if (!p.priorCRT) return NO; return p.crtWeeks == null ? U : (p.crtWeeks <= 6 ? OK : NO); }, 'Matcher', 'tx', { timing: true, q: 'crt', key: true }),
+      C('inc', 'Cancer has not grown since chemoradiotherapy', function (p) { return p.progressed === 'no' ? OK : (p.progressed === 'unk' ? U : NO); }, 'Matcher', 'tx', { timing: true }),
+      C('exc', 'No earlier immunotherapy', function (p) { return p.priorIO ? NO : OK; }, 'Matcher', 'tx'),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond'),
+      C('exc', 'No pneumonitis after radiotherapy', noILD, 'Matcher', 'cond')
+    ] },
+    { id: 'periop', code: 'LT-307', name: 'Immunotherapy before and after surgery', plain: 'Compares immunotherapy plus chemotherapy before surgery and immunotherapy after it, with chemotherapy before surgery alone.', design: 'Randomised 1:1, peri-operative immunotherapy vs chemotherapy', visits: '3weekly', target: null, kind: 'nodriver', evidence: .8, evidenceText: 'Earlier studies reported more people with no cancer left at surgery (synthetic summary).', sites: [['Thames Chest Centre', 'London'], ['Fens Cancer Centre', 'Cambridge']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage II–IIIA, operable', function (p) { return p.histology === 'sclc' ? NO : (p.stage === 'early' || p.stage === 'IIIA_res' ? OK : NO); }, 'Records Reader', 'dx', { key: true }),
+      C('inc', 'No treatment for this cancer yet', function (p) { return (p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK || p.priorCRT) ? NO : OK; }, 'Matcher', 'tx', { timing: true }),
+      C('inc', 'EGFR and ALK negative', function (p) { if (DRIVER_POS.indexOf(p.egfr) >= 0 || p.alk === 'pos') return NO; return (p.egfr === 'unk' || p.alk === 'unk') ? U : OK; }, 'Biomarker agent', 'bio', { q: 'drivers' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond')
+    ] },
+    { id: 'sclc', code: 'LT-308', name: 'A new antibody for extensive small cell lung cancer', plain: 'Adds a new targeted antibody to standard chemotherapy plus immunotherapy as a first treatment for extensive-stage small cell lung cancer.', design: 'Randomised 1:1, with or without the new antibody', visits: 'weekly', target: null, kind: 'stage', evidence: .68, evidenceText: 'Phase I/II reported responses in people whose cancer had come back (synthetic summary).', sites: [['Northern Lung Unit', 'Manchester'], ['Clyde Cancer Centre', 'Glasgow'], ['Midlands Cancer Institute', 'Birmingham']], crit: [
+      C('inc', 'Small cell lung cancer, extensive stage', function (p) { return p.histology === 'sclc' && p.stage === 'es' ? OK : NO; }, 'Records Reader', 'dx', { key: true }),
+      C('inc', 'No treatment for extensive-stage disease yet', noPriorSystemic, 'Matcher', 'tx', { timing: true }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond'),
+      C('exc', 'No infection being treated now', noInfection, 'Matcher', 'cond'),
+      C('inc', 'Liver function: bilirubin ≤1.5× upper limit', liver, 'Matcher', 'labs', { q: 'labs' })
+    ] }
+,
+    { id: 'adc', code: 'LT-309', name: 'An antibody–drug conjugate after earlier treatment', plain: 'Compares a new antibody–drug conjugate with docetaxel chemotherapy for advanced non-small cell lung cancer that has grown after earlier treatment.', design: 'Randomised 1:1, new conjugate vs docetaxel', visits: '3weekly', target: null, kind: 'stage', evidence: .76, evidenceText: 'Phase II reported responses across several tumour types, with lung inflammation as a key side effect (synthetic summary).', sites: [['Fens Cancer Centre', 'Cambridge'], ['East Anglia Oncology', 'Norwich']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'),
+      C('inc', 'Cancer grew after at least one earlier treatment for advanced disease', function (p) { if (!(p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK)) return NO; return p.progressed === 'yes' ? OK : (p.progressed === 'unk' ? U : NO); }, 'Matcher', 'tx', { timing: true, key: true }),
+      C('inc', 'At least 3 weeks since last cancer treatment', washout(3), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Liver function: bilirubin ≤1.5× upper limit', liver, 'Matcher', 'labs', { q: 'labs' })
+    ] }
+  ];
+  var TRIAL = {}; TRIALS.forEach(function (t) { TRIAL[t.id] = t; });
+  var W = { b: .35, t: .2, p: .2, e: .15, c: .1 };
+  function nearestSite(p, t) { var home = CITIES[p.city] || CITIES.London, best = null; t.sites.forEach(function (s) { var d = miles(home, CITIES[s[1]]); if (!best || d < best.d) best = { name: s[0], city: s[1], d: d }; }); return best; }
+  function distTxt(d) { return d < 5 ? 'in your city' : d + ' mi'; }
+  function evaluate(p, t) {
+    var rows = t.crit.map(function (c) { var s = c.f(p), ns = c.naive ? c.naive(p) : s; return { c: c, s: s, overturned: c.naive && ns !== s }; });
+    var met = 0, not = 0, unk = 0; rows.forEach(function (r) { if (r.s === OK) met++; else if (r.s === NO) not++; else unk++; });
+    var tier = not ? 'not' : (unk ? 'possible' : 'strong');
+    var bio;
+    if (t.target === 'EGFR') bio = (p.egfr === 'ex19del' || p.egfr === 'L858R') ? 1 : (p.egfr === 'egfr_unk' ? .6 : 0);
+    else if (t.target === 'ALK') bio = p.alk === 'pos' ? 1 : 0;
+    else if (t.target === 'KRAS') bio = p.kras === 'G12C' ? 1 : 0;
+    else if (t.kind === 'nodriver') { var nd = noDriver(p); bio = nd === OK ? (t.pdl1 ? (p.pdl1 == null ? .6 : ((t.pdl1 === 'hi') === (p.pdl1 >= 50) ? .85 : .2)) : .8) : (nd === U ? .5 : .2); }
+    else bio = .8;
+    var tr = rows.filter(function (r) { return r.c.timing; }); var timing = !tr.length ? 1 : (tr.some(function (r) { return r.s === NO; }) ? 0 : (tr.some(function (r) { return r.s === U; }) ? .6 : 1));
+    var site = nearestSite(p, t), maxT = Number(p.maxTravel) || 50;
+    var travel = site.d <= maxT ? 1 : Math.max(0, 1 - (site.d - maxT) / Math.max(maxT, 25));
+    var visits = VISIT[t.visits][0] > Number(p.maxVisits) ? .4 : 1;
+    var rnd = p.rand === 'no' ? .3 : (p.rand === 'unsure' ? .7 : 1);
+    var prac = travel * .5 + visits * .25 + rnd * .25;
+    var cert = (met + unk) ? met / (met + unk) : 0;
+    var w = p.weights || W;
+    var score = Math.round(100 * (w.b * bio + w.t * timing + w.p * prac + w.e * t.evidence + w.c * cert));
+    if (tier === 'not') score = Math.min(score, 35);
+    return { t: t, rows: rows, met: met, not: not, unk: unk, tier: tier, score: score, comps: { bio: bio, timing: timing, prac: prac, ev: t.evidence, cert: cert }, site: site, travelOK: site.d <= maxT, visitsOK: visits === 1 };
+  }
+  var QUESTIONS = {
+    brain: { short: 'whether a scan showed spread to the brain', ask: 'Has a scan checked your brain?', why: 'Most of your trials have a rule about this.', opts: [['Yes, and there was no spread', function (p) { p.brain = 'none'; }], ['Spread was found, treated, and is stable', function (p) { p.brain = 'treated_stable'; }], ['Spread was found and isn’t treated yet', function (p) { p.brain = 'untreated'; }], ['I’m not sure. My team can check.', null]] },
+    pdl1: { short: 'your PD-L1 score', ask: 'Do you know your PD-L1 score?', why: 'It’s on your pathology report. Immunotherapy trials depend on it.', opts: [['50% or higher', function (p) { p.pdl1 = 60; }], ['Between 1% and 49%', function (p) { p.pdl1 = 20; }], ['Less than 1%', function (p) { p.pdl1 = 0; }], ['I’m not sure. My team can check.', null]] },
+    drivers: { short: 'whether your tumour was tested for gene changes', ask: 'Was your tumour tested for gene changes?', why: 'For example EGFR, ALK or ROS1. Several trials depend on it.', opts: [['Yes, and no changes were found', function (p) { ['egfr', 'alk', 'ros1', 'kras'].forEach(function (k) { if (p[k] === 'unk') p[k] = 'neg'; }); }], ['I’m not sure. My team can check.', null]] },
+    washout: { short: 'when your last treatment was', ask: 'When was your last cancer treatment?', why: 'Trials need a short gap before something new starts.', opts: [['Less than 2 weeks ago', function (p) { p.lastTxWeeks = 1; }], ['2 to 4 weeks ago', function (p) { p.lastTxWeeks = 3; }], ['More than 4 weeks ago', function (p) { p.lastTxWeeks = 6; }], ['I’m not sure', null]] },
+    crt: { short: 'when chemoradiotherapy ended', ask: 'When did your chemoradiotherapy finish?', why: 'This trial has to start within 6 weeks of it.', opts: [['In the last 6 weeks', function (p) { p.crtWeeks = 4; }], ['More than 6 weeks ago', function (p) { p.crtWeeks = 10; }], ['I’m not sure', null]] },
+    labs: { short: 'recent blood results', ask: '', why: '', opts: [] }
+  };
+
+
+  /* ================= helpers ================= */
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  var DAY = 864e5;
+  function ago(t) { var d = (Date.now() - t) / DAY; if (d < 1 / 48) return 'just now'; if (d < 1) return Math.max(1, Math.round(d * 24)) + ' h ago'; if (d < 2) return 'yesterday'; if (d < 14) return Math.round(d) + ' days ago'; return dstr(t); }
+  function dstr(t) { return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
+  function rid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function plural(n, a, b) { return n + ' ' + (n === 1 ? a : (b || a + 's')); }
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var I = function (d, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
+  var ICON = {
+    logo: '<svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/><stop offset=".6" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient></defs><path d="M16 4v9" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round"/><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg)"/><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg)" opacity=".6"/></svg>',
+    spark: I('<path d="M12 3c.4 4.6 2.4 7.6 9 9-6.6 1.4-8.6 4.4-9 9-.4-4.6-2.4-7.6-9-9 6.6-1.4 8.6-4.4 9-9z" fill="currentColor" stroke="none"/>'),
+    cards: I('<rect x="6" y="3" width="12" height="16" rx="3"/><path d="M3 7v11a3 3 0 0 0 3 3h9"/>'),
+    list: I('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),
+    pulse: I('<path d="M3 12h4l3-7 4 14 3-7h4"/>'),
+    inbox: I('<path d="M4 13l2.5-7h11L20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 13h5l1 2h4l1-2h5"/>'),
+    chart: I('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+    swap: I('<path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/>'),
+    folder: I('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+    x: I('<path d="M6 6l12 12M18 6L6 18"/>', 2.6),
+    check: I('<path d="M5 12.5l4.5 4.5L19 7.5"/>', 2.6),
+    heart: I('<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 3c0 5.4-7.5 10-7.5 10z" fill="currentColor"/>', 1.5),
+    up: I('<path d="M12 19V5M5 12l7-7 7 7"/>', 2.4),
+    down: I('<path d="M12 5v14M5 12l7 7 7-7"/>', 2.4),
+    info: I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
+    chev: I('<path d="M9 5l7 7-7 7"/>'),
+    plus: I('<path d="M12 5v14M5 12h14"/>'),
+    link: I('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'),
+    tune: I('<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>'),
+    out: I('<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>'),
+    pin: I('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
+    cal: I('<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>'),
+    shuffle: I('<path d="M16 4h4v4M4 20L20 4M16 20h4v-4M14 14l6 6M4 4l5 5"/>'),
+    doc: I('<path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
+    hosp: I('<path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M12 8v4M10 10h4"/>'),
+    dna: I('<path d="M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12M8 7h8M8 17h8"/>'),
+    drop: I('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'),
+    scan: I('<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle cx="12" cy="12" r="3.5"/>'),
+    pill: I('<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.2 8l5.6 8"/>'),
+    walk: I('<circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v3M7 12l3-3 4 1 2 3 3 1"/>'),
+    letter: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
+    lock: I('<rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+    back: I('<path d="M15 5l-7 7 7 7"/>', 2.4),
+    undo: I('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>')
+  };
+
+  /* ================= trials: extras ================= */
+  var EXTRA = {
+    egfr2: { type: 'Targeted tablet', goal: 12, gives: { priorEGFR: true } },
+    alk1: { type: 'Targeted tablet', goal: 10, gives: { priorALK: true } },
+    kras: { type: 'Targeted tablet', goal: 15, gives: { priorChemo: true } },
+    io50: { type: 'Immunotherapy', goal: 20, gives: { priorIO: true } },
+    chemoio: { type: 'Chemo-immunotherapy', goal: 20, gives: { priorChemo: true, priorIO: true } },
+    stage3: { type: 'Immunotherapy', goal: 12, gives: { priorIO: true } },
+    periop: { type: 'Surgery with immunotherapy', goal: 10, gives: { priorChemo: true, priorIO: true } },
+    sclc: { type: 'Antibody with chemotherapy', goal: 12, gives: { priorChemo: true, priorIO: true } },
+    adc: { type: 'Antibody–drug conjugate', goal: 15, gives: { priorChemo: true } }
+  };
+  TRIALS.forEach(function (t) { for (var k in EXTRA[t.id]) t[k] = EXTRA[t.id][k]; });
+  var TYPES = []; TRIALS.forEach(function (t) { if (TYPES.indexOf(t.type) < 0) TYPES.push(t.type); });
+
+  var HIST = { adeno: 'Adenocarcinoma', squamous: 'Squamous cell', sclc: 'Small cell lung cancer', unk: 'Type not known yet' };
+  var STAGE = { IV: 'stage IV', III_unres: 'stage III, not operable', IIIA_res: 'stage IIIA, operable', early: 'stage II', es: 'extensive stage', unk: 'stage not known' };
+  var ECOG = ['Fully active', 'Light work is fine', 'Up and about over half the day', 'Resting over half the day', 'Mostly in bed'];
+  function bioText(r) {
+    var l = [];
+    if (r.egfr === 'ex19del') l.push('EGFR exon 19 deletion'); else if (r.egfr === 'L858R') l.push('EGFR L858R'); else if (r.egfr === 'ex20ins') l.push('EGFR exon 20');
+    if (r.alk === 'pos') l.push('ALK positive');
+    if (r.ros1 === 'pos') l.push('ROS1 positive');
+    if (r.kras === 'G12C') l.push('KRAS G12C');
+    if (!l.length) l.push([r.egfr, r.alk, r.kras].indexOf('unk') >= 0 ? 'Gene tests not known' : 'No EGFR, ALK or KRAS change');
+    if (r.pdl1 != null) l.push('PD-L1 ' + r.pdl1 + '%'); else l.push('PD-L1 not known');
+    return l;
+  }
+  function txText(r) {
+    var l = [];
+    if (r.priorEGFR) l.push('EGFR tablet'); if (r.priorALK) l.push('ALK tablet'); if (r.priorChemo) l.push('chemotherapy'); if (r.priorIO) l.push('immunotherapy'); if (r.priorCRT) l.push('chemoradiotherapy');
+    if (!l.length) return 'No treatment yet';
+    var s = l.join(', '); s = s.charAt(0).toUpperCase() + s.slice(1);
+    if (r.progressed === 'yes') s += ', cancer grew'; else if (r.progressed === 'no') s += ', cancer stable';
+    if (r.lastTxWeeks != null) s += ' · last ' + (r.lastTxWeeks === 0 ? 'this week' : r.lastTxWeeks + ' wk ago');
+    return s;
+  }
+
+  /* ================= synthetic seed ================= */
+  var CLINICIANS = [
+    { id: 'C-01', name: 'Dr Amira Rahman', role: 'Principal investigator', site: 'Thames Chest Centre' },
+    { id: 'C-02', name: 'Sam Okafor', role: 'Research nurse', site: 'Northern Lung Unit' }
+  ];
+  function baseRec(o) {
+    var b = { histology: 'adeno', stage: 'IV', egfr: 'neg', alk: 'neg', ros1: 'neg', kras: 'neg', pdl1: null, priorChemo: false, priorIO: false, priorEGFR: false, priorALK: false, priorCRT: false, progressed: 'na', lastTxWeeks: null, crtWeeks: null, ecog: 1, brain: 'none', autoimmune: false, ild: false, infection: false, anc: null, plt: null, crcl: null, bili: null };
+    for (var k in o || {}) b[k] = o[k]; return b;
+  }
+  function seed() {
+    var T = Date.now(), d = function (n) { return T - n * DAY; };
+    var D = { patients: {}, apps: {}, events: {}, rankings: {} };
+    function pt(id, name, age, sex, city, rec, x) {
+      x = x || {};
+      var p = { id: id, name: name, age: age, sex: sex, city: city, account: !!x.account, rec: baseRec(rec), srcs: x.srcs || {}, labs: x.labs || {}, tx: x.tx || [], past: x.past || [], sources: x.sources || ['gp', 'hosp', 'gen'], settings: { auto: x.auto || 'ask', maxTravel: x.maxTravel || 50, maxVisits: 2, rand: 'yes', types: [], pass: [] }, told: [], created: d(x.since || 30) };
+      ['anc', 'plt', 'crcl', 'bili'].forEach(function (k) { if (p.rec[k] != null && !p.labs[k]) p.labs[k] = [[d(9), p.rec[k]]]; });
+      D.patients[id] = p; return p;
+    }
+    var STG = ['applied', 'prescreen', 'screening', 'eligibility', 'approval', 'enrolled', 'completed'];
+    function app(pid, trial, stage, daysAgo, x) {
+      x = x || {}; var id = pid + '_' + trial, t0 = d(daysAgo), hist = [{ s: 'applied', at: t0, by: x.by === 'agent' ? 'Patient’s agent' : 'Patient' }];
+      var end = STG.indexOf(stage); var step = daysAgo / Math.max(2, end + 2);
+      if (end < 0) { if (stage !== 'rejected' && stage !== 'waitlist') hist.push({ s: 'prescreen', at: t0 + step * DAY, by: 'Dr Amira Rahman' }); hist.push({ s: stage, at: t0 + 2 * step * DAY, by: 'Dr Amira Rahman', note: x.reason }); }
+      else for (var i = 1; i <= end; i++) hist.push({ s: STG[i], at: t0 + i * step * DAY, by: i < 5 ? 'Sam Okafor' : 'Dr Amira Rahman' });
+      var r = evaluate(P_(D.patients[pid]), TRIAL[trial]);
+      D.apps[id] = { id: id, pid: pid, trial: trial, stage: stage, by: x.by || 'patient', at: t0, upd: hist[hist.length - 1].at, hist: hist, score: r.score, tier: r.tier, reason: x.reason || '', prescreen: x.ps || null, outcome: x.outcome || null, arm: x.arm || null };
+    }
+    function ev(pid, who, text, daysAgo, notice) { var id = 'e' + Object.keys(D.events).length + 'x' + pid; D.events[id] = { pid: pid, who: who, text: text, at: d(daysAgo), notice: !!notice, read: daysAgo > 1 }; }
+
+    // demo account 1: EGFR, brain scan unknown, travels 25 miles
+    pt('P-0412', 'Mei L.', 63, 'F', 'London', { egfr: 'ex19del', pdl1: 10, priorEGFR: true, progressed: 'yes', lastTxWeeks: 3, ecog: 1, brain: 'unk', anc: 3.1, plt: 214, crcl: 72, bili: .6 }, {
+      account: true, maxTravel: 25, since: 21,
+      labs: { anc: [[d(70), 3.6], [d(42), 3.3], [d(14), 3.0], [d(9), 3.1]], plt: [[d(70), 240], [d(42), 228], [d(14), 205], [d(9), 214]], crcl: [[d(70), 78], [d(42), 75], [d(9), 72]], bili: [[d(70), .5], [d(9), .6]] },
+      tx: [{ what: 'Osimertinib (EGFR tablet)', when: d(400), until: d(21) }],
+      srcs: { dx: 'GP record', bio: 'Genomic lab report', tx: 'Hospital record', ecog: 'Hospital record', labs: 'Hospital record' }
+    });
+    // demo account 2: KRAS, on LT-303 now
+    pt('P-0372', 'Ray O.', 58, 'M', 'Birmingham', { kras: 'G12C', pdl1: 70, priorChemo: true, priorIO: true, progressed: 'no', lastTxWeeks: 0, ecog: 1, brain: 'none', anc: 2.4, plt: 180, crcl: 81, bili: .8 }, {
+      account: true, auto: 'auto', maxTravel: 100, since: 120,
+      labs: { anc: [[d(110), 3.2], [d(60), 2.6], [d(20), 2.4]], plt: [[d(110), 210], [d(60), 190], [d(20), 180]], crcl: [[d(110), 84], [d(20), 81]], bili: [[d(110), .7], [d(20), .8]] },
+      tx: [{ what: 'Carboplatin, pemetrexed and pembrolizumab', when: d(330), until: d(130) }],
+      srcs: { dx: 'GP record', bio: 'Genomic lab report', tx: 'Hospital record', ecog: 'Pre-screening, Midlands Cancer Institute', labs: 'Pre-screening, Midlands Cancer Institute' }
+    });
+
+    // applicants waiting to be ranked: LT-305 (chemo-immunotherapy), LT-301, LT-304
+    pt('P-0401', 'Tom H.', 66, 'M', 'Bristol', { pdl1: 20, ecog: 0, anc: 4.1, plt: 260, crcl: 74, bili: .5 });
+    pt('P-0403', 'Grace A.', 59, 'F', 'Southampton', { pdl1: 5, ecog: 1, anc: 3.2, plt: 230, crcl: 66 });
+    pt('P-0405', 'Imran K.', 71, 'M', 'London', { histology: 'squamous', pdl1: 30, ecog: 1, brain: 'unk' });
+    pt('P-0406', 'Sofia R.', 62, 'F', 'Bristol', { pdl1: 0, ecog: 1, anc: 2.8, plt: 190, crcl: 48 });
+    pt('P-0408', 'Derek M.', 68, 'M', 'Cardiff', { pdl1: 40, ecog: 1, egfr: 'unk', anc: 3.5, plt: 210, crcl: 58 });
+    pt('P-0409', 'Helen B.', 57, 'F', 'London', { pdl1: 10, ecog: 0, anc: 4.4, plt: 280, crcl: 90, autoimmune: false });
+    pt('P-0388', 'Karen T.', 59, 'F', 'London', { egfr: 'L858R', pdl1: 5, priorEGFR: true, progressed: 'yes', lastTxWeeks: 4, ecog: 0, anc: 3.6, plt: 230, crcl: 88, bili: .5 });
+    pt('P-0391', 'Brian L.', 66, 'M', 'Manchester', { egfr: 'ex19del', priorEGFR: true, progressed: 'yes', lastTxWeeks: 3, ecog: 1, brain: 'unk' });
+    pt('P-0395', 'Lin C.', 61, 'F', 'London', { egfr: 'L858R', priorEGFR: true, progressed: 'yes', lastTxWeeks: 5, ecog: 2, brain: 'treated_stable', anc: 2.2, plt: 140, crcl: 60 });
+    pt('P-0414', 'Owen P.', 64, 'M', 'Glasgow', { histology: 'squamous', pdl1: 80, ecog: 0 });
+    pt('P-0416', 'Priya S.', 55, 'F', 'Manchester', { pdl1: 55, ecog: 1, brain: 'unk' });
+    ['P-0401', 'P-0403', 'P-0405', 'P-0406', 'P-0408', 'P-0409'].forEach(function (id, i) { app(id, 'chemoio', 'applied', 1 + i * .7, { by: i % 2 ? 'agent' : 'patient' }); });
+    app('P-0388', 'egfr2', 'applied', 2, { by: 'agent' }); app('P-0391', 'egfr2', 'applied', 1.2); app('P-0395', 'egfr2', 'applied', .4, { by: 'agent' });
+    app('P-0414', 'io50', 'applied', 3); app('P-0416', 'io50', 'applied', 1.5, { by: 'agent' });
+
+    // further along
+    pt('P-0380', 'Alan F.', 69, 'M', 'London', { pdl1: 65, ecog: 1, anc: 3.0, plt: 220, crcl: 70 }); app('P-0380', 'io50', 'prescreen', 6);
+    pt('P-0383', 'Ruth D.', 63, 'F', 'Southampton', { pdl1: 15, ecog: 0 }); app('P-0383', 'chemoio', 'prescreen', 5, { by: 'agent' });
+    pt('P-0376', 'Nadia E.', 60, 'F', 'Birmingham', { kras: 'G12C', pdl1: 30, priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 6, ecog: 1, anc: 2.9, plt: 200, crcl: 75 }); app('P-0376', 'kras', 'screening', 12);
+    pt('P-0377', 'George W.', 72, 'M', 'Leeds', { stage: 'III_unres', pdl1: 30, priorCRT: true, progressed: 'no', lastTxWeeks: 4, crtWeeks: 4, ecog: 1 }); app('P-0377', 'stage3', 'eligibility', 14);
+    pt('P-0379', 'Fiona C.', 52, 'F', 'Leeds', { alk: 'pos', pdl1: 5, ecog: 0, crcl: 92 }); app('P-0379', 'alk1', 'approval', 16, { by: 'agent' });
+    pt('P-0366', 'Victor J.', 67, 'M', 'Glasgow', { histology: 'squamous', pdl1: 90, ecog: 1, priorIO: true, lastTxWeeks: 0 }); app('P-0366', 'io50', 'enrolled', 60, { arm: 'New treatment' });
+    app('P-0372', 'kras', 'enrolled', 110, { by: 'agent', arm: 'New treatment' });
+    pt('P-0351', 'Elaine M.', 65, 'F', 'Bristol', { pdl1: 25, priorChemo: true, priorIO: true, progressed: 'no', lastTxWeeks: 8 }); app('P-0351', 'chemoio', 'completed', 200, { outcome: { br: 'pr', months: 9, sae: 'no', weeks: 8, note: '' } });
+    pt('P-0355', 'Paul S.', 70, 'M', 'London', { egfr: 'L858R', priorEGFR: true, priorChemo: true, progressed: 'yes', lastTxWeeks: 6 }); app('P-0355', 'egfr2', 'completed', 240, { outcome: { br: 'sd', months: 7, sae: 'yes', weeks: 6, note: '' } });
+    pt('P-0368', 'Joan K.', 74, 'F', 'Norwich', { priorChemo: true, progressed: 'yes', ecog: 2 }); app('P-0368', 'adc', 'rejected', 9, { reason: 'Fitness (ECOG) 2' });
+    pt('P-0371', 'Mark T.', 61, 'M', 'Manchester', { pdl1: 35, ecog: 1 }); app('P-0371', 'io50', 'screenfail', 20, { reason: 'PD-L1 confirmed at 35% on pre-screening' });
+    pt('P-0373', 'Ann Y.', 57, 'F', 'London', { kras: 'G12C', priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 5, anc: 1.1 }); app('P-0373', 'kras', 'screenfail', 18, { reason: 'Neutrophils 1.1 on pre-screening (needs 1.5 or more)' });
+    pt('P-0374', 'Leo G.', 58, 'M', 'Cambridge', { stage: 'IIIA_res', pdl1: 40, ecog: 0 }); app('P-0374', 'periop', 'waitlist', 11);
+
+    ev('P-0412', 'Records Reader', 'Read your GP record, hospital record and genomic report. Added 18 facts.', 21);
+    ev('P-0412', 'Trial Scout', 'Found 9 recruiting phase III lung cancer trials in the UK.', 21);
+    ev('P-0412', 'Matcher', 'Checked 66 rules. LT-301 could fit you. One thing is missing: a brain scan result.', 2);
+    ev('P-0412', 'Logistics agent', 'Hid LT-309: its nearest hospital is 52 miles away, past your 25-mile limit.', 2);
+    ev('P-0372', 'Your agent', 'Applied to LT-303 for you. You met all 8 rules.', 110, true);
+    ev('P-0372', 'Care team', 'Welcome to LT-303. You’re on the trial.', 95, true);
+    ev('P-0372', 'Your agent', 'Paused while you’re on LT-303. I’ll look again when it ends.', 95);
+    return D;
+  }
+
+  /* ================= store: shared db when available, this browser otherwise ================= */
+  var COLS = ['patients', 'apps', 'events', 'rankings'];
+  var LKEY = 'trialmatch-v1';
+  var Store = {
+    mode: 'loading', data: { patients: {}, apps: {}, events: {}, rankings: {} }, db: null, q: {}, note: '',
+    get: function (c, id) { return this.data[c][id]; },
+    all: function (c) { var m = this.data[c]; return Object.keys(m).map(function (k) { return m[k]; }); },
+    init: function () {
+      var self = this;
+      var use = window.claude && window.claude.use;
+      if (!use) { self.local(); return; }
+      var timer = setTimeout(function () { if (self.mode === 'loading') { self.note = 'Couldn’t reach the shared data, so this is a copy in your browser.'; self.local(); } }, 10000);
+      window.claude.use('db').then(function (db) {
+        if (!db) { clearTimeout(timer); if (self.mode === 'loading') self.local(); return; }
+        self.db = db; var got = {};
+        COLS.forEach(function (c) {
+          db.collection(c).onSnapshot(function (snap) {
+            if (self.mode === 'local') return;
+            var m = {}; snap.docs.forEach(function (x) { m[x.id] = clone(x.data()); }); self.data[c] = m;
+            if (!snap.metadata.fromCache) got[c] = true;
+            if (COLS.every(function (k) { return got[k]; }) && self.mode === 'loading') { clearTimeout(timer); self.mode = 'db'; onReady(); }
+            else if (self.mode === 'db') soon();
+          }, function () { if (self.mode !== 'local') { self.note = 'Lost the connection to the shared data, so changes now stay in this browser.'; self.local(true); } });
+        });
+      }).catch(function () { clearTimeout(timer); self.local(); });
+    },
+    local: function (keep) {
+      var self = this; var was = self.mode; self.mode = 'local';
+      if (!keep) { try { var raw = localStorage.getItem(LKEY); if (raw) self.data = JSON.parse(raw); } catch (e) {} }
+      if (!Object.keys(self.data.patients).length) self.data = seed();
+      self.saveLocal();
+      window.addEventListener('storage', function (e) { if (e.key === LKEY && e.newValue) { try { self.data = JSON.parse(e.newValue); soon(); } catch (x) {} } });
+      if (was === 'loading') onReady(); else soon();
+    },
+    saveLocal: function () { try { localStorage.setItem(LKEY, JSON.stringify(this.data)); } catch (e) {} },
+    put: function (c, id, obj) {
+      var self = this; obj = clone(obj); self.data[c][id] = obj; soon();
+      if (self.mode !== 'db') { self.saveLocal(); return; }
+      var k = c + '/' + id;
+      self.q[k] = (self.q[k] || Promise.resolve()).then(function () { return self.db.collection(c).doc(id).set(obj); }).catch(function (e) { self.fail(e); });
+    },
+    del: function (c, id) {
+      var self = this; delete self.data[c][id]; soon();
+      if (self.mode !== 'db') { self.saveLocal(); return; }
+      var k = c + '/' + id;
+      self.q[k] = (self.q[k] || Promise.resolve()).then(function () { return self.db.collection(c).doc(id).delete(); }).catch(function (e) { self.fail(e); });
+    },
+    fail: function (e) {
+      var code = e && e.code;
+      if (code === 'quota_exceeded') { toast('The shared demo is full. Reset the demo data to free space.'); return; }
+      if (code === 'unavailable' || code === 'resource_exhausted') { toast('That change didn’t save. Try again in a moment.'); return; }
+      if (this.mode === 'db') { this.note = 'You can view the shared demo but not change it, so your changes stay in this browser.'; this.local(true); toast('Your changes now stay in this browser.'); }
+    },
+    reset: function () {
+      var self = this, fresh = seed();
+      if (self.mode !== 'db') { self.data = fresh; self.saveLocal(); soon(); return Promise.resolve(); }
+      var ops = [];
+      COLS.forEach(function (c) { Object.keys(self.data[c]).forEach(function (id) { if (!fresh[c][id]) ops.push(['del', c, id]); }); Object.keys(fresh[c]).forEach(function (id) { ops.push(['set', c, id, fresh[c][id]]); }); });
+      self.data = clone(fresh); soon();
+      if (self.db.replaceAll) return self.db.replaceAll(fresh).catch(function (e) { self.fail(e); });
+      var i = 0;
+      function next() { if (i >= ops.length) return Promise.resolve(); var o = ops[i++]; var ref = self.db.collection(o[1]).doc(o[2]); return (o[0] === 'del' ? ref.delete() : ref.set(o[3])).then(next); }
+      return next().catch(function (e) { self.fail(e); });
+    }
+  };
+
+  /* ================= session (per viewer) ================= */
+  var S = { who: null, tab: 'discover', ctab: 'overview', trial: 'chemoio', mtab: 'active', afilter: 'all', atrial: 'all', loginRole: 'patient', creating: false, dragging: false, sheet: null };
+  try { var saved = JSON.parse(localStorage.getItem('trialmatch-session') || 'null'); if (saved) { S.who = saved.who; S.tab = saved.tab || S.tab; S.ctab = saved.ctab || S.ctab; S.trial = saved.trial || S.trial; } } catch (e) {}
+  function saveSession() { try { localStorage.setItem('trialmatch-session', JSON.stringify({ who: S.who, tab: S.tab, ctab: S.ctab, trial: S.trial })); } catch (e) {} }
+
+  /* ================= matching + the patient's agent ================= */
+  function P_(pt) { var s = pt.settings || {}, p = clone(pt.rec); p.name = pt.name; p.age = pt.age; p.sex = pt.sex; p.city = pt.city; p.maxTravel = s.maxTravel === 'any' ? 999 : (Number(s.maxTravel) || 50); p.maxVisits = s.maxVisits || 2; p.rand = s.rand || 'yes'; p.srcs = pt.srcs || {}; return p; }
+  var ACTIVE = ['applied', 'prescreen', 'screening', 'eligibility', 'approval', 'enrolled'];
+  var FLOW = ['applied', 'prescreen', 'screening', 'eligibility', 'approval', 'enrolled', 'completed'];
+  var STAGE_P = { applied: 'Applied', prescreen: 'Pre-screening', screening: 'Screening', eligibility: 'Eligibility check', approval: 'Approval', enrolled: 'On the trial', completed: 'Completed', rejected: 'Not selected', waitlist: 'Waiting list', screenfail: 'Didn’t meet a requirement', withdrawn: 'Withdrawn' };
+  var STAGE_C = { applied: 'New', prescreen: 'Pre-screen', screening: 'Screening', eligibility: 'Eligibility', approval: 'Approval', enrolled: 'Enrolled', completed: 'Completed', rejected: 'Rejected', waitlist: 'Waitlist', screenfail: 'Screen fail', withdrawn: 'Withdrawn' };
+  function appsOf(pid) { return Store.all('apps').filter(function (a) { return a.pid === pid; }); }
+  function appFor(pid, tid) { return Store.get('apps', pid + '_' + tid); }
+  function onTrial(pid) { return appsOf(pid).filter(function (a) { return a.stage === 'enrolled'; })[0]; }
+  function scopeReason(pt, r) {
+    var s = pt.settings || {};
+    if ((s.pass || []).indexOf(r.t.id) >= 0) return 'You passed on this one';
+    if ((s.types || []).length && s.types.indexOf(r.t.type) < 0) return 'Not a treatment type you chose';
+    if (s.maxTravel !== 'any' && r.site.d > (Number(s.maxTravel) || 50)) return 'Nearest hospital is ' + r.site.d + ' miles away';
+    return '';
+  }
+  function results(pt) {
+    var p = P_(pt);
+    return TRIALS.map(function (t) {
+      var r = evaluate(p, t); r.scope = scopeReason(pt, r); r.app = appFor(pt.id, t.id);
+      r.done = (pt.past || []).some(function (x) { return x.trial === t.id; });
+      return r;
+    }).sort(function (a, b) { return b.score - a.score; });
+  }
+  function firstFail(r) { var x = r.rows.filter(function (x) { return x.s === NO; })[0]; return x ? x.c.text : ''; }
+  function unknownRules(r) { return r.rows.filter(function (x) { return x.s === U; }).map(function (x) { return x.c.text; }); }
+
+  function event(pid, who, text, notice, id) { Store.put('events', id || rid(), { pid: pid, who: who, text: text, at: Date.now(), notice: !!notice, read: false }); }
+
+  function createApp(pid, tid, by, r) {
+    var id = pid + '_' + tid, now = Date.now();
+    Store.put('apps', id, { id: id, pid: pid, trial: tid, stage: 'applied', by: by, at: now, upd: now, hist: [{ s: 'applied', at: now, by: by === 'agent' ? 'Patient’s agent' : 'Patient' }], score: r.score, tier: r.tier, reason: '', prescreen: null, outcome: null, arm: null });
+  }
+
+  // Runs the patient's agent: decides what to apply for or flag. Deterministic and safe to run from any viewer.
+  function runAgent(pid) {
+    var pt = Store.get('patients', pid); if (!pt || pt.rec.empty) return;
+    if (onTrial(pid)) return;
+    var res = results(pt), told = (pt.told || []).slice(), changed = false;
+    res.forEach(function (r) {
+      if (r.tier !== 'strong' || r.scope || r.done || r.app) return;
+      if (pt.settings.auto === 'auto') {
+        createApp(pid, r.t.id, 'agent', r);
+        event(pid, 'Your agent', 'Applied to ' + r.t.code + ' for you. You meet all ' + r.met + ' of its rules.', true, pid + '-ap-' + r.t.id);
+      } else if (told.indexOf(r.t.id) < 0) {
+        told.push(r.t.id); changed = true;
+        event(pid, 'Your agent', r.t.code + ' is a strong match. Swipe right on it to apply.', true, pid + '-tell-' + r.t.id);
+      }
+    });
+    if (changed) { var c = clone(pt); c.told = told; Store.put('patients', pid, c); }
+  }
+
+  function savePatient(pt, why) { Store.put('patients', pt.id, pt); setTimeout(function () { runAgent(pt.id); }, 0); }
+
+  var NOTIFY = {
+    prescreen: function (t, a) { return 'Good news. The ' + t.code + ' team at ' + siteFor(a).name + ' invited you to pre-screening. They’ll contact you to book a visit.'; },
+    waitlist: function (t) { return 'The ' + t.code + ' team has chosen this round’s applicants. You’re on the waiting list.'; },
+    rejected: function (t) { return 'The ' + t.code + ' team decided this trial isn’t the right fit. Your agent keeps looking.'; },
+    screening: function (t) { return 'You passed pre-screening for ' + t.code + '. Next come the full screening tests.'; },
+    screenfail: function (t, a) { return 'Pre-screening for ' + t.code + ' found: ' + a.reason + '. Your agent added the results to your record and is looking again.'; },
+    eligibility: function (t) { return 'Screening for ' + t.code + ' is done. The team is confirming every requirement.'; },
+    approval: function (t) { return 'You meet every requirement for ' + t.code + '. Next: consent and sign-off.'; },
+    enrolled: function (t) { return 'Welcome to ' + t.code + '. You’re on the trial.'; },
+    completed: function (t) { return 'You’ve completed ' + t.code + '. Your results are in your record, and your agent is looking at what could come next.'; }
+  };
+  function siteFor(a) { var pt = Store.get('patients', a.pid); return nearestSite(P_(pt), TRIAL[a.trial]); }
+  function setStage(a, stage, by, extra) {
+    a = clone(a); var now = Date.now(); a.stage = stage; a.upd = now; a.hist.push({ s: stage, at: now, by: by, note: extra && extra.reason || '' });
+    for (var k in extra || {}) a[k] = extra[k];
+    Store.put('apps', a.id, a);
+    var t = TRIAL[a.trial]; if (NOTIFY[stage]) event(a.pid, 'Care team', NOTIFY[stage](t, a), true);
+    return a;
+  }
+
+  /* ================= toast ================= */
+  var toastT;
+  function toast(text) { var el = $('#toast'); el.textContent = text; el.hidden = false; el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('show'); setTimeout(function () { el.hidden = true; }, 300); }, 3800); }
+
+  /* ================= render ================= */
+  var pending = false;
+  function soon() { if (pending) return; pending = true; setTimeout(function () { pending = false; render(); }, 0); }
+  function onReady() {
+    if (Store.mode === 'db' && !Store.all('patients').length) Store.reset();   // first visit to a new shared store: load the demo data
+    if (S.who && S.who.role === 'patient' && !Store.get('patients', S.who.id)) S.who = null;
+    if (S.who && S.who.role === 'patient') runAgent(S.who.id);
+    render();
+  }
+  function render() {
+    if (S.dragging) { setTimeout(render, 120); return; }
+    var root = $('#app');
+    var keep = {}; $$('input[id],select[id],textarea[id]', root).forEach(function (el) { keep[el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+    var focus = document.activeElement && document.activeElement.id;
+    var html;
+    if (Store.mode === 'loading') html = '<div class="login"><div class="login-box" style="align-items:center"><div class="logo">' + ICON.logo + ' Trial Match</div><p class="muted">Loading…</p></div></div>';
+    else if (!S.who) html = loginView();
+    else html = S.who.role === 'patient' ? patientView() : clinicianView();
+    root.innerHTML = html;
+    Object.keys(keep).forEach(function (id) { var el = document.getElementById(id); if (!el || el.dataset.fresh) return; if (el.type === 'checkbox') el.checked = keep[id]; else el.value = keep[id]; });
+    if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
+    after();
+  }
+  function after() { if (S.who && S.who.role === 'clinician' && S.ctab === 'rank') bindDeck('rank'); if (S.who && S.who.role === 'patient' && S.tab === 'discover') bindDeck('trial'); }
+
+  function bar(nav, cur, who, cls) {
+    return '<header class="bar"><div class="bar-in"><div class="logo">' + ICON.logo + ' Trial Match <small>' + (S.who.role === 'patient' ? 'Patient' : 'Clinician') + '</small></div>' +
+      '<nav class="nav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + (S.who.role === 'patient' ? 'tab' : 'ctab') + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '>' + n[2] + n[1] + (n[3] ? ' <span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '</nav>' +
+      '<span class="spacer"></span><span class="syn">Synthetic data</span>' +
+      '<button class="me" data-act="logout" title="Sign out"><span class="who">' + esc(who) + '</span><span class="avatar ' + (cls || '') + '">' + esc(who.replace('Dr ', '').charAt(0)) + '</span></button></div></header>' +
+      '<nav class="bnav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + (S.who.role === 'patient' ? 'tab' : 'ctab') + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '><span class="ic">' + n[2] + '</span>' + n[1] + (n[3] ? '<span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '</nav>' +
+      (Store.note ? '<div style="max-width:1240px;margin:8px auto 0;padding:0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px))"><div class="banner">' + esc(Store.note) + '</div></div>' : '');
+  }
+
+  /* ---------- login ---------- */
+  function loginView() {
+    var pats = Store.all('patients').filter(function (p) { return p.account; }).sort(function (a, b) { return a.created - b.created; });
+    var list = S.loginRole === 'patient'
+      ? pats.map(function (p) { var ap = appsOf(p.id).filter(function (a) { return ACTIVE.indexOf(a.stage) >= 0; })[0]; return '<button class="acct" data-act="login" data-role="patient" data-id="' + p.id + '"><span class="avatar">' + esc(p.name.charAt(0)) + '</span><span class="grow"><b>' + esc(p.name) + '</b><small>' + p.age + ' · ' + esc(p.city) + (ap ? ' · ' + STAGE_P[ap.stage] + ' ' + TRIAL[ap.trial].code : '') + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('')
+      : CLINICIANS.map(function (c) { return '<button class="acct" data-act="login" data-role="clinician" data-id="' + c.id + '"><span class="avatar clin">' + esc(c.name.replace('Dr ', '').charAt(0)) + '</span><span class="grow"><b>' + esc(c.name) + '</b><small>' + esc(c.role) + ' · ' + esc(c.site) + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('');
+    var create = S.loginRole === 'patient' ? (S.creating
+      ? '<div class="card" style="display:flex;flex-direction:column;gap:12px"><label class="field"><span>First name and initial</span><input class="input" id="np-name" placeholder="e.g. Sam K." maxlength="24" autocomplete="off"></label><div class="grid2"><label class="field"><span>Age</span><input class="input" id="np-age" type="number" min="18" max="100" value="62"></label><label class="field"><span>Nearest city</span><select class="input" id="np-city">' + Object.keys(CITIES).map(function (c) { return '<option>' + c + '</option>'; }).join('') + '</select></label></div><div class="row end"><button class="btn text" data-act="new-cancel">Cancel</button><button class="btn pri" data-act="new-create">Create account</button></div></div>'
+      : '<button class="btn out" data-act="new-open">' + ICON.plus + 'Create a patient account</button>') : '';
+    return '<div class="login"><div class="login-box">' +
+      '<div class="logo">' + ICON.logo + ' Trial Match</div>' +
+      '<div><h1><span class="grad-text">Find the trial that fits.</span></h1><p class="sub">Phase III lung cancer trials, matched by your own agent and decided by people.</p></div>' +
+      '<div class="seg" role="group" aria-label="Account type" style="align-self:flex-start"><button data-act="login-role" data-v="patient" aria-pressed="' + (S.loginRole === 'patient') + '">I’m a patient</button><button data-act="login-role" data-v="clinician" aria-pressed="' + (S.loginRole === 'clinician') + '">I’m a clinician</button></div>' +
+      '<div class="list">' + (list || '<div class="item muted">No accounts yet.</div>') + '</div>' + create +
+      '<p class="note">Prototype for AgentVerse 2026. Demo accounts, no passwords. Every patient, trial and hospital here is synthetic, so please don’t enter real health information. ' + (Store.mode === 'db' ? 'Changes are shared with everyone who opens this page.' : 'Changes stay in this browser.') + connLine() + ' <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>' +
+      '</div></div>';
+  }
+
+  /* ================= PATIENT ================= */
+  function me() { return Store.get('patients', S.who.id); }
+  function unread(pid) { return Store.all('events').filter(function (e) { return e.pid === pid && e.notice && !e.read; }).length; }
+  function patientView() {
+    var pt = me(); if (!pt) { S.who = null; return loginView(); }
+    var n = unread(pt.id);
+    var nav = [['discover', 'Discover', ICON.cards], ['mine', 'My trials', ICON.list], ['health', 'My health', ICON.pulse], ['inbox', 'Inbox', ICON.inbox, n || '']];
+    var body = { discover: discoverView, mine: mineView, health: healthView, inbox: inboxView }[S.tab] || discoverView;
+    return bar(nav, S.tab, pt.name) + '<main>' + body(pt) + '</main>';
+  }
+
+  function deckFor(pt) {
+    var res = results(pt);
+    return res.filter(function (r) { return r.tier !== 'not' && !r.scope && !r.done && !r.app; });
+  }
+  function topQuestion(pt, deck) {
+    var counts = {}; var asked = pt.deferred || [];
+    deck.forEach(function (r) { var seen = {}; r.rows.forEach(function (x) { if (x.s === U && x.c.q && x.c.q !== 'labs' && asked.indexOf(x.c.q) < 0 && !seen[x.c.q]) { seen[x.c.q] = 1; counts[x.c.q] = (counts[x.c.q] || 0) + 1; } }); });
+    var best = null; Object.keys(counts).forEach(function (k) { if (!best || counts[k] > best.n) best = { key: k, n: counts[k] }; });
+    return best;
+  }
+  function lastAgentLine(pid) {
+    var ev = Store.all('events').filter(function (e) { return e.pid === pid && e.who !== 'Care team'; }).sort(function (a, b) { return b.at - a.at; })[0];
+    return ev ? ev : null;
+  }
+
+  function discoverView(pt) {
+    var first = pt.name.split(' ')[0];
+    if (pt.rec.empty) return '<div class="col"><h1 class="hello"><span class="grad-text">Hello, ' + esc(first) + '</span></h1><div class="agent"><div class="agent-top"><span class="spark live">' + ICON.spark + '</span><div><h2>Your agent is ready</h2><p>Connect your health record and it will check every rule of every trial for you.</p></div></div><div class="agent-ctl"><button class="btn pri big" data-act="connect">' + ICON.link + 'Connect your health record</button></div></div><p class="note">You choose what to share. Nothing reaches a trial team until you apply.</p></div>';
+    var res = results(pt), deck = deckFor(pt), ot = onTrial(pt.id);
+    var strong = res.filter(function (r) { return r.tier === 'strong' && !r.done; }).length, poss = res.filter(function (r) { return r.tier === 'possible' && !r.done; }).length;
+    var last = lastAgentLine(pt.id), q = ot ? null : topQuestion(pt, deck);
+    var head = '<div class="disc-h"><div><h1 class="hello" style="padding-top:12px"><span class="grad-text">Hello, ' + esc(first) + '</span></h1></div>' +
+      '<button class="agent-pill" data-act="activity"><span class="spark sm' + (pt.settings.auto === 'auto' && !ot ? ' live' : '') + '">' + ICON.spark + '</span><span class="grow"><b>' + (ot ? 'Paused while you’re on ' + TRIAL[ot.trial].code : (pt.settings.auto === 'auto' ? 'Applying for you' : 'Watching ' + TRIALS.length + ' trials')) + '</b><small>' + (last ? esc(last.text) : 'Ready') + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>' +
+      '<button class="iconbtn tune" data-act="settings" aria-label="Search settings">' + ICON.tune + '</button></div>';
+    var cards = [];
+    if (q) cards.push({ kind: 'q', q: q });
+    deck.forEach(function (r) { cards.push({ kind: 't', r: r }); });
+    var deckHTML;
+    if (ot) deckHTML = '<div class="pcard empty-card"><span class="spark">' + ICON.spark + '</span><h3>You’re on ' + TRIAL[ot.trial].code + '</h3><p class="muted">Your agent is paused so nothing new gets in the way. When the trial ends, your results go into your record and it starts looking again.</p><button class="btn tonal" data-act="tab" data-v="mine">See your trial</button></div>';
+    else if (!cards.length) deckHTML = '<div class="pcard empty-card"><span class="spark">' + ICON.spark + '</span><h3>You’re all caught up</h3><p class="muted">' + (strong + poss ? 'You’ve seen every trial that could fit. ' : 'No trial fits your record right now. ') + 'Your agent keeps watching and will tell you when something changes.</p><div class="row" style="justify-content:center"><button class="btn tonal" data-act="settings">' + ICON.tune + 'Widen your search</button><button class="btn text" data-act="add">Add data</button></div></div>';
+    else deckHTML = cardHTML(cards[0], true, pt) + (cards[1] ? cardHTML(cards[1], false, pt) : '');
+    var btns = (!ot && cards.length && cards[0].kind === 't') ? '<div class="swipe-btns"><button class="sbtn rej" data-act="swipe" data-v="down"><span>' + ICON.x + '</span>Pass</button><button class="sbtn" data-act="trial" data-id="' + cards[0].r.t.id + '"><span>' + ICON.info + '</span>Details</button><button class="sbtn up" data-act="swipe" data-v="up"><span>' + ICON.heart + '</span>Apply</button></div><p class="kbd">Swipe right to apply, left to pass. Or use ← →.</p>' : '';
+    var count = cards.filter(function (c) { return c.kind === 't'; }).length;
+    return '<div class="col disc">' + head +
+      '<div class="deck-meta"><span>' + (ot ? '' : (count ? plural(count, 'trial') + ' to look at' : '')) + '</span><span class="faint">' + plural(strong, 'strong match', 'strong matches') + ' · ' + poss + ' possible</span></div>' +
+      '<div class="deck" id="deck">' + deckHTML + '</div>' + btns + '</div>';
+  }
+
+  function ring(score, tier) { var deg = Math.round(score * 3.6); return '<div class="ring ' + tier + '" style="--deg:' + deg + 'deg"><span>' + score + '</span></div>'; }
+  function cardHTML(c, top, pt) {
+    var cls = 'pcard tcard ' + (top ? 'top' : 'ghost');
+    if (c.kind === 'q') {
+      var Q = QUESTIONS[c.q.key];
+      return '<div class="' + cls + ' qc" data-kind="q"><div class="from"><span class="spark sm">' + ICON.spark + '</span>Your agent needs one answer</div><h3 class="qt">' + esc(Q.ask) + '</h3><p class="muted">' + esc(Q.why) + ' Your answer could settle ' + plural(c.q.n, 'trial') + '.</p><div class="opts">' + Q.opts.map(function (o, i) { return '<button class="opt" data-act="answer" data-q="' + c.q.key + '" data-i="' + i + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>' + ((c.q.key === 'pdl1' || c.q.key === 'drivers') && (pt.sources || []).indexOf('gen') < 0 ? '<button class="btn text" data-act="connect">' + ICON.link + 'Connect your genomic report instead</button>' : '') + '</div>';
+    }
+    var r = c.r, t = r.t, why = r.rows.filter(function (x) { return x.s === OK && x.c.key; }).slice(0, 2), unk = unknownRules(r);
+    return '<div class="' + cls + '" data-kind="t" data-id="' + t.id + '">' +
+      '<div class="stamp up">APPLY</div><div class="stamp down">PASS</div>' +
+      '<div class="tc-head"><div><span class="chip ' + (r.tier === 'strong' ? 'met' : 'unk') + '">' + (r.tier === 'strong' ? 'Strong match' : 'Possible match') + '</span><p class="code">' + t.code + ' · Phase III · ' + esc(t.type) + '</p></div>' + ring(r.score, r.tier) + '</div>' +
+      '<h2 class="tc-title">' + esc(t.name) + '</h2><p class="muted tc-plain">' + esc(t.plain) + '</p>' +
+      '<div class="tc-facts"><span>' + ICON.pin + esc(r.site.city) + ', ' + (r.site.d < 5 ? 'in your city' : r.site.d + ' miles') + '</span><span>' + ICON.cal + VISIT[t.visits][1] + '</span><span>' + ICON.shuffle + 'Randomised</span></div>' +
+      (why.length ? '<ul class="why">' + why.map(function (x) { return '<li>' + ICON.check + esc(x.c.text) + '</li>'; }).join('') + '</ul>' : '') +
+      (unk.length ? '<p class="tbc">' + ICON.info + 'Your care team will check ' + plural(unk.length, 'thing') + '</p>' : '') +
+      '</div>';
+  }
+
+  function applyTo(pt, tid) {
+    var r = evaluate(P_(pt), TRIAL[tid]);
+    createApp(pt.id, tid, 'patient', r);
+    event(pt.id, 'Your agent', 'Filled in your application for ' + TRIAL[tid].code + ' from your record and sent it to the trial team.', true);
+    toast('Applied to ' + TRIAL[tid].code + '. You’ll hear back in your inbox.');
+  }
+  function passOn(pt, tid) { var c = clone(pt); c.settings.pass = (c.settings.pass || []).concat([tid]); Store.put('patients', c.id, c); toast('Passed on ' + TRIAL[tid].code + '. You can bring it back in search settings.'); }
+
+  function mineView(pt) {
+    var apps = appsOf(pt.id).sort(function (a, b) { return b.upd - a.upd; });
+    var act = apps.filter(function (a) { return ACTIVE.indexOf(a.stage) >= 0; }), closed = apps.filter(function (a) { return ACTIVE.indexOf(a.stage) < 0; });
+    var res = results(pt), poss = res.filter(function (r) { return r.tier !== 'not' && !r.app && !r.done; });
+    var list = S.mtab === 'active' ? act : (S.mtab === 'matches' ? null : closed);
+    var body;
+    if (S.mtab === 'matches') {
+      var hidden = res.filter(function (r) { return r.tier === 'not' || r.scope; });
+      body = (poss.length ? '<div class="list">' + poss.map(function (r) { return trow(r.t, r.score, r.tier, (r.scope ? r.scope : (r.tier === 'strong' ? 'Strong match' : 'Possible match')) + ' · ' + r.site.city, null); }).join('') + '</div>' : '<div class="card empty"><h3>No open matches</h3><p>Your agent will tell you when one appears.</p></div>') +
+        '<details class="card"><summary>' + plural(hidden.length, 'other trial') + ' you’re not seeing, and why</summary><div class="list">' + hidden.map(function (r) { return '<button class="item" data-act="trial" data-id="' + r.t.id + '"><span class="grow"><b>' + r.t.code + ' · ' + esc(r.t.name) + '</b><small>' + esc(r.tier === 'not' ? 'Doesn’t fit: ' + firstFail(r) : r.scope) + '</small></span></button>'; }).join('') + '</div></details>' + liveHtml();
+    } else {
+      body = list.length ? '<div class="list">' + list.map(function (a) { var t = TRIAL[a.trial]; return trow(t, null, null, STAGE_P[a.stage] + ' · updated ' + ago(a.upd), a); }).join('') + '</div>'
+        : '<div class="card empty"><h3>' + (S.mtab === 'active' ? 'No applications yet' : 'Nothing here yet') + '</h3><p>' + (S.mtab === 'active' ? 'Swipe right on a trial in Discover to apply.' : 'Finished and closed applications appear here.') + '</p>' + (S.mtab === 'active' ? '<button class="btn tonal" data-act="tab" data-v="discover">Go to Discover</button>' : '') + '</div>';
+    }
+    return '<div class="col"><div class="page-h"><div><h1>My trials</h1><p>Every application and where it stands.</p></div></div>' +
+      '<div class="seg" role="group" style="align-self:flex-start"><button data-act="mtab" data-v="active" aria-pressed="' + (S.mtab === 'active') + '">In progress ' + act.length + '</button><button data-act="mtab" data-v="matches" aria-pressed="' + (S.mtab === 'matches') + '">Matches ' + poss.length + '</button><button data-act="mtab" data-v="closed" aria-pressed="' + (S.mtab === 'closed') + '">Closed ' + closed.length + '</button></div>' + body + '</div>';
+  }
+  function stepsBar(a) {
+    if (!a) return '';
+    var bad = ['rejected', 'screenfail', 'withdrawn'].indexOf(a.stage) >= 0, idx = FLOW.indexOf(a.stage);
+    if (idx < 0) { var reached = 0; a.hist.forEach(function (h) { var i = FLOW.indexOf(h.s); if (i > reached) reached = i; }); idx = reached; }
+    return '<div class="steps">' + FLOW.map(function (s, i) { return '<i class="' + (i < idx ? 'done' : (i === idx ? (bad ? 'bad' : (a.stage === 'completed' ? 'done' : 'now')) : '')) + '"></i>'; }).join('') + '</div>';
+  }
+  function trow(t, score, tier, meta, a) {
+    return '<button class="trow" data-act="trial" data-id="' + t.id + '"><span class="grow"><h3>' + esc(t.name) + '</h3><span class="meta"><span>' + t.code + '</span><span>' + esc(meta) + '</span></span>' + stepsBar(a) + '</span>' + (score != null ? '<span class="scorebox">' + ring(score, tier) + '</span>' : ICON.chev.replace('<svg', '<svg class="chev"')) + '</button>';
+  }
+
+  function spark(pts) {
+    if (!pts || pts.length < 2) return '';
+    var xs = pts.map(function (p) { return p[0]; }), ys = pts.map(function (p) { return p[1]; });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys); if (y1 === y0) { y1 += 1; y0 -= 1; }
+    var P = pts.map(function (p) { return [4 + 92 * (p[0] - x0) / (x1 - x0 || 1), 30 - 26 * (p[1] - y0) / (y1 - y0)]; });
+    var line = P.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+    var last = P[P.length - 1];
+    return '<svg class="spk" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8C7FA" stop-opacity=".28"/><stop offset="1" stop-color="#A8C7FA" stop-opacity="0"/></linearGradient></defs><path d="' + line + ' L' + last[0].toFixed(1) + ' 34 L' + P[0][0].toFixed(1) + ' 34Z" fill="url(#sg)"/><path d="' + line + '" fill="none" stroke="#A8C7FA" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>';
+  }
+  var LABS = [['anc', 'Neutrophils', '×10⁹/L', 'Trials often need 1.5 or more'], ['plt', 'Platelets', '×10⁹/L', 'Trials often need 100 or more'], ['crcl', 'Kidney function', 'mL/min', 'Creatinine clearance'], ['bili', 'Bilirubin', '× ULN', 'Liver function']];
+  function healthView(pt) {
+    var r = pt.rec;
+    if (r.empty) return '<div class="col"><div class="page-h"><div><h1>My health</h1><p>Your record, as your agent sees it.</p></div></div><div class="card empty"><h3>Nothing here yet</h3><p>Connect a record or add details yourself.</p><div class="row" style="justify-content:center;margin-top:16px"><button class="btn pri" data-act="connect">' + ICON.link + 'Connect a record</button><button class="btn tonal" data-act="add">' + ICON.plus + 'Add data</button></div></div></div>';
+    var src = pt.srcs || {};
+    var stats = '<div class="stat"><span class="lbl">Day-to-day fitness</span><span class="val">ECOG ' + (r.ecog == null ? '–' : r.ecog) + '</span><span class="src">' + (r.ecog == null ? 'Not known' : ECOG[r.ecog]) + '</span><span class="src">' + esc(src.ecog || '') + '</span></div>';
+    stats += LABS.map(function (L) { var v = r[L[0]], h = (pt.labs || {})[L[0]] || []; if (v == null) return '<div class="stat unknown"><span class="lbl">' + L[1] + '</span><span class="val">Not known</span><span class="src">' + L[3] + '</span></div>'; return '<div class="stat"><span class="lbl">' + L[1] + '</span><span class="val">' + v + '<small>' + L[2] + '</small></span>' + spark(h) + '<span class="src">' + (h.length ? dstr(h[h.length - 1][0]) + ' · ' : '') + esc(src.labs || 'You added this') + '</span></div>'; }).join('');
+    var brain = { none: 'No spread to the brain', treated_stable: 'Brain spread, treated and stable', untreated: 'Brain spread, not treated yet', unk: 'Brain scan not known' }[r.brain];
+    var tx = (pt.tx || []).map(function (x) { return '<div class="item"><span class="ic-circle">' + ICON.pill + '</span><span class="grow"><b>' + esc(x.what) + '</b><small>' + dstr(x.when) + (x.until ? ' to ' + dstr(x.until) : ' onwards') + '</small></span></div>'; }).join('');
+    var past = (pt.past || []).map(function (x) { return '<div class="item"><span class="ic-circle">' + ICON.check + '</span><span class="grow"><b>' + esc(x.code + ' · ' + x.name) + '</b><small>' + esc(BR[x.result] || x.result) + ' · ' + x.months + ' months · completed ' + dstr(x.at) + '</small></span></div>'; }).join('');
+    var srcs = SOURCES.filter(function (s) { return (pt.sources || []).indexOf(s.id) >= 0; }).map(function (s) { return '<span class="chip">' + s.icon + esc(s.name) + '</span>'; }).join('');
+    return '<div class="col"><div class="page-h"><div><h1>My health</h1><p>Your record, as your agent sees it.</p></div><div class="row"><button class="btn tonal" data-act="connect">' + ICON.link + 'Connect</button><button class="btn pri" data-act="add">' + ICON.plus + 'Add data</button></div></div>' +
+      '<div class="card pad-lg dx"><span class="faint sm">Diagnosis</span><h2>' + esc(HIST[r.histology] || '') + ', ' + esc(STAGE[r.stage] || '') + '</h2><div class="chips">' + bioText(r).map(function (b) { return '<span class="chip ' + (/not known/.test(b) ? 'unk' : 'acc') + '">' + esc(b) + '</span>'; }).join('') + '<span class="chip ' + (r.brain === 'unk' ? 'unk' : '') + '">' + brain + '</span></div><p class="muted sm">' + esc(txText(r)) + '</p></div>' +
+      '<div class="stats">' + stats + '</div>' +
+      ((tx || past) ? '<div class="sect-h"><h2>Treatment and trials</h2></div><div class="list">' + past + tx + '</div>' : '') +
+      '<div class="sect-h"><h2>Connected records</h2></div><div class="chips">' + (srcs || '<span class="muted sm">None yet</span>') + '</div></div>';
+  }
+
+  function inboxView(pt) {
+    var evs = Store.all('events').filter(function (e) { return e.pid === pt.id && e.notice; }).sort(function (a, b) { return b.at - a.at; });
+    var html = '<div class="col"><div class="page-h"><div><h1>Inbox</h1><p>Updates from your agent and your care team.</p></div>' + (evs.some(function (e) { return !e.read; }) ? '<button class="btn text" data-act="readall">Mark all read</button>' : '') + '</div>';
+    html += evs.length ? '<div class="list">' + evs.map(function (e) { var hu = e.who === 'Care team'; return '<div class="item' + (e.read ? '' : ' unread') + '"><span class="ic-circle ' + (hu ? 'hu' : 'ag') + '">' + (hu ? ICON.hosp : ICON.spark) + '</span><span class="grow"><b>' + esc(e.who) + ' <span class="faint xs">' + ago(e.at) + '</span></b><small>' + esc(e.text) + '</small></span>' + (e.read ? '' : '<span class="dot"></span>') + '</div>'; }).join('') + '</div>' : '<div class="card empty"><h3>No messages yet</h3><p>You’ll hear here when a trial team replies.</p></div>';
+    return html + '</div>';
+  }
+
+  /* ---------- patient sheets ---------- */
+  function sheet(html, wide) {
+    closeSheet(true);
+    var s = document.createElement('div'); s.className = 'scrim'; s.id = 'scrim';
+    s.innerHTML = '<div class="sheet' + (wide ? ' wide' : '') + '" role="dialog" aria-modal="true"><div class="handle"></div>' + html + '</div>';
+    document.body.appendChild(s); S.sheet = true;
+    var f = s.querySelector('[autofocus]') || s.querySelector('.sheet-h .iconbtn'); if (f) f.focus();
+  }
+  function closeSheet(silent) { if (pvView) { pvView.destroy(); pvView = null; } var s = $('#scrim'); if (s) s.remove(); S.sheet = null; }
+  /* ---------- 3D protein view (applicant sheet) ---------- */
+  var pvView = null;
+  function pvRecord(pt, p) {
+    function st(v, pos) { return v == null || v === 'unk' ? 'unknown' : (pos ? 'positive' : 'negative'); }
+    var bm = {
+      EGFR: st(p.egfr, DRIVER_POS.indexOf(p.egfr) >= 0),
+      ALK: st(p.alk, p.alk === 'pos'),
+      ROS1: st(p.ros1, p.ros1 === 'pos'),
+      KRAS_G12C: st(p.kras, p.kras === 'G12C'),
+      KRAS_G12D: st(p.kras, p.kras === 'G12D')
+    };
+    var v = { ex19del: 'exon 19 deletion', L858R: 'L858R', ex20ins: 'exon 20 insertion' }[p.egfr];
+    if (v) bm.EGFR_variant = v;
+    return { id: pt.id, biomarkers: bm };
+  }
+  function pvSlot() { return window.TMProtein ? '<div class="pvbox"><div class="pvbox-h"><span>In 3D</span><small id="pv-hint">Drag to turn · scroll to zoom</small></div><div id="pv-host"></div></div>' : ''; }
+  function mountPv(pt, p, t) {
+    var host = $('#pv-host'); if (!host) return;
+    try {
+      // Only the trial's name is passed: the plain summary mentions earlier treatments, which must not be read as this trial's drug.
+      pvView = window.TMProtein.mount(host, { record: pvRecord(pt, p), trial: { title: t.name, nct: t.code }, theme: 'dark', surface: '#1E1F20',
+        onResolved: function (c) { var h = $('#pv-hint'); if (h) h.hidden = c.kind !== 'structure'; } });
+    } catch (e) { pvView = null; var b = host.closest('.pvbox'); if (b) b.remove(); }
+  }
+  function sheetHead(title, sub) { return '<div class="sheet-h"><div><h2>' + title + '</h2>' + (sub ? '<p class="muted sm">' + sub + '</p>' : '') + '</div><button class="iconbtn" data-act="close" aria-label="Close">' + ICON.x + '</button></div>'; }
+  function ruleList(r) {
+    return '<div class="rules">' + r.rows.map(function (x) { return '<div class="rule"><span class="mk ' + x.s + '">' + { met: '✓', not: '✕', unk: '?' }[x.s] + '</span><span>' + esc(x.c.text) + '<small>' + esc(x.c.agent) + ' · ' + (x.s === U ? 'not in the record yet' : esc((r.p && r.p.srcs && r.p.srcs[x.c.src]) || 'from the record')) + '</small></span></div>'; }).join('') + '</div>';
+  }
+  function openTrial(tid) {
+    var pt = me(), t = TRIAL[tid], p = P_(pt), r = evaluate(p, t); r.p = p; r.scope = scopeReason(pt, r);
+    var a = appFor(pt.id, tid), done = (pt.past || []).some(function (x) { return x.trial === tid; });
+    var action;
+    if (a) {
+      action = '<div class="panel2"><div class="row" style="justify-content:space-between"><b>' + STAGE_P[a.stage] + '</b><span class="faint sm">Applied ' + ago(a.at) + (a.by === 'agent' ? ' by your agent' : '') + '</span></div>' + stepsBar(a) +
+        '<div class="feed">' + a.hist.slice().reverse().map(function (h) { return '<div class="ev"><span class="av">' + (/agent/.test(h.by) ? ICON.spark : ICON.hosp) + '</span><div><b>' + STAGE_P[h.s] + '</b><time>' + dstr(h.at) + '</time>' + (h.note ? '<p class="muted">' + esc(h.note) + '</p>' : '') + '</div></div>'; }).join('') + '</div>' +
+        (['applied', 'prescreen', 'screening'].indexOf(a.stage) >= 0 ? '<button class="btn danger" data-act="withdraw" data-id="' + a.id + '" style="align-self:flex-start">Withdraw application</button>' : '') + '</div>';
+    } else if (done) action = '<div class="panel2"><b>You completed this trial.</b></div>';
+    else if (r.tier === 'not') action = '<div class="panel2"><b>This trial doesn’t fit your record</b><p class="muted sm">' + esc(firstFail(r)) + '. If that’s wrong, update your record and your agent will check again.</p></div>';
+    else action = '<div class="panel2"><p class="sm muted">Your agent fills in the application from your record. The trial team sees a pseudonym until you agree to meet them.</p><div class="row">' + '<button class="btn pri" data-act="apply" data-id="' + tid + '">' + ICON.heart + 'Apply</button>' + (r.scope === 'You passed on this one' ? '<button class="btn text" data-act="unpass" data-id="' + tid + '">Bring back to Discover</button>' : '') + '</div></div>';
+    sheet(sheetHead(esc(t.name), t.code + ' · Phase III · ' + esc(t.type)) +
+      '<p class="muted">' + esc(t.plain) + '</p>' +
+      '<div class="chips"><span class="chip ' + (r.tier === 'strong' ? 'met' : r.tier === 'possible' ? 'unk' : 'not') + '">' + { strong: 'Strong match', possible: 'Possible match', not: 'Not a match' }[r.tier] + ' · ' + r.score + '</span><span class="chip">' + esc(r.site.name) + ', ' + esc(r.site.city) + ' · ' + r.site.d + ' mi</span><span class="chip">' + VISIT[t.visits][1] + '</span><span class="chip">' + esc(t.design) + '</span></div>' +
+      action + '<div class="sect-h"><h2 style="font-size:16px">Every rule, checked</h2><span class="faint xs">' + r.met + ' met · ' + r.not + ' not met · ' + r.unk + ' to check</span></div>' + ruleList(r) +
+      '<p class="note">Fit score adds up the rules, your tumour, timing and practicalities. It is not a prediction of how well a treatment will work. ' + esc(t.evidenceText) + '</p>');
+  }
+  function openActivity() {
+    var pt = me(), evs = Store.all('events').filter(function (e) { return e.pid === pt.id; }).sort(function (a, b) { return b.at - a.at; });
+    var auto = pt.settings.auto === 'auto';
+    sheet(sheetHead('What your agent is doing', 'Every step it took, newest first') +
+      '<div class="agent" style="padding:18px"><div class="row" style="justify-content:space-between"><span><b style="font-weight:500">Apply for me</b><br><span class="muted sm">' + (auto ? 'Your agent applies to strong matches by itself.' : 'Your agent asks you first. Swipe right to apply.') + '</span></span><input type="checkbox" class="switch" id="auto-sw" data-fresh="1" data-act="auto"' + (auto ? ' checked' : '') + ' aria-label="Apply for me"></div></div>' +
+      '<div class="feed">' + evs.map(function (e) { var hu = e.who === 'Care team'; return '<div class="ev"><span class="av ' + (hu ? 'hu' : 'ag') + '">' + (hu ? ICON.hosp : ICON.spark) + '</span><div><b>' + esc(e.who) + '</b><time>' + ago(e.at) + '</time><p class="muted">' + esc(e.text) + '</p></div></div>'; }).join('') + '</div>');
+  }
+  var draft = null;
+  function openSettings() {
+    var pt = me(); draft = clone(pt.settings);
+    renderSettings();
+  }
+  function renderSettings() {
+    var pt = me(), s = draft;
+    function seg(k, opts) { return '<div class="seg" role="group">' + opts.map(function (o) { return '<button data-act="pref" data-k="' + k + '" data-v="' + o[0] + '" aria-pressed="' + (String(s[k]) === String(o[0])) + '">' + o[1] + '</button>'; }).join('') + '</div>'; }
+    var passed = (s.pass || []);
+    sheet(sheetHead('Search settings', 'Your agent only shows and applies to trials inside these') +
+      '<div class="field"><span>How your agent applies</span><div class="opts"><button class="opt' + (s.auto !== 'auto' ? ' on' : '') + '" data-act="pref" data-k="auto" data-v="ask">Ask me first. I’ll swipe to apply.</button><button class="opt' + (s.auto === 'auto' ? ' on' : '') + '" data-act="pref" data-k="auto" data-v="auto">Apply for me to strong matches</button></div></div>' +
+      '<div class="field"><span>How far can you travel?</span>' + seg('maxTravel', [[25, '25 mi'], [50, '50 mi'], [100, '100 mi'], ['any', 'Anywhere']]) + '</div>' +
+      '<div class="field"><span>How often can you visit?</span>' + seg('maxVisits', [[1, 'Monthly'], [2, 'Every 3 wks'], [3, 'Every 2 wks'], [4, 'Weekly']]) + '</div>' +
+      '<div class="field"><span>Randomised trials (you get the new or the standard treatment)</span>' + seg('rand', [['yes', 'Fine'], ['unsure', 'Not sure'], ['no', 'Rather not']]) + '</div>' +
+      '<div class="field"><span>Treatment types (none picked means all)</span><div class="chips">' + TYPES.map(function (ty) { return '<button class="fchip" data-act="ptype" data-v="' + esc(ty) + '" aria-pressed="' + ((s.types || []).indexOf(ty) >= 0) + '">' + esc(ty) + '</button>'; }).join('') + '</div></div>' +
+      (passed.length ? '<div class="field"><span>Trials you passed on</span><div class="chips">' + passed.map(function (id) { return '<button class="fchip" data-act="unpass-d" data-v="' + id + '">' + TRIAL[id].code + ' ' + ICON.undo + '</button>'; }).join('') + '</div></div>' : '') +
+      '<div class="row end"><button class="btn text" data-act="close">Cancel</button><button class="btn pri" data-act="save-settings">Save</button></div>');
+  }
+
+  var SOURCES = [
+    { id: 'gp', name: 'GP record', icon: ICON.doc, desc: 'Diagnosis, other conditions, medicines', fields: ['histology', 'stage', 'autoimmune', 'ild', 'infection'] },
+    { id: 'hosp', name: 'Hospital record', icon: ICON.hosp, desc: 'Treatment, scans, fitness, blood tests', fields: ['priorChemo', 'priorIO', 'priorEGFR', 'priorALK', 'priorCRT', 'progressed', 'lastTxWeeks', 'crtWeeks', 'ecog', 'brain', 'anc', 'plt', 'crcl', 'bili'] },
+    { id: 'gen', name: 'Genomic lab report', icon: ICON.dna, desc: 'EGFR, ALK, ROS1, KRAS and PD-L1', fields: ['egfr', 'alk', 'ros1', 'kras', 'pdl1'] }
+  ];
+  var TEMPLATES = [
+    { histology: 'adeno', stage: 'IV', egfr: 'neg', alk: 'neg', ros1: 'neg', kras: 'neg', pdl1: 70, ecog: 0, brain: 'none', anc: 4.2, plt: 250, crcl: 80, bili: .5, progressed: 'na' },
+    { histology: 'adeno', stage: 'IV', egfr: 'neg', alk: 'neg', ros1: 'neg', kras: 'G12C', pdl1: 20, priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 5, ecog: 1, brain: 'unk', anc: 2.7, plt: 190, crcl: 70, bili: .7 },
+    { histology: 'squamous', stage: 'IV', egfr: 'neg', alk: 'neg', ros1: 'neg', kras: 'neg', pdl1: 15, ecog: 1, brain: 'none', anc: null, plt: null, crcl: null, bili: null, progressed: 'na' }
+  ];
+  function openConnect() {
+    var pt = me(), fh = window.TMConnect && window.TMConnect.status().fhir;
+    var live = fh && fh.on ? '<div class="panel2"><div class="row" style="gap:10px">' + ICON.lock + '<b style="font-weight:500">Connect a FHIR record</b></div><p class="muted sm">Reads conditions, results, medicines and reports from ' + esc(fh.server) + '. Read-only, and nothing reaches a trial team until you apply. Use test patients only.</p><label class="field"><span>FHIR patient ID</span><input class="input" id="fhir-id" value="' + esc(fh.demoPatient || '') + '" autocomplete="off" spellcheck="false" data-fresh="1"></label><div class="row"><button class="btn pri" data-act="fhir-go">Allow and read</button></div><div id="fhir-out"></div></div><div class="sect-h"><h2 style="font-size:16px">Demo records</h2></div>' : '';
+    sheet(sheetHead('Connect a record', 'Read-only. Your agent reads it, you choose what a trial team sees.') + live +
+      '<div class="list">' + SOURCES.map(function (s) { var on = (pt.sources || []).indexOf(s.id) >= 0; return '<div class="item"><span class="ic-circle">' + s.icon + '</span><span class="grow"><b>' + s.name + '</b><small>' + s.desc + '</small></span>' + (on ? '<span class="chip met">' + ICON.check + 'Connected</span>' : '<button class="btn tonal" data-act="link" data-id="' + s.id + '">Connect</button>') + '</div>'; }).join('') + '</div>' +
+      '<p class="note">Demo: connecting loads a synthetic record. Real records would come through a patient-access service, with your consent recorded by the Guardian agent.</p>');
+  }
+  function doConnect(sid) {
+    var pt = me(), s = SOURCES.filter(function (x) { return x.id === sid; })[0];
+    sheet(sheetHead('Connect your ' + s.name.toLowerCase()) +
+      '<div class="panel2"><div class="row" style="gap:10px">' + ICON.lock + '<b style="font-weight:500">Allow read-only access?</b></div><p class="muted sm">Your agent will read ' + s.desc.toLowerCase() + '. It never writes to your record, and nothing reaches a trial team until you apply.</p><div class="row"><button class="btn pri" data-act="link-go" data-id="' + sid + '" autofocus>Allow</button><button class="btn text" data-act="connect">Back</button></div></div>');
+  }
+  function runConnect(sid) {
+    var pt = clone(me()), s = SOURCES.filter(function (x) { return x.id === sid; })[0];
+    var steps = ['Guardian recorded your consent', 'Records Reader is reading your ' + s.name.toLowerCase(), 'Checking each fact against its source'];
+    sheet(sheetHead('Connecting') + '<div class="feed" id="cx">' + steps.map(function (x, i) { return '<div class="ev" data-i="' + i + '" style="opacity:.35"><span class="av ag">' + ICON.spark + '</span><div><p>' + x + '</p></div></div>'; }).join('') + '</div>');
+    var i = 0;
+    var tick = setInterval(function () {
+      var el = $('#cx [data-i="' + i + '"]'); if (el) el.style.opacity = 1; i++;
+      if (i > steps.length) {
+        clearInterval(tick);
+        var tpl = TEMPLATES[(pt.name.length + pt.age) % TEMPLATES.length], n = 0;
+        if (pt.rec.empty) { pt.rec = baseRec({ histology: 'unk', stage: 'unk', egfr: 'unk', alk: 'unk', ros1: 'unk', kras: 'unk', ecog: null, brain: 'unk', progressed: 'unk' }); }
+        s.fields.forEach(function (f) { if (tpl[f] !== undefined && pt.rec[f] !== tpl[f]) { pt.rec[f] = tpl[f]; n++; } else if (tpl[f] === undefined && f.indexOf('prior') === 0) { pt.rec[f] = false; } });
+        if (sid === 'hosp') { ['anc', 'plt', 'crcl', 'bili'].forEach(function (k) { if (pt.rec[k] != null) { pt.labs[k] = [[Date.now() - 40 * DAY, +(pt.rec[k] * 1.08).toFixed(1)], [Date.now() - 7 * DAY, pt.rec[k]]]; } }); pt.srcs.tx = pt.srcs.ecog = pt.srcs.labs = 'Hospital record'; pt.srcs.brain = 'Hospital record'; }
+        if (sid === 'gp') pt.srcs.dx = pt.srcs.cond = 'GP record';
+        if (sid === 'gen') pt.srcs.bio = 'Genomic lab report';
+        pt.sources = (pt.sources || []).concat([sid]);
+        var fresh = SOURCES.every(function (x) { return pt.sources.indexOf(x.id) >= 0; });
+        if (pt.rec.histology !== 'unk' || pt.rec.stage !== 'unk') pt.rec.empty = false;
+        delete pt.rec.empty;
+        savePatient(pt);
+        event(pt.id, 'Records Reader', 'Read your ' + s.name.toLowerCase() + '. Added ' + plural(Math.max(n, 3), 'fact') + '.', false);
+        event(pt.id, 'Matcher', 'Re-checked every rule of ' + TRIALS.length + ' trials with your new record.', false);
+        sheet(sheetHead('Connected') + '<div class="panel2"><div class="row" style="gap:10px"><span class="chip met">' + ICON.check + s.name + '</span></div><p class="muted">Your agent added ' + plural(Math.max(n, 3), 'fact') + ' and checked every trial again.' + (fresh ? '' : ' Connecting your other records helps it settle more rules.') + '</p><div class="row"><button class="btn pri" data-act="close-go" data-v="discover">See your matches</button>' + (fresh ? '' : '<button class="btn text" data-act="connect">Connect another</button>') + '</div></div>');
+      }
+    }, reduce ? 50 : 650);
+  }
+
+  var ADD = [
+    ['labs', 'Blood test', ICON.drop, 'Neutrophils, platelets, kidney and liver'],
+    ['scan', 'Brain scan result', ICON.scan, 'Whether a scan showed spread'],
+    ['bio', 'Biomarker result', ICON.dna, 'PD-L1 and gene changes'],
+    ['tx', 'Treatment', ICON.pill, 'What you’ve had and when it ended'],
+    ['ecog', 'Day-to-day fitness', ICON.walk, 'How active you are'],
+    ['letter', 'Read a clinic letter', ICON.letter, 'Paste text and your agent pulls out the facts']
+  ];
+  function openAdd(kind) {
+    var pt = me(), r = pt.rec;
+    if (!kind) { sheet(sheetHead('Add data', 'Your agent re-checks every trial when you add something') + '<div class="list">' + ADD.map(function (a) { return '<button class="item" data-act="add-k" data-v="' + a[0] + '"><span class="ic-circle">' + a[2] + '</span><span class="grow"><b>' + a[1] + '</b><small>' + a[3] + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') + '</div>'); return; }
+    var f = '';
+    function num(id, label, v, step) { return '<label class="field"><span>' + label + '</span><input class="input" id="' + id + '" type="number" step="' + (step || 'any') + '" value="' + (v == null ? '' : v) + '"></label>'; }
+    function sel(id, label, opts, v) { return '<label class="field"><span>' + label + '</span><select class="input" id="' + id + '">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(v) === String(o[0]) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>'; }
+    if (kind === 'labs') f = '<div class="grid2">' + num('a-anc', 'Neutrophils (×10⁹/L)', r.anc) + num('a-plt', 'Platelets (×10⁹/L)', r.plt) + num('a-crcl', 'Creatinine clearance (mL/min)', r.crcl) + num('a-bili', 'Bilirubin (× upper limit)', r.bili) + '</div>';
+    if (kind === 'scan') f = sel('a-brain', 'What did the brain scan show?', [['none', 'No spread to the brain'], ['treated_stable', 'Spread, treated and stable'], ['untreated', 'Spread, not treated yet'], ['unk', 'I don’t know']], r.brain);
+    if (kind === 'bio') f = '<div class="grid2">' + num('a-pdl1', 'PD-L1 score (%)', r.pdl1, 1) + sel('a-egfr', 'EGFR', [['neg', 'No change'], ['ex19del', 'Exon 19 deletion'], ['L858R', 'L858R'], ['ex20ins', 'Exon 20'], ['unk', 'Not known']], r.egfr) + sel('a-alk', 'ALK', [['neg', 'Negative'], ['pos', 'Positive'], ['unk', 'Not known']], r.alk) + sel('a-kras', 'KRAS', [['neg', 'No change'], ['G12C', 'G12C'], ['unk', 'Not known']], r.kras) + '</div>';
+    if (kind === 'tx') f = '<label class="field"><span>Treatment</span><input class="input" id="a-what" placeholder="e.g. Docetaxel" maxlength="60"></label><div class="grid2">' + sel('a-kind', 'Type', [['priorChemo', 'Chemotherapy'], ['priorIO', 'Immunotherapy'], ['priorEGFR', 'EGFR tablet'], ['priorALK', 'ALK tablet'], ['priorCRT', 'Chemoradiotherapy']], 'priorChemo') + num('a-weeks', 'Weeks since the last dose', r.lastTxWeeks, 1) + sel('a-prog', 'Did the cancer grow on it?', [['yes', 'Yes'], ['no', 'No'], ['unk', 'Not sure']], r.progressed === 'na' ? 'unk' : r.progressed) + '</div>';
+    if (kind === 'ecog') f = '<div class="opts">' + ECOG.slice(0, 4).map(function (e, i) { return '<button class="opt' + (r.ecog === i ? ' on' : '') + '" data-act="ecog-pick" data-v="' + i + '">' + e + '</button>'; }).join('') + '</div>';
+    if (kind === 'letter') f = '<label class="field"><span>Clinic letter text (synthetic only)</span><textarea class="input" id="a-letter" placeholder="Paste the letter here"></textarea></label><div class="row"><button class="btn text" data-act="letter-example">Use an example letter</button></div><div id="letter-out"></div>';
+    var title = ADD.filter(function (a) { return a[0] === kind; })[0][1];
+    sheet(sheetHead(title) + f + '<div class="row end"><button class="btn text" data-act="add">Back</button>' + (kind === 'ecog' ? '' : '<button class="btn pri" data-act="' + (kind === 'letter' ? 'letter-read' : 'add-save') + '" data-v="' + kind + '">' + (kind === 'letter' ? 'Read it' : 'Save') + '</button>') + '</div>');
+  }
+  function val(id) { var el = document.getElementById(id); if (!el || el.value === '') return null; return el.type === 'number' ? Number(el.value) : el.value; }
+  function saveAdd(kind, extra) {
+    var pt = clone(me()), r = pt.rec, now = Date.now(), said = [];
+    if (kind === 'labs') ['anc', 'plt', 'crcl', 'bili'].forEach(function (k) { var v = val('a-' + k); if (v != null && v !== r[k]) { r[k] = v; pt.labs[k] = (pt.labs[k] || []).concat([[now, v]]); said.push(k); } }), pt.srcs.labs = 'You added this, ' + dstr(now);
+    if (kind === 'scan') { r.brain = val('a-brain'); pt.srcs.brain = 'You added this, ' + dstr(now); said.push('brain'); }
+    if (kind === 'bio') { var v = val('a-pdl1'); if (v != null) r.pdl1 = v; r.egfr = val('a-egfr'); r.alk = val('a-alk'); r.kras = val('a-kras'); pt.srcs.bio = 'You added this, ' + dstr(now); said.push('bio'); }
+    if (kind === 'tx') { var k = val('a-kind'); r[k] = true; var w = val('a-weeks'); if (w != null) r.lastTxWeeks = w; r.progressed = val('a-prog'); pt.tx.push({ what: val('a-what') || $('#a-kind').selectedOptions[0].textContent, when: now - (w || 0) * 7 * DAY - 90 * DAY, until: now - (w || 0) * 7 * DAY }); pt.srcs.tx = 'You added this, ' + dstr(now); said.push('tx'); }
+    if (kind === 'ecog') { r.ecog = extra; pt.srcs.ecog = 'You added this, ' + dstr(now); said.push('ecog'); }
+    savePatient(pt);
+    event(pt.id, 'Matcher', 'Re-checked every trial with your new ' + (ADD.filter(function (a) { return a[0] === kind; })[0][1].toLowerCase()) + '.', false);
+    closeSheet(); toast('Saved. Your agent checked every trial again.');
+  }
+  var LETTER = 'Lung Oncology Clinic, synthetic example\n\nDear Dr Patel,\n\nI reviewed Mrs Example today. She has stage IV adenocarcinoma of the lung. Molecular testing showed an EGFR exon 19 deletion; ALK and ROS1 negative. PD-L1 TPS 10%. She progressed on osimertinib, last dose 3 weeks ago. Brain MRI last week showed no intracranial metastases. ECOG performance status 1. Bloods: neutrophils 3.1, platelets 214, creatinine clearance 72 mL/min, bilirubin 0.6 x ULN.\n\nPlan: discuss clinical trial options.';
+  function readLetterLocal(txt) {
+    var o = {}, m;
+    if (/adenocarcinoma/i.test(txt)) o.histology = 'adeno'; else if (/squamous/i.test(txt)) o.histology = 'squamous'; else if (/small cell/i.test(txt)) o.histology = 'sclc';
+    if (/stage\s*(iv|4)\b/i.test(txt)) o.stage = 'IV';
+    if (/exon\s*19/i.test(txt)) o.egfr = 'ex19del'; else if (/L858R/i.test(txt)) o.egfr = 'L858R'; else if (/EGFR (negative|wild)/i.test(txt)) o.egfr = 'neg';
+    if (/ALK[^.]{0,20}(negative)/i.test(txt) || /ALK and ROS1 negative/i.test(txt)) o.alk = 'neg'; else if (/ALK[^.]{0,12}positive/i.test(txt)) o.alk = 'pos';
+    if (/G12C/i.test(txt)) o.kras = 'G12C';
+    if ((m = txt.match(/PD-?L1[^0-9]{0,12}(\d{1,3})\s*%/i))) o.pdl1 = +m[1];
+    if ((m = txt.match(/ECOG[^0-9]{0,24}([0-4])/i))) o.ecog = +m[1];
+    if (/osimertinib/i.test(txt)) o.priorEGFR = true; if (/(carboplatin|cisplatin|chemotherapy|docetaxel)/i.test(txt)) o.priorChemo = true; if (/(pembrolizumab|nivolumab|atezolizumab|immunotherapy)/i.test(txt)) o.priorIO = true;
+    if (/progress/i.test(txt)) o.progressed = 'yes';
+    if ((m = txt.match(/last dose (\d+) weeks?/i))) o.lastTxWeeks = +m[1];
+    if (/no (intracranial|brain) metastases/i.test(txt)) o.brain = 'none'; else if (/brain metastases/i.test(txt)) o.brain = 'untreated';
+    if ((m = txt.match(/neutrophils\s*([\d.]+)/i))) o.anc = +m[1]; if ((m = txt.match(/platelets\s*([\d.]+)/i))) o.plt = +m[1]; if ((m = txt.match(/creatinine clearance\s*([\d.]+)/i))) o.crcl = +m[1]; if ((m = txt.match(/bilirubin\s*([\d.]+)/i))) o.bili = +m[1];
+    return o;
+  }
+  var FIELD_LABEL = { histology: 'Type', stage: 'Stage', egfr: 'EGFR', alk: 'ALK', ros1: 'ROS1', kras: 'KRAS', pdl1: 'PD-L1 %', ecog: 'ECOG', priorEGFR: 'Had an EGFR tablet', priorChemo: 'Had chemotherapy', priorIO: 'Had immunotherapy', progressed: 'Cancer grew', lastTxWeeks: 'Weeks since last treatment', brain: 'Brain scan', anc: 'Neutrophils', plt: 'Platelets', crcl: 'Creatinine clearance', bili: 'Bilirubin', priorALK: 'Had an ALK tablet', priorCRT: 'Had chemoradiotherapy', autoimmune: 'Autoimmune disease', ild: 'Lung inflammation (ILD)', infection: 'Infection being treated' };
+  var ALLOWED = { histology: ['adeno', 'squamous', 'sclc'], stage: ['IV', 'III_unres', 'IIIA_res', 'early', 'es'], egfr: ['neg', 'ex19del', 'L858R', 'ex20ins', 'other'], alk: ['neg', 'pos'], ros1: ['neg', 'pos'], kras: ['neg', 'G12C'], brain: ['none', 'treated_stable', 'untreated'], progressed: ['yes', 'no'] };
+  var letterFound = null;
+  var NUMERIC = ['pdl1', 'ecog', 'lastTxWeeks', 'anc', 'plt', 'crcl', 'bili'];
+  function cleanFacts(o) {
+    var clean = {}; Object.keys(o || {}).forEach(function (k) { var v = o[k]; if (!(k in FIELD_LABEL) || v == null || v === '') return; if (ALLOWED[k] && ALLOWED[k].indexOf(v) < 0) return; if (/^(prior|autoimmune$|ild$|infection$)/.test(k) && v !== true) return; if (NUMERIC.indexOf(k) >= 0 && typeof v !== 'number') return; clean[k] = v; });
+    return clean;
+  }
+  // Facts found by an agent, each with the words it came from, waiting for the patient to confirm.
+  function factsHtml(clean, how, ev, dropped, saveAct, notes) {
+    var keys = Object.keys(clean);
+    if (!keys.length) return '<p class="muted">No facts found that trials use.' + (dropped ? ' ' + plural(dropped, 'possible fact') + ' didn’t match the source word for word, so ' + (dropped === 1 ? 'it was' : 'they were') + ' left out.' : '') + '</p>';
+    var src = ev ? '<details><summary>Where each fact came from</summary><div class="rules">' + keys.map(function (k) { return ev[k] ? '<div class="rule"><span class="mk met">✓</span><span>' + FIELD_LABEL[k] + ': ' + esc(clean[k] === true ? 'yes' : clean[k]) + '<small>“' + esc(ev[k]) + '”</small></span></div>' : ''; }).join('') + '</div></details>' : '';
+    return '<div class="panel2"><b style="font-weight:500">Found ' + plural(keys.length, 'fact') + ' <span class="faint xs">' + esc(how) + '</span></b><div class="chips">' + keys.map(function (k) { return '<span class="chip acc"' + (ev && ev[k] ? ' title="' + esc(ev[k]) + '"' : '') + '>' + FIELD_LABEL[k] + ': ' + esc(clean[k] === true ? 'yes' : clean[k]) + '</span>'; }).join('') + '</div>' + src +
+      (dropped ? '<p class="faint xs">' + plural(dropped, 'possible fact') + ' didn’t match the source word for word, so ' + (dropped === 1 ? 'it was' : 'they were') + ' left out.</p>' : '') +
+      ((notes || []).length ? '<p class="faint xs">' + notes.map(esc).join(' ') + '</p>' : '') +
+      '<p class="muted sm">Check these before adding. Your agent only uses facts you confirm.</p><button class="btn pri" data-act="' + saveAct + '" style="align-self:flex-start">Add to my record</button></div>';
+  }
+  function readLetter() {
+    var txt = ($('#a-letter') || {}).value || ''; if (txt.trim().length < 20) { toast('Paste a little more of the letter first.'); return; }
+    var out = $('#letter-out'); out.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>Records Reader is reading the letter…</p></div></div>';
+    var done = function (o, how, ev, dropped) {
+      var clean = cleanFacts(o);
+      letterFound = clean;
+      out.innerHTML = factsHtml(clean, how, ev, dropped, 'letter-save');
+    };
+    var local = function () { done(readLetterLocal(txt), 'read on this device'); };
+    var C = window.TMConnect;
+    if (C && C.status().medgemma.on) {   // MedGemma reads it; every fact comes back with the words that state it
+      out.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>Records Reader (MedGemma) is reading the letter…</p></div></div>';
+      C.readLetter(txt.slice(0, 12000)).then(function (r) {
+        done(r.facts, 'read by MedGemma, each fact checked against the letter', r.evidence, (r.rejected || []).length);
+      }, function (e) { toast('MedGemma couldn’t read it (' + e.message + '), so this device did.'); local(); });
+      return;
+    }
+    if (!(window.claude && window.claude.use)) { local(); return; }
+    window.claude.use('sample').then(function (sample) {
+      if (!sample) { local(); return; }
+      var schema = '{"histology":"adeno|squamous|sclc","stage":"IV|III_unres|IIIA_res|early|es","egfr":"neg|ex19del|L858R|ex20ins|other","alk":"neg|pos","ros1":"neg|pos","kras":"neg|G12C","pdl1":number,"ecog":number,"priorEGFR":true,"priorChemo":true,"priorIO":true,"progressed":"yes|no","lastTxWeeks":number,"brain":"none|treated_stable|untreated","anc":number,"plt":number,"crcl":number,"bili":number}';
+      return sample.json('You read clinic letters about lung cancer for a clinical-trial matching app. Extract only facts the letter states explicitly. Leave a key out when the letter does not state it. Never guess. Reply with one JSON object using only these keys and values: ' + schema + '\n\nLetter:\n"""\n' + txt.slice(0, 6000) + '\n"""', { modelTier: 'quick' }).then(function (o) { done(o, 'read by Claude'); });
+    }).catch(function () { local(); });
+  }
+  function saveLetter() {
+    if (!letterFound) return; var pt = clone(me()), now = Date.now();
+    Object.keys(letterFound).forEach(function (k) { pt.rec[k] = letterFound[k]; if (['anc', 'plt', 'crcl', 'bili'].indexOf(k) >= 0) pt.labs[k] = (pt.labs[k] || []).concat([[now, letterFound[k]]]); });
+    delete pt.rec.empty; pt.srcs.dx = pt.srcs.dx || 'Clinic letter'; pt.srcs.bio = pt.srcs.bio || 'Clinic letter';
+    savePatient(pt); event(pt.id, 'Records Reader', 'Read a clinic letter you shared. Added ' + plural(Object.keys(letterFound).length, 'fact') + ' you confirmed.', false);
+    letterFound = null; closeSheet(); toast('Added. Your agent checked every trial again.');
+  }
+
+  /* ---------- live connectors: FHIR records, ClinicalTrials.gov, MedGemma pre-check ---------- */
+  var fhirFound = null;
+  function runFhir() {
+    var id = (val('fhir-id') || '').trim(); if (!id) { toast('Add a FHIR patient ID.'); return; }
+    var out = $('#fhir-out'); if (!out) return;
+    out.innerHTML = '<div class="feed"><div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>Guardian recorded your consent. Records Reader is reading the record…</p></div></div></div>';
+    window.TMConnect.readFhir(id).then(function (r) {
+      var clean = cleanFacts(r.facts);
+      fhirFound = { facts: clean, server: r.server, id: r.patient.id };
+      var c = r.counts || {};
+      var how = 'from ' + r.server + (r.model ? ', read by MedGemma' : '') + ' · ' + plural(c.conditions || 0, 'condition') + ', ' + plural(c.observations || 0, 'result') + ', ' + plural(c.medicines || 0, 'medicine');
+      if ($('#fhir-out')) $('#fhir-out').innerHTML = factsHtml(clean, how, r.evidence, (r.rejected || []).length, 'fhir-save', r.notes);
+    }, function (e) { if ($('#fhir-out')) $('#fhir-out').innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
+  }
+  function saveFhir() {
+    if (!fhirFound) return; var pt = clone(me()), now = Date.now(), f = fhirFound.facts, src = 'FHIR record, ' + fhirFound.server;
+    Object.keys(f).forEach(function (k) { pt.rec[k] = f[k]; if (['anc', 'plt', 'crcl', 'bili'].indexOf(k) >= 0) pt.labs[k] = (pt.labs[k] || []).concat([[now, f[k]]]); });
+    delete pt.rec.empty;
+    ['dx', 'bio', 'tx', 'ecog', 'labs', 'brain', 'cond'].forEach(function (k) { pt.srcs[k] = src; });
+    savePatient(pt);
+    event(pt.id, 'Guardian', 'Recorded your consent to read your record on ' + fhirFound.server + ' (read-only).', false);
+    event(pt.id, 'Records Reader', 'Read your FHIR record. Added ' + plural(Object.keys(f).length, 'fact') + ' you confirmed.', false);
+    fhirFound = null; closeSheet(); toast('Added. Your agent checked every trial again.');
+  }
+
+  var SCOUT = { state: 'idle', data: null, err: '' };
+  function loadScout() {
+    if (SCOUT.state !== 'idle') return; SCOUT.state = 'loading';
+    window.TMConnect.scout().then(function (d) { SCOUT.state = 'ok'; SCOUT.data = d; soon(); }, function (e) { SCOUT.state = 'error'; SCOUT.err = e.message; soon(); });
+  }
+  function liveHtml() {
+    var C = window.TMConnect; if (!C || !C.status().registry.on) return '';
+    loadScout();
+    var head = '<div class="sect-h"><h2 style="font-size:16px">Live from ClinicalTrials.gov</h2><span class="faint xs">Trial Scout</span></div>';
+    if (SCOUT.state === 'error') return head + '<div class="card"><p class="muted sm">Couldn’t reach ClinicalTrials.gov. ' + esc(SCOUT.err) + '</p><button class="btn text" data-act="scout-retry">Try again</button></div>';
+    if (SCOUT.state !== 'ok') return head + '<div class="card"><p class="muted sm">Trial Scout is checking the registry…</p></div>';
+    var d = SCOUT.data;
+    return head + '<p class="muted sm">' + plural(d.trials.length, 'recruiting phase III lung cancer trial') + ' with UK hospitals. This is real registry data, and your agent hasn’t checked it against your record yet. Open one to pre-check it.</p>' +
+      liveList(d.trials.slice(0, 10)) + (d.trials.length > 10 ? '<details class="card"><summary>Show ' + (d.trials.length - 10) + ' more</summary>' + liveList(d.trials.slice(10)) + '</details>' : '');
+  }
+  function liveList(list) {
+    return '<div class="list">' + list.map(function (t) { return '<button class="item" data-act="live" data-id="' + esc(t.nct) + '"><span class="grow"><b>' + esc(t.title) + '</b><small>' + esc(t.nct + (t.sponsor ? ' · ' + t.sponsor : '') + ' · ' + plural(t.siteCount, 'UK site')) + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') + '</div>';
+  }
+  function openLive(nct) {
+    var t = ((SCOUT.data || {}).trials || []).filter(function (x) { return x.nct === nct; })[0]; if (!t) return;
+    var mg = window.TMConnect.status().medgemma.on;
+    sheet(sheetHead(esc(t.title), esc(t.nct + ' · ' + (t.phase || 'Phase 3') + (t.sponsor ? ' · ' + t.sponsor : ''))) +
+      (t.summary ? '<p class="muted">' + esc(t.summary) + '</p>' : '') +
+      (t.interventions.length ? '<div class="chips">' + t.interventions.slice(0, 5).map(function (i) { return '<span class="chip">' + esc(i.name) + '</span>'; }).join('') + '</div>' : '') +
+      '<div class="panel2"><b style="font-weight:500">UK hospitals recruiting</b><p class="sm muted">' + esc(t.sites.slice(0, 8).map(function (s) { return s.facility + (s.city ? ', ' + s.city : ''); }).join(' · ')) + (t.siteCount > 8 ? ' and ' + (t.siteCount - 8) + ' more' : '') + '</p></div>' +
+      '<div id="live-check">' + (mg
+        ? '<div class="panel2"><b style="font-weight:500">Check it against your record</b><p class="muted sm">MedGemma reads this trial’s full entry rules and compares them with your record. It’s a pre-check: a research nurse confirms every rule with you.</p><button class="btn pri" data-act="live-check" data-id="' + esc(t.nct) + '" style="align-self:flex-start">' + ICON.spark + 'Pre-check with MedGemma</button></div>'
+        : '<p class="note">Pre-checks need MedGemma, which isn’t connected on this site yet.</p>') + '</div>' +
+      '<a class="btn tonal" href="' + esc(t.url) + '" target="_blank" rel="noopener noreferrer" style="align-self:flex-start;text-decoration:none">View on ClinicalTrials.gov</a>', true);
+  }
+  function runLiveCheck(nct) {
+    var pt = me(), box = $('#live-check'); if (!box) return;
+    box.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>MedGemma is reading the entry rules…</p></div></div>';
+    var rec = {}; Object.keys(pt.rec).forEach(function (k) { var v = pt.rec[k]; if (v != null && v !== 'unk' && v !== '' && v !== false && v !== 'na') rec[k] = v; });
+    window.TMConnect.prescreen(nct, rec, pt.age, pt.sex).then(function (r) {
+      var el = $('#live-check'); if (!el) return;
+      el.innerHTML = '<div class="sect-h"><h2 style="font-size:16px">MedGemma pre-check</h2><span class="faint xs">' + r.counts.met + ' met · ' + r.counts.not + ' not met · ' + r.counts.unknown + ' to check</span></div>' +
+        '<div class="rules">' + r.rules.map(function (x) { var s = { met: 'met', not: 'not', unknown: 'unk' }[x.status]; return '<div class="rule"><span class="mk ' + s + '">' + { met: '✓', not: '✕', unk: '?' }[s] + '</span><span>' + esc(x.rule) + '<small>' + (x.type === 'exc' ? 'Exclusion · ' : '') + esc(x.why) + '</small></span></div>'; }).join('') + '</div>' +
+        '<p class="note">AI pre-check by MedGemma (' + esc(r.model) + '). It can be wrong and it isn’t a decision: a research nurse confirms every rule with you.</p>';
+      event(pt.id, 'Matcher', 'MedGemma pre-checked ' + nct + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check.', false);
+    }, function (e) { var el = $('#live-check'); if (el) el.innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
+  }
+  function connLine() {
+    var C = window.TMConnect; if (!C) return '';
+    var s = C.status(), on = [];
+    if (s.medgemma.on) on.push('MedGemma'); if (s.fhir.on) on.push('FHIR records'); if (s.registry.on) on.push('ClinicalTrials.gov'); if (s.store.on) on.push('shared data');
+    return on.length ? ' Live connections: ' + on.join(', ') + '.' : '';
+  }
+
+  /* ================= CLINICIAN ================= */
+  function clinicianView() {
+    var c = CLINICIANS.filter(function (x) { return x.id === S.who.id; })[0] || CLINICIANS[0];
+    var toRank = Store.all('apps').filter(function (a) { return a.stage === 'applied'; }).length;
+    var nav = [['overview', 'Overview', ICON.chart], ['rank', 'Rank', ICON.swap, toRank || ''], ['apps', 'Applications', ICON.folder]];
+    var body = { overview: overview, rank: rankView, apps: appsView }[S.ctab] || overview;
+    return bar(nav, S.ctab, c.name, 'clin') + '<main><div class="wide">' + body(c) + '</div></main>';
+  }
+  function trialSelect(id, cur, withAll) {
+    var apps = Store.all('apps');
+    return '<label class="trialpick"><span class="sr">Trial</span><select class="input" id="' + id + '" data-fresh="1" data-act="' + id + '">' + (withAll ? '<option value="all"' + (cur === 'all' ? ' selected' : '') + '>All trials</option>' : '') + TRIALS.map(function (t) { var n = apps.filter(function (a) { return a.trial === t.id && a.stage === 'applied'; }).length; return '<option value="' + t.id + '"' + (cur === t.id ? ' selected' : '') + '>' + t.code + ' · ' + esc(t.name) + (n && !withAll ? ' (' + n + ' new)' : '') + '</option>'; }).join('') + '</select></label>';
+  }
+  function reached(a, s) { return a.stage === s || a.hist.some(function (h) { return h.s === s; }); }
+  function overview(c) {
+    var apps = Store.all('apps');
+    var toRank = apps.filter(function (a) { return a.stage === 'applied'; }).length;
+    var inScr = apps.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length;
+    var enr = apps.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length;
+    var goal = TRIALS.reduce(function (s, t) { return s + t.goal; }, 0);
+    var passed = apps.filter(function (a) { return reached(a, 'screening'); }).length, failed = apps.filter(function (a) { return a.stage === 'screenfail'; }).length;
+    var rate = passed + failed ? Math.round(100 * passed / (passed + failed)) : 0;
+    var byAgent = apps.filter(function (a) { return a.by === 'agent'; }).length;
+    var funnel = FLOW.map(function (s) { return [s, apps.filter(function (a) { return reached(a, s); }).length]; });
+    var max = funnel[0][1] || 1;
+    var needs = [];
+    var rankBy = {}; apps.forEach(function (a) { if (a.stage === 'applied') rankBy[a.trial] = (rankBy[a.trial] || 0) + 1; });
+    Object.keys(rankBy).forEach(function (tid) { needs.push(['rank', tid, 'Rank ' + plural(rankBy[tid], 'new applicant') + ' for ' + TRIAL[tid].code, ICON.swap]); });
+    var ps = apps.filter(function (a) { return a.stage === 'prescreen'; }).length; if (ps) needs.push(['apps', 'prescreen', 'Enter pre-screening results for ' + plural(ps, 'patient'), ICON.doc]);
+    var ap = apps.filter(function (a) { return a.stage === 'approval'; }).length; if (ap) needs.push(['apps', 'approval', 'Sign off ' + plural(ap, 'enrolment'), ICON.check]);
+    var on = apps.filter(function (a) { return a.stage === 'enrolled'; }).length; if (on) needs.push(['apps', 'enrolled', plural(on, 'patient') + ' on a trial. Record results when they finish', ICON.pulse]);
+    var rows = TRIALS.map(function (t) { var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length; return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(t.name) + '</span></td><td class="num">' + A.length + '</td><td class="num">' + (A.filter(function (a) { return a.stage === 'applied'; }).length || '–') + '</td><td class="num">' + (A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length || '–') + '</td><td><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>'; }).join('');
+    return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div></div>' +
+      '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t</span></div></div>' +
+      '<div class="two"><div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>' +
+      '<div class="card"><h3>Where applicants are</h3><p class="muted sm">Everyone who reached each stage</p><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
+      '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>To rank</th><th>In screening</th><th>Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+      '<p class="note">All patients, trials and sites are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
+  }
+
+  /* ---------- rank: binary insertion, one swipe per comparison ---------- */
+  function rstate(tid) { var r = Store.get('rankings', tid); return r ? clone(r) : { ranked: [], rejected: [], cur: null, n: 0 }; }
+  function isOpen(id, tid) { var a = Store.get('apps', id); return a && a.trial === tid && a.stage === 'applied'; }
+  function rqueue(tid, r) { return Store.all('apps').filter(function (a) { return a.trial === tid && a.stage === 'applied' && r.ranked.indexOf(a.id) < 0 && r.rejected.indexOf(a.id) < 0 && !(r.cur && r.cur.item === a.id); }).sort(function (a, b) { return a.at - b.at; }); }
+  function rprep(tid, r) {
+    r.ranked = r.ranked.filter(function (id) { return isOpen(id, tid); });
+    if (r.cur && !isOpen(r.cur.item, tid)) r.cur = null;
+    if (!r.cur) {
+      var q = rqueue(tid, r);
+      if (!r.ranked.length && q.length) r.ranked.push(q.shift().id);
+      if (!q.length) return null;
+      r.cur = { item: q[0].id, lo: 0, hi: r.ranked.length };
+    }
+    r.cur.hi = Math.min(r.cur.hi, r.ranked.length); r.cur.lo = Math.min(r.cur.lo, r.cur.hi);
+    if (r.cur.lo >= r.cur.hi) { r.ranked.splice(r.cur.lo, 0, r.cur.item); r.cur = null; return rprep(tid, r); }
+    var mid = Math.floor((r.cur.lo + r.cur.hi) / 2);
+    return { item: r.cur.item, bench: r.ranked[mid], pos: mid };
+  }
+  function remaining(tid, r) { var q = rqueue(tid, r).length, L = r.ranked.length, n = 0; if (r.cur) { n += Math.ceil(Math.log2(r.cur.hi - r.cur.lo + 1)); L++; } for (var i = 0; i < q; i++) { n += Math.ceil(Math.log2(L + 1)); L++; } return n; }
+  function nearTxt(s) { return s.d < 5 ? 'near ' + esc(s.name) : s.d + ' mi to ' + esc(s.name); }
+  function pid(a) { return Store.get('patients', a.pid); }
+  function profile(a, kind, label) {
+    var pt = pid(a), t = TRIAL[a.trial], p = P_(pt), r = evaluate(p, t), unk = unknownRules(r);
+    var showName = FLOW.indexOf(a.stage) >= 1;
+    return '<div class="pcard ' + kind + '"' + (kind.indexOf('top') >= 0 ? ' data-kind="a" data-id="' + a.id + '"' : '') + '>' + (kind.indexOf('top') >= 0 ? '<div class="stamp up">RANKS ABOVE</div><div class="stamp down">RANKS BELOW</div>' : '') +
+      '<div class="who"><div><b>' + (showName ? esc(pt.name) : pt.id) + '</b><small>' + pt.age + ' · ' + pt.sex + ' · ' + esc(pt.city) + ' · ' + nearTxt(r.site) + '</small></div>' + ring(r.score, r.tier) + '</div>' +
+      (label ? '<span class="chip ' + (label.cls || '') + '" style="align-self:flex-start">' + label.text + '</span>' : '') +
+      '<div class="tally"><span class="chip met">✓ ' + r.met + ' met</span>' + (r.not ? '<span class="chip not">✕ ' + r.not + ' not met</span>' : '') + (r.unk ? '<span class="chip unk">? ' + r.unk + ' to check</span>' : '') + '<span class="chip byagent">' + (a.by === 'agent' ? ICON.spark + 'Sent by agent' : 'Sent by patient') + '</span></div>' +
+      '<div class="facts"><div><span class="k">Tumour</span><span>' + esc(HIST[p.histology] + ', ' + STAGE[p.stage]) + '<br>' + esc(bioText(p).join(' · ')) + '</span></div><div><span class="k">Treatment</span><span>' + esc(txText(p)) + '</span></div><div><span class="k">Fitness</span><span>ECOG ' + (p.ecog == null ? 'not known' : p.ecog) + '</span></div>' +
+      (r.not ? '<div><span class="k">Not met</span><span style="color:var(--not)">' + esc(r.rows.filter(function (x) { return x.s === NO; }).map(function (x) { return x.c.text; }).join('; ')) + '</span></div>' : '') +
+      (unk.length ? '<div><span class="k">To check</span><span style="color:var(--unk)">' + esc(unk.join('; ')) + '</span></div>' : '') + '</div>' +
+      '<p class="faint xs">Applied ' + ago(a.at) + '</p></div>';
+  }
+  function rankView() {
+    var tid = S.trial, t = TRIAL[tid], r = rstate(tid), before = JSON.stringify(r), pair = rprep(tid, r);
+    if (JSON.stringify(r) !== before) setTimeout(function () { Store.put('rankings', tid, r); }, 0);
+    var head = '<div class="page-h"><div><h1>Rank applicants</h1><p>Swipe the new applicant against the one already ranked. The order builds itself.</p></div>' + trialSelect('rank-trial', tid) + '</div>';
+    if (pair) {
+      var A = Store.get('apps', pair.item), B = Store.get('apps', pair.bench), left = remaining(tid, r), done = r.n || 0;
+      var nextQ = rqueue(tid, r)[0];
+      return head + '<div class="progress"><i style="width:' + Math.round(100 * done / (done + left || 1)) + '%"></i></div><p class="faint sm" style="margin-top:-12px">' + plural(done, 'comparison') + ' done · about ' + left + ' to go · ' + plural(r.ranked.length, 'applicant') + ' ranked</p>' +
+        '<div class="rank"><div><div class="rank-label">' + ICON.list + 'Ranked #' + (pair.pos + 1) + ' of ' + r.ranked.length + ' so far</div>' + profile(B, 'bench', null) + '<div class="row" style="margin-top:10px"><button class="btn text" data-act="rank" data-v="rejbench">' + ICON.x + 'Reject ' + Store.get('patients', B.pid).id + '</button></div></div>' +
+        '<div><div class="rank-label">' + ICON.spark + 'New applicant</div><div class="deck" id="deck">' + profile(A, 'top', null) + (nextQ ? profile(nextQ, 'ghost', null) : '') + '</div>' +
+        '<div class="swipe-btns"><button class="sbtn" data-act="swipe" data-v="down"><span>' + ICON.down + '</span>Below #' + (pair.pos + 1) + '</button><button class="sbtn rej" data-act="rank" data-v="reject"><span>' + ICON.x + '</span>Reject</button><button class="sbtn up" data-act="swipe" data-v="up"><span>' + ICON.up + '</span>Above #' + (pair.pos + 1) + '</button></div><p class="kbd">Swipe right if the new applicant fits better, left if not. Or use ← →.</p></div></div>';
+    }
+    if (!r.ranked.length) return head + '<div class="card empty"><h3>No new applicants for ' + t.code + '</h3><p>New applications appear here as patients and their agents apply.</p></div>' + invitedNote(tid);
+    var n = Math.min(r.ranked.length, Number(S.topN) || Math.min(3, r.ranked.length));
+    return head + '<div class="two"><div class="card"><div class="sect-h"><h3>Your ranking for ' + t.code + '</h3><button class="btn text" data-act="rank" data-v="reset">Rank again</button></div><div class="ladder" style="margin-top:12px">' + r.ranked.map(function (id, i) { var a = Store.get('apps', id), pt = pid(a), x = evaluate(P_(pt), t); return '<button class="item' + (i < n ? ' top' : '') + '" style="background:var(--surface-2)" data-act="app" data-id="' + id + '"><span class="pos">' + (i + 1) + '</span><span class="grow"><b>' + pt.id + '</b><small>' + pt.age + ' · ' + esc(pt.city) + ' · ✓' + x.met + ' ?' + x.unk + (x.not ? ' ✕' + x.not : '') + '</small></span>' + ring(x.score, x.tier) + '</button>'; }).join('') + '</div></div>' +
+      '<div class="card" style="display:flex;flex-direction:column;gap:16px"><h3>Invite to pre-screening</h3><p class="muted sm">The top applicants get an invitation and agree to share their identity. The rest go on the waiting list and hear that straight away.</p><label class="field"><span>How many to invite</span><input class="input" id="topn" type="number" min="1" max="' + r.ranked.length + '" value="' + n + '" data-act="topn"></label><button class="btn pri big" data-act="invite">Invite the top ' + n + '</button></div></div>';
+  }
+  function invitedNote(tid) { var n = Store.all('apps').filter(function (a) { return a.trial === tid && a.stage === 'prescreen'; }).length; return n ? '<p class="muted sm">' + plural(n, 'applicant is', 'applicants are') + ' in pre-screening for this trial. <button class="btn text" data-act="need" data-v="apps" data-id="prescreen">Open applications</button></p>' : ''; }
+  function rankDecide(v) {
+    var tid = S.trial, r = rstate(tid), pair = rprep(tid, r); if (!pair && v !== 'reset') return;
+    if (v === 'reset') { Store.put('rankings', tid, { ranked: [], rejected: [], cur: null, n: 0 }); return; }
+    r.n = (r.n || 0) + 1;
+    if (v === 'up') r.cur.hi = pair.pos;
+    else if (v === 'down') r.cur.lo = pair.pos + 1;
+    else if (v === 'reject') { rejectApp(Store.get('apps', pair.item), 'Not ranked for this round'); r.rejected.push(pair.item); r.cur = null; }
+    else if (v === 'rejbench') { rejectApp(Store.get('apps', pair.bench), 'Not ranked for this round'); r.rejected.push(pair.bench); r.ranked.splice(pair.pos, 1); r.cur.lo = 0; r.cur.hi = r.ranked.length; }
+    if (r.cur && r.cur.lo >= r.cur.hi) { r.ranked.splice(r.cur.lo, 0, r.cur.item); r.cur = null; }
+    Store.put('rankings', tid, r);
+  }
+  function rejectApp(a, reason) { if (!a) return; setStage(a, 'rejected', clinName(), { reason: reason }); setTimeout(function () { runAgent(a.pid); }, 0); }
+  function clinName() { var c = CLINICIANS.filter(function (x) { return x.id === S.who.id; })[0]; return c ? c.name : 'Clinician'; }
+  function invite() {
+    var tid = S.trial, r = rstate(tid); rprep(tid, r); var n = Math.max(1, Math.min(r.ranked.length, Number(val('topn')) || 3));
+    r.ranked.forEach(function (id, i) { var a = Store.get('apps', id); if (i < n) setStage(a, 'prescreen', clinName(), { rank: i + 1 }); else setStage(a, 'waitlist', clinName(), { rank: i + 1 }); });
+    Store.put('rankings', tid, { ranked: [], rejected: [], cur: null, n: 0 });
+    toast('Invited ' + plural(n, 'applicant') + ' to pre-screening. Everyone has been told.');
+    S.ctab = 'apps'; S.afilter = 'prescreen'; S.atrial = tid; saveSession(); render();
+  }
+
+  /* ---------- applications pipeline ---------- */
+  var FILTERS = [['all', 'All'], ['applied', 'New'], ['prescreen', 'Pre-screen'], ['screening', 'Screening'], ['eligibility', 'Eligibility'], ['approval', 'Approval'], ['enrolled', 'Enrolled'], ['completed', 'Completed'], ['closed', 'Closed']];
+  function inFilter(a, f) { if (f === 'all') return true; if (f === 'closed') return ['rejected', 'waitlist', 'screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return a.stage === f; }
+  function appsView() {
+    var base = Store.all('apps').filter(function (a) { return S.atrial === 'all' || a.trial === S.atrial; });
+    var list = base.filter(function (a) { return inFilter(a, S.afilter); }).sort(function (a, b) { return b.upd - a.upd; });
+    var chips = FILTERS.map(function (f) { var n = base.filter(function (a) { return inFilter(a, f[0]); }).length; return '<button class="fchip" data-act="afilter" data-v="' + f[0] + '" aria-pressed="' + (S.afilter === f[0]) + '">' + f[1] + ' <span class="n">' + n + '</span></button>'; }).join('');
+    var rows = list.map(function (a) { var pt = pid(a), t = TRIAL[a.trial], x = evaluate(P_(pt), t), named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return '<tr class="click" data-act="app" data-id="' + a.id + '"><td><b style="font-weight:500">' + (named ? esc(pt.name) : pt.id) + '</b><br><span class="faint xs">' + pt.id + ' · ' + pt.age + ' ' + pt.sex + ' · ' + esc(pt.city) + '</span></td><td>' + t.code + '</td><td>' + ring(x.score, x.tier) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint">' + (a.by === 'agent' ? 'Agent' : 'Patient') + '</td><td class="faint">' + ago(a.upd) + '</td></tr>'; }).join('');
+    return '<div class="page-h"><div><h1>Applications</h1><p>Every applicant and the stage they’re at.</p></div>' + trialSelect('apps-trial', S.atrial, true) + '</div>' +
+      '<div class="chips">' + chips + '</div>' +
+      '<div class="card" style="padding:12px 8px"><div class="tbl-wrap">' + (rows ? '<table><thead><tr><th>Patient</th><th>Trial</th><th>Fit</th><th>Stage</th><th>Sent by</th><th>Updated</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty"><p>No applications here.</p></div>') + '</div></div>';
+  }
+  function stageCls(s) { return { applied: 'acc', completed: 'met', enrolled: 'met', rejected: 'not', screenfail: 'not', withdrawn: '', waitlist: 'unk' }[s] || ''; }
+  var BR = { cr: 'Complete response', pr: 'Partial response', sd: 'Stable disease', pd: 'Cancer grew' };
+  function openApp(id) {
+    var a = Store.get('apps', id); if (!a) return closeSheet();
+    var pt = pid(a), t = TRIAL[a.trial], p = P_(pt), r = evaluate(p, t); r.p = p;
+    var named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0;
+    var bad = ['rejected', 'screenfail', 'withdrawn', 'waitlist'].indexOf(a.stage) >= 0, idx = FLOW.indexOf(a.stage);
+    var stepper = '<div class="stepper">' + FLOW.map(function (s, i) { var cls = i < idx || reached(a, s) && i !== idx ? 'done' : (i === idx ? 'now' : ''); return '<span class="' + cls + '">' + STAGE_C[s] + '</span>'; }).join('') + (bad ? '<span class="' + (a.stage === 'waitlist' ? 'now' : 'bad') + '">' + STAGE_C[a.stage] + '</span>' : '') + '</div>';
+    var act = '';
+    function n(id, label, v, step) { return '<label class="field"><span>' + label + '</span><input class="input" id="' + id + '" type="number" step="' + (step || 'any') + '" value="' + (v == null ? '' : v) + '"></label>'; }
+    if (a.stage === 'applied' || a.stage === 'waitlist') act = '<div class="panel2"><b style="font-weight:500">' + (a.stage === 'applied' ? 'New applicant' : 'On the waiting list') + '</b><p class="muted sm">Rank new applicants on the Rank tab, or decide here.</p><div class="row"><button class="btn pri" data-act="stage" data-v="prescreen" data-id="' + id + '">Invite to pre-screening</button><button class="btn danger" data-act="stage" data-v="rejected" data-id="' + id + '">Reject</button></div></div>';
+    else if (a.stage === 'prescreen') act = '<div class="panel2"><b style="font-weight:500">Enter pre-screening results</b><p class="muted sm">Results go into the patient’s record. If they don’t meet a rule, their agent uses the results to look for other trials.</p><div class="grid3"><label class="field"><span>ECOG</span><select class="input" id="ps-ecog">' + [0, 1, 2, 3].map(function (i) { return '<option' + (p.ecog === i ? ' selected' : '') + '>' + i + '</option>'; }).join('') + '</select></label>' + n('ps-anc', 'Neutrophils', p.anc) + n('ps-plt', 'Platelets', p.plt) + n('ps-crcl', 'Creatinine clearance', p.crcl) + n('ps-bili', 'Bilirubin × ULN', p.bili) + n('ps-pdl1', 'PD-L1 %', p.pdl1, 1) + '</div><label class="field"><span>Brain MRI</span><select class="input" id="ps-brain">' + [['none', 'No spread'], ['treated_stable', 'Treated and stable'], ['untreated', 'Untreated spread'], ['unk', 'Not done']].map(function (o) { return '<option value="' + o[0] + '"' + (p.brain === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label><div class="row"><button class="btn pri" data-act="ps-save" data-id="' + id + '">Save results</button><button class="btn danger" data-act="stage" data-v="rejected" data-id="' + id + '">Reject</button></div></div>';
+    else if (a.stage === 'screening') act = '<div class="panel2"><b style="font-weight:500">Full screening</b><p class="muted sm">Scans, bloods and tests from the protocol.</p><div class="row"><button class="btn pri" data-act="stage" data-v="eligibility" data-id="' + id + '">Screening complete</button><button class="btn danger" data-act="sfail" data-id="' + id + '">Screen fail</button></div></div>';
+    else if (a.stage === 'eligibility') act = '<div class="panel2"><b style="font-weight:500">Confirm eligibility</b><p class="muted sm">Check each rule below against the screening results.</p><div class="row"><button class="btn pri" data-act="stage" data-v="approval" data-id="' + id + '">All ' + t.crit.length + ' rules confirmed</button><button class="btn danger" data-act="sfail" data-id="' + id + '">Not eligible</button></div></div>';
+    else if (a.stage === 'approval') act = '<div class="panel2"><b style="font-weight:500">Consent and sign-off</b><label class="row sm"><input type="checkbox" id="ok-consent"> Patient signed the consent form</label><label class="row sm"><input type="checkbox" id="ok-pi"> Principal investigator signs off (' + esc(clinName()) + ')</label><div class="row"><button class="btn pri" data-act="enrol" data-id="' + id + '">Enrol and randomise</button></div></div>';
+    else if (a.stage === 'enrolled') act = '<div class="panel2"><b style="font-weight:500">Record trial results</b><p class="muted sm">When the patient finishes, their results go into their record and their agent starts looking for what could come next.</p><div class="grid2"><label class="field"><span>Best response</span><select class="input" id="rs-br"><option value="pd">Cancer grew</option><option value="sd">Stable disease</option><option value="pr">Partial response</option><option value="cr">Complete response</option></select></label>' + n('rs-months', 'Months on the trial', 4, 1) + '<label class="field"><span>Serious side effects</span><select class="input" id="rs-sae"><option value="no">None</option><option value="yes">Yes, grade 3 or more</option></select></label>' + n('rs-weeks', 'Weeks since last dose', 4, 1) + '</div><label class="field"><span>Notes</span><input class="input" id="rs-note" maxlength="140" placeholder="Optional"></label><div class="row"><button class="btn pri" data-act="complete" data-id="' + id + '">Mark completed</button></div></div>';
+    else if (a.stage === 'completed' && a.outcome) act = '<div class="panel2"><b style="font-weight:500">Completed</b><p class="sm">' + BR[a.outcome.br] + ' · ' + a.outcome.months + ' months · serious side effects: ' + (a.outcome.sae === 'yes' ? 'yes' : 'none') + '</p></div>';
+    else if (a.reason) act = '<div class="panel2"><b style="font-weight:500">' + STAGE_C[a.stage] + '</b><p class="sm muted">' + esc(a.reason) + '</p></div>';
+    sheet(sheetHead((named ? esc(pt.name) + ' · ' : '') + pt.id, t.code + ' · ' + esc(t.name)) + stepper +
+      '<div class="pcard" style="background:var(--surface-2);padding:18px">' + profileInner(a, pt, p, r) + pvSlot() + '</div>' + act +
+      '<details><summary>All ' + t.crit.length + ' rules</summary>' + ruleList(r) + '</details>' +
+      '<details><summary>History</summary><div class="feed">' + a.hist.slice().reverse().map(function (h) { return '<div class="ev"><span class="av">' + (/agent/i.test(h.by) ? ICON.spark : ICON.hosp) + '</span><div><b>' + STAGE_C[h.s] + '</b><time>' + dstr(h.at) + ' · ' + esc(h.by) + '</time>' + (h.note ? '<p class="muted">' + esc(h.note) + '</p>' : '') + '</div></div>'; }).join('') + '</div></details>', true);
+    mountPv(pt, p, t);
+  }
+  function profileInner(a, pt, p, r) {
+    var unk = unknownRules(r);
+    return '<div class="who"><div><small>' + pt.age + ' · ' + pt.sex + ' · ' + esc(pt.city) + ' · ' + nearTxt(r.site) + '</small></div>' + ring(r.score, r.tier) + '</div><div class="tally"><span class="chip met">✓ ' + r.met + '</span>' + (r.not ? '<span class="chip not">✕ ' + r.not + '</span>' : '') + (r.unk ? '<span class="chip unk">? ' + r.unk + '</span>' : '') + '<span class="chip byagent">' + (a.by === 'agent' ? ICON.spark + 'Sent by agent' : 'Sent by patient') + '</span></div>' +
+      '<div class="facts"><div><span class="k">Tumour</span><span>' + esc(HIST[p.histology] + ', ' + STAGE[p.stage]) + '<br>' + esc(bioText(p).join(' · ')) + '</span></div><div><span class="k">Treatment</span><span>' + esc(txText(p)) + '</span></div><div><span class="k">Fitness</span><span>ECOG ' + (p.ecog == null ? 'not known' : p.ecog) + '</span></div>' + (unk.length ? '<div><span class="k">To check</span><span style="color:var(--unk)">' + esc(unk.join('; ')) + '</span></div>' : '') + ((pt.past || []).length ? '<div><span class="k">Past trials</span><span>' + pt.past.map(function (x) { return esc(x.code + ': ' + (BR[x.result] || x.result)); }).join('; ') + '</span></div>' : '') + '</div>';
+  }
+  function savePrescreen(id) {
+    var a = Store.get('apps', id), pt = clone(pid(a)), t = TRIAL[a.trial], now = Date.now(), site = siteFor(a);
+    var src = 'Pre-screening, ' + site.name + ', ' + dstr(now);
+    pt.rec.ecog = Number(val('ps-ecog')); pt.srcs.ecog = src;
+    ['anc', 'plt', 'crcl', 'bili'].forEach(function (k) { var v = val('ps-' + k); if (v != null) { pt.rec[k] = v; pt.labs[k] = (pt.labs[k] || []).concat([[now, v]]); } }); pt.srcs.labs = src;
+    var pd = val('ps-pdl1'); if (pd != null) { pt.rec.pdl1 = pd; pt.srcs.bio = src; }
+    var br = val('ps-brain'); if (br) { pt.rec.brain = br; pt.srcs.brain = src; }
+    Store.put('patients', pt.id, pt);
+    var r = evaluate(P_(pt), t), fails = r.rows.filter(function (x) { return x.s === NO; }).map(function (x) { return x.c.text; });
+    event(pt.id, 'Records Reader', 'Added your pre-screening results from ' + site.name + ' to your record.', false);
+    if (fails.length) { setStage(a, 'screenfail', clinName(), { reason: fails.join('; '), prescreen: { at: now } }); toast('Saved. ' + pt.id + ' doesn’t meet: ' + fails[0] + '. Their agent is looking again.'); setTimeout(function () { runAgent(pt.id); }, 0); }
+    else { setStage(a, 'screening', clinName(), { prescreen: { at: now } }); toast('Saved. ' + pt.name + ' moves to screening.'); }
+    openApp(id);
+  }
+  function complete(id) {
+    var a = Store.get('apps', id), pt = clone(pid(a)), t = TRIAL[a.trial], now = Date.now();
+    var o = { br: val('rs-br'), months: Number(val('rs-months')) || 0, sae: val('rs-sae'), weeks: Number(val('rs-weeks')) || 4, note: val('rs-note') || '' };
+    for (var k in t.gives) pt.rec[k] = true;
+    pt.rec.progressed = o.br === 'pd' ? 'yes' : 'no'; pt.rec.lastTxWeeks = o.weeks;
+    pt.past = (pt.past || []).concat([{ trial: t.id, code: t.code, name: t.name, result: o.br, months: o.months, at: now }]);
+    pt.tx = (pt.tx || []).concat([{ what: t.type + ' in trial ' + t.code, when: now - o.months * 30 * DAY, until: now - o.weeks * 7 * DAY }]);
+    pt.srcs.tx = 'Trial results, ' + t.code;
+    Store.put('patients', pt.id, pt);
+    setStage(a, 'completed', clinName(), { outcome: o });
+    event(pt.id, 'Your agent', 'Added your ' + t.code + ' results to your record. Looking for what could come next.', false);
+    setTimeout(function () { runAgent(pt.id); }, 0);
+    toast('Completed. ' + pt.name + '’s results now feed their next match.');
+    openApp(id);
+  }
+
+  /* ================= swipe (patients: trial cards; clinicians: applicants) ================= */
+  function bindDeck(kind) {
+    var card = $('#deck .top'); if (!card || card.dataset.kind === 'q') return;
+    var sx = 0, sy = 0, dx = 0, on = false;
+    card.addEventListener('pointerdown', function (e) { if (e.target.closest('button,a,input')) return; on = true; S.dragging = true; sx = e.clientX; sy = e.clientY; dx = 0; card.classList.add('drag'); card.setPointerCapture(e.pointerId); });
+    card.addEventListener('pointermove', function (e) { if (!on) return; dx = e.clientX - sx; var dy = (e.clientY - sy) * .2; card.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + dx / 22 + 'deg)'; var u = card.querySelector('.stamp.up'), d = card.querySelector('.stamp.down'); if (u) u.style.opacity = Math.max(0, Math.min(1, dx / 90)); if (d) d.style.opacity = Math.max(0, Math.min(1, -dx / 90)); });
+    function end() { if (!on) return; on = false; card.classList.remove('drag'); S.dragging = false; if (Math.abs(dx) > 110) fly(dx > 0 ? 'up' : 'down'); else { card.style.transform = ''; $$('.stamp', card).forEach(function (s) { s.style.opacity = 0; }); } }
+    card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
+  }
+  function fly(dir) {
+    var card = $('#deck .top'); if (!card) return;
+    var st = card.querySelector('.stamp.' + dir); if (st) st.style.opacity = 1;
+    card.style.transform = 'translate(' + (dir === 'up' ? 640 : -640) + 'px, 30px) rotate(' + (dir === 'up' ? 22 : -22) + 'deg)'; card.style.opacity = 0;
+    var kind = card.dataset.kind, id = card.dataset.id;
+    setTimeout(function () {
+      if (kind === 'a') rankDecide(dir);
+      else if (kind === 't') { var pt = me(); if (dir === 'up') applyTo(pt, id); else passOn(pt, id); }
+    }, reduce ? 0 : 230);
+  }
+
+  /* ================= events ================= */
+  var ACT = {
+    'login-role': function (el) { S.loginRole = el.dataset.v; S.creating = false; render(); },
+    login: function (el) { S.who = { role: el.dataset.role, id: el.dataset.id }; S.tab = 'discover'; S.ctab = 'overview'; saveSession(); if (S.who.role === 'patient') runAgent(S.who.id); render(); window.scrollTo(0, 0); },
+    'new-open': function () { S.creating = true; render(); var el = $('#np-name'); if (el) el.focus(); },
+    'new-cancel': function () { S.creating = false; render(); },
+    'new-create': function () {
+      var name = (val('np-name') || '').trim(); if (name.length < 2) { toast('Add a first name and initial.'); return; }
+      var ids = Store.all('patients').map(function (p) { return +p.id.slice(2); }), id = 'P-0' + (Math.max.apply(null, ids.concat([500])) + 1);
+      var p = { id: id, name: name, age: Math.max(18, Math.min(100, Number(val('np-age')) || 60)), sex: '–', city: val('np-city') || 'London', account: true, rec: baseRec({ empty: true, histology: 'unk', stage: 'unk', egfr: 'unk', alk: 'unk', ros1: 'unk', kras: 'unk', ecog: null, brain: 'unk', progressed: 'unk' }), srcs: {}, labs: {}, tx: [], past: [], sources: [], settings: { auto: 'ask', maxTravel: 50, maxVisits: 2, rand: 'yes', types: [], pass: [] }, told: [], created: Date.now() };
+      Store.put('patients', id, p); S.creating = false; S.who = { role: 'patient', id: id }; S.tab = 'discover'; saveSession(); render();
+    },
+    reset: function () { Store.reset().then(function () { toast('Demo data reset.'); }); S.creating = false; },
+    logout: function () { S.who = null; saveSession(); closeSheet(); render(); },
+    tab: function (el) { S.tab = el.dataset.v; saveSession(); closeSheet(); render(); window.scrollTo(0, 0); if (S.tab === 'inbox') setTimeout(markRead, 1500); },
+    ctab: function (el) { S.ctab = el.dataset.v; saveSession(); render(); window.scrollTo(0, 0); },
+    mtab: function (el) { S.mtab = el.dataset.v; render(); },
+    activity: openActivity, settings: openSettings, connect: openConnect,
+    link: function (el) { doConnect(el.dataset.id); }, 'link-go': function (el) { runConnect(el.dataset.id); },
+    add: function () { openAdd(); }, 'add-k': function (el) { openAdd(el.dataset.v); }, 'add-save': function (el) { saveAdd(el.dataset.v); },
+    'ecog-pick': function (el) { saveAdd('ecog', Number(el.dataset.v)); },
+    'letter-example': function () { var t = $('#a-letter'); if (t) t.value = LETTER; },
+    'letter-read': readLetter, 'letter-save': saveLetter,
+    'fhir-go': runFhir, 'fhir-save': saveFhir,
+    live: function (el) { openLive(el.dataset.id); }, 'live-check': function (el) { runLiveCheck(el.dataset.id); },
+    'scout-retry': function () { SCOUT.state = 'idle'; soon(); },
+    close: function () { closeSheet(); }, 'close-go': function (el) { closeSheet(); S.tab = el.dataset.v; saveSession(); render(); },
+    trial: function (el) { openTrial(el.dataset.id); },
+    apply: function (el) { applyTo(me(), el.dataset.id); closeSheet(); },
+    unpass: function (el) { var pt = clone(me()); pt.settings.pass = (pt.settings.pass || []).filter(function (x) { return x !== el.dataset.id; }); savePatient(pt); closeSheet(); toast(TRIAL[el.dataset.id].code + ' is back in Discover.'); },
+    withdraw: function (el) { var a = Store.get('apps', el.dataset.id); setStage(a, 'withdrawn', 'Patient', { reason: 'Withdrawn by the patient' }); closeSheet(); toast('Application withdrawn.'); },
+    swipe: function (el) { fly(el.dataset.v); },
+    answer: function (el) {
+      var pt = clone(me()), key = el.dataset.q, opt = QUESTIONS[key].opts[+el.dataset.i];
+      if (!opt[1]) { pt.deferred = (pt.deferred || []).concat([key]); Store.put('patients', pt.id, pt); event(pt.id, 'Gap Closer', 'No problem. Your care team will check ' + QUESTIONS[key].short + '.', false); return; }
+      var before = results(me()).map(function (r) { return r.t.id + ':' + r.tier; });
+      opt[1](pt.rec); pt.srcs[{ brain: 'brain', pdl1: 'bio', drivers: 'bio', washout: 'tx', crt: 'tx' }[key]] = 'You answered “' + opt[0] + '”';
+      savePatient(pt);
+      var changed = results(pt).filter(function (r) { return !r.scope && before.indexOf(r.t.id + ':' + r.tier) < 0; });
+      event(pt.id, 'Gap Closer', 'You answered ' + QUESTIONS[key].short + '. ' + (changed.length ? changed.map(function (r) { return r.t.code + (r.tier === 'not' ? ' no longer fits' : ' is now a ' + r.tier + ' match'); }).join(', ') + '.' : 'Your trials are up to date.'), false);
+      toast(changed.length ? changed.map(function (r) { return r.t.code + (r.tier === 'not' ? ' no longer fits' : ' is now a ' + r.tier + ' match'); }).join(', ') : 'Thanks. Your trials are up to date.');
+    },
+    auto: function (el) { var pt = clone(me()); pt.settings.auto = el.checked ? 'auto' : 'ask'; savePatient(pt); toast(el.checked ? 'Your agent will apply to strong matches for you.' : 'Your agent will ask you first.'); setTimeout(openActivity, 50); },
+    pref: function (el) { var k = el.dataset.k, v = el.dataset.v; draft[k] = (k === 'maxTravel' && v !== 'any') || k === 'maxVisits' ? Number(v) : v; renderSettings(); },
+    ptype: function (el) { var v = el.dataset.v, l = draft.types || []; draft.types = l.indexOf(v) >= 0 ? l.filter(function (x) { return x !== v; }) : l.concat([v]); renderSettings(); },
+    'unpass-d': function (el) { draft.pass = (draft.pass || []).filter(function (x) { return x !== el.dataset.v; }); renderSettings(); },
+    'save-settings': function () { var pt = clone(me()); pt.settings = clone(draft); savePatient(pt); event(pt.id, 'Your agent', 'Updated your search settings. Re-checked every trial.', false); closeSheet(); toast('Saved. Your agent re-checked every trial.'); },
+    readall: markRead,
+    // clinician
+    need: function (el) { if (el.dataset.v === 'rank') { S.ctab = 'rank'; S.trial = el.dataset.id; } else { S.ctab = 'apps'; S.afilter = el.dataset.id; S.atrial = 'all'; } saveSession(); render(); window.scrollTo(0, 0); },
+    'goto-trial': function (el) { S.ctab = 'apps'; S.atrial = el.dataset.id; S.afilter = 'all'; saveSession(); render(); window.scrollTo(0, 0); },
+    rank: function (el) { rankDecide(el.dataset.v); },
+    invite: invite,
+    app: function (el) { openApp(el.dataset.id); },
+    afilter: function (el) { S.afilter = el.dataset.v; render(); },
+    stage: function (el) { var a = Store.get('apps', el.dataset.id), v = el.dataset.v; setStage(a, v, clinName(), v === 'rejected' ? { reason: 'Not the right fit for this trial' } : null); if (v === 'rejected') setTimeout(function () { runAgent(a.pid); }, 0); toast(STAGE_C[v] + '. The patient has been told.'); openApp(a.id); },
+    sfail: function (el) { var a = Store.get('apps', el.dataset.id); setStage(a, 'screenfail', clinName(), { reason: 'Did not meet a requirement at screening' }); setTimeout(function () { runAgent(a.pid); }, 0); openApp(a.id); },
+    enrol: function (el) { if (!($('#ok-consent') || {}).checked || !($('#ok-pi') || {}).checked) { toast('Tick both boxes first.'); return; } var a = Store.get('apps', el.dataset.id); setStage(a, 'enrolled', clinName(), { arm: Math.random() < .5 ? 'New treatment' : 'Standard treatment' }); toast('Enrolled and randomised.'); openApp(a.id); },
+    'ps-save': function (el) { savePrescreen(el.dataset.id); },
+    complete: function (el) { complete(el.dataset.id); }
+  };
+  function markRead() { var pt = S.who && me(); if (!pt) return; Store.all('events').filter(function (e) { return e.pid === pt.id && e.notice && !e.read; }).forEach(function (e) { var id = Object.keys(Store.data.events).filter(function (k) { return Store.data.events[k] === e; })[0]; var c = clone(e); c.read = true; Store.put('events', id, c); }); }
+
+  document.addEventListener('click', function (e) {
+    var sc = $('#scrim'); if (sc && e.target === sc) { closeSheet(); return; }
+    var el = e.target.closest('[data-act]'); if (!el || el.tagName === 'SELECT' || el.type === 'checkbox' || el.type === 'number') return;
+    var f = ACT[el.dataset.act]; if (f) { e.preventDefault(); f(el); }
+  });
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.id === 'rank-trial') { S.trial = el.value; S.topN = null; saveSession(); render(); }
+    else if (el.id === 'apps-trial') { S.atrial = el.value; render(); }
+    else if (el.id === 'auto-sw') ACT.auto(el);
+    else if (el.id === 'topn') { S.topN = Number(el.value); render(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && S.sheet) { closeSheet(); return; }
+    if (S.sheet || /INPUT|SELECT|TEXTAREA/.test((document.activeElement || {}).tagName || '')) return;
+    if (!$('#deck .top') || $('#deck .top').dataset.kind === 'q') return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); fly('up'); } else if (e.key === 'ArrowLeft') { e.preventDefault(); fly('down'); }
+  });
+
+  render();
+  Store.init();
+  if (window.TMConnect) window.TMConnect.ready.then(soon);   // show live connections once the server has answered
+})();
+</script>
+</body>
+</html>

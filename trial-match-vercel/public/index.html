@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trial Match</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&amp;family=Roboto:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#0E0E0F}
+a{color:#A8C7FA}a:hover{color:#D3E3FD}
+.tm h1,.tm h2,.tm h3{text-wrap:balance}
+.tm .grad{background:linear-gradient(90deg,#4285F4 0%,#9B72CB 55%,#D96570 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tm .row3{display:grid;grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr);align-items:center}
+.tm .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.tm .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.tm a.pri:hover{filter:brightness(1.1)}
+.tm a.sec:hover{background:rgba(255,255,255,.06)}
+.tm a.nl:hover{color:#E3E3E3}
+.tm .spin{animation:tmSpin 8s linear infinite}
+@keyframes tmSpin{to{transform:rotate(360deg)}}
+@media (max-width:900px){.tm .row3{grid-template-columns:minmax(0,1fr)}.tm .row3 .link{height:150px}.tm .row3 .link>span:first-child{left:50%;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,rgba(66,133,244,0),rgba(66,133,244,.8) 30%,rgba(155,114,203,.8) 70%,rgba(217,101,112,0))}.tm .g2{grid-template-columns:minmax(0,1fr)}.tm .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.tm .navlinks{display:none}}
+@media (max-width:560px){.tm .g4{grid-template-columns:minmax(0,1fr)}.tm .sect{padding-top:80px!important;padding-bottom:80px!important}}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+.tm .slide{min-height:min(100vh,980px);box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start}
+.tm .lift{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.tm .lift:hover{transform:translateY(-4px)}
+.tm a.pri,.tm a.sec{transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s,background .2s}
+.tm a.pri:hover,.tm a.sec:hover{transform:translateY(-2px)}
+.tm a.pill .arr{display:inline-block;transition:transform .2s}
+.tm a.pill:hover .arr{transform:translateX(4px)}
+.tm a.more{display:inline-flex;gap:6px;transition:gap .2s}
+.tm a.more:hover{gap:12px}
+.tm .bar{position:fixed;left:0;right:0;top:0;height:3px;z-index:20;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570);pointer-events:none}
+.tm .w{display:inline-block}
+.tm.anim .mo{transition:opacity .45s cubic-bezier(.2,.8,.2,1),transform .5s cubic-bezier(.2,.8,.2,1),filter .45s ease}
+.tm.anim .mo:not(.in){opacity:0!important;transform:translateY(40px)!important;filter:blur(10px)}
+.tm.anim .w.mo:not(.in){transform:translateY(.6em) rotate(4deg)!important;filter:blur(12px)}
+.tm.anim .zoomIn.mo:not(.in){transform:scale(.88)!important}
+.tm.anim .tiltIn.mo:not(.in){transform:translateY(160px) rotate(10deg) scale(.9)!important}
+.tm.anim .swipeIn.mo:not(.in){transform:translateX(240px) rotate(24deg)!important}
+.tm.anim .slideL.mo:not(.in){transform:translateX(-160px) rotate(-5deg)!important}
+.tm.anim .slideR.mo:not(.in){transform:translateX(160px) rotate(5deg)!important}
+.tm.anim .pop.mo:not(.in){transform:scale(.3) rotate(-120deg)!important}
+.tm.anim .pop.mo{transition-duration:.45s,.6s,.45s;transition-timing-function:ease,cubic-bezier(.2,1.5,.4,1),ease}
+@supports (animation-timeline: scroll()){.tm .bar{animation:tmBar linear both;animation-timeline:scroll(root)}}
+@keyframes tmBar{to{transform:scaleX(1)}}
+@media (max-width:900px){.tm .slide{min-height:0}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}.tm *{animation:none!important;transition:none!important}}
+.tm-intro{position:fixed;inset:0;z-index:50;background:#0E0E0F;display:grid;place-items:center;pointer-events:none;animation:tmIntroOut .75s 1.1s cubic-bezier(.7,0,.2,1) forwards}
+.tm-intro .mk{position:relative;display:flex;align-items:center;gap:16px;font-family:'Google Sans Flex','Google Sans',Roboto,Arial,sans-serif;font-size:36px;font-weight:500;color:#E3E3E3;animation:tmMk 1.1s cubic-bezier(.2,.8,.2,1) both}
+.tm-intro .mk svg{width:56px;height:56px;animation:tmLogo 1s cubic-bezier(.2,1.4,.4,1) both}
+.tm-intro .ln{position:absolute;left:50%;top:calc(50% + 50px);width:240px;height:2px;margin-left:-120px;border-radius:1px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570);transform-origin:0 50%;animation:tmLn .8s .2s cubic-bezier(.6,0,.2,1) both}
+.tm-intro .halo{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(66,133,244,.28),rgba(155,114,203,.12) 60%,transparent);animation:tmHalo 1.6s ease-out both}
+@keyframes tmIntroOut{0%{transform:none}100%{transform:translateY(-100%);visibility:hidden}}
+@keyframes tmMk{0%{opacity:0;letter-spacing:.35em;filter:blur(10px)}55%{opacity:1;filter:none}100%{letter-spacing:0}}
+@keyframes tmLogo{from{transform:scale(.2) rotate(-120deg)}}
+@keyframes tmLn{from{transform:scaleX(0)}}
+@keyframes tmHalo{from{transform:scale(.3);opacity:0}to{transform:scale(1.4);opacity:1}}
+.tm .glowIn{animation:tmGlow 1.8s 1.15s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tmGlow{from{opacity:0;transform:translateX(-50%) scale(.5)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.tm header.navIn{animation:tmNav .7s 1.4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tmNav{from{opacity:0;transform:translateY(-28px)}}
+@media (prefers-reduced-motion:reduce){.tm-intro{display:none}}
+.tm .livedot{width:8px;height:8px;border-radius:50%;background:#F28B82;box-shadow:0 0 0 0 rgba(242,139,130,.6);animation:tmLive 1.6s ease-out infinite}
+@keyframes tmLive{0%{box-shadow:0 0 0 0 rgba(242,139,130,.55)}100%{box-shadow:0 0 0 10px rgba(242,139,130,0)}}
+/* ---------- agents relay: a pulse runs along the track; each card plays when it arrives (10s loop, card i at 2i s) ---------- */
+.tm .g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.tm .relay{position:relative;display:flex;flex-direction:column;gap:20px}
+.tm .relay:not(.play) *,.tm .relay:not(.play){animation-play-state:paused!important}
+.tm .rl-track{position:relative;height:28px}
+.tm .rl-line{position:absolute;left:calc(10% - 6.4px);right:calc(10% - 6.4px);top:13px;height:2px;border-radius:1px;background:linear-gradient(90deg,rgba(66,133,244,.8),rgba(155,114,203,.8) 60%,rgba(217,101,112,.8))}
+.tm .rl-nodes{position:absolute;inset:0;gap:16px;align-items:center;justify-items:center}
+.tm .rl-node{width:12px;height:12px;border-radius:50%;background:#3C4043;box-shadow:0 0 0 4px #0E0E0F;animation:rlNode 10s var(--d) infinite}
+.tm .rl-pulse{position:absolute;top:14px;left:calc(10% - 6.4px);width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 12px 3px rgba(168,199,250,.9),0 0 32px 10px rgba(155,114,203,.4);opacity:0;animation:rlRun 10s linear infinite}
+.tm .rl-row{gap:16px;list-style:none;margin:0;padding:0}
+.tm .ag{position:relative;border-radius:24px;background:#1A1B1D;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);padding:12px 12px 18px;display:flex;flex-direction:column;gap:14px;animation:rlCard 10s var(--d) infinite}
+.tm .ag-art{position:relative;height:132px;border-radius:16px;background:#131314;overflow:hidden}
+.tm .ag-txt{padding:0 6px}
+.tm .ag-txt b{display:block;font-weight:500;font-size:17px}
+.tm .ag-tag{display:inline-flex;align-items:center;height:24px;margin-top:8px;padding:0 10px;border-radius:12px;font-size:12px;background:#26282B;color:#C4C7C5;white-space:nowrap}
+.tm .t-blue{background:rgba(168,199,250,.14);color:#A8C7FA}.tm .t-green{background:rgba(109,213,140,.14);color:#6DD58C}.tm .t-violet{background:rgba(155,114,203,.18);color:#CDB4F0}
+.tm .v-chip{position:absolute;left:14px;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:8px;background:#26282B;color:#C4C7C5;font-size:12px;white-space:nowrap}
+.tm .v-chip em,.tm .v-rules em,.tm .v-person em{font-style:normal;font-weight:700}
+/* 1 Records Reader */
+.tm .v-doc{position:absolute;left:14px;right:14px;top:16px;display:flex;flex-direction:column;gap:9px}
+.tm .v-doc i{display:block;height:6px;border-radius:3px;background:#2A2C2F;position:relative;overflow:hidden}
+.tm .v-doc i.hl::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#A8C7FA,#9B72CB);transform-origin:0 50%;animation:rlSweep 10s var(--d) infinite backwards}
+.tm .c-read{bottom:14px;background:rgba(168,199,250,.14);color:#A8C7FA;animation:rlPop 10s var(--d) infinite backwards}
+/* 2 Skeptic */
+.tm .c-ok{top:22px;background:rgba(109,213,140,.14);color:#6DD58C;animation:rlInL 10s var(--d) infinite backwards,rlOk 10s var(--d) infinite backwards}
+.tm .c-ok em,.tm .c-bad em{display:inline-block;animation:rlTick 10s calc(var(--d) + .7s) infinite backwards}
+.tm .c-bad{top:62px;background:rgba(242,184,181,.14);color:#F2B8B5;opacity:.4;transform:translateY(12px);animation:rlBad 10s var(--d) infinite backwards}
+.tm .c-bad::after{content:"";position:absolute;left:8px;right:8px;top:50%;height:1.5px;background:#F2B8B5;transform-origin:0 50%;animation:rlStrike 10s var(--d) infinite backwards}
+/* 3 Trial Scout */
+.tm .v-live{position:absolute;left:14px;top:13px;display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.08em;color:#9AA0A6}
+.tm .v-trials{position:absolute;left:14px;right:14px;top:40px;display:flex;flex-direction:column;gap:8px}
+.tm .v-trials i{display:block;height:20px;border-radius:7px;background:#26282B;position:relative;animation:rlInR 10s calc(var(--d) + var(--k)) infinite backwards}
+.tm .v-trials i::before{content:"";position:absolute;left:9px;top:7px;width:58%;height:6px;border-radius:3px;background:#3C4043}
+.tm .v-trials i::after{content:"";position:absolute;right:9px;top:6px;width:8px;height:8px;border-radius:50%;background:#B79CE8}
+/* 4 Matcher */
+.tm .v-rules{position:absolute;left:14px;right:14px;top:15px;display:flex;flex-direction:column;gap:8px}
+.tm .v-rules span{display:flex;align-items:center;gap:9px}
+.tm .v-rules span::after{content:"";flex:1;height:6px;border-radius:3px;background:#2A2C2F}
+.tm .v-rules em{flex:none;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:rgba(109,213,140,.14);color:#6DD58C;animation:rlTick 10s calc(var(--d) + var(--k)) infinite backwards}
+.tm .v-rules em.q{background:rgba(253,214,99,.13);color:#FDD663}
+/* 5 Care team */
+.tm .v-person{position:absolute;left:50%;top:16px;width:52px;height:52px;margin-left:-26px;border-radius:50%;background:linear-gradient(135deg,#1E8E3E,#4285F4);display:grid;place-items:center}
+.tm .v-person em{position:absolute;right:-5px;bottom:-5px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:#6DD58C;color:#0E0E0F;box-shadow:0 0 0 3px #131314;animation:rlTick 10s calc(var(--d) + .75s) infinite backwards}
+.tm .v-btn{position:absolute;left:50%;bottom:14px;height:30px;padding:0 16px;border-radius:15px;background:#A8C7FA;color:#062E6F;font-size:12px;font-weight:500;display:inline-flex;align-items:center;white-space:nowrap;transform:translateX(-50%);animation:rlPress 10s calc(var(--d) + .3s) infinite backwards}
+@keyframes rlRun{0%{left:calc(10% - 6.4px);opacity:0}2%{opacity:1}80%{left:calc(90% + 6.4px);opacity:1}88%,100%{left:calc(90% + 6.4px);opacity:0}}
+@keyframes rlNode{0%{background:#fff;box-shadow:0 0 0 4px #0E0E0F,0 0 0 9px rgba(168,199,250,.3)}10%,88%{background:#A8C7FA;box-shadow:0 0 0 4px #0E0E0F}100%{background:#3C4043;box-shadow:0 0 0 4px #0E0E0F}}
+@keyframes rlCard{0%{box-shadow:inset 0 0 0 1px rgba(168,199,250,.6),0 18px 50px rgba(66,133,244,.18)}24%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 50px rgba(66,133,244,0)}}
+@keyframes rlSweep{0%{transform:scaleX(0)}7%,92%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes rlPop{0%,7%{opacity:0;transform:translateY(8px) scale(.9)}12%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateY(8px) scale(.9)}}
+@keyframes rlInL{0%{opacity:0;transform:translateX(-22px)}7%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateX(-22px)}}
+@keyframes rlOk{0%,8%{background:#26282B;color:#C4C7C5}13%,92%{background:rgba(109,213,140,.14);color:#6DD58C}100%{background:#26282B;color:#C4C7C5}}
+@keyframes rlBad{0%{opacity:0;transform:translateX(-22px);background:#26282B;color:#C4C7C5}7%,9%{opacity:1;transform:none;background:#26282B;color:#C4C7C5}14%,22%{opacity:1;transform:none;background:rgba(242,184,181,.14);color:#F2B8B5}32%,92%{opacity:.4;transform:translateY(12px)}100%{opacity:0;transform:translateY(12px)}}
+@keyframes rlStrike{0%,15%{transform:scaleX(0)}21%,92%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes rlTick{0%{transform:scale(0)}4%{transform:scale(1.25)}6%,92%{transform:scale(1)}100%{transform:scale(0)}}
+@keyframes rlInR{0%{opacity:0;transform:translateX(28px)}6%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateX(28px)}}
+@keyframes rlPress{0%,3%{transform:translateX(-50%) scale(1)}6%{transform:translateX(-50%) scale(.88)}10%,100%{transform:translateX(-50%) scale(1)}}
+@media (max-width:900px){.tm .g5{grid-template-columns:repeat(2,minmax(0,1fr))}.tm .rl-track{display:none}.tm .rl-row>li:last-child{grid-column:1/-1}}
+@media (max-width:560px){.tm .g5{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.tm .rl-node{background:#A8C7FA}}
+</style>
+</head>
+<body>
+
+<div class="tm-intro" aria-hidden="true"><span class="halo"></span><div class="mk"><svg viewBox="0 0 32 32"><defs><linearGradient id="lg0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg0)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg0)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg0)" opacity=".6"></path></svg>Trial Match</div><span class="ln"></span></div>
+<div class="tm" style="background: #0E0E0F; color: #E3E3E3; font-family: 'Google Sans Flex', 'Google Sans', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow: hidden">
+<div class="bar" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="navIn" style="position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; align-items: center; gap: 36px">
+  <a href="#top" style="display: flex; align-items: center; gap: 10px; color: #E3E3E3; text-decoration: none; font-size: 20px; font-weight: 500; white-space: nowrap">
+    <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg1)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg1)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg1)" opacity=".6"></path></svg>
+    Trial Match
+  </a>
+  <nav class="navlinks" aria-label="Sections" style="display: flex; gap: 28px; font-size: 15px">
+    <a class="nl" href="#gap" style="color: #9AA0A6; text-decoration: none">The gap</a>
+    <a class="nl" href="#product" style="color: #9AA0A6; text-decoration: none">Product</a>
+    <a class="nl" href="#agents" style="color: #9AA0A6; text-decoration: none">Agents</a>
+    <a class="nl" href="#results" style="color: #9AA0A6; text-decoration: none">Results</a>
+    <a class="nl" href="#trust" style="color: #9AA0A6; text-decoration: none">Trust</a>
+  </nav>
+  <span style="flex: 1"></span>
+  <a class="pri" href="/app/" style="height: 40px; padding: 0 20px; border-radius: 20px; background: #E3E3E3; color: #0E0E0F; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap">Try the demo →</a>
+</header>
+
+<!-- HERO -->
+<section id="top" class="slide" style="position: relative; padding: 56px 24px 120px">
+  <div class="glowIn" aria-hidden="true" style="position: absolute; left: 50%; top: -360px; width: 1400px; height: 900px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(66,133,244,.22), rgba(155,114,203,.10) 55%, transparent 100%); pointer-events: none"></div>
+  <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px">
+    <a class="pill" href="#gap" style="display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 6px 0 14px; border-radius: 17px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.10); color: #C4C7C5; font-size: 14px; text-decoration: none">Phase III lung cancer trials in the UK <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: rgba(168,199,250,.14); color: #A8C7FA; display: inline-flex; align-items: center; font-size: 13px">See the data <span class="arr">→</span></span></a>
+    <h1 style="margin: 0; max-width: 15ch; font-size: clamp(48px, 8.4vw, 112px); line-height: 1.0; font-weight: 400; letter-spacing: -0.035em"><span class="w">Most</span> <span class="w">patients</span> <span class="w">would</span> <span class="w">join</span> <span class="w">a</span> <span class="w">trial.</span> <span class="w grad">Most are never asked.</span></h1>
+    <p style="margin: 0; max-width: 34em; font-size: clamp(18px, 1.6vw, 21px); color: #9AA0A6; line-height: 1.5">Trial Match gives every patient an AI agent that finds the trials they qualify for, and gives every trial team a shortlist of people ready to join.</p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 4px">
+      <a class="pri" href="/app/" style="height: 52px; padding: 0 28px; border-radius: 26px; background: #A8C7FA; color: #062E6F; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo →</a>
+      <a class="sec" href="#product" style="height: 52px; padding: 0 28px; border-radius: 26px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); color: #E3E3E3; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">See how it works</a>
+    </div>
+  </div>
+
+  <!-- the match -->
+  <div style="position: relative; max-width: 1000px; margin: 88px auto 0">
+    <div class="row3" style="gap: 0">
+      <div class="slideL lift" style="border-radius: 28px; background: #1A1B1D; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px rgba(0,0,0,.5); padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left">
+        <div style="display: flex; align-items: center; gap: 14px">
+          <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #4285F4, #9B72CB); display: grid; place-items: center; font-size: 19px; font-weight: 500; color: #fff; flex: none">M</span>
+          <div><b style="font-weight: 500; font-size: 18px; display: block">Mei, 63</b><span style="font-size: 14px; color: #9AA0A6">Patient · London</span></div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span style="height: 28px; padding: 0 12px; border-radius: 8px; background: #26282B; font-size: 13px; color: #C4C7C5; display: inline-flex; align-items: center">Lung adenocarcinoma, stage IV</span>
+          <span style="height: 28px; padding: 0 12px; border-radius: 8px; background: #26282B; font-size: 13px; color: #C4C7C5; display: inline-flex; align-items: center">EGFR exon 19</span>
+          <span style="height: 28px; padding: 0 12px; border-radius: 8px; background: #26282B; font-size: 13px; color: #C4C7C5; display: inline-flex; align-items: center">Grew on osimertinib</span>
+        </div>
+      </div>
+
+      <div class="link" style="position: relative; height: 180px; display: grid; place-items: center">
+        <span aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: linear-gradient(90deg, rgba(66,133,244,.0), rgba(66,133,244,.8) 30%, rgba(155,114,203,.8) 70%, rgba(217,101,112,.0))"></span>
+        <div class="pop" style="position: relative; width: 104px; height: 104px; border-radius: 50%; display: grid; place-items: center">
+          <span class="spin" aria-hidden="true" style="position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, #4285F4, #9B72CB, #D96570, #4285F4)"></span>
+          <span style="position: absolute; inset: 3px; border-radius: 50%; background: #0E0E0F"></span>
+          <span style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1.1"><b data-count="c98" data-from="0" data-to="98" style="font-size: 30px; font-weight: 400">98</b><span style="font-size: 11px; color: #9AA0A6; letter-spacing: .06em">MATCH</span></span>
+        </div>
+      </div>
+
+      <div class="slideR lift" style="border-radius: 28px; background: #1A1B1D; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px rgba(0,0,0,.5); padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left">
+        <div style="display: flex; align-items: center; gap: 14px">
+          <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 50%; background: rgba(109,213,140,.14); color: #6DD58C; display: grid; place-items: center; flex: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M12 8v4M10 10h4"></path></svg></span>
+          <div><b style="font-weight: 500; font-size: 18px; display: block">Phase III trial LT-301</b><span style="font-size: 14px; color: #9AA0A6">Recruiting · 3 miles away</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+          <span style="display: flex; gap: 10px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6DD58C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>8 of 8 entry rules checked</span>
+          <span style="display: flex; gap: 10px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6DD58C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Each fact traced to her record</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin: 28px 0 0; text-align: center; font-size: 13px; color: #6F7378">Illustrative example. Mei and LT-301 are synthetic.</p>
+  </div>
+</section>
+
+<!-- THE GAP -->
+<section id="gap" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px">
+    <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">The</span> <span class="w">UK</span> <span class="w">opens</span> <span class="w">trials</span> <span class="w">faster</span> <span class="w">than</span> <span class="w">ever.</span> <span class="w" style="color: #6F7378; display: inline-block">Then they sit half empty.</span></h2>
+    <div class="g2 zoomIn" style="gap: 2px; border-radius: 28px; overflow: hidden">
+      <div style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 14px; color: #9AA0A6">Patients</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c95" data-from="0" data-to="95">95</span>%</span>
+        <span style="font-size: 19px">would consider joining a trial</span>
+        <span style="height: 1px; background: rgba(255,255,255,.08); margin: 10px 0"></span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c63" data-from="0" data-to="63">63</span>%</span>
+        <span style="font-size: 19px">were never told about one</span>
+      </div>
+      <div style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 14px; color: #9AA0A6">Trials</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c122" data-from="169" data-to="122">122</span></span>
+        <span style="font-size: 19px">days to open a trial, down from 169</span>
+        <span style="height: 1px; background: rgba(255,255,255,.08); margin: 10px 0"></span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c3" data-from="0" data-to="3">3</span> in 10</span>
+        <span style="font-size: 19px">still have no patient a month after opening</span>
+      </div>
+    </div>
+    <p class="rv2" style="margin: 0; max-width: 40em; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #C4C7C5">Patients are willing, and trials are open. What’s missing is the introduction. Today that depends on a busy doctor remembering which trials exist and checking each one’s rules by hand.</p>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product" class="sect slide" style="padding: 140px 24px; background: #121314">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 120px">
+    <h2 style="margin: 0; max-width: 18ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Trial</span> <span class="w">Match</span> <span class="w">makes</span> <span class="w">the</span> <span class="w">introduction.</span> <span class="w grad">On both sides.</span></h2>
+
+    <!-- patients -->
+    <div class="g2" style="gap: 80px; align-items: center">
+      <div class="rv" style="display: flex; flex-direction: column; gap: 20px">
+        <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">For patients</span>
+        <h3 style="margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">An agent that knows every trial you qualify for.</h3>
+        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Connect your record once. Your agent checks every open trial, asks you one question when something is missing, and shows only the trials that fit. Swipe right to apply, or let it apply for you.</p>
+        <a class="more" href="/app/" style="font-size: 16px; font-weight: 500; text-decoration: none">Try it as a patient <span>→</span></a>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 18px"><div class="tiltIn" style="width: 300px; max-width: 100%; border-radius: 44px; padding: 10px; background: #26282B; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08)">
+          <div style="border-radius: 36px; overflow: hidden; background: #131314; aspect-ratio: 390 / 844"><video src="media/patient.mp4" poster="media/patient.jpg" autoplay muted loop playsinline preload="auto" aria-label="Recording of the patient app: answering a question, then swiping right to apply" style="display: block; width: 100%; height: 100%; object-fit: cover"></video></div>
+        </div><span style="display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 12px; border-radius: 14px; background: rgba(255,255,255,.06); font-size: 12px; color: #C4C7C5"><span class="livedot"></span>Recorded live from the working app</span></div>
+      </div>
+    </div>
+
+    <!-- trial teams -->
+    <div class="g2" style="gap: 80px; align-items: center">
+      <div style="display: flex; justify-content: center">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 18px; width: 100%"><div class="zoomIn" style="width: 100%; max-width: 580px; border-radius: 24px; background: #1A1B1D; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.06)"><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="margin-left: 10px; font-size: 12px; color: #9AA0A6">Trial Match · Rank applicants</span></div><video src="media/clinician.mp4" poster="media/clinician.jpg" autoplay muted loop playsinline preload="auto" aria-label="Recording of the clinician app: swiping to rank applicants, then inviting the top three" style="display: block; width: 100%; aspect-ratio: 1000 / 680; object-fit: cover; background: #131314"></video></div><span style="display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 12px; border-radius: 14px; background: rgba(255,255,255,.06); font-size: 12px; color: #C4C7C5"><span class="livedot"></span>Recorded live from the working app</span></div>
+      </div>
+      <div class="rv" style="display: flex; flex-direction: column; gap: 20px">
+        <span style="font-size: 14px; color: #6DD58C; font-weight: 500">For trial teams</span>
+        <h3 style="margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">A ranked shortlist in minutes, not weeks.</h3>
+        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Applicants arrive with every entry rule already checked. Compare two at a time with a swipe, invite the best to pre-screening, and the rest hear back straight away.</p>
+        <a class="more" href="/app/" style="font-size: 16px; font-weight: 500; text-decoration: none">Try it as a clinician <span>→</span></a>
+      </div>
+    </div>
+
+    <!-- no dead ends -->
+    <div class="rv lift" style="border-radius: 28px; padding: 48px; background: linear-gradient(135deg, rgba(66,133,244,.12), rgba(155,114,203,.07) 60%, rgba(217,101,112,.04)), #161719; box-shadow: inset 0 0 0 1px rgba(155,114,203,.22); display: flex; flex-wrap: wrap; gap: 32px 64px; align-items: center">
+      <h3 style="margin: 0; flex: 1 1 320px; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">No dead ends.</h3>
+      <p style="margin: 0; flex: 2 1 420px; color: #C4C7C5; font-size: 19px">If a patient doesn’t qualify after pre-screening, those results go straight back to their agent, which finds the next trial that fits. When someone finishes a trial, their results start the next search.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">Under the hood</span>
+      <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Each</span> <span class="w">agent</span> <span class="w">does</span> <span class="w">one</span> <span class="w">job.</span> <span class="w" style="color: #6F7378; display: inline-block">Every fact keeps its source.</span></h2>
+    </div>
+
+    <div class="relay zoomIn">
+      <div class="rl-track" aria-hidden="true">
+        <span class="rl-line"></span>
+        <div class="rl-nodes g5"><i class="rl-node" style="--d: 0s"></i><i class="rl-node" style="--d: 2s"></i><i class="rl-node" style="--d: 4s"></i><i class="rl-node" style="--d: 6s"></i><i class="rl-node" style="--d: 8s"></i></div>
+        <span class="rl-pulse"></span>
+      </div>
+      <ol class="rl-row g5" aria-label="How a match is made, step by step">
+        <li class="ag" style="--d: 0s">
+          <div class="ag-art" aria-hidden="true"><div class="v-doc"><i style="width: 86%"></i><i style="width: 62%"></i><i class="hl" style="width: 78%"></i><i style="width: 48%"></i></div><span class="v-chip c-read">EGFR exon 19</span></div>
+          <div class="ag-txt"><b>Records Reader</b><span class="ag-tag t-blue">MedGemma</span></div>
+        </li>
+        <li class="ag" style="--d: 2s">
+          <div class="ag-art" aria-hidden="true"><span class="v-chip c-ok">EGFR exon 19 <em>✓</em></span><span class="v-chip c-bad">KRAS G12C <em>✕</em></span></div>
+          <div class="ag-txt"><b>Skeptic</b><span class="ag-tag t-green">Quote check</span></div>
+        </li>
+        <li class="ag" style="--d: 4s">
+          <div class="ag-art" aria-hidden="true"><span class="v-live"><span class="livedot"></span>LIVE</span><div class="v-trials"><i style="--k: 0s"></i><i style="--k: .25s"></i><i style="--k: .5s"></i></div></div>
+          <div class="ag-txt"><b>Trial Scout</b><span class="ag-tag t-violet">ClinicalTrials.gov</span></div>
+        </li>
+        <li class="ag" style="--d: 6s">
+          <div class="ag-art" aria-hidden="true"><div class="v-rules"><span><em style="--k: .1s">✓</em></span><span><em style="--k: .35s">✓</em></span><span><em style="--k: .6s">✓</em></span><span><em class="q" style="--k: .85s">?</em></span></div></div>
+          <div class="ag-txt"><b>Matcher</b><span class="ag-tag">Rules, not AI</span></div>
+        </li>
+        <li class="ag" style="--d: 8s">
+          <div class="ag-art" aria-hidden="true"><span class="v-person"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><em>✓</em></span><span class="v-btn">Invite</span></div>
+          <div class="ag-txt"><b>Care team</b><span class="ag-tag" style="background: rgba(155,114,203,.12)"><span class="grad">People decide</span></span></div>
+        </li>
+      </ol>
+    </div>
+
+    <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">MedGemma reads.</span> <span style="color: #6DD58C">Code checks.</span> <span style="color: #E3E3E3">Rules match.</span> <span class="grad">People decide.</span></p>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px">
+    <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Every</span> <span class="w">wrong</span> <span class="w">“yes”</span> <span class="w">costs</span> <span class="w">a</span> <span class="w">patient</span> <span class="w">weeks.</span> <span class="w" style="color: #6F7378; display: inline-block">So we measured that first.</span></h2>
+    <div class="g2" style="gap: 2px; border-radius: 28px; overflow: hidden">
+      <div class="rv dim" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; color: #9AA0A6">Registry search</span>
+        <span style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; color: #6F7378; font-variant-numeric: tabular-nums"><span data-count="c77" data-from="0" data-to="77">77</span>%</span>
+        <span style="font-size: 18px; color: #9AA0A6">of “eligible” matches were wrong</span>
+      </div>
+      <div class="rv3" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; color: #A8C7FA">Trial Match</span>
+        <span class="grad" style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; font-variant-numeric: tabular-nums">0%</span>
+        <span style="font-size: 18px">wrong, with every real match still found</span>
+      </div>
+    </div>
+    <div class="rv3" style="display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between; align-items: baseline">
+      <span style="font-size: 20px; color: #C4C7C5"><b style="font-weight: 500; color: #E3E3E3"><span data-count="c12" data-from="1" data-to="12">12</span>× less to review:</b> 0.6 trials per patient instead of 7.1.</span>
+      <span style="font-size: 13px; color: #6F7378">Offline test, 1,080 synthetic patient–trial pairs.</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust" class="sect slide" style="padding: 120px 24px; background: #121314">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+    <h2 style="margin: 0; max-width: 22ch; font-size: clamp(32px, 4vw, 48px); line-height: 1.1; font-weight: 400; letter-spacing: -0.02em"><span class="w">The</span> <span class="w">agent</span> <span class="w">finds</span> <span class="w">and</span> <span class="w">checks.</span> <span class="w" style="color: #6F7378">People decide.</span></h2>
+    <div class="g4" style="gap: 40px">
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="3"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><b style="font-weight: 500">You choose what to share</b><span style="color: #9AA0A6; font-size: 15px">Each record is read only with your consent.</span></div>
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path><path d="M3 3l18 18"></path></svg><b style="font-weight: 500">Your name stays hidden</b><span style="color: #9AA0A6; font-size: 15px">Trial teams see an ID until you say yes.</span></div>
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><b style="font-weight: 500">Doctors make the call</b><span style="color: #9AA0A6; font-size: 15px">Only the trial’s lead doctor can enrol anyone.</span></div>
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></svg><b style="font-weight: 500">Every step is logged</b><span style="color: #9AA0A6; font-size: 15px">Built for UK GDPR from day one.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="sect slide" style="position: relative; padding: 160px 24px; overflow: hidden">
+  <div aria-hidden="true" style="position: absolute; left: 50%; bottom: -420px; width: 1400px; height: 820px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(155,114,203,.20), rgba(66,133,244,.10) 55%, transparent 100%); pointer-events: none"></div>
+  <div style="position: relative; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; align-items: center; text-align: center">
+    <h2 style="margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 1.0; font-weight: 400; letter-spacing: -0.035em"><span class="w">Every</span> <span class="w">patient</span> <span class="w">deserves</span> <span class="w grad">to be asked.</span></h2>
+    <a class="pri rv2" href="/app/" style="height: 56px; padding: 0 32px; border-radius: 28px; background: #A8C7FA; color: #062E6F; font-size: 17px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="padding: 40px 24px 56px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; font-size: 13px; color: #6F7378">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between">
+      <span style="color: #C4C7C5; font-weight: 500">Trial Match</span>
+      <span>Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.</span>
+    </div>
+    <p style="margin: 0; line-height: 1.7">Sources: 95% from <a href="https://bmjopenrespres.bmj.com/content/13/1/e003702">BMJ Open Respiratory Research</a> (UK cancer patients). 63% from an <a href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html">Institute of Cancer Research survey</a> of 500+ patients, 2021. 122 and 169 days from the <a href="https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/">Health Research Authority</a>, 2026. 3 in 10 from <a href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026">UK Clinical Research Delivery figures</a>, 2026 (industry trials).</p>
+  </div>
+</footer>
+
+</div>
+<script>
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var root = document.querySelector('.tm'); if (!root) return;
+  var sel = 'h1 .w, h2 .w, section h3, section h4, section p, section li, section a.pill, section a.pri, section a.sec, section a.more, section b, .rv, .rv2, .rv3, .lift, .zoomIn, .tiltIn, .swipeIn, .slideL, .slideR, .pop, [data-count], footer p, footer span';
+  var els = Array.prototype.slice.call(root.querySelectorAll(sel));
+  Array.prototype.forEach.call(root.querySelectorAll('[data-count]'), function (c) { c.textContent = c.getAttribute('data-from'); });
+  root.classList.add('anim');
+  els.forEach(function (el) { el.classList.add('mo'); });
+  function countTo(el, from, to, delay) {
+    setTimeout(function () {
+      var t0 = null, dur = 850;
+      function step(ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(from + (to - from) * e); if (p < 1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }, delay);
+  }
+  var first = true;
+  var io = new IntersectionObserver(function (entries) {
+    var i = 0, base = first ? 1250 : 0;
+    first = false;
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target, d = base + Math.min(i++, 12) * 30;
+      io.unobserve(el); el.style.transitionDelay = d + 'ms'; el.classList.add('in');
+      if (el.hasAttribute('data-count')) countTo(el, Number(el.getAttribute('data-from')), Number(el.getAttribute('data-to')), d + 60);
+      setTimeout(function () { el.classList.remove('mo'); el.classList.remove('in'); el.style.transitionDelay = ''; }, d + 750);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+(function () {
+  // The agents relay loops only while it is on screen.
+  var r = document.querySelector('.tm .relay'); if (!r) return;
+  if (!('IntersectionObserver' in window)) { r.classList.add('play'); return; }
+  new IntersectionObserver(function (es) { es.forEach(function (e) { r.classList.toggle('play', e.isIntersecting); }); }, { threshold: 0.3 }).observe(r);
+})();
+</script>
+</body>
+</html>

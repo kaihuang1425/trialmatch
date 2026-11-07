@@ -1,0 +1,15 @@
+{
+  "name": "trial-match",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Trial Match: landing page and demo app, with MedGemma agents, ClinicalTrials.gov, FHIR records and a shared Redis store. Deploys to Vercel as static files plus serverless functions.",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "mock:medgemma": "node scripts/mock-medgemma.mjs",
+    "test": "node --test"
+  }
+}
