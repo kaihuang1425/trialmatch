@@ -513,6 +513,85 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       C('inc', 'Liver function: bilirubin ≤1.5× upper limit', liver, 'Matcher', 'labs', { q: 'labs' })
     ] }
   ];
+  /* ---------- more synthetic trials for EGFR-positive cancer that grew on an EGFR tablet (gives the demo patient real choices) ---------- */
+  function egfrSens(p) { return (p.egfr === 'unk' || p.egfr === 'egfr_unk') ? U : (p.egfr === 'ex19del' || p.egfr === 'L858R' ? OK : NO); }
+  function grewOnEGFR(p) { if (!p.priorEGFR) return NO; return p.progressed === 'yes' ? OK : (p.progressed === 'unk' ? U : NO); }
+  function EG(label) { return C('inc', label || 'EGFR exon 19 deletion or L858R', egfrSens, 'Biomarker agent', 'bio', { q: 'drivers', key: true }); }
+  function GREW() { return C('inc', 'Cancer grew on an EGFR tablet (e.g. osimertinib)', grewOnEGFR, 'Matcher', 'tx', { timing: true, key: true }); }
+  var LDN = ['Thames Chest Centre', 'London'], DOCK = ['Docklands Cancer Centre', 'London'];
+  [
+    { id: 'egfr3', code: 'LT-310', name: 'A two-target antibody with chemotherapy after EGFR treatment', plain: 'Compares a new antibody that blocks two growth signals at once, given with chemotherapy, against chemotherapy alone once an EGFR tablet stops working.', design: 'Randomised 1:1, antibody plus chemotherapy vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .83, evidenceText: 'Earlier studies reported longer control of the cancer with the combination (synthetic summary).', sites: [LDN, ['Pennine Cancer Centre', 'Leeds']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'At least 2 weeks since last cancer treatment', washout(2), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Kidney function: creatinine clearance ≥50 mL/min', renal(50), 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr4', code: 'LT-311', name: 'A HER3-targeted antibody–drug conjugate', plain: 'Tests an antibody–drug conjugate aimed at HER3, a protein that often rises when EGFR tablets stop working, against platinum chemotherapy.', design: 'Randomised 1:1, conjugate vs platinum chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .78, evidenceText: 'Phase II reported responses after EGFR tablets, including in the brain (synthetic summary).', sites: [DOCK, ['Midlands Cancer Institute', 'Birmingham']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'At least 3 weeks since last cancer treatment', washout(3), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Liver function: bilirubin ≤1.5× upper limit', liver, 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr5', code: 'LT-312', name: 'Adding a TROP2 antibody–drug conjugate to the EGFR tablet', plain: 'Adds an antibody–drug conjugate aimed at TROP2 to continued EGFR tablet treatment, compared with switching to chemotherapy.', design: 'Randomised 1:1, tablet plus conjugate vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .74, evidenceText: 'Phase I/II reported the combination was tolerable with early responses (synthetic summary).', sites: [LDN, ['Fens Cancer Centre', 'Cambridge']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'Fitness (ECOG) 0–2', ecogMax(2), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr6', code: 'LT-313', name: 'Keeping the EGFR tablet and adding chemotherapy', plain: 'Tests whether staying on the EGFR tablet alongside platinum chemotherapy keeps the cancer controlled for longer than chemotherapy alone.', design: 'Randomised 1:1, tablet plus chemotherapy vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .72, evidenceText: 'Smaller studies suggested some people benefit from keeping the tablet (synthetic summary).', sites: [DOCK, ['Severn Oncology Centre', 'Bristol']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'No chemotherapy for advanced disease yet', function (p) { return p.priorChemo ? NO : OK; }, 'Matcher', 'tx', { timing: true }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Kidney function: creatinine clearance ≥45 mL/min', renal(45), 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr7', code: 'LT-314', name: 'Targeted radiotherapy for a few growing spots', plain: 'For cancer that has grown in only a few places: precise radiotherapy to those spots while staying on the EGFR tablet, compared with switching treatment.', design: 'Randomised 1:1, radiotherapy plus tablet vs new treatment', visits: 'weekly', target: 'EGFR', kind: 'target', evidence: .7, evidenceText: 'Earlier studies reported longer time on the tablet after treating the growing spots (synthetic summary).', sites: [LDN, ['Northern Lung Unit', 'Manchester']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond')
+    ] },
+    { id: 'egfr8', code: 'LT-315', name: 'A next-generation EGFR tablet for resistance changes', plain: 'Tests a newer EGFR tablet designed to work when the cancer has found a way around osimertinib-type treatment, against chemotherapy.', design: 'Randomised 1:1, new tablet vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .76, evidenceText: 'Phase I reported tumour shrinkage after earlier EGFR tablets (synthetic summary).', sites: [DOCK, ['Clyde Cancer Centre', 'Glasgow']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'At least 2 weeks since last cancer treatment', washout(2), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Liver function: bilirubin ≤1.5× upper limit', liver, 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr9', code: 'LT-316', name: 'Immunotherapy and a blood-vessel blocker with chemotherapy', plain: 'Adds immunotherapy and a drug that cuts off a tumour’s blood supply to chemotherapy, after an EGFR tablet stops working.', design: 'Randomised 1:1, four-drug combination vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .71, evidenceText: 'Phase III results elsewhere reported benefit in a similar group (synthetic summary).', sites: [LDN, ['Tyne Cancer Centre', 'Newcastle']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('exc', 'No earlier immunotherapy', function (p) { return p.priorIO ? NO : OK; }, 'Matcher', 'tx'),
+      C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond'),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' }),
+      C('inc', 'Kidney function: creatinine clearance ≥45 mL/min', renal(45), 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr10', code: 'LT-317', name: 'A brain-reaching EGFR tablet for spread to the brain', plain: 'For EGFR-positive cancer that has spread to the brain: a tablet built to reach the brain, compared with standard treatment plus radiotherapy.', design: 'Randomised 1:1, new tablet vs standard treatment', visits: 'monthly', target: 'EGFR', kind: 'target', evidence: .73, evidenceText: 'Phase II reported brain tumours shrinking in most people treated (synthetic summary).', sites: [DOCK, ['Lothian Lung Unit', 'Edinburgh']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'Spread to the brain (treated or not)', function (p) { return p.brain === 'unk' || p.brain == null ? U : (p.brain === 'none' ? NO : OK); }, 'Matcher', 'brain', { q: 'brain', key: true }),
+      C('inc', 'Fitness (ECOG) 0–2', ecogMax(2), 'Records Reader', 'ecog')
+    ] },
+    { id: 'egfr11', code: 'LT-318', name: 'The two-target antibody as a quick injection', plain: 'Compares the two-target antibody given as a few-minute injection under the skin with the same antibody as a drip, both with chemotherapy.', design: 'Randomised 1:1, injection vs drip', visits: 'fortnightly', target: 'EGFR', kind: 'target', evidence: .8, evidenceText: 'Earlier studies reported the same drug levels with fewer infusion reactions (synthetic summary).', sites: [LDN, ['Solent Cancer Centre', 'Southampton']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'At least 2 weeks since last cancer treatment', washout(2), 'Matcher', 'tx', { timing: true, q: 'washout' }),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No interstitial lung disease or pneumonitis', noILD, 'Matcher', 'cond'),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' })
+    ] },
+    { id: 'egfr12', code: 'LT-319', name: 'A fresh biopsy to choose the next targeted treatment', plain: 'After an EGFR tablet stops working, a new biopsy shows how the cancer changed and picks the next targeted treatment, compared with standard chemotherapy.', design: 'Randomised 1:1, biopsy-guided treatment vs chemotherapy', visits: '3weekly', target: 'EGFR', kind: 'target', evidence: .68, evidenceText: 'Earlier studies found a treatable change in about half of new biopsies (synthetic summary).', sites: [DOCK, ['Pennine Cancer Centre', 'Leeds']], crit: [
+      C('inc', 'Non-small cell lung cancer, stage IV', nsclcIV, 'Records Reader', 'dx'), EG(), GREW(),
+      C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
+      C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),
+      C('inc', 'Blood counts: neutrophils ≥1.5, platelets ≥100', marrow, 'Matcher', 'labs', { q: 'labs' })
+    ] }
+  ].forEach(function (t) { TRIALS.push(t); });
   var TRIAL = {}; TRIALS.forEach(function (t) { TRIAL[t.id] = t; });
   var W = { b: .35, t: .2, p: .2, e: .15, c: .1 };
   function nearestSite(p, t) { var home = CITIES[p.city] || CITIES.London, best = null; t.sites.forEach(function (s) { var d = miles(home, CITIES[s[1]]); if (!best || d < best.d) best = { name: s[0], city: s[1], d: d }; }); return best; }
@@ -609,7 +688,17 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     stage3: { type: 'Immunotherapy', goal: 12, gives: { priorIO: true } },
     periop: { type: 'Surgery with immunotherapy', goal: 10, gives: { priorChemo: true, priorIO: true } },
     sclc: { type: 'Antibody with chemotherapy', goal: 12, gives: { priorChemo: true, priorIO: true } },
-    adc: { type: 'Antibody–drug conjugate', goal: 15, gives: { priorChemo: true } }
+    adc: { type: 'Antibody–drug conjugate', goal: 15, gives: { priorChemo: true } },
+    egfr3: { type: 'Two-target antibody', goal: 14, gives: { priorChemo: true } },
+    egfr4: { type: 'Antibody–drug conjugate', goal: 12, gives: { priorChemo: true } },
+    egfr5: { type: 'Antibody–drug conjugate', goal: 10, gives: { priorChemo: true } },
+    egfr6: { type: 'Tablet with chemotherapy', goal: 16, gives: { priorChemo: true } },
+    egfr7: { type: 'Radiotherapy with a tablet', goal: 8, gives: {} },
+    egfr8: { type: 'Targeted tablet', goal: 12, gives: { priorEGFR: true } },
+    egfr9: { type: 'Chemo-immunotherapy', goal: 14, gives: { priorChemo: true, priorIO: true } },
+    egfr10: { type: 'Targeted tablet', goal: 8, gives: { priorEGFR: true } },
+    egfr11: { type: 'Two-target antibody', goal: 12, gives: { priorChemo: true } },
+    egfr12: { type: 'Biopsy-guided treatment', goal: 10, gives: { priorChemo: true } }
   };
   TRIALS.forEach(function (t) { for (var k in EXTRA[t.id]) t[k] = EXTRA[t.id][k]; });
   var TYPES = []; TRIALS.forEach(function (t) { if (TYPES.indexOf(t.type) < 0) TYPES.push(t.type); });
@@ -695,6 +784,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     pt('P-0416', 'Priya S.', 55, 'F', 'Manchester', { pdl1: 55, ecog: 1, brain: 'unk' });
     ['P-0401', 'P-0403', 'P-0405', 'P-0406', 'P-0408', 'P-0409'].forEach(function (id, i) { app(id, 'chemoio', 'applied', 1 + i * .7, { by: i % 2 ? 'agent' : 'patient' }); });
     app('P-0388', 'egfr2', 'applied', 2, { by: 'agent' }); app('P-0391', 'egfr2', 'applied', 1.2); app('P-0395', 'egfr2', 'applied', .4, { by: 'agent' });
+    // fresh applicants on the newer EGFR trials, so the trial team has new invite/reject decisions
+    app('P-0388', 'egfr4', 'applied', .6, { by: 'agent' }); app('P-0391', 'egfr3', 'applied', .9); app('P-0395', 'egfr5', 'applied', .3, { by: 'agent' });
     app('P-0414', 'io50', 'applied', 3); app('P-0416', 'io50', 'applied', 1.5, { by: 'agent' });
 
     // further along
@@ -706,15 +797,15 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     pt('P-0366', 'Victor J.', 67, 'M', 'Glasgow', { histology: 'squamous', pdl1: 90, ecog: 1, priorIO: true, lastTxWeeks: 0 }); app('P-0366', 'io50', 'enrolled', 60, { arm: 'New treatment' });
     app('P-0372', 'kras', 'enrolled', 110, { by: 'agent', arm: 'New treatment' });
     pt('P-0351', 'Elaine M.', 65, 'F', 'Bristol', { pdl1: 25, priorChemo: true, priorIO: true, progressed: 'no', lastTxWeeks: 8 }); app('P-0351', 'chemoio', 'completed', 200, { outcome: { br: 'pr', months: 9, sae: 'no', weeks: 8, note: '' } });
-    pt('P-0355', 'Paul S.', 70, 'M', 'London', { egfr: 'L858R', priorEGFR: true, priorChemo: true, progressed: 'yes', lastTxWeeks: 6 }); app('P-0355', 'egfr2', 'completed', 240, { outcome: { br: 'sd', months: 7, sae: 'yes', weeks: 6, note: '' } });
+    pt('P-0355', 'Paul S.', 70, 'M', 'London', { egfr: 'L858R', priorEGFR: true, priorChemo: true, progressed: 'yes', lastTxWeeks: 6 }); app('P-0355', 'egfr2', 'completed', 240, { outcome: { br: 'sd', months: 7, sae: 'yes', weeks: 6, note: '' } }); app('P-0355', 'egfr9', 'applied', 1.5, { by: 'agent' });
     pt('P-0368', 'Joan K.', 74, 'F', 'Norwich', { priorChemo: true, progressed: 'yes', ecog: 2 }); app('P-0368', 'adc', 'rejected', 9, { reason: 'Fitness (ECOG) 2' });
     pt('P-0371', 'Mark T.', 61, 'M', 'Manchester', { pdl1: 35, ecog: 1 }); app('P-0371', 'io50', 'screenfail', 20, { reason: 'PD-L1 confirmed at 35% on pre-screening' });
     pt('P-0373', 'Ann Y.', 57, 'F', 'London', { kras: 'G12C', priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 5, anc: 1.1 }); app('P-0373', 'kras', 'screenfail', 18, { reason: 'Neutrophils 1.1 on pre-screening (needs 1.5 or more)' });
     pt('P-0374', 'Leo G.', 58, 'M', 'Cambridge', { stage: 'IIIA_res', pdl1: 40, ecog: 0 }); app('P-0374', 'periop', 'waitlist', 11);
 
     ev('P-0412', 'Records Reader', 'Read your GP record, hospital record and genomic report. Added 18 facts.', 21);
-    ev('P-0412', 'Trial Scout', 'Found 9 recruiting phase III lung cancer trials in the UK.', 21);
-    ev('P-0412', 'Matcher', 'Checked 66 rules. LT-301 could fit you. One thing is missing: a brain scan result.', 2);
+    ev('P-0412', 'Trial Scout', 'Found 19 recruiting phase III lung cancer trials in the UK.', 21);
+    ev('P-0412', 'Matcher', 'Checked 137 rules. 11 trials could fit you, 4 of them strongly. A brain scan result would settle 7 of the others.', 2);
     ev('P-0412', 'Logistics agent', 'Hid LT-309: its nearest hospital is 52 miles away, past your 25-mile limit.', 2);
     ev('P-0372', 'Your agent', 'Applied to LT-303 for you. You met all 8 rules.', 110, true);
     ev('P-0372', 'Care team', 'Welcome to LT-303. You’re on the trial.', 95, true);

@@ -120,8 +120,24 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @keyframes rlTick{0%{transform:scale(0)}4%{transform:scale(1.25)}6%,92%{transform:scale(1)}100%{transform:scale(0)}}
 @keyframes rlInR{0%{opacity:0;transform:translateX(28px)}6%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateX(28px)}}
 @keyframes rlPress{0%,3%{transform:translateX(-50%) scale(1)}6%{transform:translateX(-50%) scale(.88)}10%,100%{transform:translateX(-50%) scale(1)}}
-@media (max-width:900px){.tm .g5{grid-template-columns:repeat(2,minmax(0,1fr))}.tm .rl-track{display:none}.tm .rl-row>li:last-child{grid-column:1/-1}}
-@media (max-width:560px){.tm .g5{grid-template-columns:minmax(0,1fr)}}
+/* phones and small tablets: the same relay (track, running light, glowing cards); the cards sit in a swipeable row that follows the light */
+@media (max-width:900px){
+  .tm .rl-track{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .tm .rl-row{position:relative;display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -24px;padding:6px calc((100vw - min(78vw,340px)) / 2) 20px}
+  .tm .rl-row::-webkit-scrollbar{display:none}
+  .tm .rl-row>li{box-sizing:border-box;flex:0 0 min(78vw,340px);scroll-snap-align:center}
+}
+/* touch screens: tap feedback in place of the hover effects */
+@media (max-width:900px) and (hover:none){
+  .tm a{-webkit-tap-highlight-color:transparent}
+  .tm a.pri:active{transform:scale(.96);filter:brightness(1.1)}
+  .tm a.sec:active{transform:scale(.96);background:rgba(255,255,255,.06)}
+  .tm a.pill:active .arr{transform:translateX(4px)}
+  .tm a.more:active{gap:12px}
+  .tm .lift:active{transform:translateY(-4px)}
+  .tm .ag{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+  .tm .ag:active{transform:scale(.97)}
+}
 @media (prefers-reduced-motion:reduce){.tm .rl-node{background:#A8C7FA}}
 </style>
 </head>
@@ -403,6 +419,30 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   var r = document.querySelector('.tm .relay'); if (!r) return;
   if (!('IntersectionObserver' in window)) { r.classList.add('play'); return; }
   new IntersectionObserver(function (es) { es.forEach(function (e) { r.classList.toggle('play', e.isIntersecting); }); }, { threshold: 0.3 }).observe(r);
+})();
+(function () {
+  // Phones only: the card row follows the running light, and a tap on the track jumps to that step.
+  var row = document.querySelector('.tm .rl-row'), track = document.querySelector('.tm .rl-track');
+  if (!row || !track || !window.matchMedia) return;
+  var small = window.matchMedia('(max-width: 900px)'), still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var cards = Array.prototype.slice.call(row.children), hold = 0;
+  function go(i, smooth) {
+    if (!small.matches || !cards[i]) return;
+    var c = cards[i];   // layout positions, so the section's reveal transform can't skew the maths
+    row.scrollTo({ left: c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2, behavior: smooth && !still.matches ? 'smooth' : 'auto' });
+  }
+  cards.forEach(function (c, i) {
+    function follow(e) { if (e.target === c && e.animationName === 'rlCard' && Date.now() > hold) go(i, true); }
+    c.addEventListener('animationstart', follow);
+    c.addEventListener('animationiteration', follow);
+  });
+  ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { row.addEventListener(ev, function () { hold = Date.now() + 8000; }, { passive: true }); });
+  track.addEventListener('click', function (e) {
+    if (!small.matches) return;
+    var b = track.getBoundingClientRect(), i = Math.round(((e.clientX - b.left) / b.width - 0.1) / 0.2);
+    hold = Date.now() + 8000; go(Math.max(0, Math.min(4, i)), true);
+  });
+  document.addEventListener('touchstart', function () {}, { passive: true });   // lets iOS show :active tap states
 })();
 </script>
 </body>
