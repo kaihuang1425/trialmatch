@@ -34,6 +34,16 @@
         "8768"
       ],
       "port": 8768
+    },
+    {
+      "name": "photo-lab",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "trial-match-vercel/scripts/dev.mjs",
+        "--port",
+        "8771"
+      ],
+      "port": 8771
     }
   ]
 }

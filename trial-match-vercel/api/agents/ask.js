@@ -11,7 +11,7 @@ import { askAgent, plainText } from '../../lib/agent.js';
 const SYSTEM = 'You are the Trial Match assistant in a demo where every patient and trial is synthetic. Answer using only the JSON context. ' +
   'If the answer is not in it, say so and suggest asking the trial team. Never say someone is eligible or qualifies; the trial team decides. ' +
   'Do not give medical advice. Plain British English, at most 120 words.';
-const WHO = "(you are|you're|you would be|you'd be|they are|they're|s?he is)";
+const WHO = "(you are|you're|you would be|you'd be|they are|they're|s?he is|the patient is|the patient would be|this patient is)";
 const CLAIM = new RegExp('\\b' + WHO + ' (definitely |likely |probably )?(eligible|qualified)\\b|\\b(you|they|s?he) qualif(y|ies)\\b', 'i');
 // "Only the trial team can confirm if you are eligible" is the disclaimer we want, not a claim, so it doesn't count.
 const HEDGED = new RegExp('\\b(if|whether|whether or not)\\s+' + WHO + '\\s+(definitely |likely |probably )?(eligible|qualified)\\b|\\b(if|whether)\\s+(you|they|s?he)\\s+qualif(y|ies)\\b', 'gi');

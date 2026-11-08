@@ -113,7 +113,8 @@ async function runTool(call, ctx) {
       const d = clean(args.drug, 40);
       step('run', 'Reading the FDA label for ' + d, { source: 'fda' });
       const l = await drugLabel(d);
-      if (!l) { step('ok', 'No FDA label for ' + d + ' (not approved in the US yet, or not listed)', { source: 'fda', count: 0 }); return { not_found: true, note: 'No FDA label. It may be investigational or not approved in the US.' }; }
+      // openFDA doesn't list every approved drug, so a miss says nothing about approval
+      if (!l) { step('ok', 'openFDA has no label listed for ' + d, { source: 'fda', count: 0 }); return { not_found: true, note: 'openFDA has no label for this name. That does not show whether it is approved: do not say it is unapproved.' }; }
       const n = add({ kind: 'label', title: 'FDA label: ' + (l.brand ? l.brand + ' (' + l.generic.toLowerCase() + ')' : l.generic), url: l.url, journal: 'US FDA', year: l.label_date ? l.label_date.slice(0, 4) : null });
       step('ok', 'Read the FDA label for ' + (l.brand || l.generic) + ': approved use, how it works, side effects', { source: 'fda', count: 1 });
       return { source: n, brand: l.brand, generic: l.generic, approved_for: l.indication, how_it_works: l.mechanism, boxed_warning: l.boxed_warning, common_side_effects: l.common_side_effects, label_date: l.label_date };

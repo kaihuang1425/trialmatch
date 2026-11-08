@@ -5,8 +5,9 @@
 import { HttpError, clientIp, readJson, route, send } from '../../lib/http.js';
 import { rateLimit } from '../../lib/redis.js';
 import { chat, medgemmaConfig } from '../../lib/medgemma.js';
-import { ANALYST_SYSTEM, ANALYST_TEAM, analystPrompt, analystText } from '../../lib/analyst.js';
-import { claimsEligibility } from './ask.js';
+import { analystClean, analystPrompt, analystSystem, analystText } from '../../lib/analyst.js';
+
+const NOTE = '(Only the trial team can decide eligibility.)';
 
 export default route(['POST'], async (req, res) => {
   const c = medgemmaConfig();
@@ -17,9 +18,8 @@ export default route(['POST'], async (req, res) => {
   if (!body.brief || !Array.isArray(body.brief.sentences) || !body.brief.sentences.length) throw new HttpError(400, 'no_brief', 'The Analyst needs the Researcher’s brief.');
   await rateLimit('agent:' + clientIp(req), 30, 600);
   const team = body.context && body.context.role === 'trial team';
-  const r = await chat({ system: ANALYST_SYSTEM + (team ? ANALYST_TEAM : ''), user: analystPrompt(question, body.brief, body.sources, body.context), maxTokens: 1500 });
-  let text = analystText(r.text);
-  if (!text) throw new HttpError(502, 'medgemma_empty', 'MedGemma ran out of room before answering.');
-  if (claimsEligibility(text)) text += '\n\n(Only the trial team can decide eligibility.)';
-  send(res, 200, { text, model: r.model, family: r.family || 'MedGemma', provider: r.provider });
+  const r = await chat({ system: analystSystem(team), user: analystPrompt(question, body.brief, body.sources, body.context), maxTokens: 900 });
+  const out = analystClean(analystText(r.text));
+  if (!out.text) throw new HttpError(502, 'medgemma_empty', 'MedGemma ran out of room before answering.');
+  send(res, 200, { text: out.text + (out.claims ? '\n\n' + NOTE : ''), model: r.model, family: r.family || 'MedGemma', provider: r.provider });
 });

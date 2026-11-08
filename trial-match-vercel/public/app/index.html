@@ -510,6 +510,142 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 .setup-status.ok .dot { background: var(--met); }
 .setup-status.warn .dot { background: var(--unk); }
 .setup-status.bad .dot { background: var(--not); }
+/* ---------- the team: a Researcher online, an Analyst on this device. Green is "stays here", blue is "online". ---------- */
+.chat-team { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: -6px; }
+.chat-team .tm-lead { font-size: 11.5px; color: var(--faint); margin-right: 2px; }
+.tm-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 3px 10px 3px 3px; border-radius: 13px; background: var(--surface-2); font-size: 12px; color: var(--muted); }
+.tm-pill .tm-av { width: 20px; height: 20px; } .tm-pill .tm-av svg { width: 11px; height: 11px; }
+.msg.tm { gap: 12px; }
+.tm-av { position: relative; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; flex: none; font-style: normal; }
+.tm-av svg { width: 17px; height: 17px; }
+.tm-av.g { background: linear-gradient(135deg, var(--g1), var(--g2)); }
+.tm-av.m { background: linear-gradient(135deg, #188038, #12807A); }
+.tm-av.c { background: var(--surface-3); color: var(--accent); }
+.tm-co { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--muted); }
+.tm-co .tm-av { width: 30px; height: 30px; } .tm-co .tm-av svg { width: 15px; height: 15px; }
+.tm-co b { color: var(--ink); font-weight: 500; } .tm-co .faint { font-size: 12px; margin-left: 4px; }
+.tm-board { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); }
+.tm-lane { border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; transition: box-shadow .5s; }
+.tm-lane.loc { background: linear-gradient(160deg, rgba(109,213,140,.11), rgba(109,213,140,.02) 70%), var(--surface-2); box-shadow: inset 0 0 0 1px rgba(109,213,140,.2); }
+.tm-lane.net { background: linear-gradient(200deg, rgba(66,133,244,.16), rgba(155,114,203,.05) 70%), var(--surface-2); box-shadow: inset 0 0 0 1px rgba(168,199,250,.2); }
+.tm[data-stage="research"] .tm-lane.net, .tm[data-stage="analyse"] .tm-lane.loc { box-shadow: inset 0 0 0 1px rgba(168,199,250,.45), 0 0 24px -8px rgba(66,133,244,.5); }
+.tm[data-stage="analyse"] .tm-lane.loc { box-shadow: inset 0 0 0 1px rgba(109,213,140,.5), 0 0 24px -8px rgba(109,213,140,.45); }
+.tm-lh { display: flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; }
+.tm-lh svg { width: 13px; height: 13px; }
+.tm-lane.loc .tm-lh { color: #9BE0AE; } .tm-lane.net .tm-lh { color: var(--accent); }
+.tm-ag { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px; align-items: center; }
+.tm-ag .tm-av::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid transparent; }
+.tm-ag[data-state="run"] .tm-av.g::after { border-color: var(--accent); animation: tmRing 1.4s ease-out infinite; }
+.tm-ag[data-state="run"] .tm-av.m::after { border-color: var(--met); animation: tmRing 1.4s ease-out infinite; }
+.tm-ag[data-state="wait"] .tm-av { filter: saturate(.3) brightness(.75); transition: filter .4s; }
+.tm-ag[data-state="fail"] .tm-av { filter: grayscale(1) brightness(.7); }
+@keyframes tmRing { 0% { transform: scale(.92); opacity: .95; } 100% { transform: scale(1.4); opacity: 0; } }
+.tm-ok { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: var(--met); color: #053d1c; display: grid; place-items: center; transform: scale(0); transition: transform .4s cubic-bezier(.3,1.6,.5,1); box-shadow: 0 0 0 2px var(--surface-2); }
+.tm-ok svg { width: 10px; height: 10px; }
+.tm-ag[data-state="done"] .tm-ok { transform: scale(1); }
+.tm-nm { font-size: 14px; font-weight: 500; line-height: 1.25; min-width: 0; }
+.tm-nm small { display: block; font-size: 11.5px; font-weight: 400; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-st { grid-column: 1 / -1; font-size: 12.5px; line-height: 1.35; color: var(--muted); min-height: 2.7em; overflow-wrap: anywhere; }
+.tm-st.run { background: linear-gradient(90deg, var(--muted) 30%, #fff 50%, var(--muted) 70%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: tmShim 1.8s linear infinite; }
+.tm-st.flip { animation: tmFlip .35s ease-out; } .tm-st.run.flip { animation: tmFlip .35s ease-out, tmShim 1.8s linear infinite; }
+@keyframes tmShim { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+@keyframes tmFlip { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.tm-vault { position: relative; overflow: hidden; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; background: rgba(0,0,0,.24); font-size: 12px; line-height: 1.3; color: var(--muted); }
+.tm-vault svg { width: 16px; height: 16px; color: var(--met); }
+.tm-vault b { color: var(--ink); font-weight: 500; } .tm-vault small { display: block; color: #9BE0AE; font-size: 11px; }
+.tm[data-stage="analyse"] .tm-vault::after { content: ""; position: absolute; top: 0; bottom: 0; width: 45%; background: linear-gradient(90deg, transparent, rgba(109,213,140,.28), transparent); animation: tmScan 1.5s ease-in-out infinite; }
+@keyframes tmScan { from { left: -45%; } to { left: 100%; } }
+.tm-srcs { display: flex; flex-wrap: wrap; gap: 5px; }
+.tm-src { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 9px; border-radius: 12px; font-size: 11.5px; color: var(--faint); background: rgba(0,0,0,.24); transition: color .3s, background .3s, box-shadow .3s; }
+.tm-src i { font-style: normal; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--accent); }
+.tm-src i:empty { display: none; }
+.tm-src[data-state="run"] { color: var(--on-soft); box-shadow: inset 0 0 0 1px rgba(168,199,250,.55); animation: tmBlink 1.1s ease-in-out infinite; }
+.tm-src[data-state="ok"] { color: var(--ink); background: rgba(66,133,244,.2); }
+.tm-src[data-state="none"] { text-decoration: line-through; text-decoration-color: rgba(196,199,197,.4); }
+.tm-src.pop { animation: tmPop .45s cubic-bezier(.3,1.6,.5,1); }
+@keyframes tmBlink { 50% { box-shadow: inset 0 0 0 1px rgba(168,199,250,.15); } }
+@keyframes tmPop { 0% { transform: scale(.82); } 100% { transform: scale(1); } }
+.tm-wall { position: relative; display: grid; place-items: center; }
+.tm-wall::before { content: ""; position: absolute; top: 16px; bottom: 16px; left: 50%; border-left: 1.5px dashed rgba(196,199,197,.3); }
+.tm-gate { position: relative; z-index: 1; width: 26px; height: 26px; border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 1.5px rgba(109,213,140,.6); display: grid; place-items: center; color: var(--met); }
+.tm-gate svg { width: 14px; height: 14px; }
+.tm-gate.flash { animation: tmGate 1s ease-out; }
+@keyframes tmGate { 0% { box-shadow: inset 0 0 0 1.5px rgba(109,213,140,.6), 0 0 0 0 rgba(109,213,140,.55); } 100% { box-shadow: inset 0 0 0 1.5px rgba(109,213,140,.6), 0 0 0 14px rgba(109,213,140,0); } }
+.tm-pk { position: absolute; top: 50%; left: 25%; z-index: 2; display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; border-radius: 12px; font-size: 11.5px; font-weight: 500; white-space: nowrap; pointer-events: none; opacity: 0; transform: translate(-50%, -50%); box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+.tm-pk svg { width: 12px; height: 12px; }
+.tm-pk.out { background: var(--met); color: #053d1c; animation: tmOut 1.4s cubic-bezier(.55,0,.3,1) forwards; }
+.tm-pk.in { background: var(--accent); color: var(--accent-ink); animation: tmIn 1.4s cubic-bezier(.55,0,.3,1) forwards; }
+@keyframes tmOut { 0% { left: 25%; opacity: 0; transform: translate(-50%, -50%) scale(.6); } 18% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; } 100% { left: 75%; opacity: 0; transform: translate(-50%, -50%) scale(.85); } }
+@keyframes tmIn { 0% { left: 75%; opacity: 0; transform: translate(-50%, -50%) scale(.6); } 18% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; } 100% { left: 25%; opacity: 0; transform: translate(-50%, -50%) scale(.85); } }
+.tm-guard { border-radius: 16px; padding: 12px 14px; background: rgba(109,213,140,.07); box-shadow: inset 0 0 0 1px rgba(109,213,140,.22); display: flex; flex-direction: column; gap: 9px; font-size: 13px; }
+.tm-guard.live { animation: tmUp .4s cubic-bezier(.2,.8,.2,1); }
+.tm-gh { display: flex; align-items: center; gap: 8px; } .tm-gh svg { width: 17px; height: 17px; color: var(--met); } .tm-gh b { font-weight: 500; color: #9BE0AE; } .tm-gh .faint { font-size: 12px; }
+.tm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tm-lbl { width: 84px; flex: none; font-size: 11px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--faint); }
+.tm-word { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 12px; background: var(--surface-3); color: var(--ink); font-size: 12px; }
+.tm-word.k { background: rgba(66,133,244,.2); color: var(--on-soft); } .tm-word.c { color: var(--muted); }
+.tm-guard.live .tm-word { animation: tmWord .4s cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes tmWord { from { opacity: 0; transform: translateY(6px) scale(.88); } }
+.tm-keep { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); margin-right: 6px; }
+.tm-keep svg { width: 12px; height: 12px; color: var(--met); }
+.tm-echo { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 12.5px; color: #9BE0AE; animation: tmFlip .4s ease-out; }
+.tm-echo svg { width: 14px; height: 14px; } .tm-echo.no { color: var(--unk); }
+.tm-log summary { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--faint); font-weight: 500; }
+.tm-log summary svg { width: 14px; height: 14px; transition: transform .2s; } .tm-log[open] summary svg { transform: rotate(90deg); }
+.tm-log[open] summary { margin-bottom: 6px; }
+.tm-trace { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.tm-trace li { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 8px; align-items: start; padding: 3px 0; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+.tm-trace li b { font-weight: 500; color: var(--ink); margin-right: 2px; }
+.tm-trace li.in { animation: tmLi .35s ease-out; } @keyframes tmLi { from { opacity: 0; transform: translateX(-8px); } }
+.tm-dot { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; }
+.tm-dot svg { width: 10px; height: 10px; }
+.tm-trace li.pop .tm-dot { animation: tmPop .45s cubic-bezier(.3,1.6,.5,1); }
+.tm-trace [data-agent="researcher"] .tm-dot { background: rgba(66,133,244,.22); color: var(--accent); }
+.tm-trace [data-agent="analyst"] .tm-dot { background: rgba(109,213,140,.18); color: var(--met); }
+.tm-trace [data-agent="guard"] .tm-dot { background: rgba(109,213,140,.12); color: #9BE0AE; }
+.tm-trace [data-agent="coordinator"] .tm-dot { background: var(--surface-3); color: var(--muted); }
+.tm-trace li[data-state="run"] .tm-dot::before { content: ""; width: 9px; height: 9px; border-radius: 50%; border: 1.6px solid currentColor; border-right-color: transparent; animation: spin .8s linear infinite; }
+.tm-trace li[data-state="fail"] { color: var(--not); } .tm-trace li[data-state="fail"] .tm-dot { background: var(--not-soft); color: var(--not); }
+.tm-t { font-size: 11.5px; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tm-outs { display: flex; flex-direction: column; gap: 12px; } .tm-outs:empty { display: none; }
+.tm-out { border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: var(--surface-2); animation: tmUp .5s cubic-bezier(.2,.8,.2,1); }
+.tm-out.static { animation: none; }
+.tm-out.res { box-shadow: inset 0 0 0 1px rgba(168,199,250,.16); }
+.tm-out.mine { background: linear-gradient(160deg, rgba(109,213,140,.1), transparent 65%), var(--surface-2); box-shadow: inset 0 0 0 1px rgba(109,213,140,.2); }
+@keyframes tmUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.tm-oh { display: flex; align-items: center; gap: 10px; }
+.tm-oh .tm-av { width: 28px; height: 28px; } .tm-oh .tm-av svg { width: 14px; height: 14px; }
+.tm-oh b { display: block; font-size: 15px; font-weight: 500; } .tm-oh small { display: block; font-size: 12px; color: var(--faint); }
+.tm-out p { margin: 0; font-size: 15px; white-space: pre-wrap; }
+.tm-drug { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 3px 11px; border-radius: 13px; background: rgba(66,133,244,.16); color: var(--on-soft); font-size: 12.5px; }
+.tm-drug svg { width: 14px; height: 14px; }
+.tm-meta { font-size: 13px !important; color: var(--muted); } .tm-meta b { font-weight: 500; color: var(--ink); margin-right: 6px; }
+.cite { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; margin-left: 3px; border-radius: 9px; background: rgba(168,199,250,.16); color: var(--accent); font-size: 11px; font-weight: 500; text-decoration: none; vertical-align: 2px; line-height: 1; white-space: nowrap; }
+a.cite:hover { background: rgba(168,199,250,.32); }
+.tm-refs { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.tm-refs li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; font-size: 13px; line-height: 1.4; }
+.tm-refs li .cite { margin: 1px 0 0; vertical-align: 0; }
+.tm-refs a { color: var(--ink); text-decoration: none; } .tm-refs a:hover { color: var(--accent); text-decoration: underline; }
+.tm-refs small { display: block; font-size: 12px; color: var(--faint); }
+.tm-more summary { font-size: 13px; }
+.tm-caret::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--met); animation: tmCaret 1s steps(2) infinite; }
+@keyframes tmCaret { 50% { opacity: 0; } }
+.tm-think { display: flex; align-items: center; gap: 10px; font-size: 13.5px !important; color: var(--faint); }
+.tm-bounce { display: inline-flex; gap: 4px; } .tm-bounce i { width: 6px; height: 6px; border-radius: 50%; background: var(--met); animation: tmB 1.1s ease-in-out infinite; }
+.tm-bounce i:nth-child(2) { animation-delay: .15s; } .tm-bounce i:nth-child(3) { animation-delay: .3s; }
+@keyframes tmB { 0%, 80%, 100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-5px); opacity: 1; } }
+.tm[data-live] .tm-board { position: sticky; top: -4px; z-index: 3; background: var(--surface); padding: 4px 0 8px; }
+/* while the team works, the (disabled) suggestions step aside so the lanes and the trace have room */
+.sheet:has(.tm[data-live]) .chat-sug { display: none; }
+.sheet:has(.tm[data-live]) .chat-thread { flex-shrink: 0; min-height: min(56vh, 460px); max-height: min(64vh, 560px); }
+.tm-k { display: block; font-weight: 500; color: #9BE0AE; font-size: 12.5px; margin-top: 8px; } .tm-k:first-child { margin-top: 0; }
+.tm-setup { align-self: flex-start; height: auto; padding: 0; gap: 6px; font-size: 13px; } .tm-setup svg { width: 14px; height: 14px; }
+.tm-checks { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid rgba(109,213,140,.16); }
+.tm-chk { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.tm-chk svg { width: 18px; height: 18px; padding: 4px; border-radius: 50%; }
+.tm-chk.met svg { color: var(--met); background: var(--met-soft); } .tm-chk.not svg { color: var(--not); background: var(--not-soft); } .tm-chk.unk svg { color: var(--unk); background: var(--unk-soft); }
+.tm-out.mine:not(.static) .tm-chk { animation: tmLi .4s ease-out both; } .tm-out.mine:not(.static) .tm-chk:nth-child(3) { animation-delay: .12s; } .tm-out.mine:not(.static) .tm-chk:nth-child(4) { animation-delay: .24s; }
+@media (max-width: 420px) { .tm-board { grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr); } .tm-lane { padding: 10px; } .tm-ag { grid-template-columns: minmax(0, 1fr); } .tm-ag .tm-av { width: 30px; height: 30px; } .tm-lbl { width: 100%; } }
 </style>
 <div id="app"></div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
@@ -820,7 +956,12 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     back: I('<path d="M15 5l-7 7 7 7"/>', 2.4),
     undo: I('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>'),
     people: I('<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5a3.1 3.1 0 0 1 0 6M17.6 19.5a5.6 5.6 0 0 0-2.4-4.6"/>'),
-    send: I('<path d="M4 11.5L20 4l-6.5 16-2.6-6.4z"/><path d="M10.9 13.6L20 4"/>')
+    send: I('<path d="M4 11.5L20 4l-6.5 16-2.6-6.4z"/><path d="M10.9 13.6L20 4"/>'),
+    globe: I('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
+    shield: I('<path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M9 12l2 2 4-4"/>'),
+    search: I('<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>', 2.2),
+    route: I('<circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.5 5.5H15a3.5 3.5 0 0 1 0 7H9a3.5 3.5 0 0 0 0 7h6.5"/>'),
+    flask: I('<path d="M9.5 3h5M10.5 3v6.2L5.2 18.4A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.6L13.5 9.2V3"/><path d="M7.6 15h8.8"/>')
   };
 
   /* ================= trials: extras ================= */
@@ -1914,7 +2055,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   }
   // True when a model's answer says someone is eligible. "Only the team can confirm if you are eligible" doesn't count.
   function claimsEligibility(s) {
-    var who = "(you are|you're|you would be|you'd be|they are|they're|s?he is)";
+    var who = "(you are|you're|you would be|you'd be|they are|they're|s?he is|the patient is|the patient would be|this patient is)";
     s = String(s).replace(new RegExp('\\b(if|whether|whether or not)\\s+' + who + '\\s+(definitely |likely |probably )?(eligible|qualified)\\b|\\b(if|whether)\\s+(you|they|s?he)\\s+qualif(y|ies)\\b', 'gi'), '');
     return new RegExp('\\b' + who + ' (definitely |likely |probably )?(eligible|qualified)\\b|\\b(you|they|s?he) qualif(y|ies)\\b', 'i').test(s);
   }
@@ -1966,8 +2107,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function chatIntent(text) {
     var q = ' ' + text.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, ' ') + ' ', patient = S.who.role === 'patient';
     var nct = (text.match(/\bNCT\d{8}\b/i) || [])[0], k = chatKey();
-    if (/\b(what('s| is) known|research|evidence|papers?|studies|literature|published)\b/.test(q)) return { kind: 'research' };
     if (patient && (/\b(search|find|look for|scan|check)\b[^.?!]*\b(live|new|other|real|more|registry|clinicaltrials)\b[^.?!]*\btrials?\b/.test(q) || /\bsearch (the )?registry\b/.test(q))) return { kind: 'scout' };
+    if (teamWants(text)) return { kind: 'research' };   // a drug, a comparison, the evidence: the team of agents takes it
     if (patient) {
       var pt = me(), tid = chatTrial(text, chatPrefer(pt)) || (/\b(it|this|that|this one|that one)\b/.test(q) ? CH.ctx[k] || null : null);
       if (tid) { CH.ctx[k] = tid; chatSave(); }
@@ -2080,22 +2221,496 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       '<p class="sm muted">' + esc(c.detail) + '</p><div class="row"><button class="btn pri" data-act="chat-do" data-id="' + c.id + '">' + esc(c.cta) + '</button><button class="btn text" data-act="chat-skip" data-id="' + c.id + '">Not now</button></div></div>';
   }
 
-  // Research agent: published literature on the trial's drug or target, with a cited summary when a model is on
-  function researchAgent(text) {
-    var k = chatKey(), patient = S.who.role === 'patient';
-    var tid = chatTrial(text, patient ? chatPrefer(me()) : TRIALS.map(function (t) { return t.id; })) || CH.ctx[k] || null;
-    var nct = (text.match(/\bNCT\d{8}\b/i) || [])[0], live = nct ? ((SCOUT.data || {}).trials || []).filter(function (x) { return x.nct === nct.toUpperCase(); })[0] : null;
-    var about = (text.match(/\b(?:about|on|for)\s+(.{3,60}?)\s*\??$/i) || [])[1];
-    var terms = live ? (live.interventions || []).map(function (i) { return i.name; }).slice(0, 3) : tid ? TOPICS[tid] || [] : [];
-    var topic = live ? live.title : tid ? TRIAL[tid].name : (about || text);
-    if (!terms.length && !about && !tid) { chatPush({ who: 'agent', text: 'What should I look up? Name a trial (like LT-311), a drug or a gene change.' }); paintChat(true); return; }
-    CH.pending = true; CH.pendingText = 'Searching the published literature'; paintChat(true);
-    window.TMConnect.research(topic, terms).then(function (r) {
-      chatPush({ who: 'agent', research: true, text: r.summary || (r.papers.length ? 'Here are the most relevant recent papers. Connect a model for a cited summary.' : 'I found no papers for that since 2019.'),
-        model: r.model || null, family: r.family || null, src: r.model ? chatSource() : null, steps: r.steps,
-        items: r.papers.map(function (p) { return { act: 'paper', id: p.url, label: '[' + p.n + '] ' + p.title, sub: (p.journal || '') + ' · ' + p.year + (p.preprint ? ' · preprint, not peer reviewed' : '') }; }) });
-    }, function (e) { chatPush({ who: 'agent', text: 'The Research agent couldn’t reach the literature (' + e.message + ').' }); })
-      .then(function () { CH.pending = false; CH.pendingText = null; paintChat(true); });
+  /* ================= the team: a Researcher online, an Analyst where the record is =================
+     Questions about a drug ("what's the drug?", "how does it compare with chemotherapy?", "side effects?") go to a team
+     of agents, and the chat shows each one at work:
+     - Coordinator (rules, on this device) decides who works on it.
+     - Privacy guard (on this device) builds what goes online from an allow-list of public words: drug and gene names,
+       the trial's research topics or registry treatments, and the kind of question. Never the record, and never the
+       question as typed. The Researcher echoes what it received, and the chat shows that it matches.
+     - Researcher (Gemini, online: api/agents/research.js) reads PubMed, FDA labels and ClinicalTrials.gov and writes a
+       brief in which every sentence cites a source it read. It streams each lookup, so the chat shows it live.
+     - Analyst (MedGemma) reads the brief against the record where the record is: this computer (Ollama, streamed), or
+       this site's own MedGemma server (api/agents/analyst.js). Never a cloud model. With neither, fixed rules compare. */
+  var DRUG_LEX = ['osimertinib', 'gefitinib', 'erlotinib', 'afatinib', 'dacomitinib', 'lazertinib', 'amivantamab', 'mobocertinib', 'sunvozertinib', 'furmonertinib', 'zipalertinib',
+    'alectinib', 'brigatinib', 'lorlatinib', 'crizotinib', 'ceritinib', 'ensartinib', 'neladalkib', 'entrectinib', 'repotrectinib', 'taletrectinib',
+    'sotorasib', 'adagrasib', 'divarasib', 'olomorasib', 'glecirasib', 'dabrafenib', 'trametinib', 'encorafenib', 'binimetinib', 'capmatinib', 'tepotinib',
+    'selpercatinib', 'pralsetinib', 'trastuzumab deruxtecan', 'zongertinib', 'datopotamab deruxtecan', 'sacituzumab govitecan', 'patritumab deruxtecan',
+    'telisotuzumab vedotin', 'ifinatamab deruxtecan', 'pembrolizumab', 'nivolumab', 'atezolizumab', 'durvalumab', 'cemiplimab', 'ipilimumab', 'tremelimumab',
+    'tislelizumab', 'toripalimab', 'ivonescimab', 'serplulimab', 'bevacizumab', 'ramucirumab', 'nintedanib', 'docetaxel', 'pemetrexed', 'carboplatin', 'cisplatin',
+    'paclitaxel', 'nab-paclitaxel', 'gemcitabine', 'vinorelbine', 'etoposide', 'topotecan', 'lurbinectedin', 'tarlatamab',
+    'platinum chemotherapy', 'chemotherapy', 'immunotherapy', 'radiotherapy', 'chemoradiotherapy', 'surgery', 'standard treatment'];
+  var BRAND_LEX = { tagrisso: 'osimertinib', keytruda: 'pembrolizumab', opdivo: 'nivolumab', imfinzi: 'durvalumab', tecentriq: 'atezolizumab', lumakras: 'sotorasib',
+    krazati: 'adagrasib', alecensa: 'alectinib', lorbrena: 'lorlatinib', lorviqua: 'lorlatinib', rybrevant: 'amivantamab', lazcluze: 'lazertinib', enhertu: 'trastuzumab deruxtecan',
+    datroway: 'datopotamab deruxtecan', imdelltra: 'tarlatamab', avastin: 'bevacizumab', chemo: 'chemotherapy', radiation: 'radiotherapy' };
+  var TARGET_LEX = ['EGFR', 'ALK', 'ROS1', 'KRAS G12C', 'KRAS', 'BRAF V600E', 'BRAF', 'MET', 'HER2', 'HER3', 'RET', 'NTRK', 'TROP2', 'PD-L1', 'PD-1', 'CTLA-4', 'VEGF',
+    'DLL3', 'B7-H3', 'exon 19 deletion', 'L858R', 'T790M', 'C797S', 'exon 20 insertion'];
+  var MODALITY = ['platinum chemotherapy', 'chemotherapy', 'immunotherapy', 'radiotherapy', 'chemoradiotherapy', 'surgery', 'standard treatment'];
+  var TEAM_RE = /\b(what('s| is) known|research|evidence|papers?|studies|literature|published|what('s| is| are) the (drugs?|medicines?|treatments?)|which (drug|medicine)|about the (drug|medicine|treatment)|the drug|compar(e|ed|es|ing|ison)|versus|vs\.?|better than|side[- ]?effects?|how (does|do|would) (it|this|that|they|the drug|the treatment|the medicine) work|mechanism|what does (it|the drug) (do|target))\b/;
+  var TEAM_ASK = { overview: 'what it is', compare: 'compare', side_effects: 'side effects', mechanism: 'how it works', evidence: 'evidence', brain: 'brain spread', resistance: 'resistance' };
+  // keep in step with lib/analyst.js: the same Analyst, run here on this computer through Ollama
+  function analystSystem(team) {
+    return 'You are the Analyst in Trial Match\'s team of agents, in a demo where the record and the LT- trials are synthetic. ' +
+      'You run where the record is kept, so it never goes online.\n' +
+      'The Researcher, an online agent that never saw the record, sent you a brief from public sources, with numbered sources.\n' +
+      (team
+        ? 'Compare the brief with the trial and its applicants. Write to a trial team member, in plain British English, at most 90 words, as exactly three lines:\n' +
+          'Who was studied: how the people in the research compare with this trial\'s applicants.\n' +
+          'What it means for your applicants: what the open items or the counts suggest checking.\n' +
+          'Worth checking: one thing the evidence does not settle.\n'
+        : 'Compare the brief with the record. Write to the patient as "you", in plain British English, at most 90 words, as exactly three lines:\n' +
+          'Who was studied: how the people in the research compare with you (gene change, earlier treatment, stage).\n' +
+          'What fits: what in your record matches the research, or does not. The record\'s checked_by_rules lines are already checked: follow them, and say plainly when your gene change differs.\n' +
+          'Worth asking: one thing that is unknown, for your care team or the trial team.\n') +
+      'You may cite the brief\'s source numbers, like [2]. Never say anyone is eligible, qualifies or should take the drug: the trial team decides. ' +
+      'Say only what the brief and the record state: do not explain what a gene change is beyond them. Do not list the trial\'s entry rules. No medical advice. Plain text, no Markdown.';
+  }
+  var A_LABELS = /\s+(What fits|Worth asking|What it means for your applicants|Worth checking):/g;   // a label run into the line before starts its own line
+  // Small local models can loop or overreach: each sentence once, none that says someone is eligible, about 130 words
+  var A_CLAIMY = /\b(is|are|was|be|being|seems?|appears?|looks?|'s|’s)\s+(definitely |likely |probably |clearly |fully |also |now )?(eligible|qualified|a (good |suitable |strong )?candidate)\b|\bqualif(y|ies)\b|\bmeets? (all |every )?(of )?(the |your |their )?(entry |eligibility |inclusion )?(criteria|rules)\b/i;
+  var A_HEDGE = /\bonly the trial team\b|\bthe trial team (decides|can confirm|will decide|confirms)\b/i;
+  function analystClean(text, max) {
+    max = max || 130;
+    var seen = {}, lines = [], n = 0, claims = 0, full = false;
+    String(text || '').replace(/^\s*(dear|hi|hello)\b[^\n.]{0,40}[,!]?\s*\n/i, '').replace(A_LABELS, '\n$1:').split(/\n+/).forEach(function (line) {
+      var keep = [];
+      line.replace(/\s+/g, ' ').trim().split(/(?<=[.!?])\s+/).forEach(function (x) {
+        var key = x.replace(/^[A-Z][\w ]{2,40}:\s*/, '').toLowerCase().replace(/\[\d+\]/g, '').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();   // "What fits: X" repeats X
+        if (!key || seen[key] || full) return;
+        seen[key] = 1;
+        if (A_CLAIMY.test(x) && !A_HEDGE.test(x)) { claims++; return; }
+        var w = x.split(' ').length;
+        if (n + w > max && n) { full = true; return; }
+        keep.push(x); n += w;
+      });
+      if (keep.length) lines.push(keep.join(' '));
+    });
+    return { text: lines.join('\n'), claims: claims, words: n, full: full };
+  }
+  function analystPrompt(question, b, sources, ctx) {
+    var w = function (v, n) { return String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, ' ').slice(0, n); };
+    var list = (b.sentences || []).slice(0, 6).map(function (s) { return '- ' + w(s.text, 400) + ' [' + (s.sources || []).join(', ') + ']'; }).join('\n');
+    var src = (sources || []).slice(0, 12).map(function (s) { return '[' + s.n + '] ' + w(s.title, 160); }).join('\n');
+    return 'Question: ' + w(question, 300) + '\n\n' +
+      'Brief from the Researcher (public sources)' + (b.drug ? ' about ' + w(b.drug, 80) + (b.kind ? ' (' + w(b.kind, 100) + ')' : '') : '') + ':\n' + (list || '- (no brief)') + '\n' +
+      (b.studied_in ? 'Studied in: ' + w(b.studied_in, 300) + '\n' : '') +
+      (b.open_questions && b.open_questions.length ? 'Not settled by the evidence: ' + b.open_questions.slice(0, 3).map(function (q) { return w(q, 160); }).join('; ') + '\n' : '') +
+      (src ? 'Sources:\n' + src + '\n' : '') +
+      '\nRecord (synthetic, JSON):\n' + JSON.stringify(ctx || {}).slice(0, 5000);
+  }
+
+  function teamNorm(text) { return ' ' + String(text || '').toLowerCase().replace(/[’']/g, "'").replace(/'s\b/g, ' ').replace(/[^a-z0-9\- ]/g, ' ').replace(/\s+/g, ' ').trim() + ' '; }
+  // Drug, treatment and gene names in the question, from the allow-lists only, in the order they were named
+  function lexHits(text) {
+    var q = teamNorm(text), drugs = [], targets = [], at = function (w) { return q.indexOf(' ' + w.toLowerCase() + ' '); }, byPos = function (a, b) { return a[1] - b[1]; };
+    DRUG_LEX.forEach(function (d) { var i = at(d); if (i >= 0) drugs.push([d, i]); });
+    Object.keys(BRAND_LEX).forEach(function (b) { var i = at(b); if (i >= 0) drugs.push([BRAND_LEX[b], i]); });
+    TARGET_LEX.forEach(function (t) { var i = at(t); if (i >= 0) targets.push([t, i]); });
+    drugs = uniqIds(drugs.sort(byPos).map(function (x) { return x[0]; }));
+    targets = uniqIds(targets.sort(byPos).map(function (x) { return x[0]; }));
+    var longest = function (a) { return a.filter(function (x) { return !a.some(function (o) { return o !== x && o.toLowerCase().indexOf(x.toLowerCase()) >= 0; }); }); };
+    return { drugs: longest(drugs), targets: longest(targets) };
+  }
+  function teamWants(text) {
+    if (TEAM_RE.test(' ' + text.toLowerCase().replace(/[’']/g, "'") + ' ')) return true;
+    return lexHits(text).drugs.some(function (d) { return MODALITY.indexOf(d) < 0; }) && /\b(what|tell me|explain|how|is|are|does|do|about|know)\b/.test(teamNorm(text));
+  }
+  function teamAspect(text) {
+    var q = ' ' + text.toLowerCase().replace(/[’']/g, "'") + ' ';
+    if (/\b(compar\w*|versus|vs\.?|better than|instead of|against)\b/.test(q)) return 'compare';
+    if (/\bside[- ]?effects?\b|\btoxicit|\bsafe(ty)?\b|\brisks?\b/.test(q)) return 'side_effects';
+    if (/\bhow (does|do|would) \S+( \S+)? work\b|\bmechanism\b|\bwhat does (it|the drug) (do|target)\b/.test(q)) return 'mechanism';
+    if (/\bbrain\b/.test(q)) return 'brain';
+    if (/\bresist\w*|\bstop(s|ped)? working\b/.test(q)) return 'resistance';
+    if (/\b(evidence|papers?|studies|study|research|published|results|survival|how well)\b/.test(q)) return 'evidence';
+    return 'overview';
+  }
+  // The privacy guard: what may go online. Public words only, from the allow-lists, the demo trial's research topics or
+  // the live trial's registry entry. Never the record, and never the question as typed.
+  function teamRequest(text) {
+    var k = chatKey(), patient = S.who.role === 'patient', q = ' ' + text.toLowerCase().replace(/[’']/g, "'") + ' ';
+    var prefer = patient ? chatPrefer(me()) : TRIALS.map(function (t) { return t.id; }), hits = lexHits(text), aspect = teamAspect(text);
+    var nct = ((text.match(/\bNCT\d{8}\b/i) || [])[0] || '').toUpperCase() || null;
+    var live = nct ? ((SCOUT.data || {}).trials || []).filter(function (x) { return x.nct === nct; })[0] : null;
+    // a trial named by its code or its place in the list; "it" or "the drug" means the one talked about last
+    var m = text.match(/\bLT[\s-]?(\d{3})\b/i), tid = m ? (TRIALS.filter(function (x) { return x.code === 'LT-' + m[1]; })[0] || {}).id || null : null;
+    if (!tid && !nct) {
+      var ords = [['first', '1st', 'top one', 'top trial'], ['second', '2nd'], ['third', '3rd']];
+      for (var i = 0; i < ords.length && !tid; i++) if (prefer[i] && ords[i].some(function (w) { return q.indexOf(' ' + w + ' ') >= 0; })) tid = prefer[i];
+      var named = hits.drugs.filter(function (d) { return MODALITY.indexOf(d) < 0; }).length;
+      if (!tid && (!named || /\b(it|this|that|this one|that one|the drug|the trial)\b/.test(q))) tid = CH.ctx[k] || (named ? null : chatTrial(text, prefer) || (patient ? prefer[0] : null)) || null;
+    }
+    var about = [], compare = [];
+    if (live) about = (live.interventions || []).map(function (x) { return x.name; }).filter(function (n) { return !/placebo/i.test(n); }).slice(0, 3);
+    else if (tid) about = (TOPICS[tid] || []).slice(0, 3);
+    var others = hits.drugs.filter(function (d) { return about.map(function (a) { return a.toLowerCase(); }).indexOf(d) < 0; });
+    if (about.length) { if (aspect === 'compare') compare = others.slice(0, 2); else about = about.concat(others.filter(function (d) { return MODALITY.indexOf(d) < 0; })).slice(0, 4); }
+    else if (others.length) { about = others.slice(0, aspect === 'compare' ? 1 : 3); compare = aspect === 'compare' ? others.slice(1, 3) : []; }
+    else if (hits.targets.length) about = hits.targets.slice(0, 2);
+    if (aspect === 'compare' && !compare.length && about.length) compare = ['standard treatment'];
+    if (!about.length && !nct) return null;
+    return { out: { aspect: aspect, about: about, compare: compare, nct: nct }, tid: tid };
+  }
+  function teamKept(patient) {
+    if (patient) { var n = Object.keys(loopRec(me())).length + 3; return { what: 'Your record', n: n + ' facts', items: ['what you typed', 'your name, age and ID', n + ' facts from your record'] }; }
+    var k = uniqIds(Store.all('apps').map(function (a) { return a.pid; })).length;
+    return { what: 'Applicants’ records', n: k + ' people', items: ['what you typed', k + ' applicants’ records'] };
+  }
+  function teamWords(T) { var r = T.req; return [['k', TEAM_ASK[r.aspect] || r.aspect]].concat(r.about.map(function (w) { return ['', w]; }), r.compare.map(function (w) { return ['c', 'vs ' + w]; }), r.nct ? [['', r.nct]] : []); }
+  function onLocalhost() { return /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname); }
+  function siteAnalyst() { var a = window.TMConnect && window.TMConnect.status().analyst; return !!(a && a.on); }
+  // Where the Analyst runs: MedGemma on this computer, then this site's own MedGemma, then fixed rules. Never a cloud model.
+  function teamWhere() {
+    var site = siteAnalyst() ? 'site' : 'rules';
+    if (CH.localState === 'ok') return Promise.resolve('local');
+    if (IS_PHONE || !(CH.src === 'local' || onLocalhost())) return Promise.resolve(site);   // only when asked for, so no "allow local apps" prompt out of the blue
+    var ctrl = new AbortController(), t = setTimeout(function () { ctrl.abort(); }, 2500);
+    return fetch(CH.local.url.replace(/\/+$/, '') + '/api/tags', { signal: ctrl.signal }).then(function (r) { return r.json(); }).then(function (j) {
+      var names = (j.models || []).map(function (x) { return x.name; }), want = CH.local.model;
+      CH.localState = names.indexOf(want) >= 0 || names.indexOf(want + ':latest') >= 0 ? 'ok' : 'nomodel';
+      return CH.localState === 'ok' ? 'local' : site;
+    }, function () { return site; }).finally(function () { clearTimeout(t); });
+  }
+  function teamWhereLabel(w) {
+    return w === 'local' ? 'MedGemma · this computer' : w === 'site' ? 'MedGemma · ' + (onLocalhost() ? 'this computer' : 'this site’s own server') : w === 'rules' ? 'Built-in rules · this device' : 'On this device';
+  }
+  function teamResLabel(T) { return (T.researcher.agentic ? 'Gemini' : 'PubMed search') + ' · online'; }
+  // The Analyst on this computer: MedGemma through Ollama, streamed, so the chat can show it thinking and then writing.
+  // A small model can loop, so it stops once the answer stops growing, or once it has said enough.
+  function analystLocal(sys, prompt, onDelta) {
+    var ctrl = new AbortController(), timer = setTimeout(function () { ctrl.abort(); }, 150000), raw = '', toks = 0, grew = 0, last = 0, enough = false;
+    function view() {
+      var thinking = /<unused94>/.test(raw) && raw.indexOf('<unused95>') < 0, i = raw.lastIndexOf('<unused95>');
+      var ans = thinking ? '' : (i >= 0 ? raw.slice(i + 10) : raw).replace(/<unused\d+>/g, '').replace(/<[^>]*$/, '');
+      var c = analystClean(plainChat(ans));
+      return { thinking: thinking || (!ans.trim() && /^\s*</.test(raw)), text: c.text, claims: c.claims, full: c.full, toks: toks };
+    }
+    return fetch(CH.local.url.replace(/\/+$/, '') + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
+      body: JSON.stringify({ model: CH.local.model, stream: true, options: { temperature: 0.2, repeat_penalty: 1.18, num_predict: 900, num_ctx: 8192 }, messages: [{ role: 'system', content: sys }, { role: 'user', content: prompt }] }) })
+      .then(function (r) {
+        if (!r.ok) throw new Error('Ollama answered ' + r.status);
+        var rd = r.body.getReader(), dec = new TextDecoder(), buf = '';
+        function eat(l) { if (!l.trim()) return; try { var j = JSON.parse(l); if (j.message && j.message.content) { raw += j.message.content; toks++; } } catch (e) {} }
+        function pump() {
+          return rd.read().then(function (x) {
+            if (x.done) { eat(buf); return; }
+            buf += dec.decode(x.value, { stream: true }); var ls = buf.split('\n'); buf = ls.pop(); ls.forEach(eat);
+            var v = view(); onDelta(v);
+            if (v.text.length > last) { last = v.text.length; grew = toks; }
+            if (v.full || (v.text && toks - grew > 90)) { enough = true; ctrl.abort(); return; }   // said enough, or going round in circles
+            return pump();
+          });
+        }
+        return pump();
+      })
+      .catch(function (e) { if (!enough) throw new Error(e.name === 'AbortError' ? 'it took too long' : /fetch|network|load/i.test(e.message) ? 'nothing answered at ' + CH.local.url : e.message); })
+      .then(function () {
+        var v = view();
+        if (!v.text) throw new Error(v.thinking ? 'it ran out of room while thinking' : 'it returned an empty answer');
+        return { text: v.text + (v.claims ? '\n\n' + CLAIM_NOTE : ''), toks: toks, cut: enough };
+      })
+      .finally(function () { clearTimeout(timer); });
+  }
+  // The Analyst with no MedGemma anywhere: fixed rules set the brief beside the record, on this device
+  function teamRulesText(T) {
+    var b = T.brief || {}, hay = [b.studied_in, b.drug, b.kind].concat(T.req.about).join(' ').toLowerCase(), out = [];
+    if (T.role === 'team') {
+      var t = T.tid && TRIAL[T.tid];
+      if (!t) return 'Who it was studied in: ' + (b.studied_in || 'not stated') + '. Name a trial, like LT-303, and I can set this beside its applicants.';
+      var fresh = Store.all('apps').filter(function (a) { return a.trial === t.id && (a.stage === 'applied' || a.stage === 'waitlist'); });
+      var open = fresh.filter(function (a) { var x = pid(a), r = x ? evaluate(P_(x), t) : null; return r && (r.unk || r.not); }).length;
+      return 'The evidence comes from ' + (b.studied_in || 'people with lung cancer') + '. ' + t.code + ' has ' + plural(fresh.length, 'new applicant') + (open ? ', and ' + open + ' still have entry rules to check' : '') + '. Check that the people you invite match who it was studied in.';
+    }
+    var p = P_(me());
+    out = (T.facts || teamFacts(T)).map(function (f) { return f.text; });
+    if (T.tid) { var tt = TRIAL[T.tid], r = evaluate(p, tt), u = unknownRules(r); out.push(tt.code + '’s entry rules against your record: ' + r.met + ' met' + (r.unk ? ', ' + r.unk + ' to check' + (u.length ? ' (' + u.slice(0, 2).join('; ') + ')' : '') : '') + (r.not ? ', ' + r.not + ' not met' : '') + '.'); }
+    out.push('Your care team or the trial team can say what this means for you.');
+    return out.join(' ');
+  }
+  // Fixed rules on this device set the research beside the record: the gene change it is about, and earlier treatment.
+  // Shown beside the Analyst's words and given to MedGemma as checked facts, because a small model can miss a mismatch.
+  function teamFacts(T) {
+    if (T.role === 'team') return [];
+    var b = T.brief || {}, hay = [b.studied_in, b.drug, b.kind].concat(T.req.about).join(' ').toLowerCase(), out = [];
+    var p = P_(me()), treated = p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK, none = function (v) { return v == null || v === '' || v === 'unk' || v === 'egfr_unk'; };
+    var G = [['EGFR', /\begfr\b/, ['ex19del', 'L858R', 'ex20ins', 'other', 'pos'].indexOf(p.egfr) >= 0, none(p.egfr)], ['ALK', /\balk\b/, p.alk === 'pos', none(p.alk)],
+      ['ROS1', /\bros1\b/, p.ros1 === 'pos', none(p.ros1)], ['KRAS G12C', /kras ?g12c/, p.kras === 'G12C', none(p.kras)]];
+    var has = G.filter(function (g) { return g[2]; }).map(function (g) { return g[0]; });
+    G.forEach(function (g) {
+      if (!g[1].test(hay)) return;
+      if (g[2]) out.push({ s: 'met', text: 'The research is in people with ' + g[0] + ', and your record shows ' + (g[0][0] === 'K' ? 'a ' : 'an ') + g[0] + ' change.' });
+      else if (has.length) out.push({ s: 'not', text: 'The research is in people with ' + g[0] + ', but your record shows ' + has.join(' and ') + ' instead' + (g[3] ? ', and no ' + g[0] + ' result.' : '.') });
+      else out.push({ s: g[3] ? 'unk' : 'not', text: 'The research is in people with ' + g[0] + (g[3] ? ', and your record has no ' + g[0] + ' result yet.' : ', which your record doesn’t show.') });
+    });
+    if (/pd-?l1/.test(hay) && p.pdl1 != null) out.push({ s: 'unk', text: 'The research involves PD-L1, and your record has a PD-L1 score of ' + p.pdl1 + '%.' });
+    if (/previously treated|prior (therapy|treatment|systemic)|second[- ]line|progress|resist|platinum[- ]based|after (osimertinib|platinum|chemo)/.test(hay)) out.push(treated ? { s: 'met', text: 'The people studied had earlier treatment, as you have (' + txText(p) + ').' } : { s: 'not', text: 'The people studied had earlier treatment, and your record shows none yet.' });
+    else if (/first[- ]line|previously untreated|treatment[- ]na[iï]ve/.test(hay)) out.push(treated ? { s: 'not', text: 'The people studied hadn’t been treated yet, and your record shows earlier treatment.' } : { s: 'met', text: 'The people studied hadn’t been treated yet, like you.' });
+    return out;
+  }
+  function teamContext(T) {
+    var t = T.tid ? TRIAL[T.tid] : null, trial = t ? { code: t.code, name: t.name, summary: t.plain, design: t.design } : null;
+    if (T.role === 'team') {
+      var q = T.q + (t ? ' ' + t.code : ''), ctx = chatContext(teamChat(q), q), x = (ctx.trials || [])[0] || {};
+      return { data: 'synthetic demo', role: 'trial team', trial: trial, new_applicants: (x.new_applicants || []).length, could_fit_not_invited: x.pool_could_fit_not_yet_invited,
+        open_items: (x.open_items_by_applicant || []).slice(0, 4) };
+    }
+    var pt = me(), p = P_(pt);
+    return { data: 'synthetic demo', role: 'patient', you: { age: pt.age, sex: pt.sex, cancer: HIST[p.histology] + ', ' + STAGE[p.stage], tests: bioText(p).join('; '), earlier_treatment: txText(p), fitness_ecog: p.ecog, brain_scan: p.brain }, trial_asked_about: trial,
+      checked_by_rules: (T.facts || []).map(function (f) { return f.text; }) };
+  }
+  function teamStep(T, s) {   // add a step to the trace, or move one on; each keeps when it started and how long it took
+    var now = Date.now() - T.t0, x = T.trace.filter(function (y) { return y.id === s.id; })[0];
+    if (!x) { T.trace.push({ id: s.id, agent: s.agent, state: s.state, label: s.label, tool: s.tool || null, at: now, dur: s.state === 'run' ? null : 0 }); return; }
+    x.state = s.state; x.label = s.label; if (s.state !== 'run') x.dur = now - x.at;
+  }
+  function teamWait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? Math.min(ms, 120) : ms); }); }
+  function teamSource(T, n) { return T.sources.filter(function (s) { return s.n === n; })[0] || null; }
+  function teamCitedCount(T) { var c = {}; (T.brief ? T.brief.sentences : []).forEach(function (s) { s.sources.forEach(function (n) { c[n] = 1; }); }); return Object.keys(c).length; }
+  var teamTicks = {}, teamFrames = {};
+
+  function teamRun(text) {
+    var req = teamRequest(text), patient = S.who.role === 'patient';
+    if (!req) { chatPush({ who: 'agent', text: 'What should I look up? Name a drug (like sotorasib), a trial (like LT-311) or a gene change (like KRAS G12C).' }); paintChat(true); return; }
+    if (req.tid) { CH.ctx[chatKey()] = req.tid; }
+    var R = (window.TMConnect.status().researcher) || {}, rec = patient ? 'your record' : 'the trial';
+    var T = { id: rid(), q: text, role: patient ? 'patient' : 'team', req: req.out, tid: req.tid, kept: teamKept(patient), stage: 'route', t0: Date.now(), trace: [], src: {}, sources: [],
+      brief: null, received: null, mine: null, researched: false, fold: false,
+      researcher: { state: 'wait', label: 'Waiting for the request', agentic: !!R.agentic }, analyst: { state: 'wait', label: 'Waiting for the brief', where: null } };
+    var m = { who: 'agent', team: T, text: '', pending: true };
+    chatPush(m); CH.pending = true; CH.quiet = true; paintChat(true); teamTick(m);
+    var where = teamWhere();   // found while the Researcher works
+    teamStep(T, { id: 'co', agent: 'coordinator', state: 'ok', label: 'This needs outside evidence: the Researcher looks it up online, and the Analyst reads it against ' + rec + ' here' });
+    teamPaint(m, true);
+    teamWait(550).then(function () {
+      T.stage = 'guard';
+      teamStep(T, { id: 'gd', agent: 'guard', state: 'ok', label: 'Built the request from ' + plural(teamWords(T).length, 'public word') + ': nothing from ' + (patient ? 'your record' : 'applicants’ records') + ', and not your question as typed' });
+      teamPaint(m, true);
+      return teamWait(1000);
+    }).then(function () {
+      T.stage = 'research'; T.researcher.state = 'run'; T.researcher.label = 'Getting the request';
+      teamPaint(m, true);
+      return window.TMConnect.researchLive(T.req, function (ev) { teamEvent(m, ev); });
+    }).then(function (out) {
+      T.brief = out.brief || null; T.sources = out.sources || []; T.researcher.model = out.model || null; T.researched = true;
+      T.facts = T.brief ? teamFacts(T) : [];
+      T.researcher.state = 'done';
+      T.researcher.label = T.brief ? 'Brief ready: ' + plural(T.brief.sentences.length, 'sentence') + ', ' + plural(teamCitedCount(T), 'source') + ' cited' : T.sources.length ? 'Found ' + plural(T.sources.length, 'source') + ', with no brief' : 'Found nothing to read';
+      if (!T.brief) return;
+      return where.then(function (w) {
+        T.analyst.where = w; T.stage = 'analyse'; T.analyst.state = 'run'; T.analyst.label = 'Got the brief. Reading it against ' + rec;
+        T.mine = { text: '', streaming: false, thinking: false, toks: 0 };
+        teamStep(T, { id: 'ho', agent: 'coordinator', state: 'ok', label: 'Handed the brief to the Analyst (' + teamWhereLabel(w) + '). Only the brief came back in' });
+        teamStep(T, { id: 'an', agent: 'analyst', state: 'run', label: w === 'rules' ? 'Setting the brief beside ' + rec + ' with fixed rules' : 'Reading the brief against ' + rec + ' with MedGemma' });
+        teamPaint(m, true);
+        return teamAnalyse(m, w);
+      });
+    }).then(function () { teamFinish(m, null); }, function (e) { teamFinish(m, e); });
+  }
+  function teamEvent(m, ev) {
+    var T = m.team;
+    if (ev.t === 'start') { T.received = ev.request || null; teamStep(T, { id: 'rx', agent: 'researcher', state: 'ok', label: 'Received ' + plural(teamWords(T).length, 'public word') + ', and nothing else' }); }
+    else if (ev.t === 'step') {
+      teamStep(T, { id: 'R' + ev.id, agent: 'researcher', state: ev.state, label: ev.label, tool: ev.tool });
+      if (ev.state !== 'fail') T.researcher.label = ev.label;
+      if (ev.source) {
+        var v = T.src[ev.source] = T.src[ev.source] || { busy: 0, n: 0, state: '' };
+        if (ev.state === 'run') v.busy++; else { v.busy = Math.max(0, v.busy - 1); v.n += ev.count || 0; v.done = true; }
+        v.state = v.busy ? 'run' : v.n ? 'ok' : v.done ? 'none' : '';
+      }
+    } else return;
+    teamPaint(m, ev.state !== 'run');
+  }
+  function teamAnalyse(m, w) {
+    var T = m.team, patient = T.role !== 'team', rec = patient ? 'your record' : 'the trial';
+    function rules(why) {
+      T.analyst.where = 'rules'; T.mine.text = teamRulesText(T); T.mine.streaming = false; if (why) T.mine.note = why + ', so the built-in rules compared it on this device.';
+      teamStep(T, { id: 'an', agent: 'analyst', state: 'ok', label: 'Set the brief beside ' + rec + ' with fixed rules, on this device' });
+    }
+    if (w === 'rules') return teamWait(800).then(function () { rules(null); });
+    var ctx = teamContext(T);
+    if (w === 'local') {
+      return analystLocal(analystSystem(!patient), analystPrompt(T.q, T.brief, T.sources, ctx), function (v) {
+        T.mine.thinking = v.thinking; T.mine.streaming = !!v.text; T.mine.text = v.text; T.mine.toks = v.toks;
+        T.analyst.label = v.text ? 'Writing what it means for ' + (patient ? 'you' : 'the trial') : 'Reasoning on this computer · ' + v.toks + ' tokens';
+        teamPaint(m, false);
+      }).then(function (r) {
+        T.mine.text = r.text; T.mine.streaming = false; T.analyst.model = CH.local.model;
+        teamStep(T, { id: 'an', agent: 'analyst', state: 'ok', label: 'Read the brief against ' + rec + ' with MedGemma on this computer (' + r.toks + ' tokens' + (r.cut ? ', stopped once it had said enough' : '') + ')' });
+      }, function (e) { rules('MedGemma on this computer didn’t answer (' + e.message + ')'); });
+    }
+    return window.TMConnect.analyst({ question: T.q, brief: T.brief, sources: T.sources.map(function (s) { return { n: s.n, title: s.title }; }), context: ctx }).then(function (r) {
+      T.mine.text = chatFinal(r.text); T.analyst.model = r.model;
+      teamStep(T, { id: 'an', agent: 'analyst', state: 'ok', label: 'Read the brief against ' + rec + ' with ' + teamWhereLabel('site') });
+    }, function (e) { rules('MedGemma on this site didn’t answer (' + e.message + ')'); });
+  }
+  function teamFinish(m, err) {
+    var T = m.team;
+    clearInterval(teamTicks[T.id]);
+    T.dur = Date.now() - T.t0;
+    if (err) {
+      T.stage = 'error';
+      if (T.researcher.state === 'run') { T.researcher.state = 'fail'; T.researcher.label = 'Couldn’t finish'; }
+      if (T.analyst.state === 'run') { T.analyst.state = 'fail'; T.analyst.label = 'Couldn’t finish'; }
+      T.trace.forEach(function (s) { if (s.state === 'run') { s.state = 'fail'; s.dur = T.dur - s.at; } });
+      m.text = (T.researched ? 'The Analyst' : 'The Researcher') + ' couldn’t finish (' + ((err && err.message) || 'something went wrong') + '). Nothing about you went online.';
+      console.error(err);
+    } else {
+      T.stage = 'done';
+      if (T.mine) { T.analyst.state = 'done'; T.analyst.label = 'Done. ' + (T.analyst.where === 'rules' ? 'Fixed rules' : 'MedGemma') + ' read ' + (T.role === 'team' ? 'the trial' : 'your record') + ' here'; }
+      else { T.analyst.state = 'wait'; T.analyst.label = 'No brief to compare'; m.text = T.sources.length ? '' : 'The Researcher found nothing on that since 2019. Try a drug or gene name.'; }
+    }
+    m.pending = false; CH.pending = false; CH.quiet = false; chatSave();
+    var box = $('#chat-thread'), stick = box && box.scrollHeight - box.scrollTop - box.clientHeight < 160;
+    paintChat(stick);
+    setTimeout(function () { T.fold = true; chatSave(); var d = document.querySelector('#tm-' + T.id + ' .tm-log'); if (d) d.open = false; }, 1800);
+  }
+  function teamTick(m) {   // running steps count their seconds, so it's clear the agents are still at work
+    var T = m.team; clearInterval(teamTicks[T.id]);
+    teamTicks[T.id] = setInterval(function () {
+      if (!m.pending) { clearInterval(teamTicks[T.id]); return; }
+      var el = document.getElementById('tm-' + T.id); if (!el) return;
+      var now = Date.now() - T.t0, lis = el.querySelectorAll('.tm-trace li');
+      T.trace.forEach(function (s, i) { if (s.state === 'run' && lis[i]) { var t = lis[i].querySelector('.tm-t'); if (t) t.textContent = ((now - s.at) / 1000).toFixed(1) + ' s'; } });
+      var sum = el.querySelector('.tm-log summary span'); if (sum) sum.textContent = teamSummary(T);
+    }, 200);
+  }
+  function teamSummary(T) { var t = (T.dur != null ? T.dur : Date.now() - T.t0) / 1000; return (T.stage === 'done' || T.stage === 'error' ? 'How your agents worked' : 'Your agents at work') + ' · ' + plural(T.trace.length, 'step') + ' · ' + t.toFixed(1) + ' s'; }
+
+  /* ---------- the team, drawn: two lanes either side of the privacy line, the guard, a live trace, then the answers ---------- */
+  var TEAM_SRC = [['pubmed', 'PubMed'], ['fda', 'FDA label'], ['ctgov', 'ClinicalTrials.gov']];
+  var AG_NAME = { coordinator: 'Coordinator', guard: 'Privacy guard', researcher: 'Researcher', analyst: 'Analyst' };
+  function teamAgentLabel(T, a) {
+    if (a === 'researcher' && T.researcher.state === 'run') {
+      var n = T.trace.filter(function (x) { return x.agent === 'researcher' && x.state === 'run' && x.tool; }).length;
+      if (n > 1) return 'Running ' + n + ' lookups at once';
+    }
+    return T[a].label;
+  }
+  function teamCite(s) { return /^https:\/\//.test(s.url || '') ? '<a class="cite" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer" title="' + esc(s.title) + '">' + s.n + '</a>' : '<span class="cite">' + s.n + '</span>'; }
+  function teamCites(text, T) {   // "[2]" or "[1, 3]" in an answer become links to the sources the Researcher read
+    return esc(text).replace(/\s*\[(\d+(?:\s*,\s*\d+)*)\]/g, function (x, g) { return g.split(/\s*,\s*/).map(function (n) { var s = teamSource(T, +n); return s ? teamCite(s) : ''; }).join(''); });
+  }
+  function teamGuardHTML(T, live) {
+    var sent = teamWords(T), same = T.received && (T.received.about || []).concat(T.received.compare || []).every(function (w) { return T.req.about.concat(T.req.compare).indexOf(w) >= 0; });
+    return '<div class="tm-guard' + (live ? ' live' : '') + '"><div class="tm-gh">' + ICON.shield + '<b>Privacy guard</b><span class="faint">on this device</span></div>' +
+      '<div class="tm-row"><span class="tm-lbl">Going online</span>' + sent.map(function (w, i) { return '<span class="tm-word ' + w[0] + '" style="animation-delay:' + (120 + i * 110) + 'ms">' + esc(w[1]) + '</span>'; }).join('') + '</div>' +
+      '<div class="tm-row"><span class="tm-lbl">Kept here</span>' + T.kept.items.map(function (x) { return '<span class="tm-keep">' + ICON.lock + esc(x) + '</span>'; }).join('') + '</div>' +
+      (T.received ? teamEchoHTML(same) : '') + '</div>';
+  }
+  function teamEchoHTML(same) { return '<p class="tm-echo' + (same ? '' : ' no') + '">' + (same ? ICON.check + 'The Researcher’s server confirmed it received only these words' : ICON.info + 'The Researcher received fewer words: it drops anything that looks personal') + '</p>'; }
+  function teamLiHTML(s, anim, pop) {
+    return '<li data-agent="' + s.agent + '" data-state="' + s.state + '" data-l="' + esc(s.label) + '"' + (anim || pop ? ' class="' + (anim ? 'in' : '') + (pop ? ' pop' : '') + '"' : '') + '>' +
+      '<span class="tm-dot">' + (s.state === 'ok' ? ICON.check : s.state === 'fail' ? ICON.x : '') + '</span><span><b>' + AG_NAME[s.agent] + '</b> ' + esc(s.label) + '</span>' +
+      '<span class="tm-t">' + (s.dur != null && s.dur >= 100 ? (s.dur / 1000).toFixed(1) + ' s' : '') + '</span></li>';
+  }
+  function teamResearchHTML(T, anim) {
+    var b = T.brief, cited = {};
+    var body = b ? b.sentences.map(function (s) { s.sources.forEach(function (n) { cited[n] = 1; }); return esc(s.text) + s.sources.map(function (n) { var x = teamSource(T, n); return x ? teamCite(x) : ''; }).join(''); }).join(' ') : '';
+    var list = b ? T.sources.filter(function (s) { return cited[s.n]; }) : T.sources.slice(0, 5), rest = b ? T.sources.filter(function (s) { return !cited[s.n]; }) : T.sources.slice(5);
+    function ref(s) {
+      var meta = [s.journal, s.year].filter(Boolean).join(' · ') + (s.preprint ? ' · preprint, not peer reviewed' : '');
+      return '<li><span class="cite">' + s.n + '</span><span>' + (/^https:\/\//.test(s.url || '') ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.title) + '</a>' : esc(s.title)) + (meta ? '<small>' + esc(meta) + '</small>' : '') + '</span></li>';
+    }
+    return '<div class="tm-out res' + (anim ? '' : ' static') + '"><div class="tm-oh"><span class="tm-av g">' + ICON.search + '</span><span><b>What the research says</b><small>Researcher · ' + esc(teamResLabel(T)) + ' · public sources only</small></span></div>' +
+      (b && b.drug ? '<span class="tm-drug">' + ICON.pill + esc(b.drug + (b.kind ? ' · ' + b.kind : '')) + '</span>' : '') +
+      (body ? '<p>' + body + '</p>' : '<p class="muted">' + (T.sources.length ? 'No cited brief this time (' + (T.researcher.agentic ? 'it couldn’t back its sentences with sources' : 'this site has no Gemini key') + '). The most relevant sources it found:' : 'It found no sources for that since 2019.') + '</p>') +
+      (b && b.studied_in ? '<p class="tm-meta"><b>Studied in</b>' + esc(b.studied_in) + '</p>' : '') +
+      (list.length ? '<ol class="tm-refs">' + list.map(ref).join('') + '</ol>' : '') +
+      (rest.length ? '<details class="tm-more"><summary>Also read ' + plural(rest.length, 'source') + '</summary><ol class="tm-refs">' + rest.map(ref).join('') + '</ol></details>' : '') + '</div>';
+  }
+  function teamMineBody(T) {
+    var M = T.mine || {}, a = T.analyst;
+    if (M.text) return '<p' + (M.streaming ? ' class="tm-caret"' : '') + '>' + teamCites(M.text, T).replace(/(^|\n)(Who was studied|What fits|Worth asking|What it means for your applicants|Worth checking):\s*/g, '$1<b class="tm-k">$2</b>') + '</p>';
+    return '<p class="tm-think"><span class="tm-bounce" aria-hidden="true"><i></i><i></i><i></i></span>' + esc(M.thinking ? 'Reasoning it through on this computer' + (M.toks ? ' · ' + M.toks + ' tokens' : '') : a.where === 'rules' ? 'Setting the brief beside ' + (T.role === 'team' ? 'the trial' : 'your record') : 'Reading the brief against ' + (T.role === 'team' ? 'the trial' : 'your record')) + '</p>';
+  }
+  function teamMineHTML(T, anim) {
+    var a = T.analyst, M = T.mine || {}, patient = T.role !== 'team', done = T.stage === 'done';
+    var where = a.where === 'rules' ? 'Analyst · built-in rules on this device' : 'Analyst · ' + teamWhereLabel(a.where) + (a.where === 'local' || onLocalhost() ? ' · your record never left it' : ' · never a cloud model');
+    return '<div class="tm-out mine' + (anim ? '' : ' static') + '"><div class="tm-oh"><span class="tm-av m">' + ICON.flask + '</span><span><b>' + esc(patient ? 'What it means for you' : 'What it means for ' + (T.tid ? TRIAL[T.tid].code : 'your trial')) + '</b><small>' + esc(where) + '</small></span></div>' +
+      '<div class="tm-body">' + teamMineBody(T) + '</div>' + (M.note ? '<p class="note">' + esc(M.note) + '</p>' : '') +
+      (a.where !== 'rules' && T.facts && T.facts.length ? '<div class="tm-checks"><span class="tm-lbl">Checked by rules on this device</span>' + T.facts.map(function (f) {
+        return '<span class="tm-chk ' + f.s + '">' + (f.s === 'met' ? ICON.check : f.s === 'not' ? ICON.x : ICON.info) + esc(f.text) + '</span>'; }).join('') + '</div>' : '') +
+      (done && a.where === 'rules' && !IS_PHONE ? '<button type="button" class="btn text tm-setup" data-act="chat-src" data-v="local">' + ICON.lock + 'Set up MedGemma on this computer for a fuller read</button>' : '') + '</div>';
+  }
+  function teamHTML(m) {
+    var T = m.team, live = !!m.pending, stopped = !live && T.stage !== 'done' && T.stage !== 'error', rec = T.role === 'team' ? 'the trial' : 'your record';
+    function st(s) { return stopped && s === 'run' ? 'fail' : s; }
+    function ag(a, cls, icon) {
+      var s = T[a], lbl = stopped && s.state === 'run' ? 'Stopped' : teamAgentLabel(T, a);
+      return '<div class="tm-ag" data-agent-card="' + a + '" data-state="' + st(s.state) + '"><span class="tm-av ' + cls + '">' + icon + '<span class="tm-ok">' + ICON.check + '</span></span>' +
+        '<span class="tm-nm">' + AG_NAME[a] + '<small>' + esc(a === 'researcher' ? teamResLabel(T) : teamWhereLabel(T.analyst.where)) + '</small></span>' +
+        '<span class="tm-st' + (s.state === 'run' && !stopped ? ' run' : '') + '">' + esc(lbl) + '</span></div>';
+    }
+    var srcs = TEAM_SRC.map(function (x) { var v = T.src[x[0]] || {}; return '<span class="tm-src" data-src="' + x[0] + '" data-state="' + (v.state || '') + '">' + x[1] + '<i>' + (v.n || '') + '</i></span>'; }).join('');
+    var board = '<div class="tm-board"><div class="tm-lane loc"><span class="tm-lh">' + ICON.lock + 'On this device</span>' + ag('analyst', 'm', ICON.flask) +
+        '<div class="tm-vault">' + ICON.doc + '<span><b>' + esc(T.kept.what) + '</b> · ' + esc(T.kept.n) + '<small>stays here</small></span></div></div>' +
+      '<div class="tm-wall" aria-hidden="true"><span class="tm-gate">' + ICON.shield + '</span></div>' +
+      '<div class="tm-lane net"><span class="tm-lh">' + ICON.globe + 'Online</span>' + ag('researcher', 'g', ICON.search) + '<div class="tm-srcs">' + srcs + '</div></div></div>';
+    var co = '<div class="tm-co"><span class="tm-av c">' + ICON.route + '</span><p><b>Coordinator</b> <span class="faint">on this device</span><br>Your question needs outside evidence. The <b>Researcher</b> looks it up online with public words only; the <b>Analyst</b> reads what it finds against ' + rec + ' here.</p></div>';
+    var outs = (T.researched ? teamResearchHTML(T, false) : '') + (T.mine ? teamMineHTML(T, false) : '');
+    return '<div class="msg agent tm" id="tm-' + T.id + '" data-stage="' + T.stage + '"' + (live ? ' data-live="1"' : '') + (stopped ? ' data-stopped="1"' : '') + '>' + co + board +
+      (T.stage !== 'route' ? teamGuardHTML(T, false) : '') +
+      '<details class="tm-log"' + (T.fold && !live ? '' : ' open') + '><summary>' + ICON.chev + '<span>' + esc(teamSummary(T)) + '</span></summary><ol class="tm-trace">' + T.trace.map(function (s) { return teamLiHTML(s, false); }).join('') + '</ol></details>' +
+      '<div class="tm-outs">' + outs + '</div>' + (m.text ? '<p class="note">' + esc(m.text) + '</p>' : '') + '</div>';
+  }
+  // Live updates go to the parts that changed, so the animations run once instead of restarting on every repaint
+  function teamPaint(m, save) {
+    if (save) chatSave();
+    var id = m.team.id;
+    if (teamFrames[id]) return;
+    teamFrames[id] = requestAnimationFrame(function () { teamFrames[id] = 0; teamPatch(m); });
+  }
+  function teamPatch(m) {
+    var T = m.team, el = document.getElementById('tm-' + T.id);
+    if (!el) { paintChat(true); return; }
+    var box = $('#chat-thread'), stick = box && box.scrollHeight - box.scrollTop - box.clientHeight < 160;
+    var prev = el.getAttribute('data-stage');
+    if (prev !== T.stage) { el.setAttribute('data-stage', T.stage); teamMove(el, prev, T); }
+    ['researcher', 'analyst'].forEach(function (a) {
+      var c = el.querySelector('[data-agent-card="' + a + '"]'); if (!c) return;
+      if (c.getAttribute('data-state') !== T[a].state) c.setAttribute('data-state', T[a].state);
+      var s = c.querySelector('.tm-st'), want = teamAgentLabel(T, a), key = want.replace(/\d+/g, '#');
+      s.classList.toggle('run', T[a].state === 'run');
+      if (s.textContent !== want) { s.textContent = want; if (s.getAttribute('data-k') !== key) { s.setAttribute('data-k', key); s.classList.remove('flip'); void s.offsetWidth; s.classList.add('flip'); } }
+      var sub = c.querySelector('.tm-nm small'), ws = a === 'researcher' ? teamResLabel(T) : teamWhereLabel(T.analyst.where);
+      if (sub.textContent !== ws) sub.textContent = ws;
+    });
+    TEAM_SRC.forEach(function (x) {
+      var c = el.querySelector('[data-src="' + x[0] + '"]'), v = T.src[x[0]] || {}; if (!c) return;
+      if ((c.getAttribute('data-state') || '') !== (v.state || '')) { c.setAttribute('data-state', v.state || ''); if (v.state === 'ok') { c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); } }
+      var i = c.querySelector('i'), n = v.n ? String(v.n) : ''; if (i.textContent !== n) i.textContent = n;
+    });
+    var g = el.querySelector('.tm-guard');
+    if (T.stage !== 'route' && !g) el.querySelector('.tm-board').insertAdjacentHTML('afterend', teamGuardHTML(T, true));
+    else if (g && T.received && !g.querySelector('.tm-echo')) g.insertAdjacentHTML('beforeend', teamEchoHTML(true));
+    var ol = el.querySelector('.tm-trace'), lis = ol.children;
+    T.trace.forEach(function (s, i) {
+      if (!lis[i]) ol.insertAdjacentHTML('beforeend', teamLiHTML(s, true));
+      else if (lis[i].getAttribute('data-state') !== s.state || lis[i].getAttribute('data-l') !== s.label) { var was = lis[i].getAttribute('data-state'); lis[i].outerHTML = teamLiHTML(s, false, was === 'run' && s.state !== 'run'); }
+    });
+    var sum = el.querySelector('.tm-log summary span'); if (sum) sum.textContent = teamSummary(T);
+    var outs = el.querySelector('.tm-outs');
+    if (T.researched && !outs.querySelector('.res')) outs.insertAdjacentHTML('beforeend', teamResearchHTML(T, true));
+    var mine = outs.querySelector('.mine');
+    if (T.mine && !mine) outs.insertAdjacentHTML('beforeend', teamMineHTML(T, true));
+    else if (mine) { var bd = mine.querySelector('.tm-body'), html = teamMineBody(T); if (bd && bd.getAttribute('data-h') !== html) { bd.innerHTML = html; bd.setAttribute('data-h', html); } }
+    if (stick) box.scrollTop = box.scrollHeight;
+  }
+  function teamMove(el, prev, T) {   // a packet crosses the privacy line: public words out, then the brief back in
+    var b = el.querySelector('.tm-board'), gate = el.querySelector('.tm-gate'); if (!b) return;
+    function packet(cls, html) {
+      var p = document.createElement('span'); p.className = 'tm-pk ' + cls; p.innerHTML = html; b.appendChild(p);
+      p.addEventListener('animationend', function () { p.remove(); }); setTimeout(function () { if (p.parentNode) p.remove(); }, 2600);
+      if (gate) { gate.classList.remove('flash'); void gate.offsetWidth; gate.classList.add('flash'); }
+    }
+    if (T.stage === 'research') packet('out', ICON.shield + plural(teamWords(T).length, 'public word'));
+    if (T.stage === 'analyse') packet('in', ICON.doc + 'brief · ' + plural(teamCitedCount(T), 'source'));
+  }
+  // Under the chat's header: who answers drug questions, and that the record never goes online
+  function teamStripHTML() {
+    var R = (window.TMConnect && window.TMConnect.status().researcher) || {}, team = S.who.role !== 'patient', mg = CH.localState === 'ok' || siteAnalyst();
+    return '<span class="tm-pill" title="Drug questions go to a team: it searches with public words only, and your record never goes online"><i class="tm-av g">' + ICON.search + '</i>' + (R.agentic ? 'Gemini' : 'PubMed search') + ' researches online · public words only</span>' +
+      '<span class="tm-pill"><i class="tm-av m">' + ICON.flask + '</i>' + (mg ? 'MedGemma' : 'Built-in rules') + ' · ' + (team ? 'records' : 'your record') + ' stay' + (team ? '' : 's') + ' here</span>';
   }
 
   // A first pass with fixed rules (no AI): what a live trial's title, summary and drugs say against the record.
@@ -2317,7 +2932,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     if (CH.pending || !text) return;
     chatPush({ who: 'user', text: text });
     var intent = chatIntent(text);   // a request to do something, or to research / search: the agents take it
-    if (intent && intent.kind === 'research') { researchAgent(text); return; }
+    if (intent && intent.kind === 'research') { teamRun(text); return; }
     if (intent && intent.kind === 'scout') { agentRun(); return; }
     // A model that can call tools (Gemini) chooses the action itself; with no model, or MedGemma without tools, the rules do
     var picks = chatSource() === 'site' && siteAgent();
@@ -2345,6 +2960,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 
   function chatMsgHTML(m) {
     if (m.who === 'user') return '<div class="msg user">' + esc(m.text) + '</div>';
+    if (m.team) return teamHTML(m);
     var sp = '<span class="spark sm">' + ICON.spark + '</span>';
     // Just the model's name: where it runs is in the chat's header line. The details stay in the tooltip.
     var by = m.pending ? sp + (CH.src === 'local' ? 'MedGemma' : siteAI()) : m.model ? sp + esc(m.family || 'MedGemma') : sp + 'Your agent';
@@ -2363,10 +2979,10 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   // Chips get built-in answers. An agent chip (shown when the site's model can look up live trials) goes to the model.
   function chatSuggestions() {
     var live = chatSource() === 'site' && siteAgent() ? [{ v: S.who.role === 'patient' ? 'Any live UK trials for my cancer?' : 'Which live UK trials recruit KRAS G12C?', model: true }] : [];
-    if (S.who.role === 'patient') return live.concat(onTrial(S.who.id) ? ['How is my trial going?', 'Who can see my data?'] : ['Search live trials for me', 'What fits me best?', 'What’s known about the first one?', 'What’s still unknown about me?', 'Why were other trials ruled out?', 'Where does the first one run?', 'Who can see my data?']);
+    if (S.who.role === 'patient') return live.concat(onTrial(S.who.id) ? ['How is my trial going?', 'Who can see my data?'] : ['Search live trials for me', 'What fits me best?', { v: 'What’s the drug in the first one?', team: true }, { v: 'How does it compare with chemotherapy?', team: true }, 'What’s still unknown about me?', 'Why were other trials ruled out?', 'Where does the first one run?', 'Who can see my data?']);
     var A = Store.all('apps'), b = TRIALS.map(function (t) { return { t: t, n: A.filter(function (a) { return a.trial === t.id && (a.stage === 'applied' || a.stage === 'waitlist'); }).length }; }).sort(function (x, y) { return y.n - x.n; })[0].t;
     var opened = TRIALS.filter(function (t) { return t.opened && !A.some(function (a) { return a.trial === t.id; }); })[0];
-    return live.concat((opened ? ['Invite people who could fit ' + opened.code] : []).concat(['Who should I invite for ' + b.code + '?', 'What’s missing for ' + b.code + '?', 'Which applications have waited longest?', 'Who should I review this week?', 'What’s known about ' + b.code + '’s drug?']));
+    return live.concat((opened ? ['Invite people who could fit ' + opened.code] : []).concat(['Who should I invite for ' + b.code + '?', 'What’s missing for ' + b.code + '?', 'Which applications have waited longest?', 'Who should I review this week?', { v: 'What’s known about ' + b.code + '’s drug?', team: true }]));
   }
   function paintChat(scroll) {
     var box = $('#chat-thread'); if (!box) return;
@@ -2379,7 +2995,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var th = chatThread(), first = team ? clinName().replace('Dr ', '') : me().name.split(' ')[0];
     box.innerHTML = (th.length ? th.map(chatMsgHTML).join('') : chatMsgHTML({ who: 'agent', text: 'Hi ' + first + '. ' + (team ? 'Ask me who to invite, what’s missing, or who has waited longest.' : 'Ask me about your matches, a trial, or what’s still unknown about you.') })) +
       (CH.pending && !CH.quiet ? chatMsgHTML({ who: 'agent', pending: true, text: CH.pendingText || (src === 'local' ? 'MedGemma is thinking on this computer' : siteAI() + (siteAgent() ? ' is working on it, and may look up live trials' : ' is thinking')) }) : '');
-    $('#chat-sug').innerHTML = chatSuggestions().map(function (s) { var o = typeof s === 'string' ? { v: s } : s; return '<button type="button" data-act="chat-chip" data-v="' + esc(o.v) + '"' + (o.model ? ' data-model="1"' : '') + (CH.pending ? ' disabled' : '') + '>' + (o.model ? ICON.spark : '') + esc(o.v) + '</button>'; }).join('');
+    $('#chat-sug').innerHTML = chatSuggestions().map(function (s) { var o = typeof s === 'string' ? { v: s } : s; return '<button type="button" data-act="chat-chip" data-v="' + esc(o.v) + '"' + (o.model ? ' data-model="1"' : '') + (o.team ? ' data-team="1"' : '') + (CH.pending ? ' disabled' : '') + '>' + (o.model ? ICON.spark : o.team ? ICON.globe : '') + esc(o.v) + '</button>'; }).join('');
+    var tm = $('#chat-team'); if (tm) tm.innerHTML = teamStripHTML();
     var send = $('#chat-form .send'); if (send) send.disabled = CH.pending;
     if (scroll) box.scrollTop = box.scrollHeight;
   }
@@ -2387,6 +3004,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var team = S.who.role !== 'patient';
     sheet('<div class="sheet-h"><div><h2>Ask your agent</h2><p class="muted sm" id="chat-line"></p></div><button class="iconbtn" data-act="close" aria-label="Close">' + ICON.x + '</button></div>' +
       '<div class="chat-src" role="group" aria-label="Who answers" id="chat-src"></div><div id="chat-setup" hidden></div>' +
+      '<div class="chat-team" id="chat-team" aria-label="Who answers drug questions"></div>' +
       '<div class="chat-thread" id="chat-thread" aria-live="polite"></div><div class="chat-sug" id="chat-sug"></div>' +
       '<form class="chat-ask" id="chat-form" autocomplete="off"><label class="sr" for="chat-in">Ask your agent</label><input id="chat-in" maxlength="500" enterkeyhint="send" placeholder="' + (team ? 'Ask about a trial, an applicant or the queue' : 'Ask about a trial or your matches') + '"><button class="send" type="submit" aria-label="Send">' + ICON.up + '</button></form>' +
       '<div class="row" style="justify-content:space-between;align-items:center"><p class="note" style="margin:0">The trial team always decides who can join. This chat stays in this browser.</p><button class="btn text" data-act="chat-clear" style="height:auto;padding:0">Clear</button></div>');

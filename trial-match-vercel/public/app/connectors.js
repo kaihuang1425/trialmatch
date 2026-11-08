@@ -6,6 +6,8 @@
  *   TMConnect.readFhir(id)     -> FHIR record, facts with source lines
  *   TMConnect.scout(term?)     -> live trials from ClinicalTrials.gov, optionally narrowed by a term
  *   TMConnect.research(topic, terms) -> Research agent: papers from Europe PMC, with a cited summary when a model is on
+ *   TMConnect.researchLive(req, onEvent) -> the team's Researcher (Gemini, online, public words only), streaming each lookup
+ *   TMConnect.analyst(body)    -> the team's Analyst on this site's own MedGemma server (refused on a cloud model)
  *   TMConnect.prescreen(nct, record, age, sex, said) -> MedGemma pre-check of a live trial (said: the patient's chat answers)
  * It also provides window.claude.use('db') (a shared store backed by /api/store) when the page is not running
  * inside a Claude artifact, so the app's existing shared-data code works unchanged.
@@ -45,8 +47,43 @@
     readFhir: function (patientId) { return api('/api/connectors/fhir', { patientId: patientId }); },
     scout: function (term) { return api('/api/agents/trial-scout' + (term ? '?term=' + encodeURIComponent(term) : '')); },
     research: function (topic, terms) { return api('/api/agents/research', { topic: topic, terms: terms || [] }); },
+    researchLive: researchLive,
+    analyst: function (body) { return api('/api/agents/analyst', body); },
     prescreen: function (nct, record, age, sex, said) { return api('/api/agents/prescreen', { nct: nct, record: record, age: age, sex: sex, said: said || {} }); }
   };
+
+  // The team's Researcher, live. req: { aspect, about[], compare[], nct } (public words only). onEvent gets each line the
+  // server streams: { t: 'start', request } (what it received), { t: 'step', ... } per lookup, then 'done' or 'error'.
+  // Resolves with the 'done' object. If the response isn't a stream (an older server or a proxy), it still resolves.
+  function researchLive(req, onEvent) {
+    var emit = function (o) { if (onEvent) try { onEvent(o); } catch (e) { console.error(e); } };
+    return fetch('/api/agents/research', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/x-ndjson' }, body: JSON.stringify(req), cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) return r.json().catch(function () { return {}; }).then(function (j) { var e = new Error(j.message || ('The service answered ' + r.status + '.')); e.code = j.error; e.status = r.status; throw e; });
+        if (!/ndjson/.test(r.headers.get('content-type') || '') || !r.body || !r.body.getReader) return r.json().then(function (j) { emit(Object.assign({ t: 'done' }, j)); return j; });
+        var rd = r.body.getReader(), dec = new TextDecoder(), buf = '', done = null, err = null;
+        function eat(line) {
+          if (!line.trim()) return;
+          var o; try { o = JSON.parse(line); } catch (e) { return; }
+          if (o.t === 'done') done = o; else if (o.t === 'error') err = o;
+          emit(o);
+        }
+        function pump() {
+          return rd.read().then(function (x) {
+            if (x.done) {
+              eat(buf); buf = '';
+              if (err) throw new Error(err.message || 'The Researcher couldn’t finish.');
+              if (!done) throw new Error('the Researcher stopped before it finished');
+              return done;
+            }
+            buf += dec.decode(x.value, { stream: true });
+            var lines = buf.split('\n'); buf = lines.pop(); lines.forEach(eat);
+            return pump();
+          });
+        }
+        return pump();
+      }, function () { var e = new Error('Could not reach the server.'); e.code = 'unavailable'; throw e; });
+  }
 
   /* ---------- shared store: same shape as the app's shared database, polling /api/store ---------- */
   var COLS = ['patients', 'apps', 'events', 'rankings'];

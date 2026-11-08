@@ -153,11 +153,40 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){.tm .src,.tm .src::after{transition:none}}
 /* cinematic hero: a full-bleed photo, the headline on a dark fade at the bottom, one frosted match notice */
 /* top bar: fixed, clear over the photo, frosted once scrolled; a flowing Gemini gradient line with the scroll progress on top */
-.tm .topbar{position:fixed;top:0;left:0;right:0;z-index:30;transition:background .35s,-webkit-backdrop-filter .35s,backdrop-filter .35s}
-.tm .topbar.is-scrolled{background:rgba(14,14,15,.72);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2)}
-.tm .topbar-line{position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);background-size:200% 100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);opacity:.55;animation:tmFlow 8s linear infinite;transition:opacity .35s}
-.tm .topbar.is-scrolled .topbar-line{opacity:.9}
-.tm .topbar .bar{position:absolute;top:auto;bottom:-1px;height:2px;z-index:1}
+@property --tba{syntax:'<angle>';inherits:false;initial-value:0deg}
+.tm .topbar{position:fixed;top:0;left:0;right:0;z-index:30}
+.tm .isl{position:relative;isolation:isolate;height:46px;border-radius:23px;display:inline-flex;align-items:center;background:rgba(24,25,28,.5);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);transition:background .35s,box-shadow .35s}
+.tm .isl-brand{padding:0 18px;gap:10px;color:#fff;font-size:17px;font-weight:500;text-decoration:none;white-space:nowrap}
+.tm .navlinks.isl{padding:0 6px;font-size:14px}
+.tm header .navlinks .nl{position:relative;padding:0 15px;line-height:46px;text-decoration:none;color:rgba(255,255,255,.82)!important;transition:color .2s}
+.tm header .navlinks .nl:hover,.tm header .navlinks .nl.is-on{color:#fff!important}
+.tm .nav-dot{position:absolute;left:0;bottom:6px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#D96570);box-shadow:0 0 8px rgba(155,114,203,.9);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none}
+.tm .under{position:absolute;left:8%;right:8%;top:30%;bottom:-40%;z-index:-1;border-radius:50%;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570);filter:blur(18px);opacity:.45;pointer-events:none;animation:tmBreathe 4s ease-in-out infinite}
+.tm .topbar.is-scrolled .isl{background:rgba(24,25,28,.92)}
+.tm .topbar.is-scrolled .under{animation-name:tmBreatheLow}
+@keyframes tmBreathe{0%,100%{opacity:.32;transform:scale(.94)}50%{opacity:.62;transform:scale(1.06)}}
+@keyframes tmBreatheLow{0%,100%{opacity:.14;transform:scale(.94)}50%{opacity:.28;transform:scale(1.04)}}
+.tm .live-cta{position:relative;isolation:isolate;height:46px;border-radius:23px;display:inline-flex;text-decoration:none;white-space:nowrap;box-shadow:0 0 26px rgba(155,114,203,.5)}
+.tm .live-cta .ring-wrap{position:absolute;inset:0;border-radius:23px;overflow:hidden}
+.tm .live-cta .ring{position:absolute;inset:-2px;background:conic-gradient(from var(--tba),#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);animation:tmSpinA 3s linear infinite}
+.tm .live-in{position:relative;margin:2px;padding:0 20px;border-radius:21px;background:#131314;color:#fff;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:10px}
+.tm .live-dot{width:7px;height:7px;border-radius:50%;background:#6DD58C;animation:tmLivePulse 1.8s ease-out infinite}
+@keyframes tmSpinA{to{--tba:360deg}}
+@keyframes tmLivePulse{0%{box-shadow:0 0 0 0 rgba(109,213,140,.6)}100%{box-shadow:0 0 0 8px rgba(109,213,140,0)}}
+.tm .topbar-strip{position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);background-size:200% 100%;animation:tmFlow 6s linear infinite;transition:opacity .35s}
+.tm .topbar-glow{position:absolute;left:0;right:0;top:0;height:26px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);background-size:200% 100%;filter:blur(16px);opacity:.45;pointer-events:none;animation:tmFlow 6s linear infinite;transition:opacity .35s}
+.tm .topbar-comet{position:absolute;top:-3px;left:-12%;width:140px;height:9px;border-radius:5px;background:radial-gradient(closest-side,#fff,rgba(255,255,255,0));pointer-events:none;animation:tmComet 3.6s cubic-bezier(.45,0,.2,1) infinite;transition:opacity .35s}
+@keyframes tmComet{0%{left:-12%}100%{left:104%}}
+.tm .topbar .bar{position:absolute;top:0;bottom:auto;height:3px;z-index:1;opacity:0;box-shadow:0 0 14px rgba(155,114,203,.9);transition:opacity .35s}
+.tm .bar-head{position:absolute;top:-3px;left:0;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 12px 3px rgba(242,139,130,.9);opacity:0;pointer-events:none;transition:opacity .35s}
+@supports (animation-timeline: scroll()){.tm .bar-head{animation:tmHead linear both;animation-timeline:scroll(root)}}
+@keyframes tmHead{from{transform:translateX(-4px)}to{transform:translateX(calc(100vw - 9px))}}
+.tm .topbar.is-scrolled .topbar-strip{opacity:.16}
+.tm .topbar.is-scrolled .topbar-glow,.tm .topbar.is-scrolled .topbar-comet{opacity:0}
+.tm .topbar.is-scrolled .bar{opacity:1}
+@supports (animation-timeline: scroll()){.tm .topbar.is-scrolled .bar-head{opacity:1}}
+@media (max-width:900px){.tm .topbar header.navIn{padding:14px 16px!important;gap:8px!important}.tm .isl-brand{font-size:16px;padding:0 14px}.tm .live-in{padding:0 15px;gap:8px}}
+@media (prefers-reduced-motion:reduce){.tm .under,.tm .live-cta .ring,.tm .live-dot,.tm .topbar-strip,.tm .topbar-glow,.tm .topbar-comet,.tm .bar-head{animation:none!important}.tm .topbar-comet{display:none}}
 @keyframes tmFlow{from{background-position:0% 0}to{background-position:200% 0}}
 /* hero motion: slow push-in on the photo, parallax on scroll, a floating match notice with a pulse, a flowing bottom line, nudging arrows */
 .tm .hero-media{position:absolute;inset:0;overflow:hidden}
@@ -217,23 +246,25 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 
 <!-- NAV -->
 <div class="topbar">
-<header class="navIn" style="position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; align-items: center; gap: 36px">
-  <a href="#top" style="display: flex; align-items: center; gap: 10px; color: #E3E3E3; text-decoration: none; font-size: 20px; font-weight: 500; white-space: nowrap">
-    <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg1)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg1)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg1)" opacity=".6"></path></svg>
-    Trial Match
-  </a>
-  <nav class="navlinks" aria-label="Sections" style="display: flex; gap: 28px; font-size: 15px">
-    <a class="nl" href="#gap" style="color: #9AA0A6; text-decoration: none">The gap</a>
-    <a class="nl" href="#product" style="color: #9AA0A6; text-decoration: none">Product</a>
-    <a class="nl" href="#agents" style="color: #9AA0A6; text-decoration: none">Agents</a>
-    <a class="nl" href="#results" style="color: #9AA0A6; text-decoration: none">Results</a>
-    <a class="nl" href="#trust" style="color: #9AA0A6; text-decoration: none">Trust</a>
+<header class="navIn" style="position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; gap: 24px">
+  <a class="isl isl-brand" href="#top"><span class="under" aria-hidden="true"></span><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg1)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg1)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg1)" opacity=".6"></path></svg>Trial Match</a>
+  <span style="flex: 1"></span>
+  <nav class="navlinks isl" aria-label="Sections"><span class="under" aria-hidden="true" style="animation-delay: -1.3s"></span>
+    <a class="nl" href="#gap">The gap</a>
+    <a class="nl" href="#product">Product</a>
+    <a class="nl" href="#agents">Agents</a>
+    <a class="nl" href="#results">Results</a>
+    <a class="nl" href="#trust">Trust</a>
+    <span class="nav-dot" aria-hidden="true"></span>
   </nav>
   <span style="flex: 1"></span>
-  <a class="pri" href="/app/" style="height: 40px; padding: 0 20px; border-radius: 20px; background: #E3E3E3; color: #0E0E0F; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap">Try the demo <span class="arr">→</span></a>
+  <a class="pri live-cta" href="/app/"><span class="under" aria-hidden="true" style="animation-delay: -2.6s"></span><span class="ring-wrap" aria-hidden="true"><span class="ring"></span></span><span class="live-in"><span class="live-dot" aria-hidden="true"></span>Try the demo <span class="arr">→</span></span></a>
 </header>
-<span class="topbar-line" aria-hidden="true"></span>
+<span class="topbar-glow" aria-hidden="true"></span>
+<span class="topbar-strip" aria-hidden="true"></span>
+<span class="topbar-comet" aria-hidden="true"></span>
 <div class="bar" aria-hidden="true"></div>
+<span class="bar-head" aria-hidden="true"></span>
 </div>
 
 <!-- HERO -->
@@ -464,6 +495,18 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   var bar = document.querySelector('.tm .topbar'); if (!bar) return;
   function upd() { bar.classList.toggle('is-scrolled', window.scrollY > 24); }
   upd(); window.addEventListener('scroll', upd, { passive: true });
+  // The dot in the sections island sits under the section in view, and follows the pointer over the links.
+  var nav = bar.querySelector('.navlinks'), dot = bar.querySelector('.nav-dot'); if (!nav || !dot) return;
+  var links = Array.prototype.slice.call(nav.querySelectorAll('.nl')), on = null;
+  function put(a) { if (!a) { dot.style.opacity = '0'; return; } dot.style.transform = 'translateX(' + (a.offsetLeft + a.offsetWidth / 2) + 'px)'; dot.style.opacity = '1'; }
+  function setOn(a) { links.forEach(function (l) { l.classList.toggle('is-on', l === a); }); on = a; put(a); }
+  links.forEach(function (a) { a.addEventListener('mouseenter', function () { put(a); }); });
+  nav.addEventListener('mouseleave', function () { put(on); });
+  if (!('IntersectionObserver' in window)) return;
+  var byId = {}; links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) setOn(byId[e.target.id] || null); }); }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(byId).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  var top = document.getElementById('top'); if (top) new IntersectionObserver(function (es) { if (es[0].isIntersecting) setOn(null); }, { rootMargin: '-45% 0px -50% 0px' }).observe(top);
 })();
 (function () {
   // The agents relay loops only while it is on screen.

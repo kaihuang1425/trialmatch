@@ -9,7 +9,7 @@ The landing page (`/`) and the demo app (`/app/`), with the app's agents connect
 | **Connect a record** | **FHIR R4 server** + MedGemma | Reads conditions, results, medicines and reports, read-only; maps lab codes (LOINC) directly, and MedGemma reads the rest | Shows the synthetic demo records |
 | **Trial Scout** | **ClinicalTrials.gov API v2** | Lists recruiting phase III lung cancer trials with UK hospitals, live. `?term=` narrows it to a gene change or drug, which the chat uses to search from a patient's record | Needs no setup |
 | **Pre-check** (Matcher, live trials) | **MedGemma** + ClinicalTrials.gov | Reads a live trial's full entry rules and checks them against the record: met / not met / to check. It also counts answers the patient gave in the chat, labelled as theirs, and for each rule it can't settle it names the one fact that would | Button hidden, with a note |
-| **Research agent** (in the chat) | **Europe PMC** (PubMed and preprints) + the site's model | Finds recent papers on a trial's drug or target, and writes a short summary in which every sentence cites one of them | Lists the papers, with no summary |
+| **The chat's team** (drug questions) | **Researcher:** Gemini online, with PubMed (Europe PMC), FDA labels (openFDA) and ClinicalTrials.gov. **Analyst:** MedGemma where the record is | The Researcher looks up a drug or a comparison with public words only and writes a brief in which every sentence cites a source it read; the Analyst reads that brief against the record, on the visitor's computer or this site's own MedGemma server, never a cloud model (see below) | Researcher: a PubMed search with no brief. Analyst: fixed rules on the device |
 | **Shared demo data** | **Upstash Redis** | Everyone who opens the site sees and changes the same demo | Changes stay in each browser |
 | Matching for the demo's own trials (LT-301…) | Rules in code | Unchanged and deterministic: an agent never decides eligibility | n/a |
 | **Ask your agent** (chat, patients and clinicians) | Built-in answers, or **MedGemma on the visitor's computer** (Ollama), or **the site's model** (MedGemma, or Gemini) | Answers from the record and the trial rules; typed questions can go to the model, labelled as a draft, with eligibility claims flagged. It can also offer to act in the app, research a drug and search the live registry (see below). On Gemini it's a tool-using agent that looks up live trials on ClinicalTrials.gov itself | Built-in answers |
@@ -39,7 +39,11 @@ With `GEMINI_API_KEY` set (and no MedGemma server), the site calls the Gemini AP
 ### What the chat can do beyond answering
 
 - **Offer to act.** A request such as "apply me to LT-311", "my brain scan was clear", "I can travel 50 miles" or, for a trial team, "invite people to LT-319" becomes a card. Nothing happens until the person taps it, and the action is logged as the agent's. On Gemini the model chooses the action with `propose_action`. With the built-in answers or MedGemma, fixed rules read the request, and the card says "Matched by rules". Either way the page runs its own checks before offering the card: already applied, already on a trial, entry rules not met, or no model for a pre-check. Patients can apply, pass, withdraw, turn apply-for-me or invitations on and off, add a brain scan result, change how far they'll travel and pre-check a live trial. Trial teams can invite the people who could fit and open Rank.
-- **Research a drug** (`api/agents/research.js`). A question such as "what's known about this drug?" searches Europe PMC for papers since 2019 on the trial's drug or target. Live trials use their listed treatments, and the demo trials have search phrases in the app. With a model connected, it reads the top 5 abstracts and writes at most 90 words. Citations to papers it wasn't given are removed, and so is any sentence left with no citation. The agent only sees search words, never the record.
+- **Ask about a drug: a team of agents.** "What's the drug in the first one?", "How does it compare with chemotherapy?", "Side effects of sotorasib?" go to a team, and the chat draws it at work: two lanes either side of a privacy line ("On this device" and "Online"), a packet crossing the line with the words that went out and the brief that came back, live counts as each source is read, and a step-by-step trace with timings.
+  - **Coordinator** (rules, on the device) routes the question.
+  - **Privacy guard** (on the device) builds what goes online from allow-lists only: drug and gene names, the demo trial's research topics or a live trial's registry treatments, and the kind of question. It never sends the record or the question as typed, and it shows both lists, "Going online" and "Kept here". The server echoes what it received, and the chat confirms it matches. `lib/researcher.js` drops anything that still looks personal (ages, dates, names, IDs).
+  - **Researcher** (Gemini, online: `api/agents/research.js`, `lib/researcher.js`). A tool-using agent with `search_pubmed`, `get_drug_label`, `search_live_trials` and `get_live_trial`. Its first turn must look something up, it has at most 2 rounds of tools, and its last turn returns a brief in a JSON Schema: the drug, what kind it is, 3 to 5 sentences each with source numbers, who it was studied in, and what it doesn't settle. Sentences that cite nothing it read are dropped. It streams each lookup as NDJSON (`Accept: application/x-ndjson`), so the lanes update live. With no Gemini key it searches PubMed and lists the papers.
+  - **Analyst** (MedGemma: `lib/analyst.js`). It reads the brief against the record where the record is: MedGemma on this computer through Ollama (streamed from the browser, so it types in live), or this site's own MedGemma server (`api/agents/analyst.js`, which refuses with `record_stays_local` when the site's only model is Gemini). It answers in three labelled lines (who was studied, what fits, what to ask). Small local models can loop or overreach, so repeated sentences are dropped, it stops once it has said enough, and any sentence saying someone is eligible is removed and replaced by the reminder that the trial team decides. Fixed rules on the device also check the research's gene change and earlier treatment against the record, show the result beside the Analyst's words ("Checked by rules on this device"), and give it to MedGemma as checked facts. With no MedGemma anywhere, those rules are the Analyst.
 - **Find and check, in rounds.** "Search for live trials" starts a loop of search, check, ask and check again. Every round shows as steps above the answer:
   1. **Search.** The agent plans a search from the record (EGFR, ALK, KRAS G12C, ROS1, or PD-L1 of 50% or more), and Trial Scout runs it on ClinicalTrials.gov.
   2. **Check.** The Matcher's fixed rules rank every result, with no AI. When the site has a model, it pre-checks the closest 2 trials against their full entry rules, side by side.
@@ -88,7 +92,7 @@ For the full demo with every agent on MedGemma on this computer, install Ollama,
 npm run demo
 ```
 
-Open http://localhost:8768/app/. The first run adds a local model, `medgemma-demo`: the same weights, with a 16k context so the pre-check prompts fit. It ignores any Gemini key in `.env.local`, so patient text stays on the computer. The only outside services the agents call are ClinicalTrials.gov, Europe PMC and the public FHIR test server.
+Open http://localhost:8768/app/. The first run adds a local model, `medgemma-demo`: the same weights, with a 16k context so the pre-check prompts fit. Everything that reads patient text runs on MedGemma on the computer. A Gemini key in `.env.local` is kept for the chat team's Researcher only, which receives public search words and never the record; set `DEMO_OFFLINE=1` to turn it off too. The outside services the agents call are ClinicalTrials.gov, Europe PMC, openFDA, the public FHIR test server and, for the Researcher, Gemini.
 
 To test the MedGemma plumbing without a GPU, `npm run mock:medgemma` starts a stand-in on port 8790. Set `MEDGEMMA_BASE_URL=http://127.0.0.1:8790/v1` and `MEDGEMMA_API_KEY=test-key` to use it. It only pattern-matches, so never deploy with it.
 
@@ -146,23 +150,25 @@ api/store.js               shared demo data (Redis)
 api/agents/records-reader.js   MedGemma reads a letter
 api/agents/trial-scout.js      ClinicalTrials.gov search, optionally narrowed by ?term= (cached for an hour)
 api/agents/prescreen.js        MedGemma pre-check of a live trial, with the patient's chat answers
-api/agents/research.js         Research agent: Europe PMC papers, with a cited summary
+api/agents/research.js         the team's Researcher: Gemini with PubMed, FDA labels and ClinicalTrials.gov, streamed
+api/agents/analyst.js          the team's Analyst on this site's own MedGemma (refused on a cloud model)
 api/connectors/fhir.js         FHIR record reader
 api/agents/ask.js              the chat: Gemini agent with live-trial and action tools, or MedGemma in one step
 lib/                       shared server code (MedGemma client, Redis, FHIR mapping, record schema and checks)
 lib/gemini.js, lib/agent.js    native Gemini calls (structured output, function calling) and the chat agent's tools
+lib/researcher.js, lib/literature.js, lib/analyst.js   the chat team: Researcher loop, public sources, Analyst prompt and clean-up
 scripts/dev.mjs            local server; scripts/mock-medgemma.mjs  local stand-in model
 scripts/demo-medgemma.mjs  the whole site on MedGemma through Ollama (npm run demo)
 scripts/eval.mjs           offline matching test (npm run eval); results in eval/
 tools/prepare_targets.py   builds targets.js from the Protein Data Bank
-tests/                     npm test (fact checks, Gemini calls, the chat agent's tools and actions, the pre-check)
+tests/                     npm test (fact checks, Gemini calls, the chat agent's tools and actions, the pre-check, the chat team)
 LANDING-COPY.md            every word on the landing page, for editing
 ```
 
 ## Limits to know before sharing the link
 
 - **Demo data only.** The app says so on screen. Don't connect a FHIR server holding real patients, and don't paste real letters. This is a prototype, not a medical device.
-- **No sign-in.** Anyone with the link can change the shared demo data (size limits and rate limits apply). Anyone can also use the MedGemma endpoints, up to 30 calls per IP every 10 minutes, so watch your model costs. The Research agent has its own limit of 20 calls per IP every 10 minutes, and its summaries also use the model.
+- **No sign-in.** Anyone with the link can change the shared demo data (size limits and rate limits apply). Anyone can also use the MedGemma endpoints, up to 30 calls per IP every 10 minutes, so watch your model costs. The Researcher has its own limit of 20 calls per IP every 10 minutes, and each call can use up to 3 Gemini calls.
 - **Pre-checks are AI output.** They're labelled that way, and they never change the deterministic matching for the demo's own trials.
 - **The chat only offers actions.** Every action is a card that the person confirms with a tap, after the page's own checks. Nothing a model returns applies anyone to a trial by itself.
 - **Chat answers are the patient's own word.** Answers given in the chat go into the record marked as the patient's, and when the pre-check uses one, its reason starts with "You said". The care team confirms them at pre-screening.
