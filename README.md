@@ -32,6 +32,14 @@
 </p>
 
 <p align="center">
+  <a href="https://trial-match-ebon.vercel.app/media/trial-match-agentverse.mp4">
+    <img src="docs/trial-match-preview.webp" width="400" alt="Trial Match in 16 seconds: Mei's agent checks trial LT-301's nine entry rules against her record, asks her the one it can't settle, and applies for her. Then the 3D view zooms from the body through the lungs and a cancer cell to the EGFR protein, with a drug bound in its pocket.">
+  </a>
+  <br>
+  <sub>▶ <a href="https://trial-match-ebon.vercel.app/media/trial-match-agentverse.mp4">Watch the full 55-second video, with sound</a></sub>
+</p>
+
+<p align="center">
 Trial Match is a multi-agent system that finds eligible patients for recruiting clinical trials. It reads patient records, checks every entry rule against the evidence, and hands trial teams a ranked shortlist of people who are likely to qualify, enrol and stay to the end. A research nurse pre-screens every match, and their results feed back into the next ranking.
 </p>
 
