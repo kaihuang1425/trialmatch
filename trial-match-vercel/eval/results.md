@@ -55,7 +55,7 @@ The measured value for each slot on the page, pooled over all batches. The page 
 ## What each side does
 
 - **Registry search.** What a ClinicalTrials.gov search filters on: condition, phase and recruiting status (the same filters Trial Scout sends, see `lib/ctgov.js`). It doesn't read entry rules, so it lists every recruiting phase III trial for the patient's diagnosis. Each synthetic trial's registry condition comes from its diagnosis rule (LT-308 is small cell; the rest are non-small cell). The patient searches for their own diagnosis, which is kinder to the baseline than a plain "lung cancer" search (that would list all 19 trials for everyone). All demo trials are phase III and recruiting, so those two filters remove nothing here.
-- **Trial Match.** The deployed matcher, read straight from `public/app/index.html` (the rule helpers, the 19 trials and `evaluate()`; SHA-256 of that code `81f3bfdf5e366156`). It sees only the record. Its tier is used as is: "strong" (all rules met), "possible" (to check) or "not". Travel limits and other preferences only change the app's score, not the tier, and neither side uses them here.
+- **Trial Match.** The deployed matcher, read straight from `public/app/index.html` (the rule helpers, the 19 trials and `evaluate()`; SHA-256 of that code `223d879bf9c6366c`). It sees only the record. Its tier is used as is: "strong" (all rules met), "possible" (to check) or "not". Travel limits and other preferences only change the app's score, not the tier, and neither side uses them here.
 
 ## How the synthetic patients and labels were made
 
@@ -101,18 +101,22 @@ The measured value for each slot on the page, pooled over all batches. The page 
 
 ## What if the record is silent?
 
-The main run assumes recorded values are right and that yes/no facts (earlier treatments, autoimmune disease, lung disease, infection) are always recorded. The app has no "unknown" for those facts, so a record that says nothing reads as "no". Each what-if applies one gap to every record, for the same patients. It shows how big the failure is at its worst, not how often it happens.
+The main run assumes recorded values are right, that the tumour type and stage are recorded, and that yes/no facts (earlier treatments, autoimmune disease, lung disease, infection) are always recorded. The app has no "unknown" for those yes/no facts, so a record that says nothing reads as "no". A missing tumour type or stage is written as unknown. Each what-if applies one gap to every record, for the same patients. It shows how big the failure is at its worst, not how often it happens.
 
 | | “All rules met”: wrong | Real matches that are "all rules met" or "to check" | Truly eligible pairs ruled out |
 |---|---|---|---|
 | Main run | 0% (0 of 1,268) | 100% | 0 |
 | The record never mentions autoimmune disease, lung disease, infection or earlier immunotherapy, even when the patient has them | 4.3% (57 of 1,312) | 98.3% | 51 |
-| The stage is missing from the record | 0% (0 of 0) | 0% | 2,950 |
+| The stage is missing from the record | 0% (0 of 0) | 100% | 0 |
+| The tumour type (small cell or not) is missing from the record | 0% (0 of 0) | 100% | 0 |
 
 - **The record never mentions autoimmune disease, lung disease, infection or earlier immunotherapy, even when the patient has them:** the wrong "all rules met" pairs truly fail "No autoimmune disease treated in the last 2 years" (37), "No interstitial lung disease or pneumonitis" (14), "No pneumonitis after radiotherapy" (3), "No earlier immunotherapy" (2); truly eligible pairs are ruled out by "Cancer grew after platinum chemotherapy and immunotherapy" (45), "Cancer grew after at least one earlier treatment for advanced disease" (6).
-- **The stage is missing from the record:** truly eligible pairs are ruled out by "Non-small cell lung cancer, stage IV" (2,614), "Non-small cell lung cancer, stage II–IIIA, operable" (112), "Non-small cell lung cancer, stage III not operable or stage IV" (103), "Small cell lung cancer, extensive stage" (64).
 
-The first gap is why the Records Reader, the Skeptic quote check and the trial team's own screening stay in the loop. The second is a fault in the rules: an unknown stage should give "to check", not "not met".
+Silent yes/no facts are why the Records Reader, the Skeptic quote check and the trial team's own screening stay in the loop.
+
+The stage is missing from the record: nothing is wrongly ruled out or wrongly listed. The pairs wait as "to check" (100% of real matches are still "all rules met" or "to check").
+
+The tumour type (small cell or not) is missing from the record: nothing is wrongly ruled out or wrongly listed. The pairs wait as "to check" (100% of real matches are still "all rules met" or "to check").
 
 ## The first nine trials only (LT-301 to LT-309)
 

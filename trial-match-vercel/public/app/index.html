@@ -920,7 +920,15 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
 
   /* ---------- rule helpers ---------- */
   var DRIVER_POS = ['ex19del', 'L858R', 'ex20ins', 'other', 'pos', 'egfr_unk'];
-  function nsclcIV(p) { return p.histology === 'sclc' ? NO : (p.stage === 'IV' ? OK : NO); }
+  function isKnown(v) { return v != null && v !== 'unk'; }
+  // Diagnosis rules: small cell or not, and the stages allowed. An unknown tumour type or stage gives "to check":
+  // only a recorded value can fail the rule.
+  function dxRule(p, sclc, stages) {
+    if (isKnown(p.histology) && (p.histology === 'sclc') !== sclc) return NO;
+    if (isKnown(p.stage) && stages.indexOf(p.stage) < 0) return NO;
+    return isKnown(p.histology) && isKnown(p.stage) ? OK : U;
+  }
+  function nsclcIV(p) { return dxRule(p, false, ['IV']); }
   function noDriver(p) { var v = [p.egfr, p.alk, p.ros1]; if (v.some(function (x) { return DRIVER_POS.indexOf(x) >= 0; })) return NO; if (v.indexOf('unk') >= 0) return U; return OK; }
   function noPriorSystemic(p) { return (p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK) ? NO : OK; }
   function noPriorNaive(p) { return p.priorChemo ? NO : OK; }
@@ -952,7 +960,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       C('inc', 'Kidney function: creatinine clearance ≥45 mL/min', renal(45), 'Matcher', 'labs', { q: 'labs' })
     ] },
     { id: 'alk1', code: 'LT-302', name: 'A newer ALK tablet as a first treatment', plain: 'Compares a newer ALK-targeted tablet with today’s standard ALK tablet for people starting treatment for advanced ALK-positive lung cancer.', design: 'Randomised 1:1, newer tablet vs standard tablet', visits: 'monthly', target: 'ALK', kind: 'target', evidence: .8, evidenceText: 'Earlier studies reported activity in the brain as well as the lungs (synthetic summary).', sites: [['Thames Chest Centre', 'London'], ['Pennine Cancer Centre', 'Leeds']], crit: [
-      C('inc', 'Non-small cell lung cancer, stage III not operable or stage IV', function (p) { return p.histology === 'sclc' ? NO : (p.stage === 'IV' || p.stage === 'III_unres' ? OK : NO); }, 'Records Reader', 'dx'),
+      C('inc', 'Non-small cell lung cancer, stage III not operable or stage IV', function (p) { return dxRule(p, false, ['IV', 'III_unres']); }, 'Records Reader', 'dx'),
       C('inc', 'ALK-positive', function (p) { return p.alk === 'unk' ? U : (p.alk === 'pos' ? OK : NO); }, 'Biomarker agent', 'bio', { q: 'drivers', key: true }),
       C('inc', 'No earlier treatment for advanced disease', noPriorSystemic, 'Matcher', 'tx', { timing: true, key: true, naive: noPriorNaive, skepticNote: SKEPTIC }),
       C('inc', 'Fitness (ECOG) 0–2', ecogMax(2), 'Records Reader', 'ecog'),
@@ -989,7 +997,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       C('inc', 'Kidney function: creatinine clearance ≥45 mL/min', renal(45), 'Matcher', 'labs', { q: 'labs' })
     ] },
     { id: 'stage3', code: 'LT-306', name: 'Immunotherapy after chemoradiotherapy for stage III', plain: 'Adds a new immunotherapy to standard follow-on treatment after chemoradiotherapy for stage III lung cancer that cannot be operated on.', design: 'Randomised 1:1, combination vs standard follow-on treatment', visits: '3weekly', target: null, kind: 'stage', evidence: .7, evidenceText: 'Phase II showed the combination was tolerable after chemoradiotherapy (synthetic summary).', sites: [['Tyne Cancer Centre', 'Newcastle'], ['Lothian Lung Unit', 'Edinburgh'], ['Pennine Cancer Centre', 'Leeds']], crit: [
-      C('inc', 'Non-small cell lung cancer, stage III not operable', function (p) { return p.histology === 'sclc' ? NO : (p.stage === 'III_unres' ? OK : NO); }, 'Records Reader', 'dx', { key: true }),
+      C('inc', 'Non-small cell lung cancer, stage III not operable', function (p) { return dxRule(p, false, ['III_unres']); }, 'Records Reader', 'dx', { key: true }),
       C('inc', 'Finished chemoradiotherapy in the last 6 weeks', function (p) { if (!p.priorCRT) return NO; return p.crtWeeks == null ? U : (p.crtWeeks <= 6 ? OK : NO); }, 'Matcher', 'tx', { timing: true, q: 'crt', key: true }),
       C('inc', 'Cancer has not grown since chemoradiotherapy', function (p) { return p.progressed === 'no' ? OK : (p.progressed === 'unk' ? U : NO); }, 'Matcher', 'tx', { timing: true }),
       C('exc', 'No earlier immunotherapy', function (p) { return p.priorIO ? NO : OK; }, 'Matcher', 'tx'),
@@ -998,14 +1006,14 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       C('exc', 'No pneumonitis after radiotherapy', noILD, 'Matcher', 'cond')
     ] },
     { id: 'periop', code: 'LT-307', name: 'Immunotherapy before and after surgery', plain: 'Compares immunotherapy plus chemotherapy before surgery and immunotherapy after it, with chemotherapy before surgery alone.', design: 'Randomised 1:1, peri-operative immunotherapy vs chemotherapy', visits: '3weekly', target: null, kind: 'nodriver', evidence: .8, evidenceText: 'Earlier studies reported more people with no cancer left at surgery (synthetic summary).', sites: [['Thames Chest Centre', 'London'], ['Fens Cancer Centre', 'Cambridge']], crit: [
-      C('inc', 'Non-small cell lung cancer, stage II–IIIA, operable', function (p) { return p.histology === 'sclc' ? NO : (p.stage === 'early' || p.stage === 'IIIA_res' ? OK : NO); }, 'Records Reader', 'dx', { key: true }),
+      C('inc', 'Non-small cell lung cancer, stage II–IIIA, operable', function (p) { return dxRule(p, false, ['early', 'IIIA_res']); }, 'Records Reader', 'dx', { key: true }),
       C('inc', 'No treatment for this cancer yet', function (p) { return (p.priorChemo || p.priorIO || p.priorEGFR || p.priorALK || p.priorCRT) ? NO : OK; }, 'Matcher', 'tx', { timing: true }),
       C('inc', 'EGFR and ALK negative', function (p) { if (DRIVER_POS.indexOf(p.egfr) >= 0 || p.alk === 'pos') return NO; return (p.egfr === 'unk' || p.alk === 'unk') ? U : OK; }, 'Biomarker agent', 'bio', { q: 'drivers' }),
       C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
       C('exc', 'No autoimmune disease treated in the last 2 years', noAuto, 'Matcher', 'cond')
     ] },
     { id: 'sclc', code: 'LT-308', name: 'A new antibody for extensive small cell lung cancer', plain: 'Adds a new targeted antibody to standard chemotherapy plus immunotherapy as a first treatment for extensive-stage small cell lung cancer.', design: 'Randomised 1:1, with or without the new antibody', visits: 'weekly', target: null, kind: 'stage', evidence: .68, evidenceText: 'Phase I/II reported responses in people whose cancer had come back (synthetic summary).', sites: [['Northern Lung Unit', 'Manchester'], ['Clyde Cancer Centre', 'Glasgow'], ['Midlands Cancer Institute', 'Birmingham']], crit: [
-      C('inc', 'Small cell lung cancer, extensive stage', function (p) { return p.histology === 'sclc' && p.stage === 'es' ? OK : NO; }, 'Records Reader', 'dx', { key: true }),
+      C('inc', 'Small cell lung cancer, extensive stage', function (p) { return dxRule(p, true, ['es', 'IV']); }, 'Records Reader', 'dx', { key: true }),   // stage IV small cell is always extensive stage
       C('inc', 'No treatment for extensive-stage disease yet', noPriorSystemic, 'Matcher', 'tx', { timing: true }),
       C('inc', 'Fitness (ECOG) 0–1', ecogMax(1), 'Records Reader', 'ecog'),
       C('exc', 'No untreated or symptomatic brain metastases', brainOK, 'Matcher', 'brain', { q: 'brain' }),

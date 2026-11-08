@@ -15,14 +15,12 @@
 //    the labels are written here from each criterion's wording (see GOLD), separately from the app's rule code.
 // 4. Registry search = what a ClinicalTrials.gov search filters on: condition, phase and recruiting status.
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { createHash } from 'node:crypto';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import vm from 'node:vm';
+import { loadMatcher } from './matcher.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const APP = path.join(ROOT, 'public', 'app', 'index.html');
 const OUT = path.join(ROOT, 'eval');
 
 /* ---------------- options ---------------- */
@@ -41,19 +39,7 @@ const N_BATCHES = arg('batches', 20);
 const COMMAND = 'npm run eval' + (process.argv.length > 2 ? ' -- ' + process.argv.slice(2).join(' ') : '');
 
 /* ---------------- 1. the deployed matcher ---------------- */
-// The demo app keeps its rules and trials inline. This slice has no DOM code: rule helpers, the 19 trials, evaluate().
-function loadMatcher() {
-  const html = readFileSync(APP, 'utf8');
-  const START = "var OK = 'met'";
-  const END = '/* ================= helpers ================= */';
-  const a = html.indexOf(START), b = html.indexOf(END, a);
-  if (a < 0 || b < 0) throw new Error(`Couldn't find the matcher in public/app/index.html (looked for "${START}" up to "${END}"). Update loadMatcher() in scripts/eval.mjs.`);
-  const code = html.slice(a, b);
-  const ctx = vm.createContext({});
-  vm.runInContext(code, ctx, { filename: 'public/app/index.html' });
-  if (!ctx.TRIALS || typeof ctx.evaluate !== 'function') throw new Error('The matcher slice no longer defines TRIALS and evaluate().');
-  return { trials: ctx.TRIALS, evaluate: ctx.evaluate, OK: ctx.OK, NO: ctx.NO, U: ctx.U, sha256: createHash('sha256').update(code).digest('hex') };
-}
+// loadMatcher() (scripts/matcher.mjs) reads the rules, the 19 trials and evaluate() out of public/app/index.html.
 
 /* ---------------- 2. ground-truth rules, written from each criterion's wording ---------------- */
 // Each entry matches a criterion's text and returns a test on the patient's complete true state.
@@ -68,7 +54,8 @@ const GOLD = [
   [/^Non-small cell lung cancer, stage III not operable or stage IV$/, () => (t) => nsclc(t) && (t.stage === 'IV' || t.stage === 'III_unres')],
   [/^Non-small cell lung cancer, stage III not operable$/, () => (t) => nsclc(t) && t.stage === 'III_unres'],
   [/^Non-small cell lung cancer, stage II–IIIA, operable$/, () => (t) => nsclc(t) && (t.stage === 'early' || t.stage === 'IIIA_res')],
-  [/^Small cell lung cancer, extensive stage$/, () => (t) => t.histology === 'sclc' && t.stage === 'es'],
+  // Stage IV small cell lung cancer is always extensive stage.
+  [/^Small cell lung cancer, extensive stage$/, () => (t) => t.histology === 'sclc' && (t.stage === 'es' || t.stage === 'IV')],
   [/^EGFR exon 19 deletion or L858R$/, () => (t) => SENSITISING.includes(t.egfr)],
   [/^ALK-positive$/, () => (t) => t.alk === 'pos'],
   [/^KRAS G12C mutation$/, () => (t) => t.kras === 'G12C'],
@@ -259,7 +246,8 @@ function makeRecord(t, type, r) {
 const WHATIFS = [
   { id: 'silent', label: 'The record never mentions autoimmune disease, lung disease, infection or earlier immunotherapy, even when the patient has them',
     apply: (p) => ({ ...p, autoimmune: false, ild: false, infection: false, priorIO: false }) },
-  { id: 'nostage', label: 'The stage is missing from the record', apply: (p) => ({ ...p, stage: 'unk' }) }
+  { id: 'nostage', label: 'The stage is missing from the record', apply: (p) => ({ ...p, stage: 'unk' }) },
+  { id: 'notype', label: 'The tumour type (small cell or not) is missing from the record', apply: (p) => ({ ...p, histology: 'unk' }) }
 ];
 
 const CITY_NAMES = ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Edinburgh', 'Bristol', 'Newcastle', 'Cambridge', 'Southampton', 'Cardiff', 'Norwich'];
@@ -480,7 +468,7 @@ for (const r of perTrial) md.push(`| ${r.code} ${r.name} | ${r.rules} | ${int(r.
 md.push('');
 md.push('## What if the record is silent?');
 md.push('');
-md.push('The main run assumes recorded values are right and that yes/no facts (earlier treatments, autoimmune disease, lung disease, infection) are always recorded. The app has no "unknown" for those facts, so a record that says nothing reads as "no". Each what-if applies one gap to every record, for the same patients. It shows how big the failure is at its worst, not how often it happens.');
+md.push('The main run assumes recorded values are right, that the tumour type and stage are recorded, and that yes/no facts (earlier treatments, autoimmune disease, lung disease, infection) are always recorded. The app has no "unknown" for those yes/no facts, so a record that says nothing reads as "no". A missing tumour type or stage is written as unknown. Each what-if applies one gap to every record, for the same patients. It shows how big the failure is at its worst, not how often it happens.');
 md.push('');
 md.push(`| | ${STRONG}: wrong | Real matches that are "all rules met" or "to check" | Truly eligible pairs ruled out |`);
 md.push('|---|---|---|---|');
@@ -491,10 +479,17 @@ for (const w of whatIfs) {
   const bits = [];
   if (w.wrongBecause.length) bits.push(`the wrong "all rules met" pairs truly fail ${quoted(w.wrongBecause, 4)}`);
   if (w.ruledOutBy.length) bits.push(`truly eligible pairs are ruled out by ${quoted(w.ruledOutBy, 4)}`);
-  md.push(`- **${w.label}:** ${bits.length ? bits.join('; ') : 'no change'}.`);
+  if (bits.length) md.push(`- **${w.label}:** ${bits.join('; ')}.`);
 }
 md.push('');
-md.push('The first gap is why the Records Reader, the Skeptic quote check and the trial team\'s own screening stay in the loop. The second is a fault in the rules: an unknown stage should give "to check", not "not met".');
+const silent = whatIfs.find((w) => w.id === 'silent');
+if (silent.tmStrong.wrong || silent.ruledOutWrongly) md.push('Silent yes/no facts are why the Records Reader, the Skeptic quote check and the trial team\'s own screening stay in the loop.');
+for (const w of whatIfs.filter((x) => x.id !== 'silent')) {
+  md.push('');
+  md.push(w.ruledOutWrongly || w.tmStrong.wrong
+    ? `**${w.label}: this is a fault in the rules.** An unknown value should give "to check", not "not met" or "met".`
+    : `${w.label}: nothing is wrongly ruled out or wrongly listed. The pairs wait as "to check" (${pct(w.tmReview.recall)} of real matches are still "all rules met" or "to check").`);
+}
 md.push('');
 md.push('## The first nine trials only (LT-301 to LT-309)');
 md.push('');

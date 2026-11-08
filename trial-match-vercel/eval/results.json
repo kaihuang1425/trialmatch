@@ -11,7 +11,7 @@
   "pairs": 45600,
   "matcher": {
     "file": "public/app/index.html",
-    "sha256": "81f3bfdf5e366156642757c08a811886d9607b764c7cb79522b40f9e3cda1ce4"
+    "sha256": "223d879bf9c6366c16ea5d6c4aba9334b3ced4c747d1cac42fc6af65fcc5d873"
   },
   "definitions": {
     "registry": "condition + phase 3 + recruiting, the ClinicalTrials.gov search filters",
@@ -1061,6 +1061,42 @@
         "perPatient": 0
       },
       "tmReview": {
+        "listed": 4601,
+        "wrong": 1651,
+        "wrongShare": 0.3588350358617692,
+        "eligible": 2950,
+        "found": 2950,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.9170833333333333
+      },
+      "ratioStrong": 40140,
+      "ratioReview": 8.72419039339274,
+      "eligiblePerPatient": 1.2291666666666667,
+      "ruledOutWrongly": 0,
+      "notMetRows": 92610,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 4601,
+        "trulyEligible": 2950
+      },
+      "wrongBecause": {},
+      "ruledOutBy": {}
+    },
+    {
+      "id": "notype",
+      "label": "The tumour type (small cell or not) is missing from the record",
+      "registry": {
+        "listed": 40140,
+        "wrong": 37190,
+        "wrongShare": 0.9265072247135028,
+        "eligible": 2950,
+        "found": 2950,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
         "listed": 0,
         "wrong": 0,
         "wrongShare": 0,
@@ -1070,24 +1106,28 @@
         "recall": 0,
         "perPatient": 0
       },
+      "tmReview": {
+        "listed": 4320,
+        "wrong": 1370,
+        "wrongShare": 0.31712962962962965,
+        "eligible": 2950,
+        "found": 2950,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.8
+      },
       "ratioStrong": 40140,
-      "ratioReview": 40140,
+      "ratioReview": 9.291666666666666,
       "eligiblePerPatient": 1.2291666666666667,
-      "ruledOutWrongly": 2950,
+      "ruledOutWrongly": 0,
       "notMetRows": 92610,
       "notMetButTrue": 0,
       "possible": {
-        "pairs": 0,
-        "trulyEligible": 0
+        "pairs": 4320,
+        "trulyEligible": 2950
       },
       "wrongBecause": {},
-      "ruledOutBy": {
-        "Non-small cell lung cancer, stage IV": 2614,
-        "Non-small cell lung cancer, stage II–IIIA, operable": 112,
-        "Non-small cell lung cancer, stage III not operable or stage IV": 103,
-        "Small cell lung cancer, extensive stage": 64,
-        "Non-small cell lung cancer, stage III not operable": 57
-      }
+      "ruledOutBy": {}
     }
   ],
   "first9": {
