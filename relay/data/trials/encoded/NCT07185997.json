@@ -1,0 +1,352 @@
+{
+  "id": "NCT07185997",
+  "nct": "NCT07185997",
+  "acronym": "ALPACCA",
+  "briefTitle": "Study to Evaluate Efficacy and Safety of Firmonertinib Compared With Investigator's Choice of EGFR Inhibitor as First-Line Treatment in Participants Who Have Locally Advanced or Metastatic NSCLC With EGFR P-Loop and Alpha C-Helix Compressing (PACC) Uncommon Mutations",
+  "officialTitle": "A Global, Phase 3, Randomized, Multicenter, Open-Label Study to Evaluate the Efficacy and Safety of Firmonertinib Compared With Investigator's Choice of Osimertinib or Afatinib as First-Line Treatment in Participants Who Have Locally Advanced or Metastatic Non-Small-Cell Lung Cancer With Epidermal Growth Factor Receptor P-Loop and Alpha C-Helix Compressing (PACC) Uncommon Mutations (ALPACCA)",
+  "phase": [
+    "PHASE3"
+  ],
+  "sponsor": "ArriVent BioPharma, Inc.",
+  "status": "RECRUITING",
+  "conditions": [
+    "Non-Small-Cell Lung Cancer",
+    "Metastatic Non-Small-Cell Lung Cancer",
+    "Advanced Non-Small-Cell Lung Cancer",
+    "EGFR P-Loop and Alpha C-Helix Compressing",
+    "EGFR PACC",
+    "EGFR Uncommon Mutations"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "Global, Phase 3, randomized, multicenter, open-label study evaluating the efficacy and safety of firmonertinib at a dose level of 240 mg QD compared to investigator's choice of osimertinib (80 mg QD) or afatinib (40 mg QD) in participants who have locally advanced or metastatic NSCLC with EGFR PACC mutations, and who have not received any prior therapy for advanced disease. Participants will be randomized in a 1:1 ratio to treatment with firmonertinib or osimertinib or afatinib and will take the assigned dose daily.",
+  "arms": [
+    {
+      "label": "Firmonertinib 240 mg",
+      "type": "EXPERIMENTAL",
+      "interventionNames": [
+        "Drug: Firmonertinib"
+      ]
+    },
+    {
+      "label": "EGFR-TKI inhibitor osimertinib or afatinib based on investigator's choice",
+      "type": "ACTIVE_COMPARATOR",
+      "interventionNames": [
+        "Drug: EGFR-TKI inhibitor based on investigator's choice"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "Firmonertinib"
+    },
+    {
+      "type": "DRUG",
+      "name": "EGFR-TKI inhibitor based on investigator's choice"
+    }
+  ],
+  "sites": [
+    {
+      "id": "alp-university-college-london-hospitals-nhs-foundati",
+      "facility": "University College London Hospitals NHS Foundation Trust",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alp-the-christie-nhs-foundation-trust",
+      "facility": "The Christie NHS Foundation Trust",
+      "city": "Manchester",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.4808,
+      "lon": -2.2426,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alp-the-royal-marsden-nhs-foundation-trust",
+      "facility": "The Royal Marsden NHS Foundation Trust",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT07185997",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT07185997",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "alp-age",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alp-completeness",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "Key Eligibility Criteria:",
+      "plain": "Protocol completeness: the registry lists key criteria only",
+      "logic": {
+        "op": "review",
+        "reason": "The registry lists \"key\" eligibility criteria only; the study team checks the full protocol list"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Key Eligibility Criteria",
+      "completeness": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "alp-setting",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically documented, locally advanced or metastatic Non-Small Cell Lung Cancer (NSCLC) not amenable to curative surgery or radiotherapy.",
+      "plain": "NSCLC, locally advanced or metastatic, not for curative surgery or radiotherapy",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma",
+              "squamous"
+            ]
+          },
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIA",
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Key Eligibility Criteria",
+      "needsFacts": [
+        "histology",
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alp-pacc",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "Documented results of the presence of an Epidermal Growth Factor Receptor (EGFR) PACC mutation in tumor tissue or blood from local testing.",
+      "plain": "EGFR PACC mutation on the registry list (local testing)",
+      "logic": {
+        "op": "in",
+        "key": "egfr",
+        "values": [
+          "E709X",
+          "E709A",
+          "E709H",
+          "E709V",
+          "E709K",
+          "E709_T710delinsD",
+          "E709_T710delinsA",
+          "E709_T710delinsG",
+          "L718M",
+          "L718P",
+          "L718Q",
+          "L718V",
+          "G719X",
+          "G719A",
+          "G719C",
+          "G719D",
+          "G719S",
+          "G724S",
+          "E736K",
+          "I740_K745dup",
+          "I740_K745dupIPVAIK",
+          "I744_K745insKIPVAI",
+          "L747P",
+          "L747S",
+          "K757M",
+          "K757R",
+          "V765L",
+          "S768I",
+          "S768_V769delinsIL",
+          "S768_V769delinsIM",
+          "S768_V769delinsPL",
+          "V769L",
+          "V769M",
+          "N771G",
+          "H773_V774delinsLM",
+          "V774M",
+          "R776C",
+          "R776H",
+          "G779F",
+          "L792H",
+          "G796S",
+          "T854A",
+          "T854S",
+          "T854I",
+          "A647T",
+          "R675W",
+          "S768C",
+          "A755D",
+          "A750_I759delinsPN",
+          "T751_I759delinsN"
+        ],
+        "note": "full registry list of eligible PACC mutations"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Key Eligibility Criteria",
+      "detail": [
+        "List of eligible PACC mutations:",
+        "E709X, E709A, E709H, E709V, E709K E709\\_T710delinsD, E709\\_T710delinsA, E709\\_T710delinsG, L718M, L718P, L718Q, L718V, G719X, G719A, G719C, G719D, G719S, G724S, E736K, I740\\_K745dup, I740\\_K745dupIPVAIK, I744\\_K745insKIPVAI, L747P, L747S, K757M, K757R, V765L, S768I, S768\\_V769delinsIL, S768\\_V769delinsIM, S768\\_V769delinsPL, V769L, V769M, N771G, H773\\_V774delinsLM, V774M, R776C, R776H, G779F, L792H, G796S, T854A, T854S, T854I, A647T, R675W, S768C, A755D, A750\\_I759delinsPN, T751\\_I759delinsN"
+      ],
+      "needsFacts": [
+        "egfr"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alp-prior",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "No prior systemic anticancer therapy regimens received for locally advanced or metastatic Non-Small Cell Lung Cancer (NSCLC) including prior treatment with any Epidermal Growth Factor Receptor (EGFR)-targeting agents (e.g., previous (EGFR) TKIs, monoclonal antibodies, or bispecific antibodies).",
+      "plain": "No systemic therapy for advanced disease, including any EGFR-targeting agent",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_systemic_advanced",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "prior_egfr_tki",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Key Eligibility Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced",
+        "prior_egfr_tki"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alp-adjuvant",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "Patients who have received prior neo-adjuvant and/or adjuvant chemotherapy, immunotherapy, or chemo radiotherapy for non-metastatic disease must have experienced a treatment free interval of at least 12 months.",
+      "plain": "(Neo)adjuvant therapy, if any, ended ≥ 12 months ago",
+      "logic": {
+        "op": "not_within",
+        "key": "adjuvant_therapy_end",
+        "days": 365,
+        "what": "neoadjuvant/adjuvant therapy"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Key Eligibility Criteria",
+      "needsFacts": [
+        "adjuvant_therapy_end"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alp-cns",
+      "trialId": "NCT07185997",
+      "kind": "inclusion",
+      "text": "Patients with asymptomatic CNS metastases are eligible.",
+      "plain": "Asymptomatic CNS metastases allowed",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "none"
+          },
+          {
+            "op": "is",
+            "key": "cns_symptomatic",
+            "value": false
+          },
+          {
+            "op": "review",
+            "reason": "The registry only says asymptomatic CNS metastases are eligible; symptomatic disease is for the study team"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Key Eligibility Criteria",
+      "needsFacts": [
+        "brain_mets",
+        "cns_symptomatic"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: official title.",
+    "The full eligible PACC variant list is copied from the registry text at encode time (X = any residue, e.g. G719X).",
+    "No ECOG requirement is listed in the registry \"key\" criteria; none is invented."
+  ]
+}

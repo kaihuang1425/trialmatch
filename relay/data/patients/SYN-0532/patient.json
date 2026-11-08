@@ -1,0 +1,36 @@
+{
+  "patientId": "SYN-0532",
+  "synthetic": true,
+  "summary": "71, squamous cell carcinoma stage IVB, untreated, ECOG 1, PD-L1 TPS 80% on IHC, no NGS panel.",
+  "profile": {
+    "sex": "Male"
+  },
+  "preferences": {
+    "homeCity": "Birmingham",
+    "travelLimitMiles": 60,
+    "daysAvailable": [
+      "Tue",
+      "Thu"
+    ]
+  },
+  "documents": [
+    {
+      "id": "SYN-0532-REF",
+      "kind": "referral_summary",
+      "date": "2026-10-29",
+      "initial": true
+    },
+    {
+      "id": "SYN-0532-PATH",
+      "kind": "pathology",
+      "date": "2026-10-15",
+      "initial": true
+    },
+    {
+      "id": "SYN-0532-LAB",
+      "kind": "labs",
+      "date": "2026-11-02",
+      "initial": true
+    }
+  ]
+}

@@ -1,0 +1,1266 @@
+{
+  "id": "NCT05642572",
+  "nct": "NCT05642572",
+  "acronym": "Lung-MAP S1900G",
+  "briefTitle": "Comparing Combinations of Targeted Drugs for Advanced Non-Small Cell Lung Cancer That Has EGFR and MET Gene Changes (A Lung-MAP Treatment Trial)",
+  "officialTitle": "A Randomized Phase II Study of INC280 (Capmatinib) Plus Osimertinib With or Without Ramucirumab in Participants With EGFR-Mutant, MET-Amplified Stage IV or Recurrent Non-Small Cell Lung Cancer (Lung-MAP Sub-Study)",
+  "phase": [
+    "PHASE2"
+  ],
+  "sponsor": "SWOG Cancer Research Network",
+  "status": "RECRUITING",
+  "conditions": [
+    "Recurrent Lung Non-Small Cell Carcinoma",
+    "Stage IV Lung Cancer AJCC v8"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "This phase II Lung-MAP treatment trial test the combination of targeted drugs (capmatinib, osimertinib, and/or ramucirumab) in treating patients with non-small cell lung cancer that may have spread from where it first started to nearby tissue, lymph nodes, or distant parts of the body (advanced) and that has EGFR and MET gene changes. Capmatinib and osimertinib are in a class of medications called kinase inhibitors. They work by blocking the action of the abnormal protein that signals cancer cells to multiply. This helps stop or slow the spread of cancer cells and may help shrink tumors. Ramucirumab is a monoclonal antibody that may prevent the growth of new blood vessels that tumors need to grow. Giving capmatinib, osimertinib, and/or ramucirumab and targeting abnormal gene changes in tumor cells may be effective in shrinking or stabilizing advanced non-small cell lung cancer.",
+  "arms": [
+    {
+      "label": "Arm A (capmatinib, osimertinib, ramucirumab)",
+      "type": "EXPERIMENTAL",
+      "description": "Patients receive capmatinib PO, osimertinib PO, and ramucirumab IV on study. Patients also undergo CT scan or MRI and collection of blood samples throughout the trial.",
+      "interventionNames": [
+        "Procedure: Biospecimen Collection",
+        "Drug: Capmatinib",
+        "Procedure: Computed Tomography",
+        "Procedure: Magnetic Resonance Imaging",
+        "Drug: Osimertinib",
+        "Biological: Ramucirumab"
+      ]
+    },
+    {
+      "label": "Arm B (capmatinib, osimertinib)",
+      "type": "EXPERIMENTAL",
+      "description": "Patients receive capmatinib PO and osimertinib PO on study. Patients also undergo CT scan or MRI and collection of blood samples throughout the trial.",
+      "interventionNames": [
+        "Procedure: Biospecimen Collection",
+        "Drug: Capmatinib",
+        "Procedure: Computed Tomography",
+        "Procedure: Magnetic Resonance Imaging",
+        "Drug: Osimertinib"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "PROCEDURE",
+      "name": "Biospecimen Collection"
+    },
+    {
+      "type": "DRUG",
+      "name": "Capmatinib"
+    },
+    {
+      "type": "PROCEDURE",
+      "name": "Computed Tomography"
+    },
+    {
+      "type": "PROCEDURE",
+      "name": "Magnetic Resonance Imaging"
+    },
+    {
+      "type": "DRUG",
+      "name": "Osimertinib"
+    },
+    {
+      "type": "BIOLOGICAL",
+      "name": "Ramucirumab"
+    }
+  ],
+  "sites": [],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT05642572",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT05642572",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "lm-age",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-completeness",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Patients must meet all SCREENING/PRE-SCREENING and SUB-STUDY REGISTRATION COMMON ELIGIBILITY CRITERIA as specified in S1400: Phase II/III Biomarker-Driven Master Protocol for Previously Treated Squamous Cell Lung Cancer (Lung-Map)",
+      "plain": "Protocol completeness: S1400 master-protocol criteria are not in this record",
+      "logic": {
+        "op": "review",
+        "reason": "Eligibility also depends on the S1400 Lung-MAP master protocol, whose criteria are not in this registry record"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "completeness": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-assigned",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have been assigned to S1900G by the Southwest Oncology Group (SWOG) Statistics and Data Management Center (SDMC). Assignment to S1900G is determined by the LUNGMAP protocol",
+      "plain": "Assigned to S1900G by the SWOG SDMC (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-egfr",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have documentation of NSCLC with a sensitizing EGFR mutation and have radiologically or clinically progressed (in the opinion of the treating physician) on osimertinib, alone or in combination with other agent(s), as their most recent line of therapy. Any number of prior lines of therapy is allowed",
+      "plain": "Sensitizing EGFR mutation",
+      "logic": {
+        "op": "in",
+        "key": "egfr",
+        "values": [
+          "Ex19del",
+          "L858R",
+          "G719X",
+          "L861Q",
+          "S768I"
+        ],
+        "note": "Relay policy list of sensitizing EGFR mutations"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "egfr"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-osimertinib",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have documentation of NSCLC with a sensitizing EGFR mutation and have radiologically or clinically progressed (in the opinion of the treating physician) on osimertinib, alone or in combination with other agent(s), as their most recent line of therapy. Any number of prior lines of therapy is allowed",
+      "plain": "Progressed on osimertinib as the most recent line",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_osimertinib",
+            "value": true
+          },
+          {
+            "op": "review",
+            "reason": "Progression on osimertinib as the most recent line is the treating physician's judgement"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_osimertinib"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-met",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a MET amplification determined by tissue-based or blood-based (circulating tumor DNA \\[ctDNA\\]) next generation sequencing (NGS) assay. MET amplifications may have been determined based on tissue submitted for testing by Foundation Medicine Inc (FMI) through the LUNGMAP screening protocol or using test results completed outside of the study. Tissue or blood must be obtained after disease progression on osimertinib (alone or in combination with another agent\\[s\\]). The testing must be done within a laboratory with Clinical Laboratory Improvement Act (CLIA), International Organization for Standardization (ISO)/Independent Ethics Committee (IEC), College of American Pathologists (CAP), or similar certification",
+      "plain": "MET amplification by NGS, on a sample taken after osimertinib progression",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "met_amp",
+            "value": "detected"
+          },
+          {
+            "op": "review",
+            "reason": "The sample must post-date progression on osimertinib"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "detail": [
+        "Note: Participants previously tested for and determined to have MET amplified NSCLC, at the time of progression on osimertinib, outside of LUNGMAP, must also submit tissue for central FMI testing on the LUNGMAP screening protocol, if available"
+      ],
+      "needsFacts": [
+        "met_amp"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-met-lab",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a MET amplification determined by tissue-based or blood-based (circulating tumor DNA \\[ctDNA\\]) next generation sequencing (NGS) assay. MET amplifications may have been determined based on tissue submitted for testing by Foundation Medicine Inc (FMI) through the LUNGMAP screening protocol or using test results completed outside of the study. Tissue or blood must be obtained after disease progression on osimertinib (alone or in combination with another agent\\[s\\]). The testing must be done within a laboratory with Clinical Laboratory Improvement Act (CLIA), International Organization for Standardization (ISO)/Independent Ethics Committee (IEC), College of American Pathologists (CAP), or similar certification",
+      "plain": "MET test from a certified laboratory",
+      "logic": {
+        "op": "is",
+        "key": "molecular_lab_accredited",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "detail": [
+        "Note: Participants previously tested for and determined to have MET amplified NSCLC, at the time of progression on osimertinib, outside of LUNGMAP, must also submit tissue for central FMI testing on the LUNGMAP screening protocol, if available"
+      ],
+      "needsFacts": [
+        "molecular_lab_accredited"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-met-central",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a MET amplification determined by tissue-based or blood-based (circulating tumor DNA \\[ctDNA\\]) next generation sequencing (NGS) assay. MET amplifications may have been determined based on tissue submitted for testing by Foundation Medicine Inc (FMI) through the LUNGMAP screening protocol or using test results completed outside of the study. Tissue or blood must be obtained after disease progression on osimertinib (alone or in combination with another agent\\[s\\]). The testing must be done within a laboratory with Clinical Laboratory Improvement Act (CLIA), International Organization for Standardization (ISO)/Independent Ethics Committee (IEC), College of American Pathologists (CAP), or similar certification",
+      "plain": "Tissue submitted for central FMI testing (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "detail": [
+        "Note: Participants previously tested for and determined to have MET amplified NSCLC, at the time of progression on osimertinib, outside of LUNGMAP, must also submit tissue for central FMI testing on the LUNGMAP screening protocol, if available"
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-disease",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have either measurable disease or non-measurable disease documented by CT or MRI. The CT from a combined PET/CT may be used to document only non-measurable disease unless it is of diagnostic quality. Measurable disease must be assessed within 28 days prior to sub-study randomization. Non-measurable disease must be assessed within 42 days prior to sub-study randomization. All known sites of disease must be assessed and documented on the Baseline Tumor Assessment Form. Participants whose only measurable disease is within a previous radiation therapy port must demonstrate clearly progressive disease (in the opinion of the treating investigator) prior to sub-study randomization to be considered measurable",
+      "plain": "Measurable or non-measurable disease on CT/MRI",
+      "logic": {
+        "op": "present",
+        "key": "measurable_disease"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "measurable_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-baseline-scan",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have either measurable disease or non-measurable disease documented by CT or MRI. The CT from a combined PET/CT may be used to document only non-measurable disease unless it is of diagnostic quality. Measurable disease must be assessed within 28 days prior to sub-study randomization. Non-measurable disease must be assessed within 42 days prior to sub-study randomization. All known sites of disease must be assessed and documented on the Baseline Tumor Assessment Form. Participants whose only measurable disease is within a previous radiation therapy port must demonstrate clearly progressive disease (in the opinion of the treating investigator) prior to sub-study randomization to be considered measurable",
+      "plain": "Baseline tumour assessment within 28/42 days of randomisation (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-brain-imaging",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a CT with contrast or MRI scan of the brain to evaluate for central nervous system (CNS) disease within 42 days prior to sub-study randomization",
+      "plain": "Brain CT/MRI within 42 days (protocol window)",
+      "logic": {
+        "op": "current",
+        "keys": [
+          "brain_mets"
+        ],
+        "window": {
+          "source": "protocol",
+          "days": 42,
+          "text": "within 42 days prior to sub-study randomization"
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "brain_mets"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-cns",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants with symptomatic CNS metastasis (brain metastases or leptomeningeal disease) must be neurologically stable and have a stable or decreasing corticosteroid requirement for at least 5 days before sub-study randomization",
+      "plain": "Symptomatic CNS metastases must be stable for 5 days",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "none"
+          },
+          {
+            "op": "is",
+            "key": "cns_symptomatic",
+            "value": false
+          },
+          {
+            "op": "review",
+            "reason": "Symptomatic CNS metastases must be neurologically stable with stable or decreasing steroids for 5 days"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "brain_mets",
+        "cns_symptomatic"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-tox",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have recovered (=\\< grade 1) from any side effects of prior therapy, except for alopecia and vitiligo",
+      "plain": "Recovered to grade ≤ 1 from prior therapy",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_systemic_advanced",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "recovered_from_toxicity",
+            "value": true
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced",
+        "recovered_from_toxicity"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-swallow",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must be able to swallow tablets whole",
+      "plain": "Able to swallow tablets",
+      "logic": {
+        "op": "is",
+        "key": "gi_absorption_issue",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-anc",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Absolute neutrophil count \\>= 1.5 x 10\\^3/uL (within 28 days prior to sub-study randomization)",
+      "plain": "ANC ≥ 1.5 x10^3/µL within 28 days",
+      "logic": {
+        "op": "cmp",
+        "key": "lab_anc",
+        "cmp": ">=",
+        "value": 1.5,
+        "unit": "10^3/uL",
+        "window": {
+          "source": "protocol",
+          "days": 28,
+          "text": "within 28 days prior to sub-study randomization"
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_anc"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-hb",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Hemoglobin \\< 9.0 g/dL (within 28 days prior to sub-study randomization)",
+      "plain": "Haemoglobin: registry text appears reversed — study team checks",
+      "logic": {
+        "op": "unparseable",
+        "reason": "the registry text reads \"Hemoglobin < 9.0 g/dL\", the reverse of the usual minimum (≥ 9.0 g/dL); Relay does not guess which is meant"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-plt",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Platelets \\>= 100 x 10\\^3/uL (within 28 days prior to sub-study randomization)",
+      "plain": "Platelets ≥ 100 x10^3/µL within 28 days",
+      "logic": {
+        "op": "cmp",
+        "key": "lab_platelets",
+        "cmp": ">=",
+        "value": 100,
+        "unit": "10^3/uL",
+        "window": {
+          "source": "protocol",
+          "days": 28,
+          "text": "within 28 days prior to sub-study randomization"
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_platelets"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-bili",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Total bilirubin =\\< 1.5 x institutional upper limit of normal (ULN) unless history of Gilbert's disease (within 28 days prior to sub-study randomization). Participants with history of Gilbert's disease must have total bilirubin =\\< 5 x institutional ULN",
+      "plain": "Bilirubin ≤ 1.5 x ULN within 28 days (Gilbert: ≤ 5 x ULN)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "lab_bilirubin",
+            "cmp": "<=",
+            "value": 1.5,
+            "unit": "xULN",
+            "window": {
+              "source": "protocol",
+              "days": 28,
+              "text": "within 28 days prior to sub-study randomization"
+            }
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "lab_bilirubin",
+                "cmp": "<=",
+                "value": 5,
+                "unit": "xULN",
+                "window": {
+                  "source": "protocol",
+                  "days": 28,
+                  "text": "within 28 days prior to sub-study randomization"
+                }
+              },
+              {
+                "op": "review",
+                "reason": "Above 1.5 x ULN is allowed only with Gilbert's disease"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_bilirubin"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-transaminases",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Aspartate aminotransferase (AST) and alanine aminotransferase (ALT) =\\< 2.5 x institutional ULN. Participants with history of liver metastasis must have AST =\\< 5 x ULN (within 28 days prior to sub-study randomization)",
+      "plain": "AST and ALT ≤ 2.5 x ULN within 28 days (liver metastases: AST ≤ 5 x ULN)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "lab_ast",
+                "cmp": "<=",
+                "value": 2.5,
+                "unit": "xULN",
+                "window": {
+                  "source": "protocol",
+                  "days": 28,
+                  "text": "within 28 days prior to sub-study randomization"
+                }
+              },
+              {
+                "op": "cmp",
+                "key": "lab_alt",
+                "cmp": "<=",
+                "value": 2.5,
+                "unit": "xULN",
+                "window": {
+                  "source": "protocol",
+                  "days": 28,
+                  "text": "within 28 days prior to sub-study randomization"
+                }
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "lab_ast",
+                "cmp": "<=",
+                "value": 5,
+                "unit": "xULN",
+                "window": {
+                  "source": "protocol",
+                  "days": 28,
+                  "text": "within 28 days prior to sub-study randomization"
+                }
+              },
+              {
+                "op": "review",
+                "reason": "Above 2.5 x ULN is allowed only with liver metastases"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_ast",
+        "lab_alt"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-creat",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a serum creatinine =\\< the IULN OR calculated creatinine clearance \\>= 50 mL/min using the following Cockcroft-Gault Formula. This specimen must have been drawn and processed within 28 days prior to sub-study randomization",
+      "plain": "Creatinine ≤ ULN within 28 days (or Cockcroft-Gault clearance ≥ 50 mL/min)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "lab_creatinine",
+            "cmp": "<=",
+            "value": 1,
+            "unit": "xULN",
+            "window": {
+              "source": "protocol",
+              "days": 28,
+              "text": "within 28 days prior to sub-study randomization"
+            }
+          },
+          {
+            "op": "review",
+            "reason": "Cockcroft-Gault creatinine clearance is not captured; the study team calculates it"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_creatinine"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-zubrod",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants' most recent Zubrod performance status must be 0-1 and be documented within 28 days prior to sub-study randomization",
+      "plain": "Zubrod (ECOG) 0–1 documented within 28 days",
+      "logic": {
+        "op": "cmp",
+        "key": "ecog",
+        "cmp": "<=",
+        "value": 1,
+        "window": {
+          "source": "protocol",
+          "days": 28,
+          "text": "within 28 days prior to sub-study randomization"
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "ecog"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-ecg",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have an electrocardiogram (ECG) performed, with a Fridericia's Correction Formula (QTcF) =\\< 470 msec, within 28 days prior to sub-study randomization. It is suggested that a local cardiologist review the QTcF intervals",
+      "plain": "ECG within 28 days with QTcF ≤ 470 ms",
+      "logic": {
+        "op": "cmp",
+        "key": "qtcf_ms",
+        "cmp": "<=",
+        "value": 470,
+        "unit": "ms",
+        "window": {
+          "source": "protocol",
+          "days": 28,
+          "text": "within 28 days prior to sub-study randomization"
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "qtcf_ms"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-history-exam",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a completed medical history and physical exam within 28 days prior to sub-study randomization",
+      "plain": "History and physical exam within 28 days of randomisation (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-urine",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have a urinalysis performed 28 days prior to sub-study randomization. Participant must have a urinary protein =\\< 1+ on dipstick or routine urinalysis (UA). Random analysis of urine protein with a normal value is sufficient. If urine dipstick or routine analysis indicated proteinuria \\>= 2+, then a 24-hour urine is to be collected and demonstrate \\< 2000 mg of protein in 24 hours to allow participation in the study",
+      "plain": "Urine protein ≤ 1+ within 28 days (2+ needs a 24-hour urine)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "in",
+            "key": "urine_protein",
+            "values": [
+              "negative",
+              "trace",
+              "1+"
+            ],
+            "window": {
+              "source": "protocol",
+              "days": 28,
+              "text": "within 28 days prior to sub-study randomization"
+            }
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "in",
+                "key": "urine_protein",
+                "values": [
+                  "2+",
+                  "3+",
+                  "4+"
+                ],
+                "window": {
+                  "source": "protocol",
+                  "days": 28,
+                  "text": "within 28 days prior to sub-study randomization"
+                }
+              },
+              {
+                "op": "review",
+                "reason": "Proteinuria ≥ 2+: a 24-hour urine < 2000 mg allows entry"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "urine_protein"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-coag",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have an International Normalized Ratio (INR) =\\< 1.5 seconds above the institutional upper limit of normal (IULN) (unless receiving anticoagulation therapy) documented within 28 days to sub-study randomization. Participants must have a partial thromboplastin time (PTT) =\\< 5 seconds above the 'institutional upper limit of normal (IULN) (unless receiving anticoagulation therapy) documented within 28 days prior to sub-study randomization",
+      "plain": "INR and PTT near normal within 28 days (unless anticoagulated)",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "current",
+            "keys": [
+              "lab_inr"
+            ],
+            "window": {
+              "source": "protocol",
+              "days": 28,
+              "text": "within 28 days prior to sub-study randomization"
+            }
+          },
+          {
+            "op": "review",
+            "reason": "INR/PTT limits are given in seconds above the institutional upper limit; the study team checks"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_inr"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-hiv",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants with known human immunodeficiency virus (HIV) infection must be on effective anti-retroviral therapy at randomization and have undetectable viral load within 6 months prior to sub-study randomization",
+      "plain": "If HIV positive: effective ART, undetectable viral load",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "hiv",
+            "value": "negative"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "hiv",
+                "value": "positive"
+              },
+              {
+                "op": "review",
+                "reason": "HIV positive: ART and viral load within 6 months"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "hiv"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-pancreas",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have asymptomatic serum amylase =\\< 2 x ULN and serum lipase =\\< ULN obtained within 28 days prior to sub-study randomization. Asymptomatic is defined as having no signs and/ or symptoms suggesting pancreatitis or pancreatic injury (e.g. elevated P. amylase, abnormal imaging findings of pancreas, etc.)",
+      "plain": "Amylase ≤ 2 x ULN and lipase ≤ ULN within 28 days",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "lab_amylase",
+            "cmp": "<=",
+            "value": 2,
+            "unit": "xULN",
+            "window": {
+              "source": "protocol",
+              "days": 28,
+              "text": "within 28 days prior to sub-study randomization"
+            }
+          },
+          {
+            "op": "cmp",
+            "key": "lab_lipase",
+            "cmp": "<=",
+            "value": 1,
+            "unit": "xULN",
+            "window": {
+              "source": "protocol",
+              "days": 28,
+              "text": "within 28 days prior to sub-study randomization"
+            }
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_amylase",
+        "lab_lipase"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-cardiac",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must have adequate cardiac function. Participants with known history or current symptoms of cardiac disease, or history of treatment with cardiotoxic agents, must have a clinical risk assessment of cardiac function using the New York Heart Association Functional Classification. To be eligible for this trial, participants must be class 2B or better",
+      "plain": "Adequate cardiac function (NYHA 2B or better if cardiac history)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "cv_disease",
+            "value": "none"
+          },
+          {
+            "op": "review",
+            "reason": "Known cardiac history or cardiotoxic treatment: NYHA class 2B or better is required"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "cv_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-ctdna",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must agree to have blood specimens submitted for circulating tumor DNA (ctDNA)",
+      "plain": "Agrees to ctDNA blood specimens (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-banking",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must also be offered participation in specimen banking. With participant consent, specimens must be collected and submitted via the SWOG Specimen Tracking System",
+      "plain": "Offered specimen banking (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-irb",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Note: As a part of the OPEN registration process the treating institution's identity is provided in order to ensure that the current (within 365 days) date of institutional review board approval for this study has been entered in the system",
+      "plain": "Site IRB approval current (site administration)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-consent",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants must be informed of the investigational nature of this study and must sign and give informed consent in accordance with institutional and federal guidelines",
+      "plain": "Informed consent (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-capacity",
+      "trialId": "NCT05642572",
+      "kind": "inclusion",
+      "text": "Participants with impaired decision-making capacity must not have a neurological or psychological condition that precludes their safe participation in the study (e.g., tracking pill consumption and reporting adverse events to the investigator). For participants with impaired decision-making capabilities, legally authorized representatives may sign and give informed consent on behalf of study participants in accordance with applicable federal, local, and Central Institutional Review Board (CIRB) regulations",
+      "plain": "Decision-making capacity / legal representative (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-x-vegf-met",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have received an anti-VEGF or VEGFR inhibitor or MET inhibitor",
+      "plain": "No prior anti-VEGF/VEGFR or MET inhibitor",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_anti_vegf",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "prior_met_inhibitor",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "prior_anti_vegf",
+        "prior_met_inhibitor"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-recent-therapy",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have received any anti-cancer drug (investigational or standard of care drug, except osimertinib) within 21 days prior to sub-study randomization",
+      "plain": "No anticancer drug other than osimertinib within 21 days",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "not_within",
+            "key": "last_systemic_therapy_end",
+            "days": 21,
+            "what": "systemic anticancer therapy"
+          },
+          {
+            "op": "review",
+            "reason": "Osimertinib may continue; any other agent within 21 days excludes"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "detail": [
+        "Note: osimertinib may continue up to the day prior to study treatment initiation"
+      ],
+      "needsFacts": [
+        "last_systemic_therapy_end"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-radiotherapy",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have received any radiation therapy within 14 days prior to sub-study randomization",
+      "plain": "No radiotherapy in 14 days",
+      "logic": {
+        "op": "not_within",
+        "key": "last_radiotherapy",
+        "days": 14,
+        "what": "radiotherapy"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "last_radiotherapy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-concurrent",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not be planning to receive any concurrent chemotherapy, immunotherapy, biologic or hormonal therapy for cancer treatment while receiving treatment on this study",
+      "plain": "No concurrent anticancer therapy planned (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-x-surgery",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have had a major surgery within 14 days prior to sub-study randomization. Participants must have fully recovered from the effects of prior surgery in the opinion of the treating investigator",
+      "plain": "No major surgery in 14 days",
+      "logic": {
+        "op": "is",
+        "key": "major_surgery_recent",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "major_surgery_recent"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-vaccine",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have received a live attenuated vaccination within 28 days prior to sub-study randomization. All COVID-19 vaccines that have received Food and Drug Administration (FDA) approval or FDA emergency use authorization are acceptable",
+      "plain": "No live vaccine in 28 days",
+      "logic": {
+        "op": "is",
+        "key": "live_vaccine_recent",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "live_vaccine_recent"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-meds",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have received strong inducers of CYP3A4 (including herbal supplements such as St. John's Wort); CYP3A4 inhibitors; CYP1A2 substrates; P-gp and BCRP substrates; sensitive substrates of MATE1 and MATE2K; or drugs that are known to prolong QT interval within 7 days prior to sub-study registration and must not be planning to use any of these throughout protocol treatment",
+      "plain": "No strong CYP3A4 inducers/inhibitors or QT-prolonging drugs",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "strong_cyp3a_meds",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "qt_prolonging_meds",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "strong_cyp3a_meds",
+        "qt_prolonging_meds"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-meds-other",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have received strong inducers of CYP3A4 (including herbal supplements such as St. John's Wort); CYP3A4 inhibitors; CYP1A2 substrates; P-gp and BCRP substrates; sensitive substrates of MATE1 and MATE2K; or drugs that are known to prolong QT interval within 7 days prior to sub-study registration and must not be planning to use any of these throughout protocol treatment",
+      "plain": "CYP1A2, P-gp, BCRP and MATE substrates reconciled (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "lm-x-bp",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have uncontrolled blood pressure and hypertension within 28 days prior to sub-study randomization",
+      "plain": "No uncontrolled hypertension",
+      "logic": {
+        "op": "is",
+        "key": "uncontrolled_hypertension",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "uncontrolled_hypertension"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-malignancy",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not have a prior or concurrent malignancy whose natural history or treatment (in the opinion of the treating physician) has the potential to interfere with the safety or efficacy assessment of the investigational regimen",
+      "plain": "No interfering other malignancy",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "other_malignancy",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "other_malignancy",
+                "value": "present"
+              },
+              {
+                "op": "review",
+                "reason": "Other malignancy: whether it could interfere with safety or efficacy assessment"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "other_malignancy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-pregnancy",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not be pregnant or breastfeeding (nursing includes breast milk fed to an infant by any means, including from the breast, milk expressed by hand, or pumped). Individuals who are of reproductive potential must have agreed to use an effective contraceptive method with details provided as a part of the consent process. A person who has had menses at any time in the preceding 12 consecutive months or who has semen likely to contain sperm is considered to be of \"reproductive potential.\" In addition to routine contraceptive methods, \"effective contraception\" also includes refraining from sexual activity that might result in pregnancy and surgery intended to prevent pregnancy (or with a side-effect of pregnancy prevention) including hysterectomy, bilateral oophorectomy, bilateral tubal ligation/occlusion, and vasectomy with testing showing no sperm in the semen",
+      "plain": "Not pregnant or breastfeeding",
+      "logic": {
+        "op": "is",
+        "key": "pregnant_or_breastfeeding",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "pregnant_or_breastfeeding"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "lm-x-contraception",
+      "trialId": "NCT05642572",
+      "kind": "exclusion",
+      "text": "Participants must not be pregnant or breastfeeding (nursing includes breast milk fed to an infant by any means, including from the breast, milk expressed by hand, or pumped). Individuals who are of reproductive potential must have agreed to use an effective contraceptive method with details provided as a part of the consent process. A person who has had menses at any time in the preceding 12 consecutive months or who has semen likely to contain sperm is considered to be of \"reproductive potential.\" In addition to routine contraceptive methods, \"effective contraception\" also includes refraining from sexual activity that might result in pregnancy and surgery intended to prevent pregnancy (or with a side-effect of pregnancy prevention) including hysterectomy, bilateral oophorectomy, bilateral tubal ligation/occlusion, and vasectomy with testing showing no sperm in the semen",
+      "plain": "Contraception agreement where relevant (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: official title (Lung-MAP sub-study S1900G).",
+    "No UK sites in the snapshot (US network study); it stays in the portfolio to show the site lane separately from eligibility.",
+    "Protocol windows (\"within 28/42 days prior to sub-study randomization\") are measured from the assessment date because the randomisation date is not known at prescreening.",
+    "Hemoglobin line reads \"< 9.0 g/dL\" in the record, probably a typo for \">=\"; kept as needs_review rather than guessed."
+  ]
+}

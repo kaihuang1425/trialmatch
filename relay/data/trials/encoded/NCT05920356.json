@@ -1,0 +1,510 @@
+{
+  "id": "NCT05920356",
+  "nct": "NCT05920356",
+  "acronym": "CodeBreaK 202",
+  "briefTitle": "A Study Evaluating Sotorasib Platinum Doublet Combination Versus Pembrolizumab Platinum Doublet Combination as a Front-Line Therapy in Participants With Stage IV or Advanced Stage IIIB/C Nonsquamous Non-Small Cell Lung Cancers (CodeBreaK 202)",
+  "officialTitle": "A Phase 3, Multicenter, Randomized, Open-label Study Evaluating Efficacy of Sotorasib Platinum Doublet Combination Versus Pembrolizumab Platinum Doublet Combination as a Front-Line Therapy in Subjects With Stage IV or Advanced Stage IIIB/C Nonsquamous Non-Small Cell Lung Cancers, Negative for PD-L1, and Positive for KRAS p.G12C (CodeBreaK 202)",
+  "phase": [
+    "PHASE3"
+  ],
+  "sponsor": "Amgen",
+  "status": "RECRUITING",
+  "conditions": [
+    "Non-Small Cell Lung Cancer (NSCLC)"
+  ],
+  "minimumAge": "18 Years",
+  "maximumAge": "100 Years",
+  "briefSummary": "The primary objectives are to compare progression-free survival (PFS) and overall survival (OS) in participants who receive sotorasib with platinum doublet chemotherapy versus participants who receive pembrolizumab with platinum doublet chemotherapy.",
+  "arms": [
+    {
+      "label": "Sotorasib combined with carboplatin and pemetrexed",
+      "type": "EXPERIMENTAL",
+      "description": "Sotorasib administered in combination with carboplatin and pemetrexed.",
+      "interventionNames": [
+        "Drug: Sotorasib"
+      ]
+    },
+    {
+      "label": "Pembrolizumab combined with carboplatin and pemetrexed",
+      "type": "ACTIVE_COMPARATOR",
+      "description": "Pembrolizumab administered in combination with carboplatin and pemetrexed.",
+      "interventionNames": [
+        "Drug: Pembrolizumab"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "Sotorasib"
+    },
+    {
+      "type": "DRUG",
+      "name": "Pembrolizumab"
+    }
+  ],
+  "sites": [
+    {
+      "id": "cb202-queen-elizabeth-hospital-birmingham",
+      "facility": "Queen Elizabeth Hospital Birmingham",
+      "city": "Birmingham",
+      "country": "United Kingdom",
+      "recruitmentStatus": "TERMINATED",
+      "lat": 52.4862,
+      "lon": -1.8904,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status TERMINATED (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cb202-raigmore-hospital",
+      "facility": "Raigmore Hospital",
+      "city": "Inverness",
+      "country": "United Kingdom",
+      "recruitmentStatus": "TERMINATED",
+      "lat": 57.4778,
+      "lon": -4.2247,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status TERMINATED (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cb202-royal-marsden-hospital",
+      "facility": "Royal Marsden Hospital",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cb202-mount-vernon-cancer-centre",
+      "facility": "Mount Vernon Cancer Centre",
+      "city": "Northwood",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.611,
+      "lon": -0.424,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cb202-torbay-hospital",
+      "facility": "Torbay Hospital",
+      "city": "Torquay",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 50.4619,
+      "lon": -3.5253,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cb202-royal-cornwall-hospital",
+      "facility": "Royal Cornwall Hospital",
+      "city": "Truro",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 50.2632,
+      "lon": -5.051,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT05920356",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT05920356",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "cb202-age",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years; maximumAge: 100 Years",
+      "plain": "Aged 18–100",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "age",
+            "cmp": ">=",
+            "value": 18,
+            "unit": "years"
+          },
+          {
+            "op": "cmp",
+            "key": "age",
+            "cmp": "<=",
+            "value": 100,
+            "unit": "years"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-histology",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of nonsquamous stage IV or advanced Stage IIIB or IIIC NSCLC with KRAS p. G12C mutation and negative for PD-L1 expression by central testing or local laboratory testing confirmed through central testing",
+      "plain": "Non-squamous NSCLC",
+      "logic": {
+        "op": "in",
+        "key": "histology",
+        "values": [
+          "nonsquamous_adenocarcinoma"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "histology"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-stage",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of nonsquamous stage IV or advanced Stage IIIB or IIIC NSCLC with KRAS p. G12C mutation and negative for PD-L1 expression by central testing or local laboratory testing confirmed through central testing",
+      "plain": "Stage IV, or advanced (non-curable) stage IIIB/IIIC",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-kras",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of nonsquamous stage IV or advanced Stage IIIB or IIIC NSCLC with KRAS p. G12C mutation and negative for PD-L1 expression by central testing or local laboratory testing confirmed through central testing",
+      "plain": "KRAS G12C mutation",
+      "logic": {
+        "op": "is",
+        "key": "kras",
+        "value": "G12C"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "kras"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-pdl1-local",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of nonsquamous stage IV or advanced Stage IIIB or IIIC NSCLC with KRAS p. G12C mutation and negative for PD-L1 expression by central testing or local laboratory testing confirmed through central testing",
+      "plain": "PD-L1 negative on the local test (TPS < 1%, Relay policy)",
+      "logic": {
+        "op": "cmp",
+        "key": "pdl1_tps",
+        "cmp": "<",
+        "value": 1,
+        "unit": "%",
+        "note": "Relay policy: PD-L1 negative read as TPS < 1%; registry gives no cut-off"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "pdl1_tps"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-pdl1-central",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of nonsquamous stage IV or advanced Stage IIIB or IIIC NSCLC with KRAS p. G12C mutation and negative for PD-L1 expression by central testing or local laboratory testing confirmed through central testing",
+      "plain": "PD-L1 negativity confirmed by central testing (study team, at screening)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Central PD-L1 testing or central confirmation of the local result is done by the study team at screening. Coordinator verification of the local report never substitutes for it."
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "cb202-prior",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "No history of systemic anticancer therapy in metastatic/non-curable settings",
+      "plain": "No systemic therapy for metastatic / non-curable disease",
+      "logic": {
+        "op": "is",
+        "key": "prior_systemic_advanced",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-ecog",
+      "trialId": "NCT05920356",
+      "kind": "inclusion",
+      "text": "Eastern Cooperative Oncology Group (ECOG) ≤ 1",
+      "plain": "ECOG 0–1",
+      "logic": {
+        "op": "cmp",
+        "key": "ecog",
+        "cmp": "<=",
+        "value": 1
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "ecog"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-x-histology",
+      "trialId": "NCT05920356",
+      "kind": "exclusion",
+      "text": "Mixed histology NSCLC with either small-cell or large-cell neuroendocrine cell component or predominant squamous cell histology",
+      "plain": "No small-cell or LCNEC component; not predominantly squamous",
+      "logic": {
+        "op": "not",
+        "arg": {
+          "op": "in",
+          "key": "histology",
+          "values": [
+            "mixed_small_cell",
+            "small_cell",
+            "squamous"
+          ]
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "histology"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-x-targetable",
+      "trialId": "NCT05920356",
+      "kind": "exclusion",
+      "text": "Participants with tumors known to harbor molecular alterations for which targeted therapy is locally approved as a front-line therapy",
+      "plain": "No alteration with UK-approved first-line targeted therapy (Relay dated table)",
+      "logic": {
+        "op": "table",
+        "table": "alterations",
+        "column": "ukFirstLine",
+        "genes": [
+          "egfr",
+          "alk",
+          "ros1",
+          "braf",
+          "met_ex14",
+          "ret",
+          "kras",
+          "her2_mutation",
+          "nrg1"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "egfr",
+        "alk",
+        "ros1",
+        "braf",
+        "met_ex14",
+        "ret",
+        "kras",
+        "her2_mutation",
+        "nrg1"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-x-brain",
+      "trialId": "NCT05920356",
+      "kind": "exclusion",
+      "text": "Symptomatic (treated or untreated) brain metastases",
+      "plain": "No symptomatic brain metastases (treated or untreated)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "none"
+          },
+          {
+            "op": "is",
+            "key": "cns_symptomatic",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "brain_mets",
+        "cns_symptomatic"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-x-gi",
+      "trialId": "NCT05920356",
+      "kind": "exclusion",
+      "text": "Gastrointestinal (GI) tract disease causing the inability to take oral medication",
+      "plain": "No GI disease stopping oral medication",
+      "logic": {
+        "op": "is",
+        "key": "gi_absorption_issue",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-x-cardiac",
+      "trialId": "NCT05920356",
+      "kind": "exclusion",
+      "text": "Myocardial infarction within 6 months of randomization, unstable arrhythmias, or unstable angina",
+      "plain": "No MI in 6 months, unstable arrhythmia or unstable angina",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "cv_disease",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "cv_disease",
+                "value": "controlled"
+              },
+              {
+                "op": "review",
+                "reason": "Known cardiovascular disease reported as controlled: confirm no MI within 6 months, unstable arrhythmia or unstable angina"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "cv_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cb202-x-priorg12c",
+      "trialId": "NCT05920356",
+      "kind": "exclusion",
+      "text": "Prior therapy with a KRAS G12C inhibitor",
+      "plain": "No prior KRAS G12C inhibitor",
+      "logic": {
+        "op": "is",
+        "key": "prior_kras_g12c_inhibitor",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "prior_kras_g12c_inhibitor"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: official title.",
+    "The first inclusion bullet is split into five rows that share its verbatim text (histology, stage, KRAS, local PD-L1, central PD-L1).",
+    "Central PD-L1 confirmation is an at-screening row: it never blocks \"Ready for prescreening review\" and coordinator verification never stands in for it.",
+    "Acronym CodeBreaK 202 taken from the official title (no acronym field in the record)."
+  ]
+}

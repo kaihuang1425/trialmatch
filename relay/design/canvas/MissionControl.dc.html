@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Relay · Mission control</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#121916}
+*{box-sizing:border-box}
+a{color:#8FA8FF;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;margin:0;padding:0}
+.app{font-family:'DM Sans',system-ui,sans-serif;color:#F6F3EB;font-size:15px;line-height:1.45;min-height:100%;background:radial-gradient(900px 420px at 72% -12%,#22302A 0%,#121916 62%)}
+.dsp{font-family:'Bricolage Grotesque','DM Sans',sans-serif;letter-spacing:-0.035em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px}
+.mut{color:#A9B5AF}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:18px 28px}
+.logo{width:36px;height:36px;border-radius:11px;background:#26322D;display:grid;place-items:center}
+.word{font-size:22px;font-weight:700}
+.syn{font:500 10.5px/1.6 'JetBrains Mono',monospace;letter-spacing:.08em;color:#A9B5AF;border:1px dashed #3A4A43;border-radius:6px;padding:0 6px}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:999px;background:#19231F;border:1px solid #2B3833}
+.live i{width:8px;height:8px;border-radius:50%;background:#4CC38A}
+.live.on i{background:#FF5B2E;animation:beat 1.6s ease-in-out infinite}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 18px;border-radius:14px;border:1px solid #2B3833;background:#19231F;color:#F6F3EB;font-weight:600;white-space:nowrap;transition:transform .1s ease,background .12s ease,border-color .12s ease}
+.btn:hover{border-color:#3A4A43;background:#222D28}.btn:active{transform:scale(.97)}
+.btn-o{background:#FF5B2E;border-color:#FF5B2E;color:#fff}.btn-o:hover{background:#F24A1C;border-color:#F24A1C}
+.layout{display:grid;grid-template-columns:360px minmax(0,1fr) 320px;gap:18px;padding:6px 28px 140px;max-width:1440px;margin:0 auto}
+.panel{background:#19231F;border:1px solid #26322D;border-radius:24px;padding:18px}
+.h{display:flex;align-items:center;gap:8px;font:600 12px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#A9B5AF;margin:0 0 14px}
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:#26322D}
+.ev{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;padding-bottom:14px}
+.ev.new{animation:drop .55s cubic-bezier(.22,1,.36,1) both}
+.node{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#19231F;border:2px solid #3A4A43;z-index:1}
+.n-done{border-color:#4CC38A;color:#4CC38A}.n-warn{border-color:#FF8A5C;color:#FF8A5C}.n-wait{border-color:#FF5B2E;color:#FF5B2E;animation:beat 1.6s ease-in-out infinite}
+.evb{text-align:left;width:100%;border-radius:12px;padding:2px 6px 6px;margin:-2px -6px 0;transition:background .15s ease}
+.evb:hover{background:#222D28}
+.evt{font-weight:600}
+.call{display:inline-block;margin-top:5px;padding:4px 8px;border-radius:8px;background:#121916;border:1px solid #26322D;color:#FFB59A;font:500 11.5px 'JetBrains Mono',monospace;word-break:break-word}
+.res{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.22,1,.36,1)}
+.res.open{grid-template-rows:1fr}
+.res>span{overflow:hidden;display:block;min-height:0}
+.resi{display:block;margin-top:6px;color:#C9D1CC;font-size:13.5px}
+.hd{display:flex;align-items:flex-end;gap:14px;margin:0 0 14px}
+.hd h1{margin:0;font-size:52px;font-weight:700;line-height:.95}
+.tally{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.tc{height:30px;padding:0 10px;border-radius:999px;background:#19231F;border:1px solid #26322D;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+.tc i{width:8px;height:8px;border-radius:50%}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{position:relative;width:100%;text-align:left;background:#19231F;border:1px solid #26322D;border-radius:22px;padding:18px;transition:transform .22s cubic-bezier(.22,1,.36,1),border-color .2s ease,box-shadow .22s ease}
+.card:hover{transform:translateY(-3px);border-color:#3A4A43;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.card.sel{border-color:#FF5B2E}
+.card.glow{animation:glow .8s ease-out both}
+.ct{display:flex;align-items:flex-start;gap:10px}
+.acr{font-size:24px;font-weight:700;flex:1;line-height:1.05}
+.st{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;font-weight:700;font-size:12.5px;white-space:nowrap}
+.st i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-ready{color:#4CC38A;background:rgba(76,195,138,.12)}.s-evidence{color:#FF8A5C;background:rgba(255,138,92,.12)}.s-review{color:#A29BFF;background:rgba(162,155,255,.14)}.s-no{color:#FF6B5E;background:rgba(255,107,94,.12)}.s-inv{color:#121916;background:#F6F3EB}
+.st.swA{animation:fade .3s ease both}.st.swB{animation:fade2 .3s ease both}
+.drug{color:#A9B5AF;font-size:14px;margin:4px 0 14px}
+.bars{display:flex;gap:4px;margin-bottom:12px}
+.b{flex:1;height:7px;border-radius:7px;transition:background-color .35s ease,box-shadow .35s ease}
+.b-o{background:#4CC38A}.b-x{background:#FF6B5E}.b-u{box-shadow:inset 0 0 0 1.5px #FF8A5C}.b-r{background:#A29BFF}.b-s{background:#4D4A7A}
+.b.pop{animation:barpop .4s cubic-bezier(.34,1.56,.64,1) both}
+.why{font-size:14px;color:#E7EBE8}
+.det{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.22,1,.36,1)}
+.card.sel .det{grid-template-rows:1fr}
+.det>div{overflow:hidden}
+.dr{display:flex;align-items:center;gap:8px;font-size:13.5px;padding:3px 0}
+.dr .b{flex:none;width:16px;height:7px}
+.drop{display:grid;place-items:center;gap:8px;width:100%;padding:22px;margin-top:12px;border:1.5px dashed #3A4A43;border-radius:18px;color:#C9D1CC;transition:border-color .2s ease,background .2s ease}
+.drop:hover{border-color:#FF5B2E;background:#1E2A25}
+.drop.ready{border-color:#FF5B2E;animation:ready 1.8s ease-in-out infinite}
+.doc{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #26322D}
+.doc:last-of-type{border-bottom:0}
+.doc.new{animation:drop .55s cubic-bezier(.22,1,.36,1) both}
+.doc .mono.stale{color:#FF8A5C}
+.cfg{margin-top:12px;display:grid;gap:8px;animation:drop .45s cubic-bezier(.22,1,.36,1) both}
+.seg{display:flex;gap:4px;padding:4px;border-radius:12px;background:#121916}
+.seg button{flex:1;height:38px;border-radius:9px;font-size:14px;font-weight:600;color:#A9B5AF;transition:background .15s ease,color .15s ease}
+.seg button[aria-pressed="true"]{background:#26322D;color:#F6F3EB}
+.chat{display:grid;gap:8px;margin-bottom:10px}
+.q{justify-self:end;max-width:86%;padding:9px 12px;border-radius:16px 16px 4px 16px;background:#26322D;font-size:14px;animation:drop .4s cubic-bezier(.22,1,.36,1) both}
+.a{max-width:94%;padding:10px 12px;border-radius:16px 16px 16px 4px;background:#121916;border:1px solid #26322D;font-size:14px;animation:drop .45s cubic-bezier(.22,1,.36,1) .08s both}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{height:38px;padding:0 13px;border-radius:12px;border:1px solid #2B3833;font-size:13.5px;font-weight:600;color:#C9D1CC;transition:border-color .15s ease,background .15s ease}
+.chip:hover{border-color:#FF5B2E;background:#1E2A25}
+.dock{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);width:min(760px,calc(100% - 32px));display:flex;align-items:center;gap:14px;padding:12px 12px 12px 18px;border-radius:22px;background:#F6F3EB;color:#12131C;box-shadow:0 22px 50px rgba(0,0,0,.5);z-index:20}
+.dock.dA{animation:dockA .5s cubic-bezier(.34,1.56,.64,1) both}.dock.dB{animation:dockB .5s cubic-bezier(.34,1.56,.64,1) both}
+.dot{width:10px;height:10px;border-radius:50%;background:#FF5B2E;flex:none;animation:beat2 1.8s ease-in-out infinite}
+.dot.calm{background:#197654;animation:none}
+.dh{flex:1;min-width:0;font-weight:700;font-size:16px}
+.prog{height:5px;border-radius:5px;background:#E6E4DE;overflow:hidden;margin-top:8px}
+.prog span{display:block;height:100%;background:#FF5B2E;transition:width .22s ease}
+.toast{position:fixed;right:24px;top:76px;width:min(360px,calc(100% - 32px));display:flex;align-items:center;gap:10px;padding:12px 10px 14px 16px;border-radius:16px;background:#F6F3EB;color:#12131C;box-shadow:0 14px 34px rgba(0,0,0,.4);overflow:hidden;z-index:30}
+.toast.tA{animation:toastA .45s cubic-bezier(.34,1.56,.64,1) both}.toast.tB{animation:toastB .45s cubic-bezier(.34,1.56,.64,1) both}
+.tbtn{height:38px;padding:0 12px;border-radius:12px;background:#12131C;color:#F6F3EB;font-weight:600;margin-left:auto}
+.drain{position:absolute;left:0;bottom:0;height:3px;background:#FF5B2E;animation:drain 5.2s linear forwards}
+.toast:hover .drain{animation-play-state:paused}
+:focus-visible{outline:2px solid #8FA8FF;outline-offset:3px}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(255,91,46,.55)}70%{box-shadow:0 0 0 7px rgba(255,91,46,0)}}
+@keyframes beat2{0%,100%{box-shadow:0 0 0 0 rgba(255,91,46,.55)}70%{box-shadow:0 0 0 8px rgba(255,91,46,0)}}
+@keyframes ready{0%,100%{box-shadow:0 0 0 0 rgba(255,91,46,.25)}70%{box-shadow:0 0 0 8px rgba(255,91,46,0)}}
+@keyframes drop{0%{opacity:0;transform:translateY(-14px) scale(.97)}60%{opacity:1;transform:translateY(3px)}100%{transform:none}}
+@keyframes glow{0%{box-shadow:0 0 0 0 rgba(255,91,46,.5)}100%{box-shadow:0 0 0 14px rgba(255,91,46,0)}}
+@keyframes barpop{0%{transform:scaleY(.3)}60%{transform:scaleY(2)}100%{transform:scaleY(1)}}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes fade2{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes dockA{0%{opacity:0;transform:translate(-50%,24px) scale(.96)}100%{opacity:1;transform:translate(-50%,0)}}
+@keyframes dockB{0%{opacity:0;transform:translate(-50%,24px) scale(.96)}100%{opacity:1;transform:translate(-50%,0)}}
+@keyframes toastA{0%{opacity:0;transform:translateX(20px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes toastB{0%{opacity:0;transform:translateX(20px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes drain{from{width:100%}to{width:0}}
+@media (max-width:1180px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.bar{padding:14px 16px}.layout{padding:6px 16px 170px}.cards{grid-template-columns:minmax(0,1fr)}.hd h1{font-size:40px}.dock{flex-wrap:wrap}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+<div class="app">
+<header class="bar">
+<span class="logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F6F3EB" stroke-width="2.2" stroke-linecap="round"><path d="M5 15a7 7 0 0112-5"></path><path d="M19 9a7 7 0 01-12 5"></path></svg></span>
+<span class="word dsp">Relay</span><span class="mono mut">SYN-0417</span><span class="syn">SYNTHETIC</span>
+<span class="{{ liveCls }}"><i></i><span class="mono">{{ liveText }}</span></span>
+<button class="btn" type="button" onClick="{{ reset }}">Reset</button>
+</header>
+<main class="layout">
+<section class="panel" aria-labelledby="inv-h">
+<h2 class="h" id="inv-h">Investigator</h2>
+<ol class="tl"><sc-for list="{{ events }}" as="e" hint-placeholder-count="5"><li class="{{ e.cls }}"><span class="{{ e.nodeCls }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ e.path }}"></path></svg></span><button type="button" class="evb" onClick="{{ e.toggle }}" aria-expanded="{{ e.open }}"><span class="evt">{{ e.t }}</span><br><span class="call">{{ e.call }}</span><span class="{{ e.resCls }}"><span><span class="resi">{{ e.res }}</span></span></span></button></li></sc-for></ol>
+</section>
+<section aria-labelledby="tr-h">
+<div class="hd"><h1 id="tr-h" class="dsp">Matches</h1><div class="tally"><sc-for list="{{ tally }}" as="tl" hint-placeholder-count="4"><span class="tc"><i style="{{ tl.dot }}"></i>{{ tl.n }} {{ tl.label }}</span></sc-for></div></div>
+<div class="cards"><sc-for list="{{ cards }}" as="c" hint-placeholder-count="8"><button type="button" class="{{ c.cls }}" onClick="{{ c.open }}" aria-expanded="{{ c.expanded }}"><div class="ct"><span class="acr dsp">{{ c.acr }}</span><span class="{{ c.stCls }}"><i></i>{{ c.status }}</span></div><div class="drug">{{ c.drug }}</div><div class="bars" aria-hidden="true"><sc-for list="{{ c.bars }}" as="bb" hint-placeholder-count="6"><span class="{{ bb.cls }}" style="{{ bb.delay }}"></span></sc-for></div><div class="why">{{ c.reason }}</div><div class="det"><div><div style="padding-top:12px"><sc-for list="{{ c.crits }}" as="cr" hint-placeholder-count="4"><div class="dr"><span class="{{ cr.cls }}"></span>{{ cr.name }}</div></sc-for><div class="mono mut" style="margin-top:6px">{{ c.site }}</div></div></div></div></button></sc-for></div>
+</section>
+<aside style="display:grid;gap:18px;align-content:start">
+<section class="panel" aria-labelledby="dc-h">
+<h2 class="h" id="dc-h">Records</h2>
+<sc-for list="{{ docs }}" as="d" hint-placeholder-count="2"><div class="{{ d.cls }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8FA8FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path></svg><span style="flex:1">{{ d.title }}</span><span class="{{ d.dateCls }}">{{ d.date }}</span></div></sc-for>
+<sc-if value="{{ canDrop }}" hint-placeholder-val="{{ true }}"><button type="button" class="{{ dropCls }}" onClick="{{ toggleCfg }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF8A5C" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"></path></svg><span style="font-weight:600">Drop a synthetic report</span></button></sc-if>
+<sc-if value="{{ cfg }}" hint-placeholder-val="{{ false }}"><div class="cfg"><div class="seg" role="group" aria-label="KRAS result"><sc-for list="{{ krasOpts }}" as="ko" hint-placeholder-count="2"><button type="button" aria-pressed="{{ ko.pressed }}" onClick="{{ ko.pick }}">{{ ko.label }}</button></sc-for></div><div class="seg" role="group" aria-label="PD-L1 score"><sc-for list="{{ pdOpts }}" as="po" hint-placeholder-count="2"><button type="button" aria-pressed="{{ po.pressed }}" onClick="{{ po.pick }}">{{ po.label }}</button></sc-for></div><div style="display:flex;gap:8px"><button class="btn btn-o" type="button" style="flex:1" onClick="{{ addReport }}">Hand to the agent</button><button class="btn" type="button" onClick="{{ toggleCfg }}">Cancel</button></div></div></sc-if>
+</section>
+<section class="panel" aria-labelledby="ch-h">
+<h2 class="h" id="ch-h">Ask</h2>
+<div class="chat"><sc-for list="{{ chat }}" as="m" hint-placeholder-count="1"><div class="q">{{ m.q }}</div><div class="a">{{ m.a }}</div></sc-for></div>
+<div class="chips"><sc-for list="{{ asks }}" as="k" hint-placeholder-count="3"><button class="chip" type="button" onClick="{{ k.pick }}">{{ k.label }}</button></sc-for></div>
+</section>
+</aside>
+</main>
+<div class="{{ dockCls }}" role="region" aria-label="Needs your approval"><span class="{{ dockDot }}"></span><div class="dh"><div>{{ dockHead }}</div><sc-if value="{{ showProg }}" hint-placeholder-val="{{ false }}"><div class="prog"><span style="width: {{ progW }}"></span></div></sc-if></div><sc-if value="{{ showApprove }}" hint-placeholder-val="{{ true }}"><button class="btn btn-o" type="button" onClick="{{ approve }}">{{ approveLabel }}</button></sc-if></div>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div class="{{ toastCls }}" role="status"><span style="font-weight:600">{{ toastMsg }}</span><sc-if value="{{ toastUndo }}" hint-placeholder-val="{{ true }}"><button class="tbtn" type="button" onClick="{{ undo }}">Undo</button></sc-if><span class="drain"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = this.fresh(); this.timers = []; }
+  fresh() { return { phase: 0, upd: 0, kras: 'G12C', pdl1: 0, cfg: false, open: '', ev: '', invited: false, bloods: false, chat: [], toast: null, tk: 0 }; }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  wait(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  notify(msg, undo) { const tk = this.state.tk + 1; this.setState({ toast: { msg: msg, undo: undo }, tk: tk }); this.wait(() => { if (this.state.tk === tk) this.setState({ toast: null }); }, 5300); }
+  after(id) {
+    const k = this.state.kras === 'G12C' ? 'o' : 'x', p = this.state.pdl1 < 1 ? 'o' : 'x';
+    return { cbk: 'o' + k + 'oo-' + p + 'ooo-s', kan: 'o' + k + '----o-o-s', kra: 'o' + k + 'ooooooou-', alk: '-xoxo-o----', alp: 'o-x---o----', cop: 'o-x--------', bea: 'o---r--o-u-', ras: 'oo----xo---' }[id];
+  }
+  renderVals() {
+    const s = this.state;
+    const COLS = ['Hist', 'KRAS', 'EGFR', 'ALK', 'HER2', 'PD-L1', 'Prior', 'ECOG', 'CNS', 'Bloods', 'Screen'];
+    const NAME = { Hist: 'Nonsquamous, advanced', KRAS: 'KRAS', EGFR: 'EGFR', ALK: 'ALK', HER2: 'HER2', 'PD-L1': 'PD-L1', Prior: 'Prior therapy', ECOG: 'ECOG', CNS: 'Brain mets', Bloods: 'Bloods', Screen: 'At screening' };
+    const T = [
+      { id: 'cbk', acr: 'CodeBreaK 202', drug: 'Sotorasib + platinum doublet', site: 'NCT05920356 · Royal Marsden · 3 mi', b: 'ouuu-uooo-s' },
+      { id: 'kan', acr: 'KANDLELIT-007', drug: 'Calderasib + pembrolizumab', site: 'NCT07190248 · Royal Free · 4 mi', b: 'ou----o-o-s' },
+      { id: 'kra', acr: 'Krascendo 2', drug: 'Divarasib + pembrolizumab', site: 'NCT06793215 · Barts · 1 mi', b: 'ouuuuuooou-' },
+      { id: 'alk', acr: 'ALKAZAR', drug: 'Neladalkib vs alectinib', site: "NCT06765109 · Guy's · 1 mi", b: '-uuuu-o----' },
+      { id: 'alp', acr: 'ALPACCA', drug: 'Firmonertinib, EGFR PACC', site: 'NCT07185997 · UCLH · 1 mi', b: 'o-u---o----' },
+      { id: 'cop', acr: 'COPERNICUS', drug: 'Amivantamab SC, common EGFR', site: "NCT06667076 · Guy's and St Thomas' · 1 mi", b: 'o-u--------' },
+      { id: 'bea', acr: 'Beamion LUNG-1', drug: 'Zongertinib, HER2', site: 'NCT04886804 · no UK site recruiting', b: 'o---u--o-u-' },
+      { id: 'ras', acr: 'RASolve 301', drug: 'Daraxonrasib vs docetaxel', site: 'NCT06881784 · no UK site recruiting', b: 'ou----xo---' }
+    ];
+    const statusOf = (st) => st.indexOf('x') >= 0 ? 'no' : st.indexOf('u') >= 0 ? 'evidence' : st.indexOf('r') >= 0 ? 'review' : 'ready';
+    const LABEL = { ready: 'Ready', evidence: 'Needs evidence', review: 'Review', no: 'Not a match' };
+    const reasonOf = (id, st) => {
+      const at = (c) => st[COLS.indexOf(c)];
+      if (at('PD-L1') === 'x') return 'PD-L1 TPS ' + s.pdl1 + '%, needs negative';
+      if (at('Prior') === 'x') return 'For previously treated disease';
+      if (at('ALK') === 'x') return 'No ALK fusion';
+      if (at('EGFR') === 'x') return 'No qualifying EGFR mutation';
+      if (at('KRAS') === 'x') return 'KRAS ' + s.kras + ', needs G12C';
+      const mol = ['KRAS', 'EGFR', 'ALK', 'HER2', 'PD-L1'].filter((c) => at(c) === 'u');
+      if (mol.length) return 'Waiting on ' + mol.join(', ');
+      if (at('Bloods') === 'u') return 'Bloods past the 28-day policy';
+      if (at('HER2') === 'r') return 'HER2 overexpression not tested';
+      return 'Everything checkable is supported';
+    };
+    const isUpd = (i) => s.phase >= 3 || (s.phase === 2 && s.upd > i);
+    const nowSt = T.map((t, i) => isUpd(i) ? this.after(t.id) : t.b);
+    const cards = T.map((t, i) => {
+      const st = nowSt[i], status = statusOf(st);
+      let label = LABEL[status], stCls = 'st s-' + status;
+      if (t.id === 'cbk' && s.invited) { label = 'Invited'; stCls = 'st s-inv'; }
+      const bars = [];
+      COLS.forEach((c, j) => { if (st[j] !== '-') bars.push({ cls: 'b b-' + st[j] + (isUpd(i) && st[j] !== t.b[j] ? ' pop' : ''), delay: 'animation-delay: ' + (bars.length * 35) + 'ms' }); });
+      return {
+        acr: t.acr, drug: t.drug, site: t.site, status: label, stCls: stCls + (isUpd(i) ? ' swB' : ' swA'), reason: reasonOf(t.id, st), bars: bars,
+        cls: 'card' + (s.open === t.id ? ' sel' : '') + (s.phase === 2 && isUpd(i) && this.after(t.id) !== t.b ? ' glow' : ''),
+        expanded: s.open === t.id, open: () => this.setState({ open: s.open === t.id ? '' : t.id }),
+        crits: COLS.map((c, j) => ({ c: c, v: st[j] })).filter((x) => x.v !== '-' && x.v !== 'o').map((x) => ({ cls: 'b b-' + x.v, name: NAME[x.c] }))
+      };
+    });
+    const counts = { ready: 0, evidence: 0, review: 0, no: 0 };
+    nowSt.forEach((st) => counts[statusOf(st)]++);
+    let open = 0, studies = 0;
+    nowSt.forEach((st) => { if (statusOf(st) === 'no') return; const n = (s.phase >= 3 ? [9] : [1, 2, 3, 4, 5]).filter((j) => st[j] === 'u').length; if (n) { open += n; studies++; } });
+    const D = 'M5 12.5l4.2 4.2L19 7', W = 'M12 7v6M12 17h.01', Q = 'M12 7v5l3 2';
+    const cbkReady = statusOf(this.after('cbk')) === 'ready';
+    const E = [
+      { id: 'e1', t: 'Read the referral', call: 'extract_medical_evidence(referral, bloods)', res: '13 facts cited, 0 rejected', ic: 'done' },
+      { id: 'e2', t: 'Searched the portfolio', call: 'search_clinical_trials("NSCLC", "UK")', res: '8 studies, registry snapshot 7 Nov 2026', ic: 'done' },
+      { id: 'e3', t: 'Checked every criterion', call: 'evaluate_eligibility(SYN-0417, ×8)', res: '53 criteria, 1 conflict, 7 studies open', ic: 'done' },
+      { id: 'e4', t: 'Found what is missing', call: 'identify_missing_information()', res: 'The molecular report blocks 17 checks in 7 studies', ic: 'warn' },
+      { id: 'e5', t: s.phase >= 1 ? 'Request sent' : 'Drafted a request', call: 'create_information_request(molecular_report)', res: s.phase >= 1 ? 'Approved by you, simulated send' : 'Waiting for your approval', ic: s.phase >= 1 ? 'done' : 'wait', fresh: s.phase === 1 }
+    ];
+    if (s.phase >= 2) E.push({ id: 'e6', t: 'Read the new report', call: 'extract_medical_evidence(molecular_report)', res: '8 facts, every quote found in the document', ic: 'done', fresh: true });
+    if (s.phase >= 2) E.push({ id: 'e7', t: s.phase >= 3 ? 'Re-assessed every study' : 'Re-assessing', call: 'reassess_trials(SYN-0417)', res: s.phase >= 3 ? '7 changed, 1 unchanged' : Math.min(s.upd, 8) + ' of 8', ic: s.phase >= 3 ? 'done' : 'wait', fresh: true });
+    if (s.phase >= 3 && cbkReady) E.push({ id: 'e8', t: s.invited ? 'Invitation approved' : 'Proposed an invitation', call: 'propose_prescreening_invitation(NCT05920356)', res: s.invited ? 'Approved by you, record v3, simulated' : 'Waiting for your approval', ic: s.invited ? 'done' : 'wait', fresh: true });
+    if (s.bloods) E.push({ id: 'e9', t: 'Bloods requested', call: 'create_information_request(blood_results)', res: 'Approved by you, simulated send', ic: 'done', fresh: true });
+    const latest = E[E.length - 1].id;
+    const sel = s.ev || latest;
+    const events = E.map((e) => ({ t: e.t, call: e.call, res: e.res, cls: 'ev' + (e.fresh ? ' new' : ''), nodeCls: 'node n-' + e.ic, path: e.ic === 'done' ? D : e.ic === 'warn' ? W : Q, open: sel === e.id, resCls: 'res' + (sel === e.id ? ' open' : ''), toggle: () => this.setState({ ev: sel === e.id ? 'none' : e.id }) }));
+    const docs = [{ title: 'Referral summary', date: '30 Oct', cls: 'doc', dateCls: 'mono mut' }, { title: 'Blood results', date: '18 Sep', cls: 'doc', dateCls: 'mono stale' }];
+    if (s.phase >= 2) docs.push({ title: 'Molecular report', date: '7 Nov', cls: 'doc new', dateCls: 'mono mut' });
+    let dh = 'Request the molecular report · settles ' + open + ' checks in ' + studies + ' studies', al = 'Approve', showA = true, calm = false;
+    if (s.phase === 1) { dh = 'Waiting for the molecular report'; showA = false; calm = true; }
+    if (s.phase === 2) { dh = 'Re-assessing 8 studies'; showA = false; }
+    if (s.phase >= 3 && cbkReady && !s.invited) { dh = 'Invite SYN-0417 to CodeBreaK 202 prescreening'; al = 'Approve'; }
+    if (s.phase >= 3 && (!cbkReady || s.invited)) { dh = s.bloods ? 'Waiting for current bloods' : 'Request current bloods · settles ' + open + ' checks in ' + studies + ' studies'; showA = !s.bloods; calm = s.bloods; }
+    const askDefs = [
+      { q: 'What settles the most?', a: (s.phase >= 3 ? 'Current blood results: ' : 'The molecular report: ') + open + ' checks in ' + studies + ' studies.' },
+      { q: 'Why CodeBreaK 202?', a: reasonOf('cbk', nowSt[0]) + '.' },
+      { q: 'What changed?', a: s.phase >= 3 ? 'KRAS studies moved forward; ALKAZAR, ALPACCA and COPERNICUS now conflict; Beamion LUNG-1 needs a HER2 review.' : 'Nothing yet.' }
+    ];
+    const TC = { ready: '#4CC38A', evidence: '#FF8A5C', review: '#A29BFF', no: '#FF6B5E' };
+    return {
+      reset: () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState(this.fresh()); },
+      liveCls: 'live' + (s.phase === 2 ? ' on' : ''), liveText: s.phase === 2 ? 'Working' : 'Replay',
+      events: events, cards: cards,
+      tally: ['ready', 'evidence', 'review', 'no'].filter((k) => counts[k]).map((k) => ({ n: String(counts[k]), label: LABEL[k].toLowerCase(), dot: 'background: ' + TC[k] })),
+      docs: docs, canDrop: s.phase < 2 && !s.cfg, dropCls: 'drop' + (s.phase === 1 ? ' ready' : ''), cfg: s.cfg && s.phase < 2,
+      toggleCfg: () => this.setState({ cfg: !s.cfg }),
+      krasOpts: ['G12C', 'G12D'].map((v) => ({ label: 'KRAS ' + v, pressed: String(s.kras === v), pick: () => this.setState({ kras: v }) })),
+      pdOpts: [0, 60].map((v) => ({ label: 'PD-L1 ' + v + '%', pressed: String(s.pdl1 === v), pick: () => this.setState({ pdl1: v }) })),
+      addReport: () => {
+        if (s.phase >= 2) return;
+        this.setState({ phase: 2, upd: 0, cfg: false, ev: '' });
+        for (let i = 1; i <= 8; i++) this.wait(() => this.setState({ upd: i }), 500 + i * 220);
+        this.wait(() => { this.setState({ phase: 3, ev: '' }); this.notify('7 studies updated', null); }, 500 + 9 * 220);
+      },
+      chat: s.chat,
+      asks: askDefs.map((x) => ({ label: x.q, pick: () => this.setState({ chat: s.chat.concat([{ q: x.q, a: x.a }]).slice(-2) }) })),
+      dockCls: 'dock ' + (s.phase % 2 ? 'dA' : 'dB'), dockDot: 'dot' + (calm ? ' calm' : ''), dockHead: dh, approveLabel: al, showApprove: showA,
+      showProg: s.phase === 2, progW: Math.round(Math.min(s.upd, 8) / 8 * 100) + '%',
+      approve: () => {
+        if (s.phase === 0) { this.setState({ phase: 1, ev: '' }); this.notify('Request sent · simulated', () => this.setState({ phase: 0 })); return; }
+        if (s.phase >= 3 && cbkReady && !s.invited) { this.setState({ invited: true, ev: '' }); this.notify('Invitation approved · simulated', () => this.setState({ invited: false })); return; }
+        if (s.phase >= 3) { this.setState({ bloods: true, ev: '' }); this.notify('Bloods requested · simulated', () => this.setState({ bloods: false })); }
+      },
+      undo: () => { const u = s.toast && s.toast.undo; this.setState({ toast: null }); if (u) u(); },
+      hasToast: !!s.toast, toastMsg: s.toast ? s.toast.msg : '', toastUndo: !!(s.toast && s.toast.undo), toastCls: 'toast ' + (s.tk % 2 ? 'tA' : 'tB')
+    };
+  }
+}
+</script>
+</body>
+</html>

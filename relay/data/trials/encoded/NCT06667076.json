@@ -1,0 +1,539 @@
+{
+  "id": "NCT06667076",
+  "nct": "NCT06667076",
+  "acronym": "COPERNICUS",
+  "briefTitle": "A Study of Amivantamab in Combination With Lazertinib, or Amivantamab in Combination With Platinum-Based Chemotherapy, for Common Epidermal Growth Factor Receptor (EGFR)-Mutated Locally Advanced or Metastatic Non-Small Cell Lung Cancer (NSCLC)",
+  "officialTitle": "A Phase 2b, Open-Label, Two-cohort Study of Subcutaneous Amivantamab in Combination With Lazertinib as First-Line Treatment, or Subcutaneous Amivantamab in Combination With Platinum-Based Chemotherapy as Second-line Treatment, for Common EGFR-Mutated Locally Advanced or Metastatic Non-Small Cell Lung Cancer",
+  "phase": [
+    "PHASE2"
+  ],
+  "sponsor": "Janssen Research & Development, LLC",
+  "status": "RECRUITING",
+  "conditions": [
+    "Carcinoma, Non-Small-Cell Lung"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "The primary purpose of the study is to assess how well amivantamab in combination with lazertinib or in combination with chemotherapy works (antitumor activity) in participants with epidermal growth factor receptor mutated (EGFRm) non-small cell lung cancer (NSCLC; that is one of the major types of lung cancer).",
+  "arms": [
+    {
+      "label": "Cohort 1: Amivantamab and Lazertinib",
+      "type": "EXPERIMENTAL",
+      "description": "Participants will receive Amivantamab in combination with Lazertinib orally in 28-day cycles until disease progression, withdrawal of consent, death, or the investigator decides to discontinue treatment, whichever comes first.",
+      "interventionNames": [
+        "Drug: Amivantamab",
+        "Drug: Lazertinib"
+      ]
+    },
+    {
+      "label": "Cohort 2: Amivantamab and Chemotherapy",
+      "type": "EXPERIMENTAL",
+      "description": "Participants will receive Amivantamab in combination with chemotherapy (carboplatin and pemetrexed) intravenous (IV) infusion in 21-day cycles until disease progression, withdrawal of consent, death, or the investigator decides to discontinue treatment, whichever comes first.",
+      "interventionNames": [
+        "Drug: Amivantamab",
+        "Drug: Chemotherapy: Pemetrexed",
+        "Drug: Chemotherapy: Carboplatin"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "Amivantamab"
+    },
+    {
+      "type": "DRUG",
+      "name": "Lazertinib"
+    },
+    {
+      "type": "DRUG",
+      "name": "Chemotherapy: Pemetrexed"
+    },
+    {
+      "type": "DRUG",
+      "name": "Chemotherapy: Carboplatin"
+    }
+  ],
+  "sites": [
+    {
+      "id": "cop-guy-s-and-st-thomas-nhs-foundation-trust",
+      "facility": "Guy's and St Thomas' NHS Foundation Trust",
+      "city": "Greater London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cop-the-clatterbridge-cancer-centre-nhs-foundation-t",
+      "facility": "The Clatterbridge Cancer Centre NHS Foundation Trust",
+      "city": "Liverpool",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.4084,
+      "lon": -2.9916,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cop-royal-marsden-hospital-1",
+      "facility": "Royal Marsden Hospital 1",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cop-the-christie-nhs-foundation-trust-christie-hospi",
+      "facility": "The Christie NHS Foundation Trust Christie Hospital",
+      "city": "Manchester",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.4808,
+      "lon": -2.2426,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cop-royal-marsden-hospital",
+      "facility": "Royal Marsden Hospital",
+      "city": "Sutton",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.3618,
+      "lon": -0.1945,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "cop-torbay-hospital-devon",
+      "facility": "Torbay Hospital-Devon",
+      "city": "Torquay",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 50.4619,
+      "lon": -3.5253,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT06667076",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT06667076",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "cop-age",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-line",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "as First-Line Treatment, or Subcutaneous Amivantamab in Combination With Platinum-Based Chemotherapy as Second-line Treatment",
+      "plain": "First line (cohort 1) or second line (cohort 2), from the study title",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "prior_lines_advanced",
+            "cmp": "==",
+            "value": 0
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "prior_lines_advanced",
+                "cmp": "==",
+                "value": 1
+              },
+              {
+                "op": "review",
+                "reason": "Cohort 2 (second line): prior-therapy requirements are not in the listed criteria"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "title",
+      "section": "officialTitle",
+      "needsFacts": [
+        "prior_lines_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-setting",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "Have histologically or cytologically confirmed advanced or metastatic non-small cell lung cancer (NSCLC) that is not amenable to curative intent therapy",
+      "plain": "Advanced/metastatic NSCLC not amenable to curative-intent therapy",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma",
+              "squamous"
+            ]
+          },
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIA",
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "histology",
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-egfr",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "Epidermal growth factor resistance-mutation (EGFRm) must be an Ex19del or Ex21 L858R substitution, as detected by food and drug administration (FDA)-approved or other validated test in a clinical laboratory improvement amendments (CLIA)-certified laboratory (sites in the US), or an accredited local laboratory (sites outside of the US) in accordance with site standard of care. In the European union (EU), the local test must be Conformité Européenne (CE)-marked or an in-house laboratory-developed test from health institutions in the EU in accordance with Article 5(5) of the in vitro diagnostic regulations (IVDR ) 2071/746, as amended",
+      "plain": "Common EGFR mutation (exon 19 deletion or L858R)",
+      "logic": {
+        "op": "in",
+        "key": "egfr",
+        "values": [
+          "Ex19del",
+          "L858R"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "egfr"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-egfr-test",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "Epidermal growth factor resistance-mutation (EGFRm) must be an Ex19del or Ex21 L858R substitution, as detected by food and drug administration (FDA)-approved or other validated test in a clinical laboratory improvement amendments (CLIA)-certified laboratory (sites in the US), or an accredited local laboratory (sites outside of the US) in accordance with site standard of care. In the European union (EU), the local test must be Conformité Européenne (CE)-marked or an in-house laboratory-developed test from health institutions in the EU in accordance with Article 5(5) of the in vitro diagnostic regulations (IVDR ) 2071/746, as amended",
+      "plain": "EGFR result from a validated test in an accredited laboratory",
+      "logic": {
+        "op": "is",
+        "key": "molecular_lab_accredited",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "molecular_lab_accredited"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-measurable",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "Have at least 1 measurable lesion, according to RECIST version (v)1.1, that has not been previously irradiated",
+      "plain": "At least one measurable lesion (RECIST 1.1) that has not been irradiated",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "measurable_disease",
+            "value": true
+          },
+          {
+            "op": "is",
+            "key": "measurable_unirradiated",
+            "value": true
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "measurable_disease",
+        "measurable_unirradiated"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-tox",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "Any toxicities from prior systemic anticancer therapy must have resolved to national cancer institute common terminology criteria for adverse events (NCI-CTCAE) version 5.0 grade 1 or baseline level (except for alopecia \\[any grade\\], grade \\<=2 peripheral neuropathy, or grade \\<=2 hypothyroidism stable on hormone replacement)",
+      "plain": "Toxicity from prior systemic therapy resolved to grade ≤ 1 (or no prior therapy)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_systemic_advanced",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "recovered_from_toxicity",
+            "value": true
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced",
+        "recovered_from_toxicity"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-ecog",
+      "trialId": "NCT06667076",
+      "kind": "inclusion",
+      "text": "Have an eastern cooperative oncology group (ECOG) performance status of 0 to 1",
+      "plain": "ECOG 0–1",
+      "logic": {
+        "op": "cmp",
+        "key": "ecog",
+        "cmp": "<=",
+        "value": 1
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "ecog"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-x-ild",
+      "trialId": "NCT06667076",
+      "kind": "exclusion",
+      "text": "Medical history of active interstitial lung disease (ILD), including drug-induced ILD or radiation pneumonitis. Participants with medical history of radiation pneumonitis, including radiation pneumonitis which required steroid treatment, should consult with the medical monitor and eligibility be assessed on a case-by-case basis",
+      "plain": "No active ILD (radiation pneumonitis case by case)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "ild_history",
+            "value": false
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "ild_history",
+                "value": true
+              },
+              {
+                "op": "review",
+                "reason": "ILD history: active ILD excludes; radiation pneumonitis is assessed case by case"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "ild_history"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-x-surgery",
+      "trialId": "NCT06667076",
+      "kind": "exclusion",
+      "text": "Had major surgery excluding placement of vascular access or tumor biopsy or had significant traumatic injury within 4 weeks before the first dose of anticancer treatments or will not have fully recovered from surgery, or has surgery planned during the time the participant is expected to participate in the study",
+      "plain": "No major surgery or significant trauma in the last 4 weeks",
+      "logic": {
+        "op": "is",
+        "key": "major_surgery_recent",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "major_surgery_recent"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-x-surgery-planned",
+      "trialId": "NCT06667076",
+      "kind": "exclusion",
+      "text": "Had major surgery excluding placement of vascular access or tumor biopsy or had significant traumatic injury within 4 weeks before the first dose of anticancer treatments or will not have fully recovered from surgery, or has surgery planned during the time the participant is expected to participate in the study",
+      "plain": "No surgery planned during the study (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "cop-x-pain",
+      "trialId": "NCT06667076",
+      "kind": "exclusion",
+      "text": "Participant has uncontrolled tumor-related pain (symptomatic lesions amenable to palliative radiotherapy should be treated prior to first dosing)",
+      "plain": "No uncontrolled tumour-related pain",
+      "logic": {
+        "op": "is",
+        "key": "uncontrolled_pain",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "uncontrolled_pain"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-x-investigational",
+      "trialId": "NCT06667076",
+      "kind": "exclusion",
+      "text": "Received an investigational treatment that has not been cleared (based on at least 5 half lives of any pharmaceutical treatment) before the planned first dose of study treatment or is currently enrolled in an investigational study",
+      "plain": "Not on, or recently on, an investigational treatment",
+      "logic": {
+        "op": "is",
+        "key": "in_investigational_study",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "in_investigational_study"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "cop-x-malignancy",
+      "trialId": "NCT06667076",
+      "kind": "exclusion",
+      "text": "Has a prior or concurrent second malignancy (other than the disease under study) which natural history or treatment could likely interfere with any study endpoints of safety or the efficacy of the study treatment(s)",
+      "plain": "No second malignancy likely to interfere",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "other_malignancy",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "other_malignancy",
+                "value": "present"
+              },
+              {
+                "op": "review",
+                "reason": "Other malignancy: whether it could interfere with study endpoints"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "other_malignancy"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: registry acronym field.",
+    "The line of therapy per cohort comes from the official title; the validated-test requirement is its own row (accredited laboratory)."
+  ]
+}

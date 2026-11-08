@@ -1,0 +1,151 @@
+patient,stage,possible_trials,rank,nct,score,E,F,unknowns,urgent,uk_sites,title
+TCGA-53-7624,IV,124,1,NCT06712316,0.56,0.7,0.8,prior_lines,False,19,"Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)"
+TCGA-53-7624,IV,124,2,NCT04465968,0.56,0.7,0.8,prior_lines,False,0,"Efficacy and Safety of CRT, Durvalumab and Surgery for SST"
+TCGA-53-7624,IV,124,3,NCT05852990,0.56,0.7,0.8,prior_lines,False,0,Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC
+TCGA-53-7624,IV,124,4,NCT04585490,0.56,0.7,0.8,prior_lines,False,0,Adaptive ctDNA-Based Personalization of Treatment During Consolidation Therapy in NSCLC
+TCGA-53-7624,IV,124,5,NCT05317858,0.56,0.7,0.8,prior_lines,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+TCGA-55-8620,IV,39,1,NCT05852990,0.56,0.7,0.8,prior_lines,True,0,Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC
+TCGA-55-8620,IV,39,2,NCT05317858,0.56,0.7,0.8,prior_lines,True,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+TCGA-55-8620,IV,39,3,NCT05278052,0.56,0.7,0.8,prior_lines,True,0,Standard Maintenance Therapy (SMT) vs Local Consolidative Radiation Therapy and SMT in OM-NSCLC
+TCGA-55-8620,IV,39,4,NCT07888075,0.504,0.7,0.72,prior_lines,True,0,Master Protocol for the Study of Rilogrotug for the Treatment of Weight Loss and Anorexia in Patients With Cancer Cachexia and mCRC or mNSCLC
+TCGA-55-8620,IV,39,5,NCT05624996,0.392,0.49,0.8,EGFR;prior_lines,True,0,"Testing the Addition of High Dose, Targeted Radiation to the Usual Treatment for Locally-Advanced Inoperable Non-Small Cell Lung Cancer"
+TCGA-78-7160,IV,80,1,NCT06754644,0.56,0.7,0.8,prior_lines,True,0,"A Study to Evaluate Efficacy, and Safety of QL2107 Plus Chemo and Compare With Keytruda in Participants With IV nqNSCLC"
+TCGA-78-7160,IV,80,2,NCT07718737,0.56,0.7,0.8,prior_lines,True,0,"Global, Multicenter Study of AMT-116 Versus Investigator's Choice in Participants With Advanced or Metastatic Non-squamous EGFR-Wildtype Non-Small Cell Lung Cancer (NSCLC) With Progression on or After Platinum-Based Chemotherapy and Anti-PD-1/PD-L1 Immunotherapy"
+TCGA-78-7160,IV,80,3,NCT05624996,0.56,0.7,0.8,prior_lines,True,0,"Testing the Addition of High Dose, Targeted Radiation to the Usual Treatment for Locally-Advanced Inoperable Non-Small Cell Lung Cancer"
+TCGA-78-7160,IV,80,4,NCT07863999,0.56,0.7,0.8,prior_lines,True,0,Neoadjuvant Chemotherapy Combined With Bispecific Antibody Versus Combined With Monoclonal Antibody in Locally Advanced NSCLC
+TCGA-78-7160,IV,80,5,NCT07477808,0.56,0.7,0.8,prior_lines,True,0,Megestrol Acetate for First-Line Treatment of Malnourished Non-Small Cell Lung Cancer
+TCGA-93-A4JP,IV,78,1,NCT06712316,0.56,0.7,0.8,prior_lines,False,19,"Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)"
+TCGA-93-A4JP,IV,78,2,NCT04465968,0.56,0.7,0.8,prior_lines,False,0,"Efficacy and Safety of CRT, Durvalumab and Surgery for SST"
+TCGA-93-A4JP,IV,78,3,NCT05852990,0.56,0.7,0.8,prior_lines,False,0,Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC
+TCGA-93-A4JP,IV,78,4,NCT04585490,0.56,0.7,0.8,prior_lines,False,0,Adaptive ctDNA-Based Personalization of Treatment During Consolidation Therapy in NSCLC
+TCGA-93-A4JP,IV,78,5,NCT05317858,0.56,0.7,0.8,prior_lines,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+TCGA-97-8171,IV,49,1,NCT07005102,0.672,0.7,0.8,prior_lines,True,0,"A Study to Assess Adverse Events, Change in Disease Activity of Intravenous Telisotuzumab Adizutecan in Combination With Osimertinib as First-Line Treatment in Adult Participants With Locally Advanced Unresectable or Metastatic EGFR-Mutated Non-Squamous Non-Small Cell Lung Cancer"
+TCGA-97-8171,IV,49,2,NCT06712316,0.672,0.7,0.8,prior_lines,True,19,"Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)"
+TCGA-97-8171,IV,49,3,NCT04585490,0.672,0.7,0.8,prior_lines,True,0,Adaptive ctDNA-Based Personalization of Treatment During Consolidation Therapy in NSCLC
+TCGA-97-8171,IV,49,4,NCT05317858,0.672,0.7,0.8,prior_lines,True,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+TCGA-97-8171,IV,49,5,NCT05278052,0.672,0.7,0.8,prior_lines,True,0,Standard Maintenance Therapy (SMT) vs Local Consolidative Radiation Therapy and SMT in OM-NSCLC
+TCGA-99-8033,IV,110,1,NCT06712316,0.672,0.7,0.8,prior_lines,True,19,"Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)"
+TCGA-99-8033,IV,110,2,NCT04465968,0.672,0.7,0.8,prior_lines,True,0,"Efficacy and Safety of CRT, Durvalumab and Surgery for SST"
+TCGA-99-8033,IV,110,3,NCT05852990,0.672,0.7,0.8,prior_lines,True,0,Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC
+TCGA-99-8033,IV,110,4,NCT04585490,0.672,0.7,0.8,prior_lines,True,0,Adaptive ctDNA-Based Personalization of Treatment During Consolidation Therapy in NSCLC
+TCGA-99-8033,IV,110,5,NCT05317858,0.672,0.7,0.8,prior_lines,True,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+TCGA-49-4494,IIIA,47,1,NCT06323148,0.672,0.7,0.8,stage,False,0,Adjuvant Target Therapy Guided by ctDNA-MRD in Patients With EGFR-mutant II-IIIA Non-small Cell Lung Cancer (ECTOP-1022)
+TCGA-49-4494,IIIA,47,2,NCT07150663,0.672,0.7,0.8,stage,False,0,Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer
+TCGA-49-4494,IIIA,47,3,NCT07908732,0.672,0.7,0.8,stage,False,0,Risk-Adapted Segmental Esophagus-Sparing Radiotherapy for Definitive Non-Small Cell Lung Cancer
+TCGA-49-4494,IIIA,47,4,NCT06031246,0.672,0.7,0.8,stage,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-49-4494,IIIA,47,5,NCT07034326,0.672,0.7,0.8,stage,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-86-7714,IIIA,69,1,NCT07150663,0.672,0.7,0.8,stage,False,0,Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer
+TCGA-86-7714,IIIA,69,2,NCT07908732,0.672,0.7,0.8,stage,False,0,Risk-Adapted Segmental Esophagus-Sparing Radiotherapy for Definitive Non-Small Cell Lung Cancer
+TCGA-86-7714,IIIA,69,3,NCT06734702,0.672,0.7,0.8,stage,False,0,Neoadjuvant Immunotherapy Plus Chemotherapy Followed by Concurrent Chemoradiotherapy and Consolidative Immunotherapy for Locally Advanced Non-small Cell Lung Cancer
+TCGA-86-7714,IIIA,69,4,NCT06031246,0.672,0.7,0.8,stage,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-86-7714,IIIA,69,5,NCT07034326,0.672,0.7,0.8,stage,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-49-4505,II,5,1,NCT06312137,0.56,0.7,0.8,ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+TCGA-49-4505,II,5,2,NCT07195695,0.392,0.49,0.8,ecog;ALK,False,6,Beamion LUNG-3: Adjuvant Zongertinib vs Standard Treatment in People With Completely Resected Stage II-IIIB NSCLC Harboring Activating HER2 TKD Mutations
+TCGA-49-4505,II,5,3,NCT05522660,0.274,0.343,0.8,ecog;prior_lines;brain_mets,False,2,Immunotherapy or Targeted Therapy With or Without Stereotactic Radiosurgery for Patients With Brain Metastases From Melanoma or Non-small Cell Lung Cancer
+TCGA-49-4505,II,5,4,NCT07672223,0.274,0.343,0.8,ecog;ALK;ROS1,False,0,A Study of SYS6010 Plus Anti-PD-(L)-1 Monoclonal Antibody as Adjuvant Therapy in Non-small Cell Lung Cancer (NSCLC)
+TCGA-49-4505,II,5,5,NCT06931717,0.274,0.343,0.8,ecog;ALK;pdl1,False,0,A Clinical Study to Assess the Efficacy of Adjuvant Immunotherapy With Cemiplimab in Patients With Surgically Removed Non-small Cell Lung Cancer Who Have Not Received Prior Chemotherapy
+TCGA-49-AAQV,II,21,1,NCT06323148,0.96,1.0,0.8,,False,0,Adjuvant Target Therapy Guided by ctDNA-MRD in Patients With EGFR-mutant II-IIIA Non-small Cell Lung Cancer (ECTOP-1022)
+TCGA-49-AAQV,II,21,2,NCT07642024,0.96,1.0,0.8,,False,0,A Study of BL-B01D1 in Combination With Osimertinib as Perioperative Therapy in Patients With EGFR-mutated Resectable Non-small Cell Lung Cancer(PANKU-Lung09)
+TCGA-49-AAQV,II,21,3,NCT06031246,0.96,1.0,0.8,,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-49-AAQV,II,21,4,NCT07034326,0.96,1.0,0.8,,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-49-AAQV,II,21,5,NCT06041776,0.864,1.0,0.72,,False,0,Adjuvant Befotertinib in Stage IB-IIIB Non-small Cell Lung Cancer With Positive EGFR Sensitive Mutations
+TCGA-55-7914,II,26,1,NCT06031246,0.96,1.0,0.8,,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-55-7914,II,26,2,NCT07034326,0.96,1.0,0.8,,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-55-7914,II,26,3,NCT07554846,0.672,0.7,0.8,ALK,False,0,"Comparison of Perioperative Immunotherapy, Adjuvant Immunotherapy or Neoadjuvant Immunotherapy for Resectable Stage II-IIIA NSCLC"
+TCGA-55-7914,II,26,4,NCT07895238,0.672,0.7,0.8,ALK,False,0,A Study of Perioperative Adebrelimab Plus Chemotherapy Versus Adjuvant Therapy in Patients With Resectable NSCLC
+TCGA-55-7914,II,26,5,NCT06498635,0.672,0.7,0.8,ALK,False,0,"Immunotherapy After Surgery for People Who Have No Remaining Cancer Cells After Standard Treatment for Early-Stage Non-Small Cell Lung Cancer, INSIGHT Trial"
+TCGA-73-4668,II,38,1,NCT06031246,0.8,1.0,0.8,,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-73-4668,II,38,2,NCT07034326,0.8,1.0,0.8,,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-73-4668,II,38,3,NCT07554846,0.56,0.7,0.8,EGFR,False,0,"Comparison of Perioperative Immunotherapy, Adjuvant Immunotherapy or Neoadjuvant Immunotherapy for Resectable Stage II-IIIA NSCLC"
+TCGA-73-4668,II,38,4,NCT07895238,0.56,0.7,0.8,EGFR,False,0,A Study of Perioperative Adebrelimab Plus Chemotherapy Versus Adjuvant Therapy in Patients With Resectable NSCLC
+TCGA-73-4668,II,38,5,NCT06498635,0.56,0.7,0.8,EGFR,False,0,"Immunotherapy After Surgery for People Who Have No Remaining Cancer Cells After Standard Treatment for Early-Stage Non-Small Cell Lung Cancer, INSIGHT Trial"
+TCGA-78-7166,II,5,1,NCT06498635,0.96,1.0,0.8,,False,0,"Immunotherapy After Surgery for People Who Have No Remaining Cancer Cells After Standard Treatment for Early-Stage Non-Small Cell Lung Cancer, INSIGHT Trial"
+TCGA-78-7166,II,5,2,NCT07195695,0.672,0.7,0.8,ecog,False,6,Beamion LUNG-3: Adjuvant Zongertinib vs Standard Treatment in People With Completely Resected Stage II-IIIB NSCLC Harboring Activating HER2 TKD Mutations
+TCGA-78-7166,II,5,3,NCT06312137,0.672,0.7,0.8,ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+TCGA-78-7166,II,5,4,NCT06931717,0.47,0.49,0.8,ecog;pdl1,False,0,A Clinical Study to Assess the Efficacy of Adjuvant Immunotherapy With Cemiplimab in Patients With Surgically Removed Non-small Cell Lung Cancer Who Have Not Received Prior Chemotherapy
+TCGA-78-7166,II,5,5,NCT05522660,0.329,0.343,0.8,ecog;prior_lines;brain_mets,False,2,Immunotherapy or Targeted Therapy With or Without Stereotactic Radiosurgery for Patients With Brain Metastases From Melanoma or Non-small Cell Lung Cancer
+TCGA-44-2666,I,13,1,NCT02468024,0.56,0.7,0.8,ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+TCGA-44-2666,I,13,2,NCT06031246,0.56,0.7,0.8,ecog,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-44-2666,I,13,3,NCT07034326,0.56,0.7,0.8,ecog,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-44-2666,I,13,4,NCT07513376,0.504,0.7,0.72,ecog,False,4,A Clinical Trial of Adjuvant Intismeran (V940) With or Without Pembrolizumab Coformulated With Berahyaluronidase Alfa (MK-3475A) in High-Risk Stage I Non-Small Cell Lung Cancer (V940-014)
+TCGA-44-2666,I,13,5,NCT06431633,0.392,0.49,0.8,ecog;ALK,False,0,Study of Treatment With Sacituzumab and Zimberelimab for Patients With Lung Cancer Confined to the Chest and Previously Operated on Who Were Not Disease-free.
+TCGA-44-3917,I,23,1,NCT02468024,0.56,0.7,0.8,ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+TCGA-44-3917,I,23,2,NCT06031246,0.56,0.7,0.8,ecog,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-44-3917,I,23,3,NCT07034326,0.56,0.7,0.8,ecog,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-44-3917,I,23,4,NCT07513376,0.504,0.7,0.72,ecog,False,4,A Clinical Trial of Adjuvant Intismeran (V940) With or Without Pembrolizumab Coformulated With Berahyaluronidase Alfa (MK-3475A) in High-Risk Stage I Non-Small Cell Lung Cancer (V940-014)
+TCGA-44-3917,I,23,5,NCT07642024,0.392,0.49,0.8,ecog;EGFR,False,0,A Study of BL-B01D1 in Combination With Osimertinib as Perioperative Therapy in Patients With EGFR-mutated Resectable Non-small Cell Lung Cancer(PANKU-Lung09)
+TCGA-49-AARO,I,23,1,NCT02468024,0.96,1.0,0.8,,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+TCGA-49-AARO,I,23,2,NCT06031246,0.96,1.0,0.8,,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-49-AARO,I,23,3,NCT07034326,0.96,1.0,0.8,,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-49-AARO,I,23,4,NCT07642024,0.672,0.7,0.8,EGFR,False,0,A Study of BL-B01D1 in Combination With Osimertinib as Perioperative Therapy in Patients With EGFR-mutated Resectable Non-small Cell Lung Cancer(PANKU-Lung09)
+TCGA-49-AARO,I,23,5,NCT06041776,0.605,0.7,0.72,EGFR,False,0,Adjuvant Befotertinib in Stage IB-IIIB Non-small Cell Lung Cancer With Positive EGFR Sensitive Mutations
+TCGA-50-6673,I,12,1,NCT02468024,0.672,0.7,0.8,ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+TCGA-50-6673,I,12,2,NCT07513376,0.605,0.7,0.72,ecog,False,4,A Clinical Trial of Adjuvant Intismeran (V940) With or Without Pembrolizumab Coformulated With Berahyaluronidase Alfa (MK-3475A) in High-Risk Stage I Non-Small Cell Lung Cancer (V940-014)
+TCGA-50-6673,I,12,3,NCT06041776,0.423,0.49,0.72,ecog;EGFR,False,0,Adjuvant Befotertinib in Stage IB-IIIB Non-small Cell Lung Cancer With Positive EGFR Sensitive Mutations
+TCGA-50-6673,I,12,4,NCT05522660,0.329,0.343,0.8,ecog;prior_lines;brain_mets,False,2,Immunotherapy or Targeted Therapy With or Without Stereotactic Radiosurgery for Patients With Brain Metastases From Melanoma or Non-small Cell Lung Cancer
+TCGA-50-6673,I,12,5,NCT07182682,0.296,0.343,0.72,ecog;EGFR;ALK,False,0,A Phase 3 Study of Sunvozertinib Versus Placebo as Adjuvant Therapy in Patients With Early-Stage Non-Small Cell Lung Cancer Harboring EGFR Exon 20 Insertion Mutations or PACC Mutations After Radical Surgery
+TCGA-93-8067,I,8,1,NCT02468024,0.96,1.0,0.8,,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+TCGA-93-8067,I,8,2,NCT07034326,0.96,1.0,0.8,,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-93-8067,I,8,3,NCT07513376,0.605,0.7,0.72,ecog,False,4,A Clinical Trial of Adjuvant Intismeran (V940) With or Without Pembrolizumab Coformulated With Berahyaluronidase Alfa (MK-3475A) in High-Risk Stage I Non-Small Cell Lung Cancer (V940-014)
+TCGA-93-8067,I,8,4,NCT04181060,0.329,0.343,0.8,EGFR;prior_lines;brain_mets,False,0,Osimertinib With or Without Bevacizumab as Initial Treatment for Patients With EGFR-Mutant Lung Cancer
+TCGA-93-8067,I,8,5,NCT07388524,0.329,0.343,0.8,EGFR;pdl1;prior_lines,False,0,"Testing the Impact of an Anti-Cancer Drug, Atezolizumab, After Surgery to Prevent Early Stage Non-small Cell Lung Cancer From Returning, AASI-NSCLC Trial"
+TCGA-18-3414,IV,63,1,NCT06422143,0.47,0.49,0.8,ecog;prior_lines,False,4,Pembrolizumab With or Without Maintenance Sacituzumab Tirumotecan (Sac-TMT; MK-2870) in Metastatic Squamous Non-small Cell Lung Cancer (NSCLC) [MK-2870-023]
+TCGA-18-3414,IV,63,2,NCT05085028,0.47,0.49,0.8,ecog;prior_lines,False,37,A Randomised Open-label Phase III Trial of REduced Frequency Pembrolizumab immuNothErapy for First-line Treatment of Patients With Advanced Non-small Cell Lung Cancer (NSCLC)
+TCGA-18-3414,IV,63,3,NCT06712316,0.47,0.49,0.8,ecog;prior_lines,False,19,"Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)"
+TCGA-18-3414,IV,63,4,NCT04465968,0.47,0.49,0.8,ecog;prior_lines,False,0,"Efficacy and Safety of CRT, Durvalumab and Surgery for SST"
+TCGA-18-3414,IV,63,5,NCT05852990,0.47,0.49,0.8,ecog;prior_lines,False,0,Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC
+TCGA-37-4132,IV,32,1,NCT05852990,0.56,0.7,0.8,prior_lines,True,0,Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC
+TCGA-37-4132,IV,32,2,NCT05317858,0.56,0.7,0.8,prior_lines,True,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+TCGA-37-4132,IV,32,3,NCT05278052,0.56,0.7,0.8,prior_lines,True,0,Standard Maintenance Therapy (SMT) vs Local Consolidative Radiation Therapy and SMT in OM-NSCLC
+TCGA-37-4132,IV,32,4,NCT07888075,0.504,0.7,0.72,prior_lines,True,0,Master Protocol for the Study of Rilogrotug for the Treatment of Weight Loss and Anorexia in Patients With Cancer Cachexia and mCRC or mNSCLC
+TCGA-37-4132,IV,32,5,NCT05624996,0.392,0.49,0.8,EGFR;prior_lines,True,0,"Testing the Addition of High Dose, Targeted Radiation to the Usual Treatment for Locally-Advanced Inoperable Non-Small Cell Lung Cancer"
+TCGA-21-5787,IIIA,68,1,NCT06312137,0.47,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+TCGA-21-5787,IIIA,68,2,NCT07150663,0.47,0.49,0.8,stage;ecog,False,0,Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer
+TCGA-21-5787,IIIA,68,3,NCT04980716,0.47,0.49,0.8,stage;ecog,False,0,Early Specialized Cardiovascular Intervention Based on Impedance Cardiography in Locally Advanced Non-small Cell Lung Cancer Patients
+TCGA-21-5787,IIIA,68,4,NCT07908732,0.47,0.49,0.8,stage;ecog,False,0,Risk-Adapted Segmental Esophagus-Sparing Radiotherapy for Definitive Non-Small Cell Lung Cancer
+TCGA-21-5787,IIIA,68,5,NCT07131319,0.47,0.49,0.8,stage;ecog,False,0,SFRT+Tislelizumab+Platinum Chemotherapy for Unresectable Stage III NSCLC
+TCGA-33-4538,IIIA,19,1,NCT07150663,0.56,0.7,0.8,stage,False,0,Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer
+TCGA-33-4538,IIIA,19,2,NCT07908732,0.56,0.7,0.8,stage,False,0,Risk-Adapted Segmental Esophagus-Sparing Radiotherapy for Definitive Non-Small Cell Lung Cancer
+TCGA-33-4538,IIIA,19,3,NCT07034326,0.56,0.7,0.8,stage,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-33-4538,IIIA,19,4,NCT06498635,0.392,0.49,0.8,stage;ALK,False,0,"Immunotherapy After Surgery for People Who Have No Remaining Cancer Cells After Standard Treatment for Early-Stage Non-Small Cell Lung Cancer, INSIGHT Trial"
+TCGA-33-4538,IIIA,19,5,NCT06312137,0.392,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+TCGA-70-6722,IIIA,43,1,NCT06486142,0.392,0.49,0.8,stage;ecog,False,0,EGFR-mutated Lung Cancer in Randomized Investigator-Initiated Study
+TCGA-70-6722,IIIA,43,2,NCT07642024,0.392,0.49,0.8,stage;ecog,False,0,A Study of BL-B01D1 in Combination With Osimertinib as Perioperative Therapy in Patients With EGFR-mutated Resectable Non-small Cell Lung Cancer(PANKU-Lung09)
+TCGA-70-6722,IIIA,43,3,NCT07640789,0.392,0.49,0.8,stage;ecog,False,0,"A Study Comparing BL-B01D1 in Combination With Osimertinib Versus Osimertinib Alone in Patients With Locally Advanced, Unresectable EGFR-mutated Non-small Cell Lung Cancer(Stage III) Whose Disease Has Not Progressed Following Definitive Platinum-based Chemoradiation Therapy(PANKU-Lung08)"
+TCGA-70-6722,IIIA,43,4,NCT06312137,0.392,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+TCGA-70-6722,IIIA,43,5,NCT07150663,0.392,0.49,0.8,stage;ecog,False,0,Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer
+TCGA-96-A4JL,II,20,1,NCT06031246,0.96,1.0,0.8,,False,0,Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)
+TCGA-96-A4JL,II,20,2,NCT07034326,0.96,1.0,0.8,,False,0,Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer
+TCGA-96-A4JL,II,20,3,NCT07895238,0.672,0.7,0.8,EGFR,False,0,A Study of Perioperative Adebrelimab Plus Chemotherapy Versus Adjuvant Therapy in Patients With Resectable NSCLC
+TCGA-96-A4JL,II,20,4,NCT06498635,0.672,0.7,0.8,EGFR,False,0,"Immunotherapy After Surgery for People Who Have No Remaining Cancer Cells After Standard Treatment for Early-Stage Non-Small Cell Lung Cancer, INSIGHT Trial"
+TCGA-96-A4JL,II,20,5,NCT06431633,0.672,0.7,0.8,EGFR,False,0,Study of Treatment With Sacituzumab and Zimberelimab for Patients With Lung Cancer Confined to the Chest and Previously Operated on Who Were Not Disease-free.
+P-0000731,unknown,78,1,NCT07908745,0.47,0.49,0.8,stage;ecog,False,0,Reduced-Dose vs Standard-Dose Thoracic Radiotherapy After Induction Chemoimmunotherapy in Older or Frail Stage III NSCLC
+P-0000731,unknown,78,2,NCT05317858,0.47,0.49,0.8,stage;ecog,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+P-0000731,unknown,78,3,NCT04322617,0.47,0.49,0.8,stage;ecog,False,0,Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer
+P-0000731,unknown,78,4,NCT06312137,0.47,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+P-0000731,unknown,78,5,NCT02468024,0.47,0.49,0.8,stage;ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+P-0001955,unknown,74,1,NCT07908745,0.392,0.49,0.8,stage;ecog,False,0,Reduced-Dose vs Standard-Dose Thoracic Radiotherapy After Induction Chemoimmunotherapy in Older or Frail Stage III NSCLC
+P-0001955,unknown,74,2,NCT05317858,0.392,0.49,0.8,stage;ecog,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+P-0001955,unknown,74,3,NCT04322617,0.392,0.49,0.8,stage;ecog,False,0,Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer
+P-0001955,unknown,74,4,NCT06312137,0.392,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+P-0001955,unknown,74,5,NCT02468024,0.392,0.49,0.8,stage;ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+P-0008944,unknown,77,1,NCT07908745,0.392,0.49,0.8,stage;ecog,False,0,Reduced-Dose vs Standard-Dose Thoracic Radiotherapy After Induction Chemoimmunotherapy in Older or Frail Stage III NSCLC
+P-0008944,unknown,77,2,NCT05317858,0.392,0.49,0.8,stage;ecog,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+P-0008944,unknown,77,3,NCT04322617,0.392,0.49,0.8,stage;ecog,False,0,Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer
+P-0008944,unknown,77,4,NCT06312137,0.392,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+P-0008944,unknown,77,5,NCT02468024,0.392,0.49,0.8,stage;ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+P-0010636,unknown,67,1,NCT06319313,0.392,0.49,0.8,stage;ecog,False,0,Efficacy and Safety of JMT101 Combined Wth Docetaxel / HB1801 in Patients With Squamous Cell Non-Small Cell Lung Cancer
+P-0010636,unknown,67,2,NCT07242274,0.392,0.49,0.8,stage;ecog,False,0,Phase 3 Trial of JMKX001899 Versus Docetaxel in Previously Treated Advanced or Metastatic KRAS G12C-Mutant NSCLC
+P-0010636,unknown,67,3,NCT05317858,0.392,0.49,0.8,stage;ecog,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+P-0010636,unknown,67,4,NCT04322617,0.392,0.49,0.8,stage;ecog,False,0,Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer
+P-0010636,unknown,67,5,NCT06312137,0.392,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+P-0010891,unknown,69,1,NCT05317858,0.392,0.49,0.8,stage;ecog,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+P-0010891,unknown,69,2,NCT04322617,0.392,0.49,0.8,stage;ecog,False,0,Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer
+P-0010891,unknown,69,3,NCT06312137,0.392,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+P-0010891,unknown,69,4,NCT02468024,0.392,0.49,0.8,stage;ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer
+P-0010891,unknown,69,5,NCT07150663,0.392,0.49,0.8,stage;ecog,False,0,Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer
+P-0015758,unknown,60,1,NCT07242274,0.47,0.49,0.8,stage;ecog,False,0,Phase 3 Trial of JMKX001899 Versus Docetaxel in Previously Treated Advanced or Metastatic KRAS G12C-Mutant NSCLC
+P-0015758,unknown,60,2,NCT05317858,0.47,0.49,0.8,stage;ecog,False,0,Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets
+P-0015758,unknown,60,3,NCT04322617,0.47,0.49,0.8,stage;ecog,False,0,Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer
+P-0015758,unknown,60,4,NCT06312137,0.47,0.49,0.8,stage;ecog,False,5,A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)
+P-0015758,unknown,60,5,NCT02468024,0.47,0.49,0.8,stage;ecog,False,1,JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer

@@ -1,0 +1,660 @@
+{
+  "id": "NCT06881784",
+  "nct": "NCT06881784",
+  "acronym": "RASolve 301",
+  "briefTitle": "Study of Daraxonrasib (RMC-6236) in Patients With RAS Mutated NSCLC (RASolve 301)",
+  "officialTitle": "RASolve 301: Phase 3 Multicenter, Open Label, Randomized Study of RMC-6236 Versus Docetaxel in Patients With Previously Treated Locally Advanced or Metastatic RAS[MUT] NSCLC",
+  "phase": [
+    "PHASE3"
+  ],
+  "sponsor": "Revolution Medicines, Inc.",
+  "status": "RECRUITING",
+  "conditions": [
+    "NSCLC (Non-small Cell Lung Cancer)",
+    "Non-Small Cell Lung Cancer",
+    "NSCLC",
+    "NSCLC (Non-small Cell Lung Carcinoma)",
+    "NSCLC (Advanced Non-small Cell Lung Cancer)"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "The purpose of this study is to evaluate the safety and efficacy of a novel RAS(ON) inhibitor compared to docetaxel.",
+  "arms": [
+    {
+      "label": "daraxonrasib",
+      "type": "EXPERIMENTAL",
+      "description": "study drug",
+      "interventionNames": [
+        "Drug: daraxonrasib"
+      ]
+    },
+    {
+      "label": "docetaxel",
+      "type": "ACTIVE_COMPARATOR",
+      "description": "Patients randomized to the comparator control arm will receive docetaxel as the standard of care therapy.",
+      "interventionNames": [
+        "Drug: docetaxel"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "daraxonrasib"
+    },
+    {
+      "type": "DRUG",
+      "name": "docetaxel"
+    }
+  ],
+  "sites": [
+    {
+      "id": "rs301-barts-hospital",
+      "facility": "Barts Hospital",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-university-college-london-hospital",
+      "facility": "University College London Hospital",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-royal-marsden-hospital-london",
+      "facility": "Royal Marsden Hospital-London",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-the-clatterbridge-cancer-centre",
+      "facility": "The Clatterbridge Cancer Centre",
+      "city": "Liverpool",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 53.4084,
+      "lon": -2.9916,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-nottingham-university-hospitals-city-campus",
+      "facility": "Nottingham University Hospitals City Campus",
+      "city": "Nottingham",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 52.9548,
+      "lon": -1.1581,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-royal-marsden-hospital-sutton",
+      "facility": "Royal Marsden Hospital-Sutton",
+      "city": "Sutton",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.3618,
+      "lon": -0.1945,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-birmingham-heartlands-hospital",
+      "facility": "Birmingham Heartlands Hospital",
+      "city": "Birmingham",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 52.4862,
+      "lon": -1.8904,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-royal-free-hospital",
+      "facility": "Royal Free Hospital",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "rs301-the-christie-nhs-foundation-trust",
+      "facility": "The Christie NHS Foundation Trust",
+      "city": "Manchester",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 53.4808,
+      "lon": -2.2426,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT06881784",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT06881784",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "rs301-age",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "At least 18 years old and has provided informed consent.",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-consent",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "At least 18 years old and has provided informed consent.",
+      "plain": "Informed consent (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "rs301-ecog",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "Eastern Cooperative Oncology Group (ECOG) performance status of 0 or 1.",
+      "plain": "ECOG 0–1",
+      "logic": {
+        "op": "cmp",
+        "key": "ecog",
+        "cmp": "<=",
+        "value": 1
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "ecog"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-setting",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "Pathologically confirmed NSCLC, either locally advanced or metastatic, not amenable to curative surgery or radiotherapy.",
+      "plain": "NSCLC, locally advanced or metastatic, not for curative surgery or radiotherapy",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma",
+              "squamous"
+            ]
+          },
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIA",
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "histology",
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-measurable",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "Measurable disease per RECIST v1.1.",
+      "plain": "Measurable disease (RECIST 1.1)",
+      "logic": {
+        "op": "is",
+        "key": "measurable_disease",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "measurable_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-organ",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "Adequate organ function (bone marrow, liver, kidney, coagulation).",
+      "plain": "Adequate bone marrow, liver, kidney and coagulation: current labs incl. INR (Relay policy 28 days), judged by the study team",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "current",
+            "keys": [
+              "lab_anc",
+              "lab_hemoglobin",
+              "lab_platelets",
+              "lab_bilirubin",
+              "lab_alt",
+              "lab_ast",
+              "lab_creatinine",
+              "lab_inr"
+            ],
+            "window": {
+              "source": "relay_policy",
+              "policy": "labRecencyDays"
+            }
+          },
+          {
+            "op": "review",
+            "reason": "The registry names organ systems but gives no thresholds; the study team judges current results"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_anc",
+        "lab_hemoglobin",
+        "lab_platelets",
+        "lab_bilirubin",
+        "lab_alt",
+        "lab_ast",
+        "lab_creatinine",
+        "lab_inr"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-prior-lines",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "One to two prior lines of therapy including an anti-PD-1/anti-PD(L)-1 agent and platinum-based chemotherapy.",
+      "plain": "1–2 prior lines that include anti-PD-(L)1 AND platinum chemotherapy",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "prior_lines_advanced",
+            "cmp": ">=",
+            "value": 1
+          },
+          {
+            "op": "cmp",
+            "key": "prior_lines_advanced",
+            "cmp": "<=",
+            "value": 2
+          },
+          {
+            "op": "is",
+            "key": "prior_immunotherapy",
+            "value": true
+          },
+          {
+            "op": "is",
+            "key": "prior_platinum_chemo",
+            "value": true
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_lines_advanced",
+        "prior_immunotherapy",
+        "prior_platinum_chemo"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-ras",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "Documented RAS mutation status, defined as Nonsynonymous mutations in KRAS, NRAS, or HRAS at codons 12, 13, or 61 (G12, G13, or Q61).",
+      "plain": "KRAS, NRAS or HRAS mutation at G12, G13 or Q61 (untested is not negative)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "in",
+            "key": "kras",
+            "values": [
+              "G12*",
+              "G13*",
+              "Q61*"
+            ]
+          },
+          {
+            "op": "in",
+            "key": "nras",
+            "values": [
+              "G12*",
+              "G13*",
+              "Q61*"
+            ]
+          },
+          {
+            "op": "in",
+            "key": "hras",
+            "values": [
+              "G12*",
+              "G13*",
+              "Q61*"
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "kras",
+        "nras",
+        "hras"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-oral",
+      "trialId": "NCT06881784",
+      "kind": "inclusion",
+      "text": "Able to take oral medications.",
+      "plain": "Able to take oral medication",
+      "logic": {
+        "op": "is",
+        "key": "gi_absorption_issue",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-x-prior",
+      "trialId": "NCT06881784",
+      "kind": "exclusion",
+      "text": "Prior therapy with direct RAS-targeted therapy or docetaxel.",
+      "plain": "No prior RAS-targeted therapy or docetaxel",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_kras_g12c_inhibitor",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "prior_pan_ras_inhibitor",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "prior_docetaxel",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "prior_kras_g12c_inhibitor",
+        "prior_pan_ras_inhibitor",
+        "prior_docetaxel"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-x-cns",
+      "trialId": "NCT06881784",
+      "kind": "exclusion",
+      "text": "Untreated central nervous system (CNS) metastases.",
+      "plain": "No untreated CNS metastases",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "none"
+          },
+          {
+            "op": "is",
+            "key": "cns_untreated",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "brain_mets",
+        "cns_untreated"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-x-comorbid",
+      "trialId": "NCT06881784",
+      "kind": "exclusion",
+      "text": "Medically significant comorbidities (significant cardiovascular disease, lung disease, or impaired GI function).",
+      "plain": "No significant cardiovascular disease, lung disease or impaired GI function",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "is",
+                "key": "cv_disease",
+                "value": "none"
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "is",
+                    "key": "cv_disease",
+                    "value": "controlled"
+                  },
+                  {
+                    "op": "review",
+                    "reason": "Known cardiovascular disease: whether it is medically significant"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "is",
+                "key": "ild_history",
+                "value": false
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "is",
+                    "key": "ild_history",
+                    "value": true
+                  },
+                  {
+                    "op": "review",
+                    "reason": "Lung disease history: whether it is medically significant"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "is",
+            "key": "gi_absorption_issue",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "cv_disease",
+        "ild_history",
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-x-ongoing",
+      "trialId": "NCT06881784",
+      "kind": "exclusion",
+      "text": "Ongoing anticancer therapy.",
+      "plain": "No ongoing anticancer therapy",
+      "logic": {
+        "op": "not",
+        "arg": {
+          "op": "is",
+          "key": "last_systemic_therapy_end",
+          "value": "ongoing"
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "last_systemic_therapy_end"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "rs301-x-pregnancy",
+      "trialId": "NCT06881784",
+      "kind": "exclusion",
+      "text": "Pregnant or breastfeeding.",
+      "plain": "Not pregnant or breastfeeding",
+      "logic": {
+        "op": "is",
+        "key": "pregnant_or_breastfeeding",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "pregnant_or_breastfeeding"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: registry acronym field.",
+    "All UK sites are ACTIVE_NOT_RECRUITING in the snapshot; the simulated site lane starts closed."
+  ]
+}

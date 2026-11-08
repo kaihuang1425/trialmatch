@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Local-first: the page may only talk to this computer (an optional MedGemma server on localhost). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src http://localhost:* http://127.0.0.1:*; base-uri 'none'; form-action 'none'">
+<title>Trial Match</title>
+<style>
+/* Trial Match. Dark, Gemini-like. Clinicians get a wide workspace (Overview, Review, Applications); patients get one calm
+   column (Home, My trials, My health, Inbox). Surfaces step up in tone instead of using borders; the blue-violet gradient
+   appears only where the agent speaks. No gestures: every decision is an explicit, labelled button. */
+:root {
+  --bg: #131314; --surface: #1E1F20; --surface-2: #282A2C; --surface-3: #333537; --hover: #37393B;
+  --ink: #E3E3E3; --muted: #C4C7C5; --faint: #8E918F; --line: #444746;
+  --accent: #A8C7FA; --accent-ink: #062E6F; --accent-soft: #004A77; --on-soft: #C2E7FF;
+  --met: #6DD58C; --met-soft: rgba(109,213,140,.14); --not: #F2B8B5; --not-soft: rgba(242,184,181,.14); --unk: #FDD663; --unk-soft: rgba(253,214,99,.13);
+  --g1: #4285F4; --g2: #9B72CB; --g3: #D96570;
+  --grad: linear-gradient(90deg, var(--g1), var(--g2) 55%, var(--g3));
+  --grad-soft: linear-gradient(135deg, rgba(66,133,244,.16), rgba(155,114,203,.12) 55%, rgba(217,101,112,.08));
+  --sans: "Google Sans Flex", "Google Sans", Roboto, "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace;
+  --r-sm: 8px; --r: 16px; --r-lg: 24px; --r-xl: 28px;
+  color-scheme: dark;
+}
+html, body { min-height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; background: none; padding: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+h1, h2, h3 { margin: 0; font-weight: 400; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); font-size: .92em; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.sm { font-size: 14px; }
+.xs { font-size: 12px; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+svg { flex: none; width: 20px; height: 20px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* top bar */
+.bar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.bar-in { display: flex; align-items: center; gap: 16px; padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); max-width: 1240px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 500; white-space: nowrap; }
+.logo svg { width: 28px; height: 28px; }
+.logo small { font-size: 12px; color: var(--faint); font-weight: 400; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+.nav { display: flex; gap: 4px; margin-left: 8px; }
+.nav button { height: 40px; padding: 0 16px; border-radius: 20px; color: var(--muted); font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; position: relative; }
+.nav button:hover { background: var(--surface-2); color: var(--ink); }
+.nav button[aria-current="page"] { background: var(--accent-soft); color: var(--on-soft); }
+.badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--g3); color: #fff; font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
+.spacer { flex: 1; }
+.local { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 16px; background: var(--met-soft); color: var(--met); font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+.local svg { width: 15px; height: 15px; }
+.me { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 6px 0 14px; border-radius: 20px; background: var(--surface); font-size: 14px; }
+.me:hover { background: var(--surface-2); }
+.avatar { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 500; color: #fff; background: linear-gradient(135deg, var(--g1), var(--g2)); flex: none; }
+.avatar.clin { background: linear-gradient(135deg, #1E8E3E, #4285F4); }
+.bnav { display: none; }
+@media (max-width: 860px) {
+  .nav, .me .who, .bar .local span { display: none; }
+  .local { padding: 0 9px; }
+  .bnav { display: flex; position: fixed; z-index: 25; left: 0; right: 0; bottom: 0; background: var(--surface); padding: 8px max(8px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); justify-content: space-around; }
+  .bnav button { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--muted); flex: 1; position: relative; }
+  .bnav button span.ic { width: 56px; height: 32px; border-radius: 16px; display: grid; place-items: center; }
+  .bnav button[aria-current="page"] { color: var(--ink); }
+  .bnav button[aria-current="page"] span.ic { background: var(--accent-soft); color: var(--on-soft); }
+  .bnav .badge { position: absolute; top: -2px; left: 54%; }
+  main { padding-bottom: 104px !important; }
+}
+@media (max-width: 560px) { .logo small { display: none; } .bar-in { gap: 10px; } .me { padding: 0 5px; } }
+
+main { max-width: 1240px; margin: 0 auto; padding: 8px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px)); }
+.col { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+.wide { display: flex; flex-direction: column; gap: 24px; }
+.page-h { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 16px; }
+.page-h h1 { font-size: clamp(28px, 4.4vw, 36px); line-height: 1.2; }
+.page-h p { color: var(--muted); margin-top: 6px; }
+.hello { font-size: clamp(32px, 6vw, 44px); line-height: 1.15; padding-top: 20px; }
+.sub { color: var(--muted); font-size: 18px; margin-top: 8px; }
+.sect-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.sect-h h2 { font-size: 20px; }
+
+/* buttons */
+.btn { height: 40px; padding: 0 20px; border-radius: 20px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface-3); color: var(--ink); white-space: nowrap; transition: background .15s, filter .15s; }
+.btn:hover { background: var(--hover); }
+.btn.pri { background: var(--accent); color: var(--accent-ink); }
+.btn.pri:hover { filter: brightness(1.08); }
+.btn.tonal { background: var(--accent-soft); color: var(--on-soft); }
+.btn.tonal:hover { filter: brightness(1.15); }
+.btn.out { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--accent); }
+.btn.out:hover { background: var(--surface-2); }
+.btn.text { background: transparent; color: var(--accent); padding: 0 12px; }
+.btn.text:hover { background: var(--surface-2); }
+.btn.danger { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--not); }
+.btn.big { height: 52px; padding: 0 28px; border-radius: 26px; font-size: 16px; }
+.btn:disabled { opacity: .38; pointer-events: none; }
+.btn svg { width: 18px; height: 18px; }
+.iconbtn { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); }
+.iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+.iconbtn svg { width: 22px; height: 22px; }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.row.end { justify-content: flex-end; }
+
+/* surfaces */
+.card { background: var(--surface); border-radius: var(--r-lg); padding: 20px; min-width: 0; }
+.card.pad-lg { padding: 24px; }
+.card h3 { font-size: 18px; }
+.list { display: flex; flex-direction: column; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
+.item { background: var(--surface); padding: 16px 20px; display: flex; align-items: center; gap: 16px; text-align: left; width: 100%; min-width: 0; }
+button.item:hover, .item.click:hover { background: var(--surface-2); }
+.item .grow { flex: 1; min-width: 0; }
+.item b { font-weight: 500; display: block; }
+.item small { color: var(--muted); font-size: 14px; display: block; }
+.ic-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--surface-3); color: var(--muted); display: grid; place-items: center; flex: none; }
+.ic-circle.ag { background: var(--grad-soft); color: var(--on-soft); }
+.ic-circle.hu { background: var(--met-soft); color: var(--met); }
+.chev { color: var(--faint); width: 20px; height: 20px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 8px; font-size: 13px; font-weight: 500; background: var(--surface-3); color: var(--muted); white-space: nowrap; }
+.chip.met { background: var(--met-soft); color: var(--met); }
+.chip.not { background: var(--not-soft); color: var(--not); }
+.chip.unk { background: var(--unk-soft); color: var(--unk); }
+.chip.acc { background: var(--accent-soft); color: var(--on-soft); }
+.chip.byagent { background: var(--grad-soft); color: var(--ink); }
+.chip svg { width: 14px; height: 14px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g1); display: inline-block; flex: none; }
+.empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+.empty h3 { color: var(--ink); font-size: 20px; margin-bottom: 8px; }
+.note { font-size: 13px; color: var(--faint); line-height: 1.5; }
+.banner { background: var(--unk-soft); color: var(--unk); border-radius: var(--r); padding: 10px 14px; font-size: 13px; }
+
+/* the agent (the one gradient surface) */
+.agent { position: relative; border-radius: var(--r-xl); padding: 24px; background: var(--grad-soft), var(--surface); display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.agent::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(66,133,244,.55), rgba(155,114,203,.35), rgba(217,101,112,.2)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.agent-top { display: flex; gap: 12px 16px; align-items: center; flex-wrap: wrap; }
+.agent-top .grow { flex: 1 1 220px; min-width: 0; }
+@media (max-width: 560px) { .agent { padding: 18px; } .agent-top .llm { order: 3; } }
+.spark { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(from 200deg, var(--g1), var(--g2), var(--g3), var(--g1)); position: relative; flex: none; }
+.spark::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; background: var(--surface); }
+.spark svg { position: relative; z-index: 1; width: 22px; height: 22px; color: var(--accent); }
+.spark.live { animation: spin 6s linear infinite; }
+.spark.live svg { animation: spin 6s linear infinite reverse; }
+.spark.sm { width: 30px; height: 30px; } .spark.sm svg { width: 15px; height: 15px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.agent-top h2 { font-size: 20px; line-height: 1.3; }
+.agent-top p { color: var(--muted); font-size: 14px; }
+.llm { height: 32px; padding: 0 12px; border-radius: 16px; background: var(--surface-2); font-size: 12.5px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+.llm.on { background: var(--met-soft); color: var(--met); }
+.toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--surface-2); border-radius: 20px; min-height: 48px; padding: 8px 8px 8px 16px; font-size: 14px; }
+.toggle b { font-weight: 500; display: block; }
+.toggle small { color: var(--muted); display: block; font-size: 13px; }
+.switch { appearance: none; -webkit-appearance: none; width: 52px; height: 32px; border-radius: 16px; background: var(--surface-3); box-shadow: inset 0 0 0 2px var(--faint); position: relative; cursor: pointer; margin: 0; flex: none; transition: background .2s; }
+.switch::after { content: ""; position: absolute; top: 8px; left: 8px; width: 16px; height: 16px; border-radius: 50%; background: var(--faint); transition: all .2s; }
+.switch:checked { background: var(--accent); box-shadow: none; }
+.switch:checked::after { top: 4px; left: 24px; width: 24px; height: 24px; background: var(--accent-ink); }
+.chat { display: flex; flex-direction: column; gap: 16px; }
+.msg.user { align-self: flex-end; background: var(--surface-3); border-radius: 18px 18px 4px 18px; padding: 10px 16px; max-width: 85%; }
+.msg.agent { display: flex; flex-direction: column; gap: 10px; }
+.msg.agent > p { font-size: 15.5px; }
+.msg.agent ul { margin: 0; padding-left: 20px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.msg.notice { background: var(--surface); border-radius: var(--r); padding: 14px 16px; }
+.msg .by { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--faint); }
+.msg.model > p { white-space: pre-wrap; }
+.msg.pending p { color: var(--faint); }
+.dots::after { content: ""; display: inline-block; width: 1.2em; text-align: left; animation: dots 1.2s steps(4) infinite; }
+@keyframes dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+.suggest { display: flex; gap: 8px; flex-wrap: wrap; }
+.sug { min-height: 34px; padding: 6px 14px; line-height: 1.35; max-width: 100%; border-radius: 17px; box-shadow: inset 0 0 0 1px var(--line); font-size: 13.5px; color: var(--muted); text-align: left; }
+.sug:hover { background: var(--surface-2); color: var(--ink); }
+.ask { display: flex; gap: 8px; align-items: center; background: var(--surface-2); border-radius: 28px; padding: 6px 6px 6px 20px; }
+.ask input { flex: 1; min-width: 0; height: 44px; background: none; border: 0; font-size: 16px; }
+.ask input:focus { outline: none; }
+.ask:focus-within { box-shadow: inset 0 0 0 2px var(--accent); }
+.ask .send { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; }
+.ask .send:disabled { opacity: .4; }
+
+/* question card */
+.qcard { border-radius: var(--r-xl); background: var(--surface); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.qcard .from { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.qt { font-size: 24px; line-height: 1.3; }
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt { min-height: 52px; border-radius: var(--r); background: var(--surface-2); padding: 12px 18px; text-align: left; font-size: 15px; display: flex; align-items: center; gap: 12px; }
+.opt:hover { background: var(--hover); }
+
+/* trial cards */
+.tcard { background: var(--surface); border-radius: var(--r-xl); padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.tc-photo { width: 100%; height: 132px; object-fit: cover; border-radius: var(--r); display: block; opacity: .92; }
+.tc-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.code { font-size: 13px; color: var(--faint); margin-top: 8px; }
+.tc-title { font-size: clamp(20px, 4vw, 24px); line-height: 1.25; }
+.tc-plain { font-size: 15px; }
+.tc-facts { display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted); background: var(--surface-2); border-radius: var(--r); padding: 14px 16px; }
+.tc-facts span { display: flex; gap: 10px; align-items: center; }
+.tc-facts svg { width: 18px; height: 18px; color: var(--accent); }
+.why { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+.why li { display: flex; gap: 10px; align-items: flex-start; }
+.why svg { width: 18px; height: 18px; color: var(--met); margin-top: 2px; }
+.tbc { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--unk); }
+.tbc svg { width: 18px; height: 18px; }
+.ring { position: relative; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; flex: none; --c: var(--met); }
+.ring.possible { --c: var(--unk); }
+.ring.not { --c: var(--not); }
+.ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--c) var(--deg), var(--surface-3) 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); }
+.ring span { font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.ring span small { font-size: 11px; color: var(--faint); }
+.trow { display: flex; gap: 16px; align-items: center; background: var(--surface); padding: 18px 20px; text-align: left; width: 100%; }
+.trow:hover { background: var(--surface-2); }
+.trow .grow { flex: 1; min-width: 0; }
+.trow h3 { font-size: 17px; font-weight: 500; line-height: 1.35; }
+.trow .meta { display: flex; gap: 6px 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 6px; }
+.steps { display: flex; gap: 4px; margin-top: 12px; }
+.steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--surface-3); }
+.steps i.done { background: var(--accent); }
+.steps i.now { background: linear-gradient(90deg, var(--g1), var(--g2)); }
+.steps i.bad { background: var(--not); }
+
+/* segmented + filter chips */
+.seg { display: inline-flex; border-radius: 20px; box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; flex-wrap: wrap; }
+.seg button { height: 40px; padding: 0 16px; font-size: 14px; font-weight: 500; color: var(--muted); }
+.seg button + button { box-shadow: inset 1px 0 0 var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--on-soft); }
+.fchip { height: 34px; padding: 0 14px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+.fchip:hover { background: var(--surface-2); }
+.fchip[aria-pressed="true"] { background: var(--accent-soft); color: var(--on-soft); box-shadow: none; }
+.fchip .n { font-size: 12px; opacity: .8; }
+
+/* fields */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > span { font-size: 13px; color: var(--muted); font-weight: 500; }
+.input { height: 48px; border-radius: 12px; background: var(--surface-2); border: 0; padding: 0 14px; font-size: 16px; width: 100%; box-shadow: inset 0 0 0 1px transparent; }
+.input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+select.input { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 20px) 21px, calc(100% - 15px) 21px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 36px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 640px) { .grid2, .grid4 { grid-template-columns: 1fr 1fr; } }
+input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.checkrow { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+.checkrow input { margin-top: 2px; }
+
+/* sheet */
+.scrim { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.6); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--surface); width: min(640px, 100%); max-height: min(90vh, 940px); overflow: auto; border-radius: var(--r-xl) var(--r-xl) 0 0; padding: 8px max(20px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; animation: up .22s ease-out; }
+.sheet.wide { width: min(880px, 100%); }
+@media (min-width: 861px) { .scrim { align-items: center; padding: 24px; } .sheet { border-radius: var(--r-xl); padding: 8px 28px 28px; } }
+@keyframes up { from { transform: translateY(24px); opacity: 0; } }
+.sheet-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: sticky; top: -8px; background: var(--surface); padding-top: 16px; padding-bottom: 4px; z-index: 1; }
+.sheet-h h2 { font-size: 22px; line-height: 1.3; }
+.handle { width: 32px; height: 4px; border-radius: 2px; background: var(--line); margin: 6px auto 0; }
+@media (min-width: 861px) { .handle { display: none; } }
+.panel2 { background: var(--surface-2); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.panel2 b { font-weight: 500; }
+.bul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: var(--muted); }
+.share { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; border-radius: var(--r); overflow: hidden; }
+.share li { display: flex; justify-content: space-between; gap: 14px; background: var(--surface-2); padding: 10px 16px; font-size: 14px; }
+.share li span:last-child { color: var(--muted); text-align: right; }
+
+/* rule list (every rule, with its source) */
+.rules { display: flex; flex-direction: column; gap: 2px; border-radius: var(--r); overflow: hidden; }
+.rule { display: flex; gap: 12px; align-items: flex-start; background: var(--surface-2); padding: 12px 16px; font-size: 14px; }
+.rule .mk { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; margin-top: 1px; }
+.rule .mk.met { background: var(--met-soft); color: var(--met); }
+.rule .mk.not { background: var(--not-soft); color: var(--not); }
+.rule .mk.unk { background: var(--unk-soft); color: var(--unk); }
+.rule .grow { flex: 1; min-width: 0; }
+.rule small { display: block; color: var(--faint); font-size: 12.5px; margin-top: 3px; }
+.rule small b { font-weight: 500; color: var(--muted); }
+.vd { display: flex; gap: 6px; margin-top: 8px; }
+.vd button { height: 28px; padding: 0 12px; border-radius: 14px; font-size: 12.5px; font-weight: 500; box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
+.vd button[aria-pressed="true"].y { background: var(--met-soft); color: var(--met); box-shadow: none; }
+.vd button[aria-pressed="true"].n { background: var(--not-soft); color: var(--not); box-shadow: none; }
+
+/* activity feed */
+.feed { display: flex; flex-direction: column; gap: 14px; }
+.ev { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+.ev .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-3); color: var(--muted); flex: none; }
+.ev .av svg { width: 15px; height: 15px; }
+.ev b { font-weight: 500; }
+.ev time { color: var(--faint); font-size: 12px; margin-left: 6px; }
+
+/* toast */
+.toast { position: fixed; z-index: 60; left: 50%; top: calc(16px + env(safe-area-inset-top, 0px)); transform: translate(-50%, -12px); opacity: 0; transition: all .25s; background: #E3E3E3; color: #1F1F1F; border-radius: 8px; padding: 12px 16px; font-size: 14px; width: max-content; max-width: min(480px, calc(100% - 32px)); box-shadow: 0 4px 16px rgba(0,0,0,.4); pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* health */
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.stat .lbl { font-size: 13px; color: var(--muted); }
+.stat .val { font-size: 26px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat .src { font-size: 12px; color: var(--faint); }
+.stat.unknown .val { color: var(--faint); font-size: 18px; padding-top: 6px; }
+.dx { display: flex; flex-direction: column; gap: 12px; }
+.dx h2 { font-size: 24px; line-height: 1.3; }
+
+/* landing */
+.login { min-height: 100vh; display: grid; place-items: center; padding: 32px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(66,133,244,.16), transparent 70%), var(--bg); }
+.login-box { width: min(480px, 100%); display: flex; flex-direction: column; gap: 24px; }
+.login-box .logo { font-size: 24px; }
+.login-box h1 { font-size: 36px; line-height: 1.2; }
+.acct { display: flex; align-items: center; gap: 14px; background: var(--surface); padding: 14px 18px; text-align: left; width: 100%; }
+.acct:hover { background: var(--surface-2); }
+.acct .grow { flex: 1; min-width: 0; }
+.acct b { font-weight: 500; display: block; }
+.acct small { color: var(--muted); font-size: 13px; }
+.points { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.point { background: var(--surface); border-radius: var(--r); padding: 12px 14px; font-size: 13px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; }
+.point svg { width: 18px; height: 18px; color: var(--accent); margin-top: 1px; }
+.point b { color: var(--ink); font-weight: 500; display: block; }
+
+/* clinician */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+.kpi { background: var(--surface); border-radius: var(--r-lg); padding: 18px 20px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.kpi .lbl { font-size: 13px; color: var(--muted); }
+.kpi .val { font-size: 34px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.kpi .hint { font-size: 12px; color: var(--faint); }
+.two { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; align-items: start; }
+@media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+.funnel { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.frow { display: grid; grid-template-columns: 110px 1fr 36px; gap: 12px; align-items: center; font-size: 14px; }
+.frow .track { height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
+.frow .track i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--g1), var(--g2)); }
+.frow b { font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 500; color: var(--faint); font-size: 12px; padding: 0 12px 10px; white-space: nowrap; }
+td { padding: 12px; border-top: 1px solid var(--surface-3); vertical-align: middle; }
+tr.click { cursor: pointer; }
+tr.click:hover td { background: var(--surface-2); }
+.trialpick { min-width: 0; max-width: 100%; }
+.trialpick select { height: 40px; border-radius: 20px; padding-left: 16px; font-size: 14px; font-weight: 500; background-color: var(--surface-2); background-position: calc(100% - 20px) 17px, calc(100% - 15px) 17px; max-width: min(520px, 100%); }
+.callout { border-radius: var(--r-lg); padding: 18px 20px; background: var(--surface); font-size: 15px; color: var(--muted); }
+.callout b { color: var(--ink); font-weight: 500; }
+.mini { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; width: 120px; margin-bottom: 4px; }
+.mini i { display: block; height: 100%; background: linear-gradient(90deg, var(--g1), var(--g2)); }
+
+/* review queue */
+.review { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 960px) { .review { grid-template-columns: 1fr; } }
+.queue { display: flex; flex-direction: column; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
+.qrow { background: var(--surface); }
+.qrow.open { background: var(--surface); box-shadow: inset 3px 0 0 var(--accent); }
+.qhead { display: flex; gap: 14px; align-items: center; width: 100%; text-align: left; padding: 16px 18px; }
+.qhead:hover { background: var(--surface-2); }
+.pos { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-3); display: grid; place-items: center; font-size: 14px; font-weight: 500; flex: none; }
+.qrow.top .pos { background: var(--accent); color: var(--accent-ink); }
+.qhead .grow { flex: 1; min-width: 0; }
+.qhead b { font-weight: 500; display: block; }
+.qhead small { color: var(--muted); font-size: 13.5px; display: block; }
+.qbody { padding: 0 18px 18px 64px; display: flex; flex-direction: column; gap: 14px; }
+@media (max-width: 640px) { .qbody { padding-left: 18px; } }
+.facts { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.facts div { display: grid; grid-template-columns: 96px 1fr; gap: 10px; }
+.facts span.k { color: var(--faint); }
+.stepper { display: flex; gap: 6px; flex-wrap: wrap; }
+.stepper span { font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 8px; background: var(--surface-2); color: var(--faint); }
+.stepper span.done { color: var(--muted); }
+.stepper span.now { background: var(--accent); color: var(--accent-ink); }
+.stepper span.bad { background: var(--not-soft); color: var(--not); }
+details > summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] > summary { margin-bottom: 10px; }
+textarea.log { width: 100%; min-height: 140px; font-family: var(--mono); font-size: 12px; background: var(--surface-2); color: var(--muted); border: 0; border-radius: 12px; padding: 12px; resize: vertical; }
+.disc { font-size: 12px; color: var(--faint); text-align: center; max-width: 90ch; margin: 40px auto 0; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>__MATCHER__</script>
+<script id="bundle" type="application/json">__BUNDLE__</script>
+<script id="records" type="application/json">__RECORDS__</script>
+<script>
+(function () {
+  'use strict';
+  var M = window.TrialMatcher;
+  var $ = function (s, el) { return (el || document).querySelector(s); };
+  var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
+  var B = JSON.parse($('#bundle').textContent);    // downloaded trial rules bundle: public registry data only
+  var R = JSON.parse($('#records').textContent);   // records held on this device (de-identified research records in the demo)
+  var TRIALS = B.trials;
+  var T = {}; TRIALS.forEach(function (t) { T[t.nct] = t; });
+  var REC = {}; R.forEach(function (p) { REC[p.id] = p; });
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function plural(n, a, b) { return n + ' ' + (n === 1 ? a : (b || a + 's')); }
+  function short(s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; }
+  function dstr(t) { return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
+  function clock(t) { return new Date(t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
+  function dur(ms) { var s = ms / 1000; if (s < 60) return 'under a minute'; var m = s / 60; if (m < 60) return Math.round(m) + ' min'; var h = m / 60; if (h < 48) return (Math.round(h * 10) / 10) + ' h'; return Math.round(h / 24) + ' days'; }
+  function ago(t) { var d = Date.now() - t; return d < 60000 ? 'just now' : dur(d) + ' ago'; }
+  function fmtDate(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  function uniq(a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); }
+  function sexTxt(s) { return s === 'MALE' ? 'Male' : s === 'FEMALE' ? 'Female' : s; }
+
+  var I = function (d, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
+  var ICON = {
+    logo: '<svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/><stop offset=".6" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient></defs><path d="M16 4v9" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round"/><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg)"/><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg)" opacity=".6"/></svg>',
+    spark: I('<path d="M12 3c.4 4.6 2.4 7.6 9 9-6.6 1.4-8.6 4.4-9 9-.4-4.6-2.4-7.6-9-9 6.6-1.4 8.6-4.4 9-9z" fill="currentColor" stroke="none"/>'),
+    home: I('<path d="M4 11l8-7 8 7v8a2 2 0 0 1-2 2h-3v-6H9v6H6a2 2 0 0 1-2-2z"/>'),
+    list: I('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),
+    pulse: I('<path d="M3 12h4l3-7 4 14 3-7h4"/>'),
+    inbox: I('<path d="M4 13l2.5-7h11L20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 13h5l1 2h4l1-2h5"/>'),
+    chart: I('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+    review: I('<path d="M9 5h11M9 12h11M9 19h11"/><path d="M3.5 5.5l1.5 1.5 2.5-3M3.5 12.5l1.5 1.5 2.5-3"/><circle cx="5" cy="19" r="1.5"/>'),
+    folder: I('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+    x: I('<path d="M6 6l12 12M18 6L6 18"/>', 2.6),
+    check: I('<path d="M5 12.5l4.5 4.5L19 7.5"/>', 2.6),
+    up: I('<path d="M12 19V5M5 12l7-7 7 7"/>', 2.4),
+    down: I('<path d="M12 5v14M5 12l7 7 7-7"/>', 2.4),
+    info: I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
+    chev: I('<path d="M9 5l7 7-7 7"/>'),
+    send: I('<path d="M5 12h14M13 6l6 6-6 6"/>', 2.4),
+    tune: I('<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>'),
+    out: I('<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>'),
+    pin: I('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
+    globe: I('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>'),
+    shuffle: I('<path d="M16 4h4v4M4 20L20 4M16 20h4v-4M14 14l6 6M4 4l5 5"/>'),
+    doc: I('<path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
+    hosp: I('<path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M12 8v4M10 10h4"/>'),
+    pill: I('<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.2 8l5.6 8"/>'),
+    lock: I('<rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+    chip: I('<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>'),
+    route: I('<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/>'),
+    gift: I('<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8s-1.5-5-4.5-5a2 2 0 0 0 0 4c2 0 4.5 1 4.5 1zM12 8s1.5-5 4.5-5a2 2 0 0 1 0 4c-2 0-4.5 1-4.5 1z"/>'),
+    scale: I('<path d="M12 4v16M5 20h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0zM5 8h14"/>'),
+    undo: I('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>')
+  };
+
+  /* ---------- vocabulary ---------- */
+  var NAMES = { stage: 'Disease stage', ecog: 'Day-to-day fitness (ECOG)', histology: 'Cell type', EGFR: 'EGFR', ALK: 'ALK', ROS1: 'ROS1', RET: 'RET',
+    KRAS_G12C: 'KRAS G12C', KRAS_G12D: 'KRAS G12D', BRAF_V600E: 'BRAF V600E', MET_ex14: 'MET exon 14', pdl1: 'PD-L1 score',
+    prior_lines: 'Earlier treatments', brain_mets: 'Brain scan', age: 'Age', sex: 'Sex', prescreen: 'Pre-screening' };
+  var GENES = ['EGFR', 'ALK', 'ROS1', 'RET', 'KRAS_G12C', 'KRAS_G12D', 'BRAF_V600E', 'MET_ex14'];
+  var QUESTIONS = {
+    prior_lines: { ask: 'How many cancer treatments have you had since the cancer spread?', why: 'Chemotherapy, immunotherapy or targeted tablets each count as one.', opts: [['0', 'None yet'], ['1', 'One'], ['2', 'Two'], ['3', 'Three or more']] },
+    brain_mets: { ask: 'Has a brain scan shown any spread to the brain?', why: 'Many trials have a rule about this.', opts: [['none', 'No, the scan was clear'], ['treated_stable', 'Yes, treated and stable'], ['active', 'Yes, not treated yet'], ['unknown', 'I haven’t had one']] },
+    ecog: { ask: 'Which best describes your day-to-day activity?', why: 'Trials set a limit on how much the illness affects daily life.', opts: [['0', 'Fully active'], ['1', 'Light work only'], ['2', 'Up and about, but can’t work'], ['3', 'Mostly in bed or a chair']] },
+    stage: { ask: 'Has the cancer spread outside the chest?', why: 'Trials are written for a particular stage.', opts: [['IV', 'Yes, to other organs'], ['IIIB-C', 'No, but surgery can’t remove it'], ['early', 'No, surgery can remove it'], ['unknown', 'I’m not sure']] },
+    pdl1: { ask: 'What is your tumour’s PD-L1 score?', why: 'It’s a percentage on your pathology report. Several immunotherapy trials need it.', number: true }
+  };
+  GENES.forEach(function (g) { QUESTIONS[g] = { ask: 'Has your tumour been tested for ' + NAMES[g] + '?', why: 'Some trials need this gene change, and others exclude it.', opts: [['positive', 'Yes, and it was found'], ['negative', 'Yes, and it wasn’t found'], ['untested', 'No / I don’t know']] }; });
+  var STAGE_TXT = { I: 'Stage I', II: 'Stage II', IIIA: 'Stage IIIA', III: 'Stage III', 'IIIB-C': 'Stage IIIB–C', IV: 'Stage IV', early: 'Early stage (surgery possible)', unknown: 'Stage not recorded' };
+  var BRAIN_TXT = { none: 'No spread to the brain', treated_stable: 'Brain spread, treated and stable', active: 'Brain spread, not treated yet', unknown: 'Brain scan not known' };
+  var FLOW = ['applied', 'prescreen', 'screening', 'enrolled', 'completed'];
+  var ACTIVE = ['applied', 'prescreen', 'screening', 'enrolled'];
+  var FAILS = ['rejected', 'screenfail'];
+  var STAGE_P = { applied: 'With the trial team', prescreen: 'Invited to pre-screening', screening: 'Screening', enrolled: 'On the trial', completed: 'Completed', rejected: 'Not suitable', waitlist: 'Waiting list', screenfail: 'Didn’t meet a requirement', withdrawn: 'Withdrawn' };
+  var STAGE_C = { applied: 'New', prescreen: 'Pre-screen', screening: 'Screening', enrolled: 'Enrolled', completed: 'Completed', rejected: 'Not eligible', waitlist: 'Waitlist', screenfail: 'Screen fail', withdrawn: 'Withdrawn' };
+  var REASONS = ['A protocol rule is not met', 'Evidence still missing after asking', 'Not fit enough for the trial right now', 'No place left in the cohort', 'Patient prefers another option'];
+  var PASS_REASONS = ['Too far to travel', 'I don’t want a chance of placebo', 'I don’t want another biopsy', 'Not right now', 'Another reason'];
+  var TEAM = [{ id: 'rn', name: 'Research nurse', role: 'Lung trials unit' }, { id: 'pi', name: 'Principal investigator', role: 'Lung trials unit' }];
+
+  /* ---------- state: kept in this browser only ---------- */
+  var KEY = 'trialmatch-gemini-v1';
+  var DEFAULT_PATIENT = REC['TCGA-93-A4JP'] ? 'TCGA-93-A4JP' : R[0].id;
+  function fresh() {
+    return { who: null, loginRole: 'team', showAll: false, tab: 'home', ctab: 'overview', trial: null, open: null, failing: null, afilter: 'all', atrial: 'all', mtab: 'matches',
+      answers: {}, qskip: {}, clin: {}, apps: {}, passes: {}, verdicts: {}, prio: {}, asks: {}, events: [], reroutes: [], auto: {}, told: {}, chat: {}, ctx: {}, log: [],
+      llm: { on: false, url: 'http://localhost:11434', model: 'medgemma1.5:4b' }, seeded: false };
+  }
+  var S = fresh();
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && saved.apps) S = Object.assign(fresh(), saved); } catch (e) { /* storage blocked: memory only */ }
+  var memo = {};
+  function save() { memo = {}; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignore */ } }
+  function logRow(patient, nct, kind, field, value, note) { S.log.push({ patient: patient, nct: nct || '', kind: kind, field: field, value: value, note: note || '', at: Date.now() }); }
+
+  /* ---------- the record: held record + the patient's answers + pre-screening results ---------- */
+  function recordMissing(pid, f) {
+    var p = REC[pid];
+    if (GENES.indexOf(f) >= 0) return p.biomarkers[f] === 'unknown';
+    if (f === 'ecog' || f === 'prior_lines' || f === 'pdl1') return p[f] == null;
+    if (f === 'stage' || f === 'brain_mets' || f === 'histology') return p[f] === 'unknown';
+    return false;
+  }
+  function optLabel(f, v) { var q = QUESTIONS[f]; if (!q || q.number) return v + '%'; var o = (q.opts || []).filter(function (x) { return x[0] === String(v); })[0]; return o ? o[1] : v; }
+  function recordFor(pid) {
+    var p = JSON.parse(JSON.stringify(REC[pid]));
+    var ans = S.answers[pid] || {};
+    Object.keys(ans).forEach(function (f) {
+      var v = ans[f];
+      if (v == null || v === '' || v === 'unknown' || v === 'untested' || !recordMissing(pid, f)) return;
+      if (GENES.indexOf(f) >= 0) { p.biomarkers[f] = v; if (f === 'EGFR' && v === 'positive') p.biomarkers.EGFR_type = 'unconfirmed'; }
+      else if (f === 'ecog' || f === 'prior_lines' || f === 'pdl1') p[f] = Number(v);
+      else p[f] = v;
+      p.evidence[f] = 'Patient answer: ' + optLabel(f, v);
+    });
+    var c = S.clin[pid] || {};
+    Object.keys(c).forEach(function (f) { if (f === 'src') return; p[f] = c[f]; p.evidence[f] = c.src + ': ' + factValue(p, f); });
+    return p;
+  }
+  function factValue(p, f) {
+    if (f === 'stage') return STAGE_TXT[p.stage] || p.stage;
+    if (f === 'histology') return p.histology === 'unknown' ? 'Not recorded' : p.histology === 'non-squamous' ? 'Non-squamous NSCLC' : p.histology === 'squamous' ? 'Squamous NSCLC' : p.histology;
+    if (f === 'ecog') return p.ecog == null ? 'Not recorded' : 'ECOG ' + p.ecog;
+    if (f === 'prior_lines') return p.prior_lines == null ? 'Not recorded' : plural(p.prior_lines, 'earlier treatment');
+    if (f === 'pdl1') return p.pdl1 == null ? 'Not recorded' : p.pdl1 + '%';
+    if (f === 'brain_mets') return BRAIN_TXT[p.brain_mets] || p.brain_mets;
+    if (f === 'age') return String(Math.round(p.age));
+    if (f === 'sex') return sexTxt(p.sex);
+    if (GENES.indexOf(f) >= 0) { var v = p.biomarkers[f]; return v === 'positive' ? 'Found' : v === 'negative' ? 'Not found' : 'Not tested or not known'; }
+    return '';
+  }
+  function bioText(p) {
+    var out = GENES.filter(function (g) { return p.biomarkers[g] === 'positive'; }).map(function (g) { return NAMES[g] + ' found'; });
+    if (p.pdl1 != null) out.push('PD-L1 ' + p.pdl1 + '%');
+    if (!out.length) out.push('No driver gene change found');
+    return out;
+  }
+
+  /* ---------- matching: app/matcher.js, run on this device ---------- */
+  function appKey(pid, nct) { return pid + '|' + nct; }
+  function pairFor(pid) {
+    return function (nct) {
+      var a = S.apps[appKey(pid, nct)], v = S.verdicts[appKey(pid, nct)], passed = (S.passes[pid] || {})[nct];
+      if (!a && !v && !passed) return null;
+      var outcome = a && FAILS.indexOf(a.stage) >= 0 ? 'screen_failed' : (passed || (a && a.stage === 'withdrawn')) ? 'declined' : null;
+      return { fields: v || {}, outcome: outcome };
+    };
+  }
+  function ranked(pid) {
+    if (!memo[pid]) {
+      var r = M.rank(recordFor(pid), TRIALS, { pairFor: pairFor(pid), weights: B.weights });
+      r.by = {}; r.all.forEach(function (x) { r.by[x.nct] = x; });
+      memo[pid] = r;
+    }
+    return memo[pid];
+  }
+  function scoreOf(pid, nct) { return ranked(pid).by[nct]; }
+  function crit(sc) { return sc.labels.filter(function (l) { return l.field !== 'prescreen'; }); }
+  function counts(L) { var c = { met: 0, unk: 0, not: 0 }; L.forEach(function (l) { if (l.status === 'met') c.met++; else if (l.status === 'unknown') c.unk++; else c.not++; }); return c; }
+  function tierOf(sc) { if (sc.E === 0) return 'not'; return counts(crit(sc)).unk ? 'possible' : 'strong'; }
+  var BASE = (function () { var pairs = 0, removed = 0; R.forEach(function (p) { var r = M.rank(p, TRIALS, { weights: B.weights, top: 0 }); pairs += r.n_trials; removed += r.removed; }); return { pairs: pairs, removed: removed, kept: pairs - removed }; })();
+
+  /* ---------- applications, events and the patient's agent ---------- */
+  function appsOf(pid) { return Object.keys(S.apps).map(function (k) { return S.apps[k]; }).filter(function (a) { return a.pid === pid; }); }
+  function allApps() { return Object.keys(S.apps).map(function (k) { return S.apps[k]; }); }
+  function onTrial(pid) { return appsOf(pid).filter(function (a) { return a.stage === 'enrolled'; })[0]; }
+  function free(pid, nct) { return !S.apps[appKey(pid, nct)] && !(S.passes[pid] || {})[nct]; }
+  function reached(a, s) { return a.stage === s || a.hist.some(function (h) { return h.s === s; }); }
+  function event(pid, who, text, act) { S.events.push({ pid: pid, who: who, text: text, at: Date.now(), read: false, act: act || null }); }
+  function sharedFields(pid, nct) { return ['age', 'sex'].concat(uniq(crit(scoreOf(pid, nct)).map(function (l) { return l.field; })).filter(function (f) { return f !== 'age' && f !== 'sex'; })); }
+  function createApp(pid, nct, by) {
+    var key = appKey(pid, nct), now = Date.now();
+    if (S.apps[key]) return S.apps[key];
+    // If this patient was just turned down elsewhere, this request is them being sent on rather than lost.
+    var lost = appsOf(pid).filter(function (a) { return FAILS.indexOf(a.stage) >= 0 && !a.routed; }).sort(function (a, b) { return b.upd - a.upd; })[0];
+    if (lost) { lost.routed = nct; S.reroutes.push({ pid: pid, from: lost.nct, to: nct, at: now }); }
+    S.apps[key] = { key: key, pid: pid, nct: nct, stage: 'applied', by: by, at: now, upd: now, from: lost ? lost.nct : null, shared: sharedFields(pid, nct),
+      hist: [{ s: 'applied', at: now, by: by === 'agent' ? 'Patient’s agent' : 'Patient' }], reason: '' };
+    logRow(pid, nct, 'outcome', 'enrolment', 'interested', lost ? 'Sent on after ' + lost.nct : (by === 'agent' ? 'Applied by the patient’s agent' : 'Applied by the patient'));
+    return S.apps[key];
+  }
+  // The patient's agent. Deterministic; runs on this device whenever the record or an application changes.
+  function runAgent(pid) {
+    if (onTrial(pid)) return;
+    memo = {};
+    var strong = ranked(pid).top.filter(function (x) { return tierOf(x) === 'strong' && free(pid, x.nct); });
+    if (S.auto[pid]) {
+      var open = appsOf(pid).filter(function (a) { return ACTIVE.indexOf(a.stage) >= 0; }).length;
+      strong.forEach(function (x) {
+        if (open >= 2) return;
+        var a = createApp(pid, x.nct, 'agent'); open++;
+        event(pid, 'agent', 'Applied to ' + tn(x.nct) + ' for you' + (a.from ? ', after the ' + tn(a.from) + ' team said no' : '') + '. Every rule I can check from your record is met. The team sees only the facts the trial checks.', { act: 'trial', id: x.nct, label: 'See the trial' });
+      });
+    } else {
+      var told = S.told[pid] = S.told[pid] || [];
+      strong.slice(0, 3).forEach(function (x) {
+        if (told.indexOf(x.nct) >= 0) return; told.push(x.nct);
+        event(pid, 'agent', tn(x.nct) + ' is a strong match: every rule I can check from your record is met. Apply when you’re ready.', { act: 'trial', id: x.nct, label: 'See the trial' });
+      });
+    }
+    var lost = appsOf(pid).filter(function (a) { return FAILS.indexOf(a.stage) >= 0 && !a.routed && !a.suggested; })[0];
+    if (lost && !S.auto[pid]) {
+      var nx = ranked(pid).top.filter(function (x) { return free(pid, x.nct); })[0];
+      lost.suggested = true;
+      if (nx) event(pid, 'agent', 'Your next best fit after ' + tn(lost.nct) + ' is ' + tn(nx.nct) + '. I can send the same facts there.', { act: 'apply', id: nx.nct, label: 'Review and apply' });
+    }
+    memo = {};
+  }
+  function setStage(a, stage, by, extra) {
+    var now = Date.now();
+    if (a.stage === 'applied' && !a.decidedAt && ['prescreen', 'rejected', 'waitlist'].indexOf(stage) >= 0) {   // team decisions only
+      var L = crit(scoreOf(a.pid, a.nct));
+      a.decidedAt = now; a.total = L.length; a.settled = L.filter(function (l) { return l.by !== 'team' && l.status !== 'unknown'; }).length;
+    }
+    a.stage = stage; a.upd = now; a.hist.push({ s: stage, at: now, by: by, note: (extra && extra.reason) || '' });
+    if (extra) Object.keys(extra).forEach(function (k) { a[k] = extra[k]; });
+    var t = T[a.nct], value = { prescreen: 'prescreen_pass', rejected: 'screen_failed', screenfail: 'screen_failed', enrolled: 'enrolled', completed: 'completed', withdrawn: 'declined', waitlist: 'waitlist', screening: 'prescreen_pass' }[stage];
+    if (value) logRow(a.pid, a.nct, 'outcome', 'enrolment', value, (extra && extra.reason) || by);
+    var NOTE = {
+      prescreen: 'The ' + t.short + ' team invited you to pre-screening. They’ll contact you to book a visit, and only then ask for your name.',
+      waitlist: 'The ' + t.short + ' team has chosen this round’s applicants. You’re on the waiting list.',
+      rejected: 'The ' + t.short + ' team decided this trial isn’t the right fit' + (a.reason ? ': ' + a.reason.toLowerCase() : '') + '. Your agent keeps looking.',
+      screening: 'You passed pre-screening for ' + t.short + '. Next come the full screening tests.',
+      screenfail: 'Pre-screening for ' + t.short + ' found: ' + (a.reason || 'a rule not met') + '. Your agent added the results to your record and is looking again.',
+      enrolled: 'Welcome to ' + t.short + '. You’re on the trial. Your agent pauses so nothing new gets in the way.',
+      completed: 'You’ve completed ' + t.short + '. Your results are in your record, and your agent is looking at what could come next.'
+    };
+    if (NOTE[stage]) event(a.pid, 'team', NOTE[stage]);
+    save();
+    if (FAILS.indexOf(stage) >= 0 || stage === 'completed') runAgent(a.pid);
+    save();
+  }
+
+  /* ---------- demo setup: run once ---------- */
+  function seedDemo() {
+    // Records with at least one strong match have "Apply for me" switched on, so their agents apply as they would in use.
+    R.forEach(function (p) { if (ranked(p.id).top.some(function (x) { return tierOf(x) === 'strong'; })) S.auto[p.id] = true; });
+    // Two patients asked for the BNT327 trial themselves, so that trial has a batch to review.
+    [['TCGA-53-7624', 'NCT06712316'], ['TCGA-99-8033', 'NCT06712316']].forEach(function (x) {
+      if (REC[x[0]] && T[x[1]] && scoreOf(x[0], x[1]).E > 0) { createApp(x[0], x[1], 'patient'); event(x[0], 'agent', 'Filled in your request for ' + T[x[1]].short + ' from your record and sent it to the trial team.'); }
+    });
+    Object.keys(S.auto).forEach(runAgent);
+    S.seeded = true; save();
+  }
+  if (!S.seeded) seedDemo();
+
+  /* ---------- small renderers ---------- */
+  function ring(sc) {
+    var L = crit(sc), c = counts(L), n = L.length || 1;
+    return '<div class="ring ' + tierOf(sc) + '" style="--deg:' + Math.round(360 * c.met / n) + 'deg" role="img" aria-label="' + c.met + ' of ' + L.length + ' checks met"><span>' + c.met + '<small>/' + L.length + '</small></span></div>';
+  }
+  function tierChip(sc) { var t = tierOf(sc); return '<span class="chip ' + (t === 'strong' ? 'met' : t === 'possible' ? 'unk' : 'not') + '">' + (t === 'strong' ? 'Strong match' : t === 'possible' ? 'Possible match' : 'Not a match') + '</span>'; }
+  function titleP(t) { return t.plain || short(t.title, 96); }
+  function tn(nct) { var t = T[nct]; return /\s/.test(t.short) && t.plain ? t.plain : t.short; }   // acronym, else plain title, else cut title
+  function whatP(t) { return t.what || t.summary || 'No plain summary in the registry entry.'; }
+  function whereLine(t) { return t.uk_sites ? plural(t.uk_sites, 'UK site') + (t.site_name ? ', including ' + t.site_name : '') + (t.uk_cities.length ? ' (' + t.uk_cities.slice(0, 4).join(', ') + ')' : '') : 'No UK site listed yet'; }
+  function countriesLine(t) { return (t.n_countries === 1 ? '1 country' : t.n_countries + ' countries') + (t.countries.length ? ': ' + t.countries.join(', ') + (t.n_countries > t.countries.length ? ' and others' : '') : ''); }
+  function chev() { return ICON.chev.replace('<svg', '<svg class="chev"'); }
+  function stepsBar(a) {
+    if (!a) return '';
+    var bad = ['rejected', 'screenfail', 'withdrawn'].indexOf(a.stage) >= 0, idx = FLOW.indexOf(a.stage);
+    if (idx < 0) { idx = 0; a.hist.forEach(function (h) { var i = FLOW.indexOf(h.s); if (i > idx) idx = i; }); }
+    return '<div class="steps">' + FLOW.map(function (s, i) { return '<i class="' + (i < idx ? 'done' : i === idx ? (bad ? 'bad' : a.stage === 'completed' ? 'done' : 'now') : '') + '"></i>'; }).join('') + '</div>';
+  }
+  function involveLines(t) {
+    return [t.randomised ? 'People are put into groups by chance (randomised). You might get the new treatment or the standard one.' : 'Everyone in this trial gets the study treatment; it isn’t randomised.',
+      t.placebo ? 'One group gets a placebo (a dummy treatment), alongside or instead of the study drug.' : null,
+      t.biopsy ? 'You would need a fresh biopsy (a new tissue sample) to join.' : null,
+      'Expect extra visits, scans and blood tests. The team gives you the schedule before you agree.',
+      'You can stop at any time and still get your usual care.'].filter(Boolean);
+  }
+  function offerLines(t) {
+    return { offer: ['A treatment being tested that isn’t routinely available yet' + (t.randomised ? ', if you’re in the group that gets it' : '') + '.',
+      'Care from a specialist research team, with regular check-ups and scans.',
+      'Study treatments are normally provided free. Treatment trials don’t usually pay people to take part, but many cover travel costs: ask the team.',
+      'The results help the people with lung cancer who come after you.'],
+    weigh: [t.randomised ? 'Chance decides your group: you might get the standard treatment instead.' : null, t.placebo ? 'One group gets a placebo.' : null,
+      t.biopsy ? 'You would need a fresh biopsy.' : null, 'Extra hospital visits and tests.', 'A new treatment can have side effects nobody knows about yet.'].filter(Boolean) };
+  }
+  function ruleList(sc, verdictKey) {
+    var L = sc.labels;
+    return '<div class="rules">' + L.map(function (l) {
+      var k = l.status === 'met' ? 'met' : l.status === 'unknown' ? 'unk' : 'not';
+      var cur = verdictKey ? ((S.verdicts[verdictKey] || {})[l.field] || '') : '';
+      return '<div class="rule"><span class="mk ' + k + '">' + { met: '✓', not: '✕', unk: '?' }[k] + '</span><span class="grow">' + esc(NAMES[l.field] || l.field) + ' · <span class="' + (k === 'met' ? '' : 'faint') + '">' + esc(l.reason) + '</span>' +
+        '<small><b>Record</b> ' + esc(l.patient_evidence) + '</small><small><b>Trial</b> “' + esc(short(l.trial_evidence, 220)) + '”</small>' +
+        (verdictKey && l.field !== 'prescreen' ? '<span class="vd"><button class="y" data-act="verdict" data-id="' + esc(verdictKey) + '" data-f="' + l.field + '" data-v="met" aria-pressed="' + (cur === 'met') + '">Confirm met</button><button class="n" data-act="verdict" data-id="' + esc(verdictKey) + '" data-f="' + l.field + '" data-v="not_met" aria-pressed="' + (cur === 'not_met') + '">Not met</button></span>' : '') +
+        '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  // Patient trial card (the agent's recommendation). Explicit buttons; no gestures.
+  function tcard(nct, rank) {
+    var pid = S.who.id, t = T[nct], sc = scoreOf(pid, nct), L = crit(sc), a = S.apps[appKey(pid, nct)];
+    var why = L.filter(function (l) { return l.status === 'met'; }).slice(0, 3), unk = L.filter(function (l) { return l.status === 'unknown'; });
+    var canApply = !a && sc.E > 0 && !(S.passes[pid] || {})[nct] && !onTrial(pid);
+    return '<article class="tcard">' + (t.site_key ? '<img class="tc-photo" src="img/sites/' + t.site_key + '.jpg" alt="' + esc(t.site_name || '') + '" loading="lazy">' : '') +
+      '<div class="tc-head"><div>' + tierChip(sc) + (a ? ' <span class="chip acc">' + esc(STAGE_P[a.stage]) + '</span>' : '') + '<p class="code">' + (rank ? '#' + rank + ' · ' : '') + nct + ' · ' + esc(t.phase || 'Phase not stated') + (t.short && t.short.indexOf(' ') < 0 ? ' · ' + esc(t.short) : '') + '</p></div>' + ring(sc) + '</div>' +
+      '<h2 class="tc-title">' + esc(titleP(t)) + '</h2><p class="muted tc-plain">' + esc(short(whatP(t), 200)) + '</p>' +
+      '<div class="tc-facts"><span>' + ICON.pin + esc(whereLine(t)) + '</span><span>' + ICON.shuffle + (t.randomised ? 'Randomised' : 'Not randomised') + (t.placebo ? ', with a placebo group' : '') + (t.biopsy ? ' · needs a fresh biopsy' : '') + '</span>' + (t.sponsor ? '<span>' + ICON.hosp + 'Run by ' + esc(t.sponsor) + '</span>' : '') + '</div>' +
+      (why.length ? '<ul class="why">' + why.map(function (l) { return '<li>' + ICON.check + esc(NAMES[l.field] + ': ' + l.patient_evidence.replace(/^[^:]+:\s*/, '')) + '</li>'; }).join('') + '</ul>' : '') +
+      (unk.length ? '<p class="tbc">' + ICON.info + 'The care team will check ' + plural(unk.length, 'thing') + ': ' + esc(unk.slice(0, 3).map(function (l) { return NAMES[l.field].toLowerCase(); }).join(', ')) + '</p>' : '') +
+      '<div class="row">' + (canApply ? '<button class="btn pri" data-act="apply" data-id="' + nct + '">Apply</button>' : '') + '<button class="btn tonal" data-act="trial" data-id="' + nct + '">Details</button>' + (canApply ? '<button class="btn text" data-act="pass" data-id="' + nct + '">Not for me</button>' : '') + '</div></article>';
+  }
+  function teamTrialItem(nct) {
+    var t = T[nct], st = trialStats(nct);
+    return '<button class="trow" data-act="review" data-id="' + nct + '" style="border-radius:var(--r-lg)"><span class="grow"><h3>' + esc(t.short) + '</h3><span class="meta"><span>' + nct + '</span><span>' + esc(t.phase) + '</span><span>' + esc(whereLine(t)) + '</span></span>' +
+      '<span class="chips" style="margin-top:10px">' + (st.fresh ? '<span class="chip acc">' + plural(st.fresh, 'new applicant') + '</span>' : '') + (st.ready ? '<span class="chip met">' + st.ready + ' with every rule met</span>' : '') + (st.inPre ? '<span class="chip">' + st.inPre + ' in pre-screening</span>' : '') + '</span></span>' + chev() + '</button>';
+  }
+
+  /* ---------- the agent: briefings and replies, computed here from the bundle and the record ---------- */
+  var pendingModel = false, scrollChat = false;
+  function threadKey() { return S.who.role === 'team' ? 'team' : S.who.id; }
+  function thread() { var k = threadKey(); return (S.chat[k] = S.chat[k] || []); }
+  function push(m) { var th = thread(); th.push(m); if (th.length > 30) th.splice(0, th.length - 30); }
+  function openTop(pid) { return ranked(pid).top.filter(function (x) { return free(pid, x.nct); }); }
+  function trialStats(nct) {
+    var A = allApps().filter(function (a) { return a.nct === nct; });
+    var fresh = A.filter(function (a) { return a.stage === 'applied'; });
+    return { all: A.length, fresh: fresh.length, ready: fresh.filter(function (a) { return tierOf(scoreOf(a.pid, nct)) === 'strong'; }).length,
+      inPre: A.filter(function (a) { return a.stage === 'prescreen' || a.stage === 'screening'; }).length, enrolled: A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length };
+  }
+  function busyTrials() {
+    return uniq(allApps().map(function (a) { return a.nct; })).map(function (n) { return { nct: n, st: trialStats(n) }; })
+      .sort(function (a, b) { return b.st.fresh - a.st.fresh || b.st.ready - a.st.ready || b.st.all - a.st.all; });
+  }
+  var GENERIC = ['chemotherapy', 'radiotherapy', 'radiation', 'surgery', 'standard', 'therapy', 'treatment', 'placebo', 'platinum', 'investigator', 'doublet', 'regimen', 'stereotactic', 'carboplatin', 'cisplatin', 'pemetrexed', 'paclitaxel'];
+  function reEsc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function findTrial(text, prefer) {
+    var m = text.match(/NCT\d{8}/i);
+    if (m && T[m[0].toUpperCase()]) return m[0].toUpperCase();
+    var q = ' ' + text.toLowerCase().replace(/[^a-z0-9#\- ]/g, ' ').replace(/\s+/g, ' ') + ' ';
+    var ords = [['first', '1st', 'top one', 'top trial', 'number one', '#1', 'trial 1'], ['second', '2nd', 'number two', '#2', 'trial 2'], ['third', '3rd', 'number three', '#3', 'trial 3']];
+    for (var i = 0; i < ords.length; i++) if (prefer[i] && ords[i].some(function (w) { return q.indexOf(' ' + w + ' ') >= 0; })) return prefer[i];
+    var pool = uniq(prefer.concat(TRIALS.map(function (t) { return t.nct; })));
+    for (var j = 0; j < pool.length; j++) {
+      var t = T[pool[j]];
+      var keys = [t.short.indexOf(' ') < 0 ? t.short : null].concat(t.drugs.map(function (d) { return d.split(/[\s(,/]/)[0]; }))
+        .filter(function (k) { return k && k.length >= 5 && GENERIC.indexOf(k.toLowerCase()) < 0; });
+      if (keys.some(function (k) { return new RegExp('(^|[^a-z0-9])' + reEsc(k.toLowerCase()) + '([^a-z0-9]|$)').test(q); })) return pool[j];
+    }
+    return null;
+  }
+  function about(nct) {
+    var t = T[nct], pid = S.who.role === 'patient' ? S.who.id : null;
+    var acts = [{ act: 'trial', id: nct, label: 'Full details' }];
+    if (pid && free(pid, nct) && scoreOf(pid, nct).E > 0) acts.push({ act: 'apply', id: nct, label: 'Apply' });
+    if (!pid) acts.unshift({ act: 'review', id: nct, label: 'Review applicants' });
+    return { nct: nct, text: titleP(t) + ' (' + nct + ')', lines: [whatP(t), t.drugs.length ? 'Treatments studied: ' + t.drugs.join(', ') + '.' : null,
+      (t.phase || 'Phase not stated') + (t.randomised ? ', randomised' : '') + (t.enrolment ? ', aiming to recruit ' + t.enrolment.toLocaleString('en-GB') + ' people' : '') + '.',
+      t.sponsor ? 'Run by ' + t.sponsor + '.' : null, 'In the UK: ' + whereLine(t) + '.', 'Registry status: ' + t.status + ', as of ' + fmtDate(B.snapshot) + '.'].filter(Boolean), actions: acts };
+  }
+  function patientReply(text) {
+    var q = text.toLowerCase(), pid = S.who.id, r = ranked(pid);
+    var prefer = uniq(openTop(pid).map(function (x) { return x.nct; }).concat(r.top.map(function (x) { return x.nct; })));
+    var nct = findTrial(text, prefer);
+    if (!nct && /\b(it|this|that|this one|that one|the trial|this trial)\b/.test(q)) nct = S.ctx[pid] || null;
+    if (nct) S.ctx[pid] = nct;
+    var n0 = nct || prefer[0];
+    if (/privacy|my data|share|who (can )?see|stored|device|safe|private/.test(q)) return { text: 'Who can see your data', lines: ['The trial rules were downloaded once. They’re public registry data with nothing about you in them.', 'Your record and your answers stay on this device, and the matching runs here too.', 'A trial team sees only the facts listed when you apply, and only that team. Your name stays hidden until you agree to meet them.', S.llm.on ? 'Typed questions go to MedGemma running on this computer, not to an online service.' : 'My answers come from the trial records. No online AI service is used.'], actions: [{ act: 'settings', label: 'Privacy and settings' }] };
+    if (/why not|ruled out|not eligible|excluded|other trials|didn.?t (fit|make)|why (was|were|is|are) .*(out|removed)/.test(q)) {
+      if (nct) {
+        var sc = scoreOf(pid, nct);
+        if (sc.E > 0) return { nct: nct, text: tn(nct) + ' is still on your list.', actions: [{ act: 'trial', id: nct, label: 'Details' }] };
+        return { nct: nct, text: tn(nct) + ' is ruled out by your record:', lines: sc.labels.filter(function (l) { return l.status === 'not_met'; }).map(function (l) { return l.field === 'prescreen' ? 'The trial team reviewed it and said no.' : NAMES[l.field] + ': your record says “' + l.patient_evidence + '”; the trial says “' + short(l.trial_evidence, 140) + '”'; }), note: 'If something in your record is wrong or out of date, tell your care team. Missing information never rules a trial out.' };
+      }
+      var why = {}; r.all.forEach(function (x) { if (x.E === 0) { var f = x.labels.filter(function (l) { return l.status === 'not_met'; })[0]; if (f) why[f.field] = (why[f.field] || 0) + 1; } });
+      return { text: 'Your record rules out ' + r.removed + ' of ' + r.n_trials + ' trials. The most common reasons:', lines: Object.keys(why).sort(function (a, b) { return why[b] - why[a]; }).slice(0, 5).map(function (f) { return (NAMES[f] || f) + ': ' + plural(why[f], 'trial'); }), note: 'Missing information never rules a trial out; it becomes a question instead.' };
+    }
+    if (/apply|sign me up|sign up|join|send (my|a) request|put me forward|i.?m interested/.test(q)) {
+      if (!nct) return { text: 'Which trial? Say “the first trial”, or give its NCT number.' };
+      return free(pid, nct) && scoreOf(pid, nct).E > 0 ? { nct: nct, text: 'Before anything is sent, you’ll see exactly what the ' + tn(nct) + ' team would receive.', actions: [{ act: 'apply', id: nct, label: 'Review what gets shared' }] } : { nct: nct, text: tn(nct) + ': ' + (S.apps[appKey(pid, nct)] ? STAGE_P[S.apps[appKey(pid, nct)].stage] : 'your record rules this trial out') + '.' };
+    }
+    if (/where|site|hospital|location|travel|city|near|far/.test(q) && n0) return { nct: n0, text: 'Where ' + tn(n0) + ' runs', lines: ['In the UK: ' + whereLine(T[n0]) + '.', 'Worldwide: ' + countriesLine(T[n0]) + '.', 'Ask the team which site is nearest to you.'], actions: [{ act: 'trial', id: n0, label: 'Full details' }] };
+    if (/benefit|offer|get out of|cost|pay|paid|free|money|expense|worth|incentive|what.?s in it|why should/.test(q) && n0) { var o = offerLines(T[n0]); return { nct: n0, text: 'What ' + tn(n0) + ' could offer you, and what to weigh up', lines: o.offer.concat(o.weigh.map(function (x) { return 'To weigh: ' + x; })), note: 'General points about phase 3 trials, plus this trial’s registry entry. The team can tell you the details.', actions: [{ act: 'trial', id: n0, label: 'Full details' }] }; }
+    if (/involve|happen|biopsy|placebo|visit|procedure|randomi|side effect|how long|group/.test(q) && n0) return { nct: n0, text: 'What taking part in ' + tn(n0) + ' involves', lines: involveLines(T[n0]).concat(['The protocol lists ' + T[n0].n_criteria + ' eligibility rules. I check ' + crit(scoreOf(pid, n0)).length + ' key ones against your record; the team checks the rest.']), actions: [{ act: 'trial', id: n0, label: 'Full details' }] };
+    if (/still|unknown|missing|question|need from me|what do you need|left to check/.test(q)) {
+      if (nct) { var unk = crit(scoreOf(pid, nct)).filter(function (l) { return l.status === 'unknown'; }); return { nct: nct, text: unk.length ? 'For ' + tn(nct) + ', these are still open:' : 'Nothing about you is still open for ' + tn(nct) + '.', lines: unk.map(function (l) { return NAMES[l.field] + ': ' + l.reason; }) }; }
+      var qs = openQuestions(pid);
+      return { text: qs.length ? 'These answers would settle the most trials for you:' : 'There’s nothing more I can ask you. The rest needs a test or a clinician.', lines: qs.slice(0, 5).map(function (x) { return NAMES[x.f] + ': affects ' + plural(x.n, 'trial') + ' on your list'; }), actions: qs.length ? [{ act: 'tab', v: 'health', label: 'Answer them' }] : [] };
+    }
+    if (/why|fit|suit|match|good for me/.test(q) && nct) { var L = crit(scoreOf(pid, nct)); return { nct: nct, text: 'Why ' + tn(nct) + ' fits your record', lines: L.filter(function (l) { return l.status === 'met'; }).map(function (l) { return NAMES[l.field] + ': ' + l.patient_evidence; }), note: 'Still to check: ' + (L.filter(function (l) { return l.status === 'unknown'; }).map(function (l) { return NAMES[l.field]; }).join(', ') || 'nothing from your record') + '.', actions: [{ act: 'trial', id: nct, label: 'See every rule' }] }; }
+    if (/recommend|best|top|which trial|suggest|options|what trials|show me|any trials|list/.test(q) && !nct) { var top = openTop(pid).slice(0, 3); return { text: top.length ? 'These ' + top.length + ' fit your record best right now:' : 'You’ve already acted on your best fits. My trials has the rest.', trials: top.map(function (x) { return x.nct; }) }; }
+    if (nct) return about(nct);
+    return help();
+  }
+  function teamReply(text) {
+    var q = text.toLowerCase(), busy = busyTrials();
+    var idm = text.match(/\b(TCGA-[A-Z0-9]{2}-[A-Z0-9]{4}|P-\d{7})\b/i);
+    var pid = idm ? (R.filter(function (p) { return p.id.toLowerCase() === idm[1].toLowerCase(); })[0] || {}).id : null;
+    var nct = findTrial(text, busy.map(function (b) { return b.nct; }));
+    if (!nct && /\b(it|this|that|this trial|the trial)\b/.test(q)) nct = S.ctx.team || null;
+    if (nct) S.ctx.team = nct;
+    if (pid && !nct) {
+      var mine = appsOf(pid);
+      if (!mine.length) return { text: pid + ' hasn’t applied to any of your trials, so their record isn’t shared with you.', note: 'Patients’ records stay on their own devices. You see only what a patient’s agent sends with an application.' };
+      return { text: pid + ' has applied to ' + plural(mine.length, 'trial') + ':', lines: mine.map(function (a) { var c = counts(crit(scoreOf(pid, a.nct))); return tn(a.nct) + ': ' + STAGE_C[a.stage] + ' · ' + c.met + ' met, ' + c.unk + ' to confirm'; }), actions: [{ act: 'app', id: mine[0].key, label: 'Open application' }] };
+    }
+    if (/urgent|this week|soonest|priority|progress/.test(q)) {
+      var fl = allApps().filter(function (a) { return ACTIVE.indexOf(a.stage) >= 0 && scoreOf(a.pid, a.nct).urgent; });
+      return { text: plural(fl.length, 'applicant') + ' flagged to review this week:', lines: fl.map(function (a) { var p = REC[a.pid]; return a.pid + ' → ' + tn(a.nct) + ': ' + STAGE_TXT[p.stage] + ', ECOG ' + p.ecog + ' · ' + STAGE_C[a.stage]; }), note: 'Flag: advanced disease with ECOG 1 or more, where waiting can cost someone the chance to join. A team rule of thumb, not a clinical score.' };
+    }
+    if (/missing|unknown|gap|still need|what.?s left|open item/.test(q) && nct) {
+      var fresh = allApps().filter(function (a) { return a.nct === nct && a.stage === 'applied'; }), by = {};
+      fresh.forEach(function (a) { crit(scoreOf(a.pid, nct)).forEach(function (l) { if (l.status === 'unknown') by[l.field] = (by[l.field] || 0) + 1; }); });
+      return { nct: nct, text: 'Open items across ' + plural(fresh.length, 'new applicant') + ' for ' + tn(nct) + ':', lines: Object.keys(by).sort(function (a, b) { return by[b] - by[a]; }).map(function (f) { return NAMES[f] + ': unknown for ' + by[f] + ' of ' + fresh.length; }), actions: fresh.length ? [{ act: 'askall', id: nct, label: 'Ask their agents' }, { act: 'review', id: nct, label: 'Review applicants' }] : [] };
+    }
+    if (/who|invite|candidate|shortlist|rank|best patient|order/.test(q) && nct) {
+      var qd = queue(nct);
+      return { nct: nct, text: tn(nct) + ': ' + plural(qd.length, 'new applicant') + ', in the order I’d review them:', lines: qd.slice(0, 6).map(function (a, i) { var c = counts(crit(scoreOf(a.pid, nct))), p = REC[a.pid]; return (i + 1) + '. ' + a.pid + ' · ' + Math.round(p.age) + ' ' + sexTxt(p.sex)[0] + ' · ' + STAGE_TXT[p.stage] + ' · ' + c.met + ' met, ' + c.unk + ' to confirm'; }), note: 'Order: most rules met, fewest open, then who applied first. You can move anyone up or down.', actions: [{ act: 'review', id: nct, label: 'Review applicants' }] };
+    }
+    if (/waiting|waited|request|applica|queue|backlog|oldest/.test(q)) {
+      var w = allApps().filter(function (a) { return a.stage === 'applied'; }).sort(function (a, b) { return a.at - b.at; });
+      return { text: w.length ? plural(w.length, 'application') + ' waiting, oldest first:' : 'No applications are waiting.', lines: w.slice(0, 8).map(function (a) { return a.pid + ' → ' + tn(a.nct) + ': waiting ' + dur(Date.now() - a.at) + (a.from ? ' (sent on after another trial said no)' : ''); }), actions: w.length ? [{ act: 'review', id: w[0].nct, label: 'Open the oldest' }] : [] };
+    }
+    if (nct) { var a = about(nct), st = trialStats(nct); a.lines.push('Applicants: ' + st.all + ' (' + st.fresh + ' new, ' + st.inPre + ' in pre-screening or screening, ' + st.enrolled + ' enrolled).'); return a; }
+    if (/which trial|recommend|most|busiest|start|focus|today|overview|summary/.test(q)) return { text: 'Where to start:', trials: busy.slice(0, 3).map(function (b) { return b.nct; }) };
+    return help();
+  }
+  function help() {
+    var team = S.who.role === 'team';
+    return { text: team ? 'I can order a trial’s applicants, list what’s missing, show who has waited longest, flag who to review this week, or describe any of the ' + TRIALS.length + ' open trials.' : 'I can recommend trials, explain one (what it tests, where it runs, what it involves, what it could offer you), tell you what’s still unknown, or send an application when you’re ready.',
+      lines: [team ? 'Name a trial by NCT number or acronym, or a patient by record ID (for example TCGA-53-7624).' : 'Refer to a trial by its place in my list (“the second trial”), its NCT number or a drug name.'],
+      note: S.llm.on ? '' : 'For free-form questions, switch on MedGemma on this computer in settings.' };
+  }
+
+  // Optional local model: MedGemma through Ollama on this computer. The page's security policy only allows localhost.
+  var SYSTEM = 'You are the Trial Match assistant. Answer using only the JSON context: public clinical trial registry data and, for a patient, their own record on this device. If the answer is not in the context, say so and suggest asking the trial team. Never say someone is eligible or qualifies; the trial team decides. Do not give medical advice. Plain British English, at most 120 words.';
+  function modelContext(built) {
+    var ncts = uniq((built.trials || []).concat(built.nct ? [built.nct] : []));
+    var pat = S.who.role === 'patient' ? S.who.id : null;
+    if (!ncts.length) ncts = (pat ? openTop(pat).map(function (x) { return x.nct; }) : busyTrials().map(function (b) { return b.nct; })).slice(0, 3);
+    var p = pat ? recordFor(pat) : null;
+    return { registry_snapshot: B.snapshot, trials: ncts.slice(0, 3).map(function (n) { var t = T[n], o = offerLines(t); return { nct: n, title: t.title, summary: whatP(t), phase: t.phase, randomised: t.randomised, placebo: t.placebo, fresh_biopsy: t.biopsy, treatments: t.drugs, sponsor: t.sponsor, uk_sites: whereLine(t), countries: countriesLine(t), what_taking_part_involves: involveLines(t), could_offer: o.offer, to_weigh: o.weigh,
+      checks_against_record: pat ? crit(scoreOf(pat, n)).map(function (l) { return { rule: NAMES[l.field], result: l.status, record: l.patient_evidence, trial_text: short(l.trial_evidence, 200) }; }) : undefined, applicants: pat ? undefined : trialStats(n) }; }),
+      patient: p ? ['stage', 'histology', 'ecog', 'prior_lines', 'pdl1', 'brain_mets'].concat(GENES).reduce(function (o, f) { o[NAMES[f]] = factValue(p, f); return o; }, {}) : undefined };
+  }
+  function askModel(question, built) {
+    var ctrl = new AbortController(), timer = setTimeout(function () { ctrl.abort(); }, 120000);
+    return fetch(S.llm.url.replace(/\/+$/, '') + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
+      body: JSON.stringify({ model: S.llm.model, stream: false, options: { temperature: 0.2 }, messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content: 'Context (JSON):\n' + JSON.stringify(modelContext(built)) + '\n\nQuestion: ' + question }] }) })
+      .then(function (res) { if (!res.ok) throw new Error('the server answered ' + res.status); return res.json(); })
+      .then(function (j) { var out = ((j.message && j.message.content) || '').trim(); if (!out) throw new Error('it returned an empty answer'); return /\b(you are|you're|you would be|you'd be) (definitely |likely )?(eligible|qualified)\b|\byou qualify\b/i.test(out) ? out + '\n\n(Only the trial team can decide eligibility.)' : out; })
+      .catch(function (e) { throw new Error(e.name === 'AbortError' ? 'it took too long' : /fetch|network|load/i.test(e.message) ? 'nothing answered at ' + S.llm.url : e.message); })
+      .finally(function () { clearTimeout(timer); });
+  }
+  function send(text, fromChip) {
+    if (pendingModel || !text) return;
+    push({ who: 'user', text: text });
+    var built = S.who.role === 'team' ? teamReply(text) : patientReply(text);
+    scrollChat = true;
+    if (S.llm.on && !fromChip) {
+      pendingModel = true; save(); render();
+      askModel(text, built).then(function (out) { push({ who: 'agent', model: S.llm.model, text: out, trials: built.trials, actions: built.actions }); })
+        .catch(function (e) { built.note = 'MedGemma didn’t answer: ' + e.message + '. This is the built-in answer.'; push(built); })
+        .then(function () { pendingModel = false; scrollChat = true; save(); render(); var i = $('#ask-in'); if (i) i.focus(); });
+    } else { push(built); save(); render(); var i = $('#ask-in'); if (i) i.focus(); }
+  }
+  function msgHTML(m) {
+    if (m.who === 'user') return '<div class="msg user">' + esc(m.text) + '</div>';
+    var team = S.who.role === 'team';
+    return '<div class="msg agent' + (m.model ? ' model' : '') + (m.pending ? ' pending' : '') + '">' +
+      (m.model ? '<span class="by"><span class="spark sm">' + ICON.spark + '</span>MedGemma (' + esc(m.model) + ') on this computer · check details with the team</span>' : '') +
+      (m.text ? '<p class="' + (m.pending ? 'dots' : '') + '">' + esc(m.text) + '</p>' : '') +
+      (m.lines && m.lines.length ? '<ul>' + m.lines.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
+      (m.trials && m.trials.length ? m.trials.filter(function (n) { return T[n]; }).map(function (n, i) { return team ? teamTrialItem(n) : tcard(n, null); }).join('') : '') +
+      (m.actions && m.actions.length ? '<div class="row">' + m.actions.map(function (a, i) { return '<button class="btn ' + (i ? 'text' : 'tonal') + '" data-act="' + a.act + '" data-id="' + esc(a.id || '') + '" data-v="' + esc(a.v || '') + '">' + esc(a.label) + '</button>'; }).join('') + '</div>' : '') +
+      (m.note ? '<p class="note">' + esc(m.note) + '</p>' : '') + '</div>';
+  }
+  function suggestions() {
+    if (S.who.role === 'team') {
+      var b = busyTrials()[0], n = b ? (/\s/.test(tn(b.nct)) || tn(b.nct).length > 24 ? b.nct : tn(b.nct) + ' (' + b.nct + ')') : '';
+      return [b ? 'Who should I invite for ' + n + '?' : null, b ? 'What’s missing for ' + n + '?' : null, 'Which applicants need review this week?', 'Which applications have waited longest?'].filter(Boolean);
+    }
+    return ['What does the first trial involve?', 'Where does it run?', 'What could taking part offer me?', 'What’s still unknown about me?', 'Why were other trials ruled out?', 'Who can see my data?'];
+  }
+  function chatHTML() {
+    return '<div class="chat" id="chat">' + thread().map(msgHTML).join('') + (pendingModel ? msgHTML({ who: 'agent', pending: true, text: 'MedGemma is thinking on this computer' }) : '') + '</div>' +
+      '<div class="suggest">' + suggestions().map(function (s) { return '<button class="sug" data-act="chip" data-v="' + esc(s) + '"' + (pendingModel ? ' disabled' : '') + '>' + esc(s) + '</button>'; }).join('') + '</div>' +
+      '<form class="ask" data-form="ask"><label class="sr" for="ask-in">Ask your agent</label><input id="ask-in" data-fresh="1" autocomplete="off" placeholder="' + (S.who.role === 'team' ? 'Ask about a trial, an applicant or the queue' : 'Ask about a trial, or what happens next') + '"><button class="send" type="submit" aria-label="Ask"' + (pendingModel ? ' disabled' : '') + '>' + ICON.send + '</button></form>';
+  }
+  function llmPill() { return '<button class="llm' + (S.llm.on ? ' on' : '') + '" data-act="settings">' + (S.llm.on ? 'MedGemma on this computer' : 'Built-in answers') + '</button>'; }
+
+  /* ---------- toast + render ---------- */
+  var toastT;
+  function toast(text) { var el = $('#toast'); el.textContent = text; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('show'); }, 3800); }
+  function render() {
+    var root = $('#app');
+    var keep = {}; $$('input[id],select[id],textarea[id]', root).forEach(function (el) { keep[el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+    var focus = document.activeElement && document.activeElement.id;
+    var html;
+    if (!S.who || (S.who.role === 'patient' && !REC[S.who.id])) { S.who = null; html = landingView(); }
+    else html = S.who.role === 'patient' ? patientView() : teamView();
+    root.innerHTML = html;
+    Object.keys(keep).forEach(function (id) { var el = document.getElementById(id); if (!el || el.dataset.fresh) return; if (el.type === 'checkbox') el.checked = keep[id]; else el.value = keep[id]; });
+    if (focus && document.getElementById(focus)) document.getElementById(focus).focus({ preventScroll: true });
+    if (scrollChat) { scrollChat = false; var f = $('.ask'); if (f) f.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+  }
+  function bar(nav, cur, who, cls, act) {
+    return '<header class="bar"><div class="bar-in"><div class="logo">' + ICON.logo + ' Trial Match <small>' + (S.who.role === 'patient' ? 'Patient' : 'Trial team') + '</small></div>' +
+      '<nav class="nav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + act + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '>' + n[2] + n[1] + (n[3] ? ' <span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '</nav>' +
+      '<span class="spacer"></span><button class="local" data-act="settings" title="What runs where">' + ICON.lock + '<span>Runs on this device</span></button>' +
+      '<button class="me" data-act="logout" title="Sign out"><span class="who">' + esc(who) + '</span><span class="avatar ' + (cls || '') + '">' + esc(who.charAt(0)) + '</span></button></div></header>' +
+      '<nav class="bnav" aria-label="Main">' + nav.map(function (n) { return '<button data-act="' + act + '" data-v="' + n[0] + '"' + (cur === n[0] ? ' aria-current="page"' : '') + '><span class="ic">' + n[2] + '</span>' + n[1] + (n[3] ? '<span class="badge">' + n[3] + '</span>' : '') + '</button>'; }).join('') + '</nav>';
+  }
+  function disc() { return '<p class="disc">Prototype for AgentVerse 2026 (Biotech track). Records are public, de-identified research records (TCGA and MSKCC via cBioPortal) standing in for a patient’s own record. Trials: recruiting phase 3 lung cancer trials from ClinicalTrials.gov, ' + fmtDate(B.snapshot) + '. Matching runs in this browser. Trial teams decide eligibility. Not medical advice. <button class="btn text" style="height:auto;padding:0;font-size:12px" data-act="reset">Reset demo</button></p>'; }
+
+  /* ---------- landing ---------- */
+  function landingView() {
+    var team = S.loginRole === 'team';
+    var featured = [DEFAULT_PATIENT].concat(R.map(function (p) { return p.id; }).filter(function (id) { return id !== DEFAULT_PATIENT; }));
+    var shown = S.showAll ? featured : featured.slice(0, 6);
+    var list = team
+      ? TEAM.map(function (c) { var n = allApps().filter(function (a) { return a.stage === 'applied'; }).length; return '<button class="acct" data-act="login" data-role="team" data-id="' + c.id + '"><span class="avatar clin">' + esc(c.name.charAt(0)) + '</span><span class="grow"><b>' + esc(c.name) + '</b><small>' + esc(c.role) + (n ? ' · ' + plural(n, 'new applicant') : '') + '</small></span>' + chev() + '</button>'; }).join('')
+      : shown.map(function (id) { var p = REC[id], ap = appsOf(id).filter(function (a) { return ACTIVE.indexOf(a.stage) >= 0; })[0]; return '<button class="acct" data-act="login" data-role="patient" data-id="' + id + '"><span class="avatar">' + esc(sexTxt(p.sex).charAt(0)) + '</span><span class="grow"><b class="mono">' + esc(id) + '</b><small>' + Math.round(p.age) + ' · ' + sexTxt(p.sex) + ' · ' + esc(STAGE_TXT[p.stage]) + ' · ' + esc(bioText(p)[0]) + (ap ? ' · ' + STAGE_P[ap.stage] + ' ' + esc(tn(ap.nct)) : '') + '</small></span>' + chev() + '</button>'; }).join('') +
+        (featured.length > 6 ? '<button class="acct" data-act="showall"><span class="grow faint sm">' + (S.showAll ? 'Show fewer' : 'Show all ' + featured.length + ' demo records') + '</span></button>' : '');
+    return '<div class="login"><div class="login-box">' +
+      '<div class="logo">' + ICON.logo + ' Trial Match</div>' +
+      '<div><h1><span class="grad-text">Find the patients who fit. Fill the trial sooner.</span></h1><p class="sub">Every applicant arrives with each eligibility rule already checked against their record, and the source behind every check. People make every decision.</p></div>' +
+      '<div class="seg" role="group" aria-label="Account type" style="align-self:flex-start"><button data-act="login-role" data-v="team" aria-pressed="' + team + '">I’m on a trial team</button><button data-act="login-role" data-v="patient" aria-pressed="' + !team + '">I’m a patient</button></div>' +
+      '<div class="list">' + list + '</div>' +
+      '<div class="points"><div class="point">' + ICON.lock + '<span><b>Runs on your device</b>Records and matching never leave it</span></div><div class="point">' + ICON.route + '<span><b>No dead ends</b>A “no” sends the patient on to the next fit</span></div></div>' +
+      '<p class="note">Demo accounts, no passwords. Records are de-identified research data; trials are real registry entries (' + fmtDate(B.snapshot) + '). In this demo, ' + plural(Object.keys(S.auto).length, 'patient has', 'patients have') + ' switched on “Apply for me”, so their agents have already applied. Everything stays in this browser. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>' +
+      '</div></div>';
+  }
+
+  /* ================= TRIAL TEAM ================= */
+  function teamView() {
+    var c = TEAM.filter(function (x) { return x.id === S.who.id; })[0] || TEAM[0];
+    var fresh = allApps().filter(function (a) { return a.stage === 'applied'; }).length;
+    var nav = [['overview', 'Overview', ICON.chart], ['review', 'Review', ICON.review, fresh || ''], ['apps', 'Applications', ICON.folder]];
+    var body = { overview: overview, review: reviewView, apps: appsView }[S.ctab] || overview;
+    return bar(nav, S.ctab, c.name, 'clin', 'ctab') + '<main><div class="wide">' + body(c) + '</div>' + disc() + '</main>';
+  }
+  function metrics() {
+    var A = allApps(), dec = A.filter(function (a) { return a.decidedAt; });
+    var times = dec.map(function (a) { return a.decidedAt - a.at; }).sort(function (a, b) { return a - b; });
+    var mid = times.length ? (times.length % 2 ? times[(times.length - 1) / 2] : (times[times.length / 2 - 1] + times[times.length / 2]) / 2) : null;
+    var passed = A.filter(function (a) { return reached(a, 'screening'); }).length, failedPre = A.filter(function (a) { return a.stage === 'screenfail' && a.hist.some(function (h) { return h.s === 'prescreen'; }); }).length;
+    return { median: mid, nDec: dec.length, passed: passed, failedPre: failedPre, rerouted: uniq(S.reroutes.map(function (r) { return r.pid; })).length, nReroutes: S.reroutes.length,
+      settled: dec.reduce(function (n, a) { return n + (a.settled || 0); }, 0), total: dec.reduce(function (n, a) { return n + (a.total || 0); }, 0), invited: A.filter(function (a) { return reached(a, 'prescreen'); }).length };
+  }
+  function overview(c) {
+    var A = allApps(), m = metrics(), busy = busyTrials();
+    var needs = [];
+    busy.forEach(function (b) { if (b.st.fresh) needs.push(['review', b.nct, 'Review ' + plural(b.st.fresh, 'new applicant') + ' for ' + tn(b.nct), ICON.review]); });
+    var ps = A.filter(function (a) { return a.stage === 'prescreen'; }).length; if (ps) needs.push(['apps', 'prescreen', 'Enter pre-screening results for ' + plural(ps, 'patient'), ICON.doc]);
+    var sc = A.filter(function (a) { return a.stage === 'screening'; }).length; if (sc) needs.push(['apps', 'screening', 'Finish screening for ' + plural(sc, 'patient'), ICON.check]);
+    var on = A.filter(function (a) { return a.stage === 'enrolled'; }).length; if (on) needs.push(['apps', 'enrolled', plural(on, 'patient') + ' on a trial. Record results when they finish', ICON.pulse]);
+    var funnel = FLOW.map(function (s) { return [s, A.filter(function (a) { return reached(a, s); }).length]; }), max = funnel[0][1] || 1;
+    var fresh = A.filter(function (a) { return a.stage === 'applied'; }), oldest = fresh.reduce(function (t, a) { return Math.min(t, a.at); }, Infinity);
+    var rows = busy.map(function (b) { var t = T[b.nct]; return '<tr class="click" data-act="review" data-id="' + b.nct + '"><td><b style="font-weight:500">' + esc(t.short) + '</b><br><span class="faint xs">' + b.nct + ' · ' + esc(t.phase) + '</span></td><td class="num">' + b.st.all + '</td><td class="num">' + (b.st.fresh || '–') + '</td><td class="num">' + (b.st.ready || '–') + '</td><td class="num">' + (b.st.inPre || '–') + '</td><td class="num">' + (b.st.enrolled || '–') + '</td><td class="num">' + t.uk_sites + '</td></tr>'; }).join('');
+    var kpi = function (l, v, h) { return '<div class="kpi"><span class="lbl">' + l + '</span><span class="val">' + v + '</span><span class="hint">' + h + '</span></div>'; };
+    return '<div class="page-h"><div><h1><span class="grad-text">Hello</span></h1><p>' + esc(c.name + ' · ' + c.role) + '. ' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div></div>' +
+      '<section class="agent" aria-label="Recruitment agent"><div class="agent-top"><span class="spark' + (fresh.length ? ' live' : '') + '">' + ICON.spark + '</span><div class="grow"><h2>' + (fresh.length ? plural(fresh.length, 'new applicant is', 'new applicants are') + ' waiting across ' + plural(uniq(fresh.map(function (a) { return a.nct; })).length, 'trial') : 'No new applicants right now') + '</h2><p>' + (fresh.length ? 'The oldest has waited ' + dur(Date.now() - oldest) + '. Each arrives with every rule checked and the record line behind it.' : 'Patients’ agents apply here when a trial fits. I’ll tell you.') + '</p></div>' + llmPill() + '</div>' +
+      (busy.length ? '<div class="list">' + busy.slice(0, 3).map(function (b) { return teamTrialItem(b.nct); }).join('') + '</div>' : '') + chatHTML() + '</section>' +
+      '<div class="kpis">' +
+        kpi('Application → decision', m.median == null ? '–' : dur(m.median), m.nDec ? 'median of ' + plural(m.nDec, 'decision') + ', timed in this session' : 'no decisions yet') +
+        kpi('Passed pre-screening', m.passed + m.failedPre ? Math.round(100 * m.passed / (m.passed + m.failedPre)) + '%' : '–', m.passed + m.failedPre ? m.passed + ' passed, ' + m.failedPre + ' didn’t' : m.invited + ' invited so far') +
+        kpi('Sent on to another trial', m.rerouted, m.nReroutes ? plural(m.rerouted, 'patient') + ' kept in research after a “no”' : 'after a “no”, nobody is dropped') +
+        kpi('Checked before review', m.total ? Math.round(100 * m.settled / m.total) + '%' : '–', m.total ? m.settled + ' of ' + m.total + ' checks settled from the record' : 'share of checks done before you looked') + '</div>' +
+      '<div class="two"><div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + chev() + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>' +
+      '<div class="card"><h3>Where applicants are</h3><p class="muted sm">Everyone who reached each stage</p><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
+      '<div class="callout"><b>Registry search vs Trial Match.</b> A plain registry search lists all ' + TRIALS.length + ' trials for each of the ' + R.length + ' demo records: ' + BASE.pairs.toLocaleString('en-GB') + ' pairs. A recorded fact already rules out <b>' + BASE.removed.toLocaleString('en-GB') + ' (' + Math.round(100 * BASE.removed / BASE.pairs) + '%)</b>. The agents remove those before anyone reads them; the ' + BASE.kept.toLocaleString('en-GB') + ' left still need a person to check.</div>' +
+      '<div class="card"><h3>Trials with applicants</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>New</th><th>Every rule met</th><th>Pre-screen</th><th>Enrolled</th><th>UK sites</th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" class="muted">No applications yet.</td></tr>') + '</tbody></table></div></div>' +
+      '<details class="card"><summary>Audit log (' + S.log.length + ' rows)</summary><p class="muted sm" style="margin-bottom:10px">Every application, answer, verdict and decision, in the format the Python matcher reads (python run.py --feedback). Kept on this computer.</p><textarea class="log" id="logcsv" readonly aria-label="Log as CSV">' + esc(csv()) + '</textarea><div class="row" style="margin-top:10px"><button class="btn tonal" data-act="copylog">Copy log</button></div></details>';
+  }
+  function csv() { var q = function (v) { return /[",\n]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : String(v); }; return ['patient,nct,kind,field,value,note'].concat(S.log.map(function (r) { return [r.patient, r.nct, r.kind, r.field, r.value, r.note].map(q).join(','); })).join('\n'); }
+
+  /* review: the agent orders applicants by the evidence; the clinician can move anyone and decides each one */
+  function queue(nct) {
+    var fresh = allApps().filter(function (a) { return a.nct === nct && a.stage === 'applied'; });
+    var agent = fresh.slice().sort(function (a, b) { var x = scoreOf(a.pid, nct), y = scoreOf(b.pid, nct); return (y.E > 0) - (x.E > 0) || y.score - x.score || counts(crit(x)).unk - counts(crit(y)).unk || a.at - b.at; });
+    var pr = (S.prio[nct] || []).filter(function (k) { return fresh.some(function (a) { return a.key === k; }); });
+    agent.forEach(function (a) { if (pr.indexOf(a.key) < 0) pr.push(a.key); });
+    S.prio[nct] = pr;
+    return pr.map(function (k) { return S.apps[k]; });
+  }
+  function reviewView() {
+    var busy = busyTrials();
+    if (!S.trial || !T[S.trial]) S.trial = busy.length ? busy[0].nct : TRIALS[0].nct;
+    var nct = S.trial, t = T[nct], q = queue(nct), st = trialStats(nct);
+    var pick = '<label class="trialpick"><span class="sr">Trial</span><select class="input" id="review-trial" data-act="review-trial">' + uniq([nct].concat(busy.map(function (b) { return b.nct; }))).map(function (n) { var s = trialStats(n); return '<option value="' + n + '"' + (n === nct ? ' selected' : '') + '>' + esc(short(tn(n), 48)) + (s.fresh ? ' (' + s.fresh + ' new)' : '') + '</option>'; }).join('') + '</select></label>';
+    var head = '<div class="page-h"><div><h1>Review applicants</h1><p>The agent orders them by the evidence. Move anyone up or down, then decide each one.</p></div>' + pick + '</div>';
+    var tinfo = '<div class="card"><p class="code" style="margin:0 0 6px">' + nct + ' · ' + esc(t.phase) + ' · ' + esc(t.status) + (t.sponsor ? ' · ' + esc(t.sponsor) : '') + '</p><h3>' + esc(/\s/.test(t.short) ? short(t.title, 160) : t.short + ': ' + short(t.title, 130)) + '</h3><p class="muted sm" style="margin-top:8px">' + esc(short(whatP(t), 260)) + '</p><div class="row" style="margin-top:12px"><button class="btn tonal" data-act="trial" data-id="' + nct + '">Trial details</button><span class="faint sm">' + st.all + ' applicants · ' + st.inPre + ' in pre-screening or screening · ' + st.enrolled + ' enrolled</span></div></div>';
+    if (!q.length) return head + tinfo + '<div class="card empty"><h3>No new applicants for ' + esc(t.short) + '</h3><p>New applications appear here as patients and their agents apply.</p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn tonal" data-act="need" data-v="apps" data-id="all">Open applications</button></div></div>';
+    var rows = q.map(function (a, i) {
+      var sc = scoreOf(a.pid, nct), L = crit(sc), c = counts(L), p = recordFor(a.pid), open = S.open === a.key, teamNo = L.filter(function (l) { return l.by === 'team' && l.status === 'not_met'; });
+      var headRow = '<button class="qhead" data-act="qopen" data-id="' + esc(a.key) + '" aria-expanded="' + open + '"><span class="pos">' + (i + 1) + '</span><span class="grow"><b class="mono">' + esc(a.pid) + '</b><small>' + Math.round(p.age) + ' · ' + sexTxt(p.sex) + ' · ' + esc(STAGE_TXT[p.stage]) + ' · ' + esc(factValue(p, 'ecog')) + ' · applied ' + ago(a.at) + '</small>' +
+        '<span class="chips" style="margin-top:8px"><span class="chip met">✓ ' + c.met + ' met</span>' + (c.unk ? '<span class="chip unk">? ' + c.unk + ' to check</span>' : '') + (c.not ? '<span class="chip not">✕ ' + c.not + ' not met</span>' : '') + '<span class="chip byagent">' + (a.by === 'agent' ? ICON.spark + 'Sent by agent' : 'Sent by patient') + '</span>' + (a.from ? '<span class="chip">' + ICON.route + 'Sent on after ' + esc(tn(a.from)) + '</span>' : '') + (sc.urgent ? '<span class="chip unk">Review this week</span>' : '') + '</span></span>' + ring(sc) + '</button>';
+      if (!open) return '<div class="qrow' + (i < 3 ? ' top' : '') + '">' + headRow + '</div>';
+      var ask = askable(a.pid, sc);
+      var failing = S.failing === a.key;
+      var reasons = (teamNo.length ? [NAMES[teamNo[0].field] + ' not met'] : []).concat(REASONS);
+      var acts = failing
+        ? '<div class="row"><label class="field" style="flex:1"><span>Reason the patient’s agent will see</span><select class="input" id="fail-reason">' + reasons.map(function (r) { return '<option>' + esc(r) + '</option>'; }).join('') + '</select></label></div><div class="row"><button class="btn danger" data-act="reject" data-id="' + esc(a.key) + '">Confirm not eligible</button><button class="btn text" data-act="fail-cancel">Cancel</button></div>'
+        : '<div class="row"><button class="btn pri" data-act="invite1" data-id="' + esc(a.key) + '"' + (teamNo.length ? ' disabled' : '') + '>Invite to pre-screening</button>' + (ask.length ? '<button class="btn tonal" data-act="ask" data-id="' + esc(a.key) + '">Ask for missing details (' + ask.length + ')</button>' : '') + '<button class="btn danger" data-act="fail-open" data-id="' + esc(a.key) + '">Not eligible</button>' +
+          '<span class="spacer"></span><button class="iconbtn" data-act="move" data-id="' + esc(a.key) + '" data-v="up" aria-label="Move up"' + (i === 0 ? ' disabled' : '') + '>' + ICON.up + '</button><button class="iconbtn" data-act="move" data-id="' + esc(a.key) + '" data-v="down" aria-label="Move down"' + (i === q.length - 1 ? ' disabled' : '') + '>' + ICON.down + '</button></div>';
+      return '<div class="qrow open' + (i < 3 ? ' top' : '') + '">' + headRow + '<div class="qbody">' +
+        '<div class="facts"><div><span class="k">Tumour</span><span>' + esc(factValue(p, 'histology') + ', ' + STAGE_TXT[p.stage]) + '<br>' + esc(bioText(p).join(' · ')) + '</span></div><div><span class="k">Treatment</span><span>' + esc(factValue(p, 'prior_lines')) + '</span></div><div><span class="k">Shared</span><span>' + esc(a.shared.map(function (f) { return NAMES[f] || f; }).join(', ')) + '</span></div></div>' +
+        ruleList(sc, a.key) + '<p class="note">The protocol has ' + T[nct].n_criteria + ' eligibility rules. The ' + L.length + ' above are the ones the agent can check from a record; the rest are checked at screening.</p>' + acts + '</div></div>';
+    }).join('');
+    var n = Math.max(1, Math.min(q.length, Number(S.topN) || Math.min(3, q.length)));
+    return head + tinfo + '<div class="review"><div class="queue">' + rows + '</div>' +
+      '<div class="card" style="display:flex;flex-direction:column;gap:16px"><h3>Invite the top of the list</h3><p class="muted sm">The top applicants get an invitation to pre-screening and agree to share their identity. The rest go on the waiting list and hear that straight away. Applicants with a rule you marked “not met” are skipped.</p><label class="field"><span>How many to invite</span><input class="input" id="topn" type="number" min="1" max="' + q.length + '" value="' + n + '" data-act="topn"></label><button class="btn pri big" data-act="invite-top">Invite the top ' + n + '</button></div></div>';
+  }
+  function askable(pid, sc) { return uniq(crit(sc).filter(function (l) { return l.status === 'unknown' && QUESTIONS[l.field] && recordMissing(pid, l.field) && (S.answers[pid] || {})[l.field] == null; }).map(function (l) { return l.field; })); }
+  function askFor(a, fields) {
+    (S.asks[a.pid] = S.asks[a.pid] || []).push({ nct: a.nct, fields: fields, at: Date.now() });
+    a.hist.push({ s: 'applied', at: Date.now(), by: teamName(), note: 'Asked for: ' + fields.map(function (f) { return NAMES[f].toLowerCase(); }).join(', ') });
+    event(a.pid, 'team', 'The ' + tn(a.nct) + ' team asked for: ' + fields.map(function (f) { return NAMES[f].toLowerCase(); }).join(', ') + '. Answering helps them decide sooner.', { act: 'tab', v: 'health', label: 'Answer now' });
+    logRow(a.pid, a.nct, 'request', fields.join(';'), 'asked', 'Trial team asked the patient’s agent for missing details');
+  }
+  function teamName() { var c = TEAM.filter(function (x) { return S.who && x.id === S.who.id; })[0]; return c ? c.name : 'Trial team'; }
+
+  /* applications pipeline */
+  var FILTERS = [['all', 'All'], ['applied', 'New'], ['prescreen', 'Pre-screen'], ['screening', 'Screening'], ['enrolled', 'Enrolled'], ['completed', 'Completed'], ['closed', 'Closed']];
+  function inFilter(a, f) { if (f === 'all') return true; if (f === 'closed') return ['rejected', 'waitlist', 'screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return a.stage === f; }
+  function stageCls(s) { return { applied: 'acc', completed: 'met', enrolled: 'met', rejected: 'not', screenfail: 'not', waitlist: 'unk' }[s] || ''; }
+  function appsView() {
+    var base = allApps().filter(function (a) { return S.atrial === 'all' || a.nct === S.atrial; });
+    var list = base.filter(function (a) { return inFilter(a, S.afilter); }).sort(function (a, b) { return b.upd - a.upd; });
+    var chips = FILTERS.map(function (f) { return '<button class="fchip" data-act="afilter" data-v="' + f[0] + '" aria-pressed="' + (S.afilter === f[0]) + '">' + f[1] + ' <span class="n">' + base.filter(function (a) { return inFilter(a, f[0]); }).length + '</span></button>'; }).join('');
+    var pick = '<label class="trialpick"><span class="sr">Trial</span><select class="input" id="apps-trial" data-act="apps-trial"><option value="all"' + (S.atrial === 'all' ? ' selected' : '') + '>All trials</option>' + busyTrials().map(function (b) { return '<option value="' + b.nct + '"' + (S.atrial === b.nct ? ' selected' : '') + '>' + esc(short(tn(b.nct), 48)) + '</option>'; }).join('') + '</select></label>';
+    var rows = list.map(function (a) { var p = REC[a.pid], sc = scoreOf(a.pid, a.nct); return '<tr class="click" data-act="app" data-id="' + esc(a.key) + '"><td><b style="font-weight:500" class="mono">' + esc(a.pid) + '</b><br><span class="faint xs">' + Math.round(p.age) + ' ' + sexTxt(p.sex) + ' · ' + esc(STAGE_TXT[p.stage]) + '</span></td><td>' + esc(short(tn(a.nct), 34)) + '<br><span class="faint xs">' + a.nct + '</span></td><td>' + ring(sc) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint">' + (a.by === 'agent' ? 'Agent' : 'Patient') + '</td><td class="faint">' + ago(a.upd) + '</td></tr>'; }).join('');
+    return '<div class="page-h"><div><h1>Applications</h1><p>Every applicant and the stage they’re at.</p></div>' + pick + '</div><div class="chips">' + chips + '</div>' +
+      '<div class="card" style="padding:12px 8px"><div class="tbl-wrap">' + (rows ? '<table><thead><tr><th>Patient</th><th>Trial</th><th>Checks</th><th>Stage</th><th>Sent by</th><th>Updated</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty"><p>No applications here.</p></div>') + '</div></div>';
+  }
+
+  /* ================= PATIENT ================= */
+  function patientView() {
+    var pid = S.who.id, unread = S.events.filter(function (e) { return e.pid === pid && !e.read; }).length;
+    var nav = [['home', 'Home', ICON.home], ['mine', 'My trials', ICON.list], ['health', 'My health', ICON.pulse],['inbox', 'Inbox', ICON.inbox, unread || '']];
+    var body = { home: homeView, mine: mineView, health: healthView, inbox: inboxView }[S.tab] || homeView;
+    return bar(nav, S.tab, pid, '', 'tab') + '<main>' + body(pid) + disc() + '</main>';
+  }
+  function openQuestions(pid) {
+    var ans = S.answers[pid] || {}, skip = S.qskip[pid] || [], n = {}, asked = {};
+    (S.asks[pid] || []).forEach(function (a) { a.fields.forEach(function (f) { if (ans[f] == null) asked[f] = (asked[f] || []).concat([a.nct]); }); });
+    ranked(pid).top.forEach(function (r) { var seen = {}; r.labels.forEach(function (l) { var f = l.field; if (seen[f]) return; seen[f] = 1; if (l.status === 'unknown' && QUESTIONS[f] && ans[f] == null && recordMissing(pid, f) && (skip.indexOf(f) < 0 || asked[f])) n[f] = (n[f] || 0) + 1; }); });
+    Object.keys(asked).forEach(function (f) { if (QUESTIONS[f] && recordMissing(pid, f) && n[f] == null) n[f] = 0; });
+    return Object.keys(n).map(function (f) { return { f: f, n: n[f], asked: uniq(asked[f] || []) }; }).sort(function (a, b) { return (b.asked.length > 0) - (a.asked.length > 0) || b.n - a.n; });
+  }
+  function qcardHTML(pid) {
+    var qs = openQuestions(pid); if (!qs.length) return '';
+    var x = qs[0], Q = QUESTIONS[x.f];
+    return '<div class="qcard"><div class="from"><span class="spark sm">' + ICON.spark + '</span>' + (x.asked.length ? 'The ' + esc(x.asked.map(function (n) { return tn(n); }).join(' and ')) + ' team asked your agent' : 'Your agent needs one answer') + '</div><h3 class="qt">' + esc(Q.ask) + '</h3><p class="muted">' + esc(Q.why) + (x.n ? ' Your answer could settle ' + plural(x.n, 'trial') + '.' : '') + ' It stays on this device until you apply.</p>' +
+      (Q.number ? '<form class="row" data-form="num" data-q="' + x.f + '"><label class="field" style="flex:1"><span>Score in percent</span><input class="input" id="num-in" data-fresh="1" type="number" min="0" max="100" placeholder="e.g. 60"></label><button class="btn pri" type="submit" style="align-self:flex-end;height:48px">Save</button></form>'
+        : '<div class="opts">' + Q.opts.map(function (o) { return '<button class="opt" data-act="answer" data-q="' + x.f + '" data-v="' + o[0] + '">' + esc(o[1]) + '</button>'; }).join('') + '</div>') +
+      '<div class="row"><button class="btn text" data-act="skip" data-q="' + x.f + '">Skip for now</button><span class="faint sm">' + plural(qs.length, 'question') + ' left</span></div></div>';
+  }
+  function homeView(pid) {
+    var r = ranked(pid), top = openTop(pid).slice(0, 3), ot = onTrial(pid), p = recordFor(pid);
+    S.events.forEach(function (e) { if (e.pid === pid && e.act && e.act.act === 'apply' && !free(pid, e.act.id)) { e.read = true; e.act = null; } });   // already acted on
+    var notices = S.events.filter(function (e) { return e.pid === pid && !e.read; }).sort(function (a, b) { return b.at - a.at; }).slice(0, 2);
+    var auto = !!S.auto[pid];
+    var agent = '<section class="agent" aria-label="Your trial agent"><div class="agent-top"><span class="spark' + (auto && !ot ? ' live' : '') + '">' + ICON.spark + '</span><div class="grow"><h2>' + (ot ? 'Paused while you’re on ' + esc(tn(ot.nct)) : 'I checked all ' + r.n_trials + ' open trials against your record') + '</h2><p>' + (ot ? 'Nothing new gets in the way. When the trial ends, your results go into your record and I start looking again.' : 'Here on this device. ' + r.n_possible + ' could fit you; your record rules out ' + r.removed + '.') + '</p></div>' + llmPill() + '</div>' +
+      '<label class="toggle"><span><b>Apply for me</b><small>' + (auto ? 'I apply to strong matches myself, sharing only the facts each trial checks. If a team says no, I send you on to the next fit.' : 'I ask you first. Strong matches show up here and in your inbox.') + '</small></span><input type="checkbox" class="switch" id="auto-sw" data-fresh="1" data-act="auto"' + (auto ? ' checked' : '') + ' aria-label="Apply for me"></label>' +
+      notices.map(function (e) { return '<div class="msg agent notice"><span class="by">' + (e.who === 'team' ? ICON.hosp + 'Care team' : '<span class="spark sm">' + ICON.spark + '</span>Your agent') + ' · ' + ago(e.at) + '</span><p>' + esc(e.text) + '</p>' + (e.act ? '<div class="row"><button class="btn tonal" data-act="' + e.act.act + '" data-id="' + esc(e.act.id || '') + '" data-v="' + esc(e.act.v || '') + '">' + esc(e.act.label) + '</button><button class="btn text" data-act="read" data-id="' + S.events.indexOf(e) + '">Dismiss</button></div>' : '<div class="row"><button class="btn text" data-act="read" data-id="' + S.events.indexOf(e) + '">Dismiss</button></div>') + '</div>'; }).join('') +
+      (ot ? '' : top.length ? '<p class="muted">These fit best right now:</p>' + top.map(function (x, i) { return tcard(x.nct, i + 1); }).join('') : '<p class="muted">You’ve acted on every trial that fits well. My trials has the rest, and I’ll tell you when something new appears.</p>') +
+      chatHTML() + '<p class="note">The trial team always decides who can join. Nothing about you leaves this device until you apply.</p></section>';
+    return '<div class="col"><div><h1 class="hello"><span class="grad-text">Hello</span></h1><p class="sub">Record ' + esc(pid) + ' · ' + Math.round(p.age) + ' · ' + esc(STAGE_TXT[p.stage]) + ' · ' + esc(bioText(p).join(', ')) + '</p></div>' + agent + qcardHTML(pid) + '</div>';
+  }
+  function trow(nct, meta, a, pid) {
+    var sc = scoreOf(pid, nct);
+    return '<button class="trow" data-act="trial" data-id="' + nct + '"><span class="grow"><h3>' + esc(titleP(T[nct])) + '</h3><span class="meta"><span>' + nct + '</span><span>' + esc(meta) + '</span></span>' + stepsBar(a) + '</span>' + (a ? chev() : '<span>' + ring(sc) + '</span>') + '</button>';
+  }
+  function mineView(pid) {
+    var apps = appsOf(pid).sort(function (a, b) { return b.upd - a.upd; });
+    var act = apps.filter(function (a) { return ACTIVE.indexOf(a.stage) >= 0 || a.stage === 'waitlist'; }), closed = apps.filter(function (a) { return act.indexOf(a) < 0; });
+    var r = ranked(pid), poss = openTop(pid), body;
+    if (S.mtab === 'matches') {
+      var hidden = r.all.filter(function (x) { return x.E === 0; }).sort(function (a, b) { return a.nct < b.nct ? -1 : 1; });
+      body = (poss.length ? '<div class="list">' + poss.slice(0, 25).map(function (x, i) { return trow(x.nct, '#' + (i + 1) + ' · ' + (tierOf(x) === 'strong' ? 'Strong match' : 'Possible match') + ' · ' + whereLine(T[x.nct]), null, pid); }).join('') + '</div>' + (poss.length > 25 ? '<p class="faint sm">Showing the best 25 of ' + poss.length + '.</p>' : '') : '<div class="card empty"><h3>No open matches</h3><p>Your agent will tell you when one appears.</p></div>') +
+        '<details class="card"><summary>' + plural(hidden.length, 'other trial') + ' you’re not seeing, and why</summary><div class="list">' + hidden.slice(0, 60).map(function (x) { var f = x.labels.filter(function (l) { return l.status === 'not_met'; })[0]; return '<button class="item" data-act="trial" data-id="' + x.nct + '"><span class="grow"><b>' + esc(short(tn(x.nct), 70)) + '</b><small>' + esc(f ? (f.field === 'prescreen' ? 'Closed after review' : 'Doesn’t fit: ' + NAMES[f.field] + ' (' + f.reason.replace(/\s*\(downgraded.*$/, '') + ')') : '') + '</small></span></button>'; }).join('') + '</div></details>';
+    } else {
+      var list = S.mtab === 'active' ? act : closed;
+      body = list.length ? '<div class="list">' + list.map(function (a) { return trow(a.nct, STAGE_P[a.stage] + ' · updated ' + ago(a.upd) + (a.by === 'agent' ? ' · by your agent' : ''), a, pid); }).join('') + '</div>'
+        : '<div class="card empty"><h3>' + (S.mtab === 'active' ? 'No applications yet' : 'Nothing here yet') + '</h3><p>' + (S.mtab === 'active' ? 'Apply from Home, or switch on “Apply for me”.' : 'Finished and closed applications appear here.') + '</p>' + (S.mtab === 'active' ? '<button class="btn tonal" data-act="tab" data-v="home" style="margin-top:12px">Go to Home</button>' : '') + '</div>';
+    }
+    return '<div class="col"><div class="page-h"><div><h1>My trials</h1><p>Every match, every application, and where it stands.</p></div></div>' +
+      '<div class="seg" role="group" style="align-self:flex-start"><button data-act="mtab" data-v="matches" aria-pressed="' + (S.mtab === 'matches') + '">Matches ' + poss.length + '</button><button data-act="mtab" data-v="active" aria-pressed="' + (S.mtab === 'active') + '">In progress ' + act.length + '</button><button data-act="mtab" data-v="closed" aria-pressed="' + (S.mtab === 'closed') + '">Closed ' + closed.length + '</button></div>' + body + '</div>';
+  }
+  function healthView(pid) {
+    var p = recordFor(pid), base = REC[pid], ans = S.answers[pid] || {};
+    var stat = function (lbl, f, icon) { var v = factValue(p, f), unknown = /Not recorded|not known/.test(v); return '<div class="stat' + (unknown ? ' unknown' : '') + '"><span class="lbl">' + lbl + '</span><span class="val">' + esc(unknown ? 'Not known' : v) + '</span><span class="src">' + esc(short(p.evidence[f] || '', 64)) + '</span></div>'; };
+    var shared = appsOf(pid).sort(function (a, b) { return b.at - a.at; });
+    return '<div class="col"><div class="page-h"><div><h1>My health</h1><p>Your record, as your agent sees it. It stays on this device.</p></div></div>' +
+      '<div class="card pad-lg dx"><span class="faint sm">Diagnosis</span><h2>' + esc(factValue(p, 'histology')) + ', ' + esc(STAGE_TXT[p.stage]) + '</h2><div class="chips">' + GENES.map(function (g) { var v = p.biomarkers[g]; return '<span class="chip ' + (v === 'positive' ? 'acc' : v === 'unknown' ? 'unk' : '') + '">' + esc(NAMES[g] + ': ' + factValue(p, g).toLowerCase()) + '</span>'; }).join('') + '<span class="chip ' + (p.brain_mets === 'unknown' ? 'unk' : '') + '">' + esc(BRAIN_TXT[p.brain_mets]) + '</span></div><p class="muted sm">Demo record ' + esc(pid) + ': ' + esc(base.source) + ', a de-identified research record standing in for your own.</p></div>' +
+      '<div class="stats">' + stat('Day-to-day fitness', 'ecog') + stat('Earlier treatments', 'prior_lines') + stat('PD-L1 score', 'pdl1') + stat('Brain scan', 'brain_mets') + '</div>' +
+      qcardHTML(pid) +
+      (Object.keys(ans).length ? '<div class="sect-h"><h2>Your answers</h2></div><div class="list">' + Object.keys(ans).map(function (f) { return '<div class="item"><span class="ic-circle">' + ICON.doc + '</span><span class="grow"><b>' + esc(NAMES[f]) + '</b><small>' + esc(optLabel(f, ans[f])) + '</small></span><button class="btn text" data-act="unanswer" data-q="' + f + '">Remove</button></div>'; }).join('') + '</div>' : '') +
+      '<div class="sect-h"><h2>Shared with trial teams</h2></div>' + (shared.length ? '<div class="list">' + shared.map(function (a) { return '<button class="item" data-act="trial" data-id="' + a.nct + '"><span class="ic-circle ' + (a.by === 'agent' ? 'ag' : '') + '">' + (a.by === 'agent' ? ICON.spark : ICON.lock) + '</span><span class="grow"><b>' + esc(tn(a.nct)) + ' team</b><small>' + dstr(a.at) + ' ' + clock(a.at) + ' · ' + (a.by === 'agent' ? 'sent by your agent' + (a.from ? ' after ' + esc(tn(a.from)) + ' said no' : '') : 'sent by you') + ' · ' + esc(a.shared.map(function (f) { return NAMES[f] || f; }).join(', ')) + '</small></span>' + chev() + '</button>'; }).join('') + '</div>' : '<p class="muted sm">Nothing yet. Nothing about you leaves this device until you apply.</p>') +
+      '<div class="row"><button class="btn out" data-act="settings">' + ICON.tune + 'Privacy and settings</button><button class="btn text" data-act="clearme">Clear my answers and chat from this device</button></div></div>';
+  }
+  function inboxView(pid) {
+    var evs = S.events.filter(function (e) { return e.pid === pid; }).sort(function (a, b) { return b.at - a.at; });
+    return '<div class="col"><div class="page-h"><div><h1>Inbox</h1><p>Updates from your agent and your care team.</p></div>' + (evs.some(function (e) { return !e.read; }) ? '<button class="btn text" data-act="readall">Mark all read</button>' : '') + '</div>' +
+      (evs.length ? '<div class="list">' + evs.map(function (e) { var hu = e.who === 'team'; return '<div class="item"><span class="ic-circle ' + (hu ? 'hu' : 'ag') + '">' + (hu ? ICON.hosp : ICON.spark) + '</span><span class="grow"><b>' + (hu ? 'Care team' : 'Your agent') + ' <span class="faint xs">' + ago(e.at) + '</span></b><small>' + esc(e.text) + '</small>' + (e.act ? '<button class="btn text" style="padding:0;height:32px" data-act="' + e.act.act + '" data-id="' + esc(e.act.id || '') + '" data-v="' + esc(e.act.v || '') + '">' + esc(e.act.label) + '</button>' : '') + '</span>' + (e.read ? '' : '<span class="dot"></span>') + '</div>'; }).join('') + '</div>' : '<div class="card empty"><h3>No messages yet</h3><p>You’ll hear here when a trial team replies.</p></div>') + '</div>';
+  }
+
+  /* ---------- sheets ---------- */
+  function sheet(html, wide) {
+    closeSheet();
+    var s = document.createElement('div'); s.className = 'scrim'; s.id = 'scrim';
+    s.innerHTML = '<div class="sheet' + (wide ? ' wide' : '') + '" role="dialog" aria-modal="true" aria-labelledby="sheet-h"><div class="handle"></div>' + html + '</div>';
+    document.body.appendChild(s);
+    var f = s.querySelector('[autofocus]') || s.querySelector('.sheet-h .iconbtn'); if (f) f.focus();
+  }
+  function closeSheet() { var s = $('#scrim'); if (s) s.remove(); }
+  function sheetHead(title, sub) { return '<div class="sheet-h"><div><h2 id="sheet-h">' + title + '</h2>' + (sub ? '<p class="muted sm">' + sub + '</p>' : '') + '</div><button class="iconbtn" data-act="close" aria-label="Close">' + ICON.x + '</button></div>'; }
+  function openTrial(nct) {
+    var t = T[nct], team = S.who.role === 'team', o = offerLines(t);
+    var info = '<p class="muted">' + esc(whatP(t)) + '</p>' + (t.site_key ? '<img class="tc-photo" style="height:170px" src="img/sites/' + t.site_key + '.jpg" alt="' + esc(t.site_name || '') + '">' : '') +
+      '<div class="chips">' + (t.phase ? '<span class="chip">' + esc(t.phase) + '</span>' : '') + '<span class="chip">' + (t.randomised ? 'Randomised' : 'Not randomised') + '</span>' + (t.placebo ? '<span class="chip unk">Placebo group</span>' : '') + (t.biopsy ? '<span class="chip unk">Fresh biopsy</span>' : '') + (t.enrolment ? '<span class="chip">Aims to recruit ' + t.enrolment.toLocaleString('en-GB') + '</span>' : '') + '</div>' +
+      '<div class="tc-facts"><span>' + ICON.pin + esc(whereLine(t)) + '</span><span>' + ICON.globe + esc(countriesLine(t)) + '</span>' + (t.drugs.length ? '<span>' + ICON.pill + esc(t.drugs.join(', ')) + '</span>' : '') + (t.sponsor ? '<span>' + ICON.hosp + 'Run by ' + esc(t.sponsor) + '</span>' : '') + '</div>';
+    var src = '<p class="note">From the ClinicalTrials.gov registry entry, downloaded ' + fmtDate(B.snapshot) + '. <a href="' + esc(t.url) + '" target="_blank" rel="noopener noreferrer">Open the registry entry</a></p>';
+    if (team) {
+      var st = trialStats(nct);
+      sheet(sheetHead(esc(t.short), nct + ' · ' + esc(t.status)) + info + '<div class="panel2"><b>Applicants</b><p class="sm muted">' + st.all + ' in total: ' + st.fresh + ' new (' + st.ready + ' with every rule met), ' + st.inPre + ' in pre-screening or screening, ' + st.enrolled + ' enrolled.</p><div class="row"><button class="btn pri" data-act="review" data-id="' + nct + '">Review applicants</button></div></div><p class="sm muted">The protocol has ' + t.n_criteria + ' eligibility rules. The agent checks the ones a record can answer: stage, cell type, fitness, gene changes, PD-L1, earlier treatment and brain spread.</p>' + src, true);
+      return;
+    }
+    var pid = S.who.id, sc = scoreOf(pid, nct), L = crit(sc), c = counts(L), a = S.apps[appKey(pid, nct)];
+    var action;
+    if (a) action = '<div class="panel2"><div class="row" style="justify-content:space-between"><b>' + STAGE_P[a.stage] + '</b><span class="faint sm">Applied ' + ago(a.at) + (a.by === 'agent' ? ' by your agent' : '') + '</span></div>' + stepsBar(a) +
+      '<div class="feed">' + a.hist.slice().reverse().map(function (h) { return '<div class="ev"><span class="av">' + (/agent|Patient/.test(h.by) ? ICON.spark : ICON.hosp) + '</span><div><b>' + STAGE_P[h.s] + '</b><time>' + dstr(h.at) + ' ' + clock(h.at) + '</time>' + (h.note ? '<p class="muted">' + esc(h.note) + '</p>' : '') + '</div></div>'; }).join('') + '</div>' +
+      (['applied', 'prescreen', 'waitlist'].indexOf(a.stage) >= 0 ? '<button class="btn danger" data-act="withdraw" data-id="' + esc(a.key) + '" style="align-self:flex-start">Withdraw application</button>' : '') + '</div>';
+    else if ((S.passes[pid] || {})[nct]) action = '<div class="panel2"><b>You said not for me</b><p class="muted sm">' + esc(S.passes[pid][nct]) + '</p><button class="btn text" style="align-self:flex-start" data-act="unpass" data-id="' + nct + '">Bring it back</button></div>';
+    else if (sc.E === 0) action = '<div class="panel2"><b>This trial doesn’t fit your record</b><p class="muted sm">' + esc((L.filter(function (l) { return l.status === 'not_met'; })[0] || {}).reason || '') + ' If that’s wrong, update your record and your agent will check again.</p></div>';
+    else action = '<div class="panel2"><p class="sm muted">Your agent fills in the application from your record. The trial team sees your record ID, not your name, until you agree to meet them.</p><div class="row"><button class="btn pri" data-act="apply" data-id="' + nct + '">Apply</button><button class="btn text" data-act="pass" data-id="' + nct + '">Not for me</button></div></div>';
+    sheet(sheetHead(esc(titleP(t)), nct + ' · ' + esc(t.phase) + ' · ' + esc(t.status)) + (t.plain ? '<p class="faint sm">' + esc(t.title) + '</p>' : '') + info + action +
+      '<div class="grid2"><div class="panel2"><b>' + ICON.gift.replace('<svg', '<svg style="vertical-align:-4px;margin-right:6px;color:var(--met)"') + 'What it could offer you</b><ul class="bul">' + o.offer.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div><div class="panel2"><b>' + ICON.scale.replace('<svg', '<svg style="vertical-align:-4px;margin-right:6px;color:var(--unk)"') + 'Things to weigh up</b><ul class="bul">' + o.weigh.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div></div>' +
+      '<div class="panel2"><b>What taking part involves</b><ul class="bul">' + involveLines(t).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="sect-h"><h2 style="font-size:16px">Every rule your agent checked</h2><span class="faint xs">' + c.met + ' met · ' + c.not + ' not met · ' + c.unk + ' to check</span></div>' + ruleList(sc, null) +
+      '<p class="note">The protocol lists ' + t.n_criteria + ' rules in all; the team checks the rest at screening. The checks count is not a prediction of how well a treatment will work.</p>' + src, true);
+  }
+  function openApply(nct) {
+    var pid = S.who.id, t = T[nct], p = recordFor(pid), fields = sharedFields(pid, nct);
+    sheet(sheetHead('Apply to ' + esc(t.short), 'Your agent sends a request for pre-screening. It doesn’t sign you up for anything.') +
+      '<div class="panel2"><b>What the ' + esc(t.short) + ' team will see</b><ul class="share"><li><span>Record ID (not your name)</span><span class="mono">' + esc(pid) + '</span></li>' + fields.map(function (f) { return '<li><span>' + esc(NAMES[f]) + '</span><span>' + esc(factValue(p, f)) + '</span></li>'; }).join('') + '</ul></div>' +
+      '<p class="sm muted">They won’t see your name or contact details (they ask for those if they invite you), the rest of your record, your other matches, or your chat with your agent.</p>' +
+      '<label class="checkrow"><input type="checkbox" id="fwd"' + (S.auto[pid] ? ' checked' : '') + '><span>If this team says no, let my agent send the same facts to the next trial that fits (“Apply for me”).</span></label>' +
+      '<p class="note">Demo: nothing is sent anywhere. The application appears in the trial team’s Review list in this browser.</p>' +
+      '<div class="row end"><button class="btn text" data-act="close">Cancel</button><button class="btn pri" data-act="apply-send" data-id="' + nct + '" autofocus>Send application</button></div>');
+  }
+  function openPass(nct) {
+    sheet(sheetHead('Not for you: ' + esc(tn(nct)), 'Telling your agent why helps it suggest better fits. Nothing is sent to the trial team.') +
+      '<div class="opts">' + PASS_REASONS.map(function (r, i) { return '<button class="opt" data-act="pass-r" data-id="' + nct + '" data-v="' + i + '">' + esc(r) + '</button>'; }).join('') + '</div>');
+  }
+  function openApp(key) {
+    var a = S.apps[key]; if (!a) return closeSheet();
+    var p = recordFor(a.pid), t = T[a.nct], sc = scoreOf(a.pid, a.nct), L = crit(sc), c = counts(L);
+    var bad = ['rejected', 'screenfail', 'withdrawn', 'waitlist'].indexOf(a.stage) >= 0, idx = FLOW.indexOf(a.stage);
+    var stepper = '<div class="stepper">' + FLOW.map(function (s, i) { return '<span class="' + (i === idx ? 'now' : reached(a, s) ? 'done' : '') + '">' + STAGE_C[s] + '</span>'; }).join('') + (bad ? '<span class="' + (a.stage === 'waitlist' ? 'now' : 'bad') + '">' + STAGE_C[a.stage] + '</span>' : '') + '</div>';
+    var opt = function (id, label, cur, opts) { return '<label class="field"><span>' + label + '</span><select class="input" id="' + id + '">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(cur) === String(o[0]) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>'; };
+    var act = '';
+    if (a.stage === 'applied' || a.stage === 'waitlist') act = '<div class="panel2"><b>' + (a.stage === 'applied' ? 'New applicant' : 'On the waiting list') + '</b><p class="muted sm">Review new applicants in order on the Review tab, or decide here.</p><div class="row"><button class="btn pri" data-act="stage" data-v="prescreen" data-id="' + esc(key) + '">Invite to pre-screening</button><button class="btn danger" data-act="stage" data-v="rejected" data-id="' + esc(key) + '">Not eligible</button></div></div>';
+    else if (a.stage === 'prescreen') act = '<div class="panel2"><b>Enter pre-screening results</b><p class="muted sm">Results go into the patient’s record. If a rule isn’t met, their agent uses the results to look for other trials.</p><div class="grid2">' +
+      opt('ps-ecog', 'ECOG', p.ecog == null ? '' : p.ecog, [['', 'Not done']].concat([0, 1, 2, 3, 4].map(function (i) { return [i, String(i)]; }))) +
+      '<label class="field"><span>PD-L1 %</span><input class="input" id="ps-pdl1" type="number" min="0" max="100" value="' + (p.pdl1 == null ? '' : p.pdl1) + '"></label>' +
+      opt('ps-brain', 'Brain MRI', p.brain_mets, [['unknown', 'Not done'], ['none', 'No spread'], ['treated_stable', 'Treated and stable'], ['active', 'Untreated spread']]) +
+      opt('ps-lines', 'Earlier treatment lines', p.prior_lines == null ? '' : p.prior_lines, [['', 'Not known'], [0, '0'], [1, '1'], [2, '2'], [3, '3 or more']]) + '</div>' +
+      '<div class="row"><button class="btn pri" data-act="ps-save" data-id="' + esc(key) + '">Save results</button><button class="btn danger" data-act="stage" data-v="rejected" data-id="' + esc(key) + '">Not eligible</button></div></div>';
+    else if (a.stage === 'screening') act = '<div class="panel2"><b>Full screening, consent and sign-off</b><p class="muted sm">Scans, bloods and the rest of the protocol’s ' + t.n_criteria + ' rules.</p><label class="checkrow"><input type="checkbox" id="ok-consent"><span>Patient signed the consent form</span></label><label class="checkrow"><input type="checkbox" id="ok-pi"><span>Principal investigator signs off</span></label><div class="row"><button class="btn pri" data-act="enrol" data-id="' + esc(key) + '">Enrol</button><button class="btn danger" data-act="sfail" data-id="' + esc(key) + '">Screen fail</button></div></div>';
+    else if (a.stage === 'enrolled') act = '<div class="panel2"><b>Record trial results</b><p class="muted sm">When the patient finishes, their results go into their record and their agent starts looking for what could come next.</p><div class="grid2">' + opt('rs-br', 'Best response', 'sd', [['pd', 'Cancer grew'], ['sd', 'Stable disease'], ['pr', 'Partial response'], ['cr', 'Complete response']]) + '<label class="field"><span>Months on the trial</span><input class="input" id="rs-months" type="number" min="0" value="4"></label></div><div class="row"><button class="btn pri" data-act="complete" data-id="' + esc(key) + '">Mark completed</button></div></div>';
+    else if (a.reason || a.outcome) act = '<div class="panel2"><b>' + STAGE_C[a.stage] + '</b><p class="sm muted">' + esc(a.reason || ({ pd: 'Cancer grew', sd: 'Stable disease', pr: 'Partial response', cr: 'Complete response' }[a.outcome.br] + ' · ' + a.outcome.months + ' months')) + '</p></div>';
+    sheet(sheetHead('<span class="mono">' + esc(a.pid) + '</span>', esc(t.short) + ' · ' + a.nct) + stepper +
+      '<div class="panel2"><div class="row" style="justify-content:space-between"><span class="muted sm">' + Math.round(p.age) + ' · ' + sexTxt(p.sex) + ' · ' + (a.by === 'agent' ? 'sent by agent' : 'sent by patient') + (a.from ? ' · sent on after ' + esc(tn(a.from)) : '') + '</span>' + ring(sc) + '</div>' +
+      '<div class="chips"><span class="chip met">✓ ' + c.met + '</span>' + (c.not ? '<span class="chip not">✕ ' + c.not + '</span>' : '') + (c.unk ? '<span class="chip unk">? ' + c.unk + '</span>' : '') + '</div>' +
+      '<div class="facts"><div><span class="k">Tumour</span><span>' + esc(factValue(p, 'histology') + ', ' + STAGE_TXT[p.stage]) + '<br>' + esc(bioText(p).join(' · ')) + '</span></div><div><span class="k">Treatment</span><span>' + esc(factValue(p, 'prior_lines')) + '</span></div><div><span class="k">Fitness</span><span>' + esc(factValue(p, 'ecog')) + '</span></div></div></div>' + act +
+      '<details><summary>All ' + L.length + ' checked rules</summary>' + ruleList(sc, ['applied', 'prescreen', 'screening'].indexOf(a.stage) >= 0 ? key : null) + '</details>' +
+      '<details><summary>History</summary><div class="feed">' + a.hist.slice().reverse().map(function (h) { return '<div class="ev"><span class="av">' + (/agent|Patient/.test(h.by) ? ICON.spark : ICON.hosp) + '</span><div><b>' + STAGE_C[h.s] + '</b><time>' + dstr(h.at) + ' ' + clock(h.at) + ' · ' + esc(h.by) + '</time>' + (h.note ? '<p class="muted">' + esc(h.note) + '</p>' : '') + '</div></div>'; }).join('') + '</div></details>', true);
+  }
+  function openSettings() {
+    var team = S.who && S.who.role === 'team', pid = team ? null : S.who && S.who.id;
+    sheet(sheetHead('What runs where', 'Trial Match is local-first: the rules come down, nothing about a patient goes up.') +
+      '<div class="list"><div class="item"><span class="ic-circle">' + ICON.down + '</span><span class="grow"><b>Downloaded</b><small>The trial rules bundle: ' + TRIALS.length + ' recruiting phase 3 lung cancer trials from ClinicalTrials.gov (' + fmtDate(B.snapshot) + '), with eligibility rules already parsed. Public data, nothing about any patient.</small></span></div>' +
+      '<div class="item"><span class="ic-circle">' + ICON.chip + '</span><span class="grow"><b>On this device</b><small>' + (team ? 'Applications you have received, the agent and the audit log.' : 'Your record, your answers, the matcher and your agent. Matching runs in this browser tab.') + ' The page’s security policy blocks every connection except to this computer.</small></span></div>' +
+      '<div class="item"><span class="ic-circle">' + ICON.lock + '</span><span class="grow"><b>Shared only when chosen</b><small>' + (team ? 'A patient’s agent sends you only the facts your trial checks, under a record ID. Names come after consent.' : 'A trial team receives only the facts listed when you apply, and only that team. My health lists everything you’ve shared.') + '</small></span></div></div>' +
+      (pid ? '<label class="toggle"><span><b>Apply for me</b><small>Your agent applies to strong matches and, if a team says no, sends you on to the next fit.</small></span><input type="checkbox" class="switch" id="auto-sw2" data-act="auto"' + (S.auto[pid] ? ' checked' : '') + ' aria-label="Apply for me"></label>' : '') +
+      '<div class="panel2"><b>Optional: MedGemma on this computer</b><p class="sm muted">Built-in answers come straight from the trial records. For free-form questions you can run Google’s MedGemma, an open medical model, on this computer with Ollama. Typed questions then go to it with the relevant trial facts. Nothing goes to an online service.</p>' +
+      '<label class="toggle"><span><b>Answer typed questions with MedGemma</b><small>' + esc(S.llm.model) + ' at ' + esc(S.llm.url) + '</small></span><input type="checkbox" class="switch" id="llm-on" data-act="llm-on"' + (S.llm.on ? ' checked' : '') + ' aria-label="Use MedGemma"></label>' +
+      '<div class="grid2"><label class="field"><span>Server</span><input class="input" id="llm-url" data-act="llm-cfg" value="' + esc(S.llm.url) + '" spellcheck="false"></label><label class="field"><span>Model</span><input class="input" id="llm-model" data-act="llm-cfg" value="' + esc(S.llm.model) + '" spellcheck="false"></label></div>' +
+      '<div class="row"><button class="btn tonal" data-act="llm-test">Test connection</button><span class="sm muted" id="llm-out" aria-live="polite"></span></div>' +
+      '<p class="note">Start it with: OLLAMA_ORIGINS=* ollama serve, then ollama pull medgemma1.5:4b. MedGemma is a developer model, not a medical device; its answers are drafts from the trial record and the trial team has the final word.</p></div>');
+  }
+
+  /* ---------- actions ---------- */
+  function answer(f, v) {
+    var pid = S.who.id, before = ranked(pid).n_possible;
+    (S.answers[pid] = S.answers[pid] || {})[f] = v;
+    logRow(pid, '', 'answer', f, v === 'untested' ? 'unknown' : v);
+    save(); runAgent(pid); save();
+    var d = before - ranked(pid).n_possible;
+    toast(d > 0 ? plural(d, 'trial') + ' no longer fit' + (d === 1 ? 's' : '') + '.' : d < 0 ? plural(-d, 'more trial') + ' could now fit.' : 'Saved. Your matches are updated.');
+    render();
+  }
+  function invite(a) { setStage(a, 'prescreen', teamName()); }
+  function reject(a, reason) { setStage(a, 'rejected', teamName(), { reason: reason }); }
+  function on(type, fn) { document.addEventListener(type, fn); }
+  on('click', function (ev) {
+    if (ev.target.id === 'scrim') { closeSheet(); return; }
+    var el = ev.target.closest('[data-act]'); if (!el || el.disabled) return;
+    if (el.tagName === 'SELECT' || (el.tagName === 'INPUT' && (el.type === 'checkbox' || el.type === 'number' || el.type === 'text'))) return;
+    var act = el.dataset.act, id = el.dataset.id, v = el.dataset.v, a = id && S.apps[id];
+    switch (act) {
+      case 'login-role': S.loginRole = v; save(); render(); break;
+      case 'showall': S.showAll = !S.showAll; save(); render(); break;
+      case 'login': S.who = { role: el.dataset.role, id: id }; S.tab = 'home'; S.ctab = 'overview'; if (S.who.role === 'patient') runAgent(id); save(); render(); window.scrollTo(0, 0); break;
+      case 'logout': S.who = null; closeSheet(); save(); render(); break;
+      case 'reset': if (confirm('Reset the demo? This clears every application, answer and decision in this browser.')) { var keep = S.llm; S = fresh(); S.llm = keep; save(); seedDemo(); closeSheet(); render(); toast('Demo reset'); } break;
+      case 'tab': S.tab = v; closeSheet(); save(); render(); window.scrollTo(0, 0); break;
+      case 'ctab': S.ctab = v; S.open = null; closeSheet(); save(); render(); window.scrollTo(0, 0); break;
+      case 'close': closeSheet(); break;
+      case 'settings': openSettings(); break;
+      case 'trial': openTrial(id); break;
+      case 'apply': if (S.who.role === 'patient') openApply(id); break;
+      case 'apply-send': var pid = S.who.id, fw = $('#fwd'); if (fw) S.auto[pid] = fw.checked; var na = createApp(pid, id, 'patient'); event(pid, 'agent', 'Filled in your application for ' + tn(id) + ' from your record and sent it' + (na.from ? ', after the ' + tn(na.from) + ' team said no' : '') + '. The team sees your record ID, not your name.'); S.events[S.events.length - 1].read = true; save(); closeSheet(); render(); toast('Applied to ' + tn(id) + '. You’ll hear back in your inbox.'); break;
+      case 'pass': openPass(id); break;
+      case 'pass-r': var pp = S.who.id; (S.passes[pp] = S.passes[pp] || {})[id] = PASS_REASONS[Number(v)]; logRow(pp, id, 'outcome', 'enrolment', 'declined', PASS_REASONS[Number(v)]); save(); closeSheet(); render(); toast('Removed from your matches. You can bring it back from the trial’s details.'); break;
+      case 'unpass': delete (S.passes[S.who.id] || {})[id]; save(); closeSheet(); render(); break;
+      case 'withdraw': if (a) { setStage(a, 'withdrawn', 'Patient'); closeSheet(); render(); toast('Application withdrawn.'); } break;
+      case 'answer': answer(el.dataset.q, v); break;
+      case 'skip': var ps = S.who.id; (S.qskip[ps] = S.qskip[ps] || []).push(el.dataset.q); (S.asks[ps] || []).forEach(function (x) { x.fields = x.fields.filter(function (f) { return f !== el.dataset.q; }); }); save(); render(); break;
+      case 'unanswer': delete S.answers[S.who.id][el.dataset.q]; save(); render(); break;
+      case 'mtab': S.mtab = v; save(); render(); break;
+      case 'read': if (S.events[Number(id)]) S.events[Number(id)].read = true; save(); render(); break;
+      case 'readall': S.events.forEach(function (e) { if (e.pid === S.who.id) e.read = true; }); save(); render(); break;
+      case 'clearme': var pc = S.who.id; ['answers', 'qskip', 'chat', 'ctx', 'asks', 'told'].forEach(function (k) { delete S[k][pc]; }); save(); render(); toast('Your answers and chat are cleared from this device. Applications you sent stay with those teams.'); break;
+      case 'chip': send(v, true); break;
+      case 'askall': allApps().filter(function (x) { return x.nct === id && x.stage === 'applied'; }).forEach(function (x) { var f = askable(x.pid, scoreOf(x.pid, id)); if (f.length) askFor(x, f); }); save(); render(); toast('Asked the applicants’ agents for the missing details.'); break;
+      case 'review': S.ctab = 'review'; S.trial = id; S.open = null; S.failing = null; closeSheet(); save(); render(); window.scrollTo(0, 0); break;
+      case 'need': S.ctab = v; if (v === 'review') S.trial = id; else { S.afilter = id === 'all' ? 'all' : id; S.atrial = 'all'; } save(); render(); window.scrollTo(0, 0); break;
+      case 'qopen': S.open = S.open === id ? null : id; S.failing = null; save(); render(); break;
+      case 'verdict': var vk = S.verdicts[id] = S.verdicts[id] || {}, f = el.dataset.f; if (vk[f] === v) delete vk[f]; else { vk[f] = v; logRow(id.split('|')[0], id.split('|')[1], 'criterion', f, v); } save(); render(); if ($('#scrim') && S.apps[id] && S.ctab !== 'review') openApp(id); break;
+      case 'invite1': if (a) { invite(a); S.open = null; save(); render(); toast('Invited ' + a.pid + ' to pre-screening. Their agent has told them.'); } break;
+      case 'ask': if (a) { var af = askable(a.pid, scoreOf(a.pid, a.nct)); askFor(a, af); save(); render(); toast('Asked ' + a.pid + '’s agent for: ' + af.map(function (x) { return NAMES[x].toLowerCase(); }).join(', ') + '.'); } break;
+      case 'fail-open': S.failing = id; save(); render(); break;
+      case 'fail-cancel': S.failing = null; save(); render(); break;
+      case 'reject': if (a) { var rs = $('#fail-reason') ? $('#fail-reason').value : REASONS[0]; reject(a, rs); S.failing = null; S.open = null; save(); render(); var rr = S.reroutes.filter(function (x) { return x.pid === a.pid && x.from === a.nct; })[0]; toast(rr ? 'Marked not eligible. ' + a.pid + '’s agent sent them on to ' + tn(rr.to) + '.' : 'Marked not eligible. ' + a.pid + '’s agent has told them and is looking again.'); } break;
+      case 'move': var qq = S.prio[S.trial] || [], i = qq.indexOf(id), j = v === 'up' ? i - 1 : i + 1; if (i >= 0 && j >= 0 && j < qq.length) { qq[i] = qq[j]; qq[j] = id; logRow(id.split('|')[0], S.trial, 'priority', 'order', v, 'Moved by the trial team'); } save(); render(); break;
+      case 'invite-top': var qs = queue(S.trial), n = Math.max(1, Math.min(qs.length, Number(($('#topn') || {}).value) || 3)), invited = 0, skipped = 0;
+        qs.forEach(function (x, k) { var no = crit(scoreOf(x.pid, x.nct)).some(function (l) { return l.by === 'team' && l.status === 'not_met'; }); if (k < n && !no) { invite(x); invited++; } else if (no) skipped++; else setStage(x, 'waitlist', teamName(), { rank: k + 1 }); });
+        S.open = null; save(); toast('Invited ' + plural(invited, 'applicant') + ' to pre-screening' + (skipped ? ', skipped ' + skipped + ' with a rule not met' : '') + '. Everyone has been told.'); S.ctab = 'apps'; S.afilter = 'prescreen'; S.atrial = S.trial; save(); render(); break;
+      case 'app': openApp(id); break;
+      case 'afilter': S.afilter = v; save(); render(); break;
+      case 'stage': if (a) { if (v === 'rejected') reject(a, 'Not eligible at review'); else invite(a); render(); openApp(id); } break;
+      case 'ps-save': if (a) {
+        var now = Date.now(), src = 'Pre-screening, ' + (T[a.nct].site_name || 'trial site') + ', ' + dstr(now), cl = S.clin[a.pid] = S.clin[a.pid] || {};
+        var ec = $('#ps-ecog').value, pd = $('#ps-pdl1').value, br = $('#ps-brain').value, ln = $('#ps-lines').value;
+        if (ec !== '') cl.ecog = Number(ec); if (pd !== '') cl.pdl1 = Number(pd); if (br && br !== 'unknown') cl.brain_mets = br; if (ln !== '') cl.prior_lines = Number(ln); cl.src = src;
+        ['ecog', 'pdl1', 'brain_mets', 'prior_lines'].forEach(function (k) { if (cl[k] != null) logRow(a.pid, '', 'answer', k, cl[k], src); });
+        save();
+        var fails = crit(scoreOf(a.pid, a.nct)).filter(function (l) { return l.status === 'not_met'; });
+        event(a.pid, 'agent', 'Added your pre-screening results from ' + (T[a.nct].site_name || 'the trial site') + ' to your record.');
+        if (fails.length) { setStage(a, 'screenfail', teamName(), { reason: fails.map(function (l) { return NAMES[l.field] + ' not met'; }).join('; ') }); toast('Saved. ' + a.pid + ' doesn’t meet: ' + NAMES[fails[0].field] + '. Their agent is looking again.'); }
+        else { setStage(a, 'screening', teamName()); toast('Saved. ' + a.pid + ' moves to screening.'); }
+        render(); openApp(id); } break;
+      case 'enrol': if (a) { if (!$('#ok-consent').checked || !$('#ok-pi').checked) { toast('Tick both: signed consent and the principal investigator’s sign-off.'); break; } setStage(a, 'enrolled', teamName()); render(); openApp(id); toast(a.pid + ' is enrolled. Their agent pauses.'); } break;
+      case 'sfail': if (a) { setStage(a, 'screenfail', teamName(), { reason: 'Did not meet a screening requirement' }); render(); openApp(id); } break;
+      case 'complete': if (a) { setStage(a, 'completed', teamName(), { outcome: { br: $('#rs-br').value, months: Number($('#rs-months').value) || 0 } }); render(); openApp(id); toast('Completed. ' + a.pid + '’s agent is looking at what could come next.'); } break;
+      case 'copylog': var ta = $('#logcsv'); (navigator.clipboard ? navigator.clipboard.writeText(csv()) : Promise.reject()).then(function () { toast('Log copied'); }, function () { if (ta) { ta.select(); } toast('Selected: press Ctrl+C to copy'); }); break;
+      case 'llm-test': S.llm.url = ($('#llm-url') || {}).value || S.llm.url; S.llm.model = ($('#llm-model') || {}).value || S.llm.model; save(); var out = $('#llm-out'); out.textContent = 'Checking…';
+        fetch(S.llm.url.replace(/\/+$/, '') + '/api/tags').then(function (r) { return r.json(); }).then(function (j) { var names = (j.models || []).map(function (m) { return m.name; }); out.textContent = names.indexOf(S.llm.model) >= 0 || names.indexOf(S.llm.model + ':latest') >= 0 ? 'Connected. ' + S.llm.model + ' is ready.' : 'Connected, but ' + S.llm.model + ' isn’t installed. Run: ollama pull ' + S.llm.model; })
+          .catch(function () { out.textContent = 'Nothing answered at ' + S.llm.url + '. Start Ollama with OLLAMA_ORIGINS=* so this page can reach it.'; }); break;
+    }
+  });
+  on('change', function (ev) {
+    var el = ev.target, act = el.dataset && el.dataset.act; if (!act) return;
+    if (act === 'auto') { var pid = S.who.id; S.auto[pid] = el.checked; save(); if (el.checked) runAgent(pid); save(); render(); if ($('#scrim')) openSettings(); toast(el.checked ? 'Your agent will apply to strong matches and keep you moving after a “no”.' : 'Your agent will ask you first.'); }
+    else if (act === 'review-trial') { S.trial = el.value; S.open = null; save(); render(); }
+    else if (act === 'apps-trial') { S.atrial = el.value; save(); render(); }
+    else if (act === 'topn') { S.topN = Number(el.value); save(); render(); }
+    else if (act === 'llm-on') { S.llm.on = el.checked; save(); render(); toast(el.checked ? 'Typed questions now go to MedGemma on this computer.' : 'Built-in answers only.'); }
+    else if (act === 'llm-cfg') { S.llm.url = $('#llm-url').value.trim() || 'http://localhost:11434'; S.llm.model = $('#llm-model').value.trim() || 'medgemma1.5:4b'; save(); }
+  });
+  on('submit', function (ev) {
+    var f = ev.target; if (!f.dataset || !f.dataset.form) return;
+    ev.preventDefault();
+    if (f.dataset.form === 'ask') { var i = $('#ask-in'); var v = i.value.trim(); i.value = ''; send(v, false); }
+    else if (f.dataset.form === 'num') { var nv = $('#num-in').value; if (nv !== '') answer(f.dataset.q, nv); }
+  });
+  on('keydown', function (ev) { if (ev.key === 'Escape' && $('#scrim')) closeSheet(); });
+
+  render();
+})();
+</script>
+</body>
+</html>

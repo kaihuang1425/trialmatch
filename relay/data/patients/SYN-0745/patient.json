@@ -1,0 +1,39 @@
+{
+  "patientId": "SYN-0745",
+  "synthetic": true,
+  "summary": "49, non-squamous adenocarcinoma stage IVB, ALK rearranged, ECOG 2, untreated asymptomatic brain metastases, prior therapy unclear.",
+  "profile": {
+    "sex": "Female"
+  },
+  "preferences": {
+    "homeCity": "Cambridge",
+    "travelLimitMiles": 30,
+    "daysAvailable": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri"
+    ]
+  },
+  "documents": [
+    {
+      "id": "SYN-0745-REF",
+      "kind": "referral_summary",
+      "date": "2026-10-28",
+      "initial": true
+    },
+    {
+      "id": "SYN-0745-MOL",
+      "kind": "molecular",
+      "date": "2026-10-14",
+      "initial": true
+    },
+    {
+      "id": "SYN-0745-LAB",
+      "kind": "labs",
+      "date": "2026-11-03",
+      "initial": true
+    }
+  ]
+}

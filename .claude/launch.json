@@ -1,0 +1,40 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "trialmatch",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "trialmatch"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "trial-match-vercel",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "trial-match-vercel/scripts/dev.mjs",
+        "--port",
+        "8767"
+      ],
+      "port": 8767
+    },
+    {
+      "name": "trial-match-vercel-medgemma",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--env-file=C:/Users/erich/AppData/Local/Temp/claude/7c92707fa75f1c12/e73be49e-d958-4182-8f8e-375cb4ac1575/scratchpad/medgemma-local.env",
+        "trial-match-vercel/scripts/dev.mjs",
+        "--port",
+        "8768"
+      ],
+      "port": 8768
+    }
+  ]
+}

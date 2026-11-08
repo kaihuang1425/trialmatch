@@ -1,0 +1,45 @@
+{
+  "schema": "relay.policy.v1",
+  "label": "RELAY POLICY: prescreening choices made by the Relay team. These are NOT protocol requirements; every rule that uses one says so in its reason text. The study team applies the current protocol.",
+  "labRecencyDays": {
+    "value": 28,
+    "why": "Labs older than this are 'outdated for prescreening' (unknown/stale) where the registry gives no window of its own."
+  },
+  "pdl1NegativeBelowTps": {
+    "value": 1,
+    "why": "CodeBreaK 202 says 'negative for PD-L1 expression' without a cut-off. Relay reads local TPS < 1% as negative; central confirmation is a separate at-screening row."
+  },
+  "egfrSensitizing": {
+    "values": ["Ex19del", "L858R", "G719X", "L861Q", "S768I"],
+    "why": "Lung-MAP S1900G says 'sensitizing EGFR mutation' without a list."
+  },
+  "tables": {
+    "alterations": {
+      "asOf": "2026-11-07",
+      "basis": "Working table compiled by the Relay team from general knowledge of UK (NICE/MHRA) practice as of the date above. NOT verified against NICE or MHRA during the build. Any 'uncertain' cell makes the row needs_review; verify before clinical use.",
+      "columns": {
+        "ukFirstLine": "approved | uncertain | no — targeted therapy approved in the UK as first-line treatment for this alteration",
+        "ukAnyLine": "approved | uncertain | no — any approved targeted treatment for this alteration in the UK, any line",
+        "driver": "yes | uncertain | no — counts as a known oncogenic driver"
+      },
+      "entries": [
+        { "gene": "egfr", "values": ["Ex19del", "L858R"], "ukFirstLine": "approved", "ukAnyLine": "approved", "driver": "yes", "examples": "osimertinib, other EGFR TKIs" },
+        { "gene": "egfr", "values": ["G719X", "L861Q", "S768I"], "ukFirstLine": "uncertain", "ukAnyLine": "uncertain", "driver": "yes", "examples": "afatinib (uncommon EGFR)" },
+        { "gene": "egfr", "values": ["ex20ins"], "ukFirstLine": "uncertain", "ukAnyLine": "uncertain", "driver": "yes", "examples": "amivantamab" },
+        { "gene": "egfr", "values": ["*"], "ukFirstLine": "uncertain", "ukAnyLine": "uncertain", "driver": "uncertain" },
+        { "gene": "alk", "values": ["rearranged"], "ukFirstLine": "approved", "ukAnyLine": "approved", "driver": "yes", "examples": "alectinib, brigatinib, lorlatinib" },
+        { "gene": "ros1", "values": ["rearranged"], "ukFirstLine": "approved", "ukAnyLine": "approved", "driver": "yes", "examples": "crizotinib, entrectinib" },
+        { "gene": "braf", "values": ["V600E"], "ukFirstLine": "approved", "ukAnyLine": "approved", "driver": "yes", "examples": "dabrafenib + trametinib" },
+        { "gene": "braf", "values": ["*"], "ukFirstLine": "no", "ukAnyLine": "no", "driver": "uncertain" },
+        { "gene": "met_ex14", "values": ["detected"], "ukFirstLine": "uncertain", "ukAnyLine": "approved", "driver": "yes", "examples": "tepotinib, capmatinib" },
+        { "gene": "met_amp", "values": ["detected"], "ukFirstLine": "no", "ukAnyLine": "no", "driver": "uncertain" },
+        { "gene": "ret", "values": ["fusion"], "ukFirstLine": "approved", "ukAnyLine": "approved", "driver": "yes", "examples": "selpercatinib" },
+        { "gene": "kras", "values": ["G12C"], "ukFirstLine": "no", "ukAnyLine": "approved", "driver": "yes", "examples": "sotorasib (after first line)" },
+        { "gene": "kras", "values": ["*"], "ukFirstLine": "no", "ukAnyLine": "no", "driver": "yes" },
+        { "gene": "her2_mutation", "values": ["mutation_tkd", "mutation_non_tkd"], "ukFirstLine": "no", "ukAnyLine": "uncertain", "driver": "yes", "examples": "trastuzumab deruxtecan (after first line)" },
+        { "gene": "her2_amplification", "values": ["detected"], "ukFirstLine": "no", "ukAnyLine": "no", "driver": "uncertain" },
+        { "gene": "nrg1", "values": ["fusion"], "ukFirstLine": "no", "ukAnyLine": "uncertain", "driver": "yes" }
+      ]
+    }
+  }
+}

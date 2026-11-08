@@ -1,0 +1,322 @@
+{
+  "patientId": "SYN-0417",
+  "synthetic": true,
+  "passages": {
+    "age": {
+      "docId": "SYN-0417-REF",
+      "quote": "Age: 63 years"
+    },
+    "histology": {
+      "docId": "SYN-0417-REF",
+      "quote": "Diagnosis: Non-small cell lung cancer, adenocarcinoma (non-squamous), confirmed on CT-guided core biopsy."
+    },
+    "stage": {
+      "docId": "SYN-0417-REF",
+      "quote": "Stage: IVA (cT2b N2 M1a), not suitable for curative surgery or radical chemoradiotherapy."
+    },
+    "curative_option": {
+      "docId": "SYN-0417-REF",
+      "quote": "Stage: IVA (cT2b N2 M1a), not suitable for curative surgery or radical chemoradiotherapy."
+    },
+    "ecog": {
+      "docId": "SYN-0417-REF",
+      "quote": "Performance status: ECOG 1 (assessed 20 September 2026)."
+    },
+    "prior_systemic_advanced": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_lines_advanced": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_immunotherapy": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_platinum_chemo": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_kras_g12c_inhibitor": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_pan_ras_inhibitor": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_egfr_tki": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_osimertinib": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_alk_tki": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_docetaxel": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "brain_mets": {
+      "docId": "SYN-0417-REF",
+      "quote": "Brain imaging: MRI brain on 12 September 2026 showed no intracranial metastases and no leptomeningeal disease."
+    },
+    "cns_symptomatic": {
+      "docId": "SYN-0417-REF",
+      "quote": "Brain imaging: MRI brain on 12 September 2026 showed no intracranial metastases and no leptomeningeal disease."
+    },
+    "cns_untreated": {
+      "docId": "SYN-0417-REF",
+      "quote": "Brain imaging: MRI brain on 12 September 2026 showed no intracranial metastases and no leptomeningeal disease."
+    },
+    "cns_progressing": {
+      "docId": "SYN-0417-REF",
+      "quote": "Brain imaging: MRI brain on 12 September 2026 showed no intracranial metastases and no leptomeningeal disease."
+    },
+    "leptomeningeal": {
+      "docId": "SYN-0417-REF",
+      "quote": "Brain imaging: MRI brain on 12 September 2026 showed no intracranial metastases and no leptomeningeal disease."
+    },
+    "measurable_disease": {
+      "docId": "SYN-0417-REF",
+      "quote": "Disease burden: Measurable disease per RECIST 1.1 (right upper lobe mass 41 mm), not previously irradiated."
+    },
+    "ild_history": {
+      "docId": "SYN-0417-REF",
+      "quote": "Lung history: No history of interstitial lung disease or pneumonitis."
+    },
+    "ibd_history": {
+      "docId": "SYN-0417-REF",
+      "quote": "Bowel history: No history of inflammatory bowel disease."
+    },
+    "prior_her2_adc": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_anti_vegf": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_met_inhibitor": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "prior_zongertinib": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "last_systemic_therapy_end": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "adjuvant_therapy_end": {
+      "docId": "SYN-0417-REF",
+      "quote": "Treatment history: No prior systemic anticancer therapy, including no neoadjuvant or adjuvant therapy."
+    },
+    "in_investigational_study": {
+      "docId": "SYN-0417-REF",
+      "quote": "Clinical trials: Not in another study; no investigational treatment."
+    },
+    "measurable_unirradiated": {
+      "docId": "SYN-0417-REF",
+      "quote": "Disease burden: Measurable disease per RECIST 1.1 (right upper lobe mass 41 mm), not previously irradiated."
+    },
+    "spinal_cord_compression": {
+      "docId": "SYN-0417-REF",
+      "quote": "Spinal cord: No spinal cord compression."
+    },
+    "gi_absorption_issue": {
+      "docId": "SYN-0417-REF",
+      "quote": "Gastrointestinal: Swallows tablets; no condition affecting oral intake or absorption; no chronic diarrhoea."
+    },
+    "cv_disease": {
+      "docId": "SYN-0417-REF",
+      "quote": "Cardiovascular: No myocardial infarction, angina, arrhythmia, heart failure or stroke; blood pressure controlled."
+    },
+    "uncontrolled_hypertension": {
+      "docId": "SYN-0417-REF",
+      "quote": "Cardiovascular: No myocardial infarction, angina, arrhythmia, heart failure or stroke; blood pressure controlled."
+    },
+    "qtcf_ms": {
+      "docId": "SYN-0417-REF",
+      "quote": "ECG on 18 September 2026: QTcF 421 ms."
+    },
+    "hiv": {
+      "docId": "SYN-0417-REF",
+      "quote": "Infection screen: HIV negative; no active hepatitis B or C; no active tuberculosis; no current infection needing systemic treatment."
+    },
+    "hepatitis_active": {
+      "docId": "SYN-0417-REF",
+      "quote": "Infection screen: HIV negative; no active hepatitis B or C; no active tuberculosis; no current infection needing systemic treatment."
+    },
+    "tb_active": {
+      "docId": "SYN-0417-REF",
+      "quote": "Infection screen: HIV negative; no active hepatitis B or C; no active tuberculosis; no current infection needing systemic treatment."
+    },
+    "active_infection": {
+      "docId": "SYN-0417-REF",
+      "quote": "Infection screen: HIV negative; no active hepatitis B or C; no active tuberculosis; no current infection needing systemic treatment."
+    },
+    "autoimmune_active": {
+      "docId": "SYN-0417-REF",
+      "quote": "Autoimmune disease: None."
+    },
+    "transplant_history": {
+      "docId": "SYN-0417-REF",
+      "quote": "Transplant: None."
+    },
+    "other_malignancy": {
+      "docId": "SYN-0417-REF",
+      "quote": "Other cancers: None."
+    },
+    "uncontrolled_pain": {
+      "docId": "SYN-0417-REF",
+      "quote": "Pain: Controlled with paracetamol."
+    },
+    "effusion_drainage": {
+      "docId": "SYN-0417-REF",
+      "quote": "Effusions: None needing drainage."
+    },
+    "major_surgery_recent": {
+      "docId": "SYN-0417-REF",
+      "quote": "Surgery: No major surgery in the last 3 months."
+    },
+    "last_radiotherapy": {
+      "docId": "SYN-0417-REF",
+      "quote": "Radiotherapy: None."
+    },
+    "immunosuppressive_meds": {
+      "docId": "SYN-0417-REF",
+      "quote": "Current medicines: Amlodipine 5 mg once daily. No immunosuppressants, QT-prolonging drugs, strong CYP3A inhibitors or inducers, haematopoietic growth factors, antibiotics or live vaccines in the last 4 weeks."
+    },
+    "qt_prolonging_meds": {
+      "docId": "SYN-0417-REF",
+      "quote": "Current medicines: Amlodipine 5 mg once daily. No immunosuppressants, QT-prolonging drugs, strong CYP3A inhibitors or inducers, haematopoietic growth factors, antibiotics or live vaccines in the last 4 weeks."
+    },
+    "strong_cyp3a_meds": {
+      "docId": "SYN-0417-REF",
+      "quote": "Current medicines: Amlodipine 5 mg once daily. No immunosuppressants, QT-prolonging drugs, strong CYP3A inhibitors or inducers, haematopoietic growth factors, antibiotics or live vaccines in the last 4 weeks."
+    },
+    "growth_factor_4w": {
+      "docId": "SYN-0417-REF",
+      "quote": "Current medicines: Amlodipine 5 mg once daily. No immunosuppressants, QT-prolonging drugs, strong CYP3A inhibitors or inducers, haematopoietic growth factors, antibiotics or live vaccines in the last 4 weeks."
+    },
+    "recent_antibiotics": {
+      "docId": "SYN-0417-REF",
+      "quote": "Current medicines: Amlodipine 5 mg once daily. No immunosuppressants, QT-prolonging drugs, strong CYP3A inhibitors or inducers, haematopoietic growth factors, antibiotics or live vaccines in the last 4 weeks."
+    },
+    "live_vaccine_recent": {
+      "docId": "SYN-0417-REF",
+      "quote": "Current medicines: Amlodipine 5 mg once daily. No immunosuppressants, QT-prolonging drugs, strong CYP3A inhibitors or inducers, haematopoietic growth factors, antibiotics or live vaccines in the last 4 weeks."
+    },
+    "pregnant_or_breastfeeding": {
+      "docId": "SYN-0417-REF",
+      "quote": "Pregnancy: Not pregnant or breastfeeding."
+    },
+    "tumour_sample_available": {
+      "docId": "SYN-0417-REF",
+      "quote": "Tumour tissue: Archival tumour block available."
+    },
+    "lab_anc": {
+      "docId": "SYN-0417-LAB",
+      "quote": "Neutrophils: 4.1 x10^9/L (reference 2–7.5)"
+    },
+    "lab_hemoglobin": {
+      "docId": "SYN-0417-LAB",
+      "quote": "Haemoglobin: 128 g/L (reference 115–165)"
+    },
+    "lab_platelets": {
+      "docId": "SYN-0417-LAB",
+      "quote": "Platelets: 265 x10^9/L (reference 150–400)"
+    },
+    "lab_bilirubin": {
+      "docId": "SYN-0417-LAB",
+      "quote": "Bilirubin: 9 umol/L (reference 0–21)"
+    },
+    "lab_alt": {
+      "docId": "SYN-0417-LAB",
+      "quote": "ALT: 22 U/L (reference 0–40)"
+    },
+    "lab_ast": {
+      "docId": "SYN-0417-LAB",
+      "quote": "AST: 25 U/L (reference 0–40)"
+    },
+    "lab_alp": {
+      "docId": "SYN-0417-LAB",
+      "quote": "Alkaline phosphatase: 96 U/L (reference 30–130)"
+    },
+    "lab_creatinine": {
+      "docId": "SYN-0417-LAB",
+      "quote": "Creatinine: 71 umol/L (reference 45–90)"
+    },
+    "lab_egfr_renal": {
+      "docId": "SYN-0417-LAB",
+      "quote": "eGFR (CKD-EPI): 88 mL/min/1.73m2 (reference >60)"
+    },
+    "kras": {
+      "docId": "SYN-0417-MOL",
+      "quote": "KRAS: c.34G>T p.(G12C) mutation detected."
+    },
+    "nras": {
+      "docId": "SYN-0417-MOL",
+      "quote": "NRAS: no pathogenic variant detected."
+    },
+    "hras": {
+      "docId": "SYN-0417-MOL",
+      "quote": "HRAS: no pathogenic variant detected."
+    },
+    "egfr": {
+      "docId": "SYN-0417-MOL",
+      "quote": "EGFR: no pathogenic variant detected."
+    },
+    "alk": {
+      "docId": "SYN-0417-MOL",
+      "quote": "ALK: no fusion detected."
+    },
+    "ros1": {
+      "docId": "SYN-0417-MOL",
+      "quote": "ROS1: no fusion detected."
+    },
+    "braf": {
+      "docId": "SYN-0417-MOL",
+      "quote": "BRAF: no pathogenic variant detected."
+    },
+    "met_ex14": {
+      "docId": "SYN-0417-MOL",
+      "quote": "MET: no exon 14 skipping variant detected; no amplification detected."
+    },
+    "met_amp": {
+      "docId": "SYN-0417-MOL",
+      "quote": "MET: no exon 14 skipping variant detected; no amplification detected."
+    },
+    "ret": {
+      "docId": "SYN-0417-MOL",
+      "quote": "RET: no fusion detected."
+    },
+    "her2_mutation": {
+      "docId": "SYN-0417-MOL",
+      "quote": "HER2 (ERBB2): no pathogenic variant or amplification detected."
+    },
+    "her2_amplification": {
+      "docId": "SYN-0417-MOL",
+      "quote": "HER2 (ERBB2): no pathogenic variant or amplification detected."
+    },
+    "nrg1": {
+      "docId": "SYN-0417-MOL",
+      "quote": "NRG1: no fusion detected."
+    },
+    "pdl1_tps": {
+      "docId": "SYN-0417-MOL",
+      "quote": "PD-L1 (22C3) tumour proportion score (TPS): 0%."
+    },
+    "molecular_lab_accredited": {
+      "docId": "SYN-0417-MOL",
+      "quote": "Accreditation: validated NGS assay; laboratory accredited to ISO 15189 (simulated)."
+    }
+  }
+}

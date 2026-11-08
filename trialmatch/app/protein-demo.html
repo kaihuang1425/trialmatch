@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrialMatch · Protein view board</title>
+<style>
+/* Proof board for the protein view. Offline: no fonts or scripts from the network. */
+:root {
+  --ink: #14202e; --muted: #5b6878; --line: #dde3ea; --line2: #eef1f5; --bg: #f3f6f9; --surface: #ffffff;
+  --staff: #127c72; --staff-ink: #0f6b62; --staff-soft: #e3f3f1;
+  --unk: #6b5bd2; --unk-ink: #4f43b3; --unk-soft: #efedfc; --good: #1f7a3d; --good-soft: #e6f4ea;
+  --neg-ink: #3d4a5a; --neg-soft: #eef1f5; --link: #2b6fd6; --chip: #14202e; --chip-ink: #ffffff;
+  --shadow: 0 10px 30px rgba(20, 32, 46, .12), 0 2px 6px rgba(20, 32, 46, .06);
+  --display: "Bricolage Grotesque", "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --ink: #e8edf3; --muted: #9aa7b6; --line: #2a3644; --line2: #223040; --bg: #0f1620; --surface: #17212d;
+  --staff: #3cc2b3; --staff-ink: #5fd6c8; --staff-soft: #12302d; --unk: #a99bff; --unk-ink: #c3b9ff; --unk-soft: #26214a;
+  --good: #5fd18a; --good-soft: #153222; --neg-ink: #c9d2dc; --neg-soft: #223040; --link: #7fb0ff; --chip: #e8edf3; --chip-ink: #14202e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"] {
+    --ink: #e8edf3; --muted: #9aa7b6; --line: #2a3644; --line2: #223040; --bg: #0f1620; --surface: #17212d;
+    --staff: #3cc2b3; --staff-ink: #5fd6c8; --staff-soft: #12302d; --unk: #a99bff; --unk-ink: #c3b9ff; --unk-soft: #26214a;
+    --good: #5fd18a; --good-soft: #153222; --neg-ink: #c9d2dc; --neg-soft: #223040; --link: #7fb0ff; --chip: #e8edf3; --chip-ink: #14202e;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.4 var(--body); overflow-x: hidden; }
+button, select { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; margin: 0; padding: 0; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.bar { display: flex; align-items: center; gap: 12px; padding: 12px 28px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.logo { font: 800 21px var(--display); letter-spacing: -.02em; }
+.logo small { font: 600 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 8px; }
+.sp { flex: 1; }
+.mode { display: flex; padding: 3px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
+.mode button { height: 38px; min-width: 44px; padding: 0 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--muted); transition: background .2s ease, color .2s ease; }
+.mode button[aria-pressed="true"] { background: var(--staff-soft); color: var(--staff-ink); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 24px 28px 48px; display: grid; gap: 16px; }
+.pick { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
+.embed { height: 600px; border-radius: 24px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); padding: 16px 18px; }
+.embed[hidden] { display: none; }
+.pick label { display: grid; gap: 6px; font: 600 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.pick select { height: 46px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font: 500 14.5px var(--body); letter-spacing: 0; text-transform: none; color: var(--ink); min-width: 0; width: 100%; }
+.card { background: var(--surface); border-radius: 24px; box-shadow: var(--shadow); padding: 22px; display: grid; gap: 14px; animation: rise .5s var(--ease) both; }
+.pid { font: 500 20px var(--mono); }
+.syn { font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 8px; }
+.trial { font-weight: 700; font-size: 15px; line-height: 1.25; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12.5px; font-weight: 600; }
+.p-pos { background: var(--chip); color: var(--chip-ink); }
+.p-neg { background: var(--neg-soft); color: var(--neg-ink); }
+.p-unk { background: var(--unk-soft); color: var(--unk-ink); box-shadow: inset 0 0 0 1.5px var(--unk); }
+.see { justify-self: start; display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 18px 0 14px; border-radius: 14px; background: var(--staff); color: #fff; font-weight: 700; transition: transform .2s cubic-bezier(.34, 1.56, .64, 1), box-shadow .2s ease; box-shadow: 0 8px 20px rgba(18, 124, 114, .25); }
+:root[data-theme="dark"] .see { color: #0b1a18; }
+.see:hover { transform: translateY(-2px); }
+.see:active { transform: scale(.96); }
+.see[disabled] { background: var(--line); color: var(--muted); box-shadow: none; cursor: default; transform: none; }
+@keyframes rise { from { opacity: .4; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+@media (max-width: 600px) {
+  .bar { padding: 10px 16px; }
+  .logo small { display: none; }
+  .wrap { padding: 16px 16px 40px; }
+  .pick { grid-template-columns: minmax(0, 1fr); }
+  .embed { height: 560px; padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="logo">TrialMatch<small>Protein view</small></div>
+  <div class="sp"></div>
+  <div class="mode" role="group" aria-label="Theme">
+    <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+  </div>
+</header>
+<main class="wrap">
+  <div class="pick">
+    <label>Patient <select id="patient"></select></label>
+    <label>Trial <select id="trial"></select></label>
+    <div class="mode" role="group" aria-label="Layout">
+      <button type="button" data-layout="drawer" aria-pressed="true">Drawer</button>
+      <button type="button" data-layout="embed" aria-pressed="false">Embedded</button>
+    </div>
+  </div>
+  <article class="card" id="card" aria-live="polite"></article>
+  <section class="embed" id="embed" aria-label="Embedded protein view" hidden></section>
+</main>
+
+<script>
+// Demo records. TCGA-* are the app's de-identified public research records (same fields as build_app.records());
+// SYN-* are synthetic, written for this board, and labelled as such.
+var PATIENTS = [
+  { id: 'TCGA-93-A4JP', biomarkers: { EGFR: 'positive', EGFR_type: 'sensitising', KRAS_G12C: 'unknown', KRAS_G12D: 'unknown', BRAF_V600E: 'unknown', ALK: 'negative', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'unknown' },
+    evidence: { EGFR: 'EGFR: L861Q (clinical test)' } },
+  { id: 'TCGA-49-AAQV', biomarkers: { EGFR: 'positive', EGFR_type: 'sensitising', KRAS_G12C: 'unknown', KRAS_G12D: 'unknown', BRAF_V600E: 'unknown', ALK: 'unknown', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'unknown' },
+    evidence: { EGFR: 'EGFR: Exon 19 deletion (clinical test)' } },
+  { id: 'TCGA-86-7714', biomarkers: { EGFR: 'negative', EGFR_type: null, KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'positive', ALK: 'unknown', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'negative' },
+    evidence: { EGFR: 'EGFR: No mutation found (sequencing)', BRAF_V600E: 'BRAF: V600E (sequencing)' } },
+  { id: 'TCGA-99-8033', biomarkers: { EGFR: 'unknown', EGFR_type: null, KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'unknown', ALK: 'negative', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'unknown' },
+    evidence: { EGFR: 'EGFR: Test recorded, result missing' } },
+  { id: 'TCGA-49-4494', biomarkers: { EGFR: 'positive', EGFR_type: 'sensitising', KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'negative', ALK: 'unknown', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'negative' },
+    evidence: { EGFR: 'EGFR: T790M + L858R (sequencing)' } },
+  { id: 'TCGA-78-7160', biomarkers: { EGFR: 'negative', EGFR_type: null, KRAS_G12C: 'negative', KRAS_G12D: 'positive', BRAF_V600E: 'negative', ALK: 'negative', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'negative' },
+    evidence: { EGFR: 'EGFR: No mutation found (sequencing)' } },
+  { id: 'SYN-KRAS-G12C', synthetic: true, biomarkers: { EGFR: 'negative', KRAS_G12C: 'positive', KRAS_G12D: 'negative', BRAF_V600E: 'negative', ALK: 'negative', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'unknown' } },
+  { id: 'SYN-EGFR-SENS', synthetic: true, biomarkers: { EGFR: 'positive', EGFR_type: 'sensitising', KRAS_G12C: 'unknown', KRAS_G12D: 'unknown', BRAF_V600E: 'unknown', ALK: 'negative', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'unknown' } },
+  { id: 'SYN-ALK', synthetic: true, biomarkers: { EGFR: 'negative', KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'negative', ALK: 'positive', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'unknown' } },
+  { id: 'SYN-ROS1', synthetic: true, biomarkers: { EGFR: 'negative', KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'negative', ALK: 'negative', ROS1: 'positive', RET: 'unknown', MET_ex14: 'unknown' } },
+  { id: 'SYN-RET', synthetic: true, biomarkers: { EGFR: 'negative', KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'negative', ALK: 'negative', ROS1: 'unknown', RET: 'positive', MET_ex14: 'unknown' } },
+  { id: 'SYN-MET14', synthetic: true, biomarkers: { EGFR: 'negative', KRAS_G12C: 'negative', KRAS_G12D: 'negative', BRAF_V600E: 'negative', ALK: 'negative', ROS1: 'unknown', RET: 'unknown', MET_ex14: 'positive' } }
+];
+// Trial objects in the app bundle's shape (nct, short, title, drugs), copied from app/index.html (snapshot 7 Nov 2026).
+var TRIALS = [
+  { label: 'BNT327 · ROSETTA Lung-02', nct: 'NCT06712316', short: 'Safety, Efficacy, and Pharmacokinetics of BNT327 in…', title: 'Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)', drugs: ['Pumitamig', 'Pembrolizumab', 'Carboplatin', 'Pemetrexed', 'Paclitaxel'] },
+  { label: 'DETERMINE arm 07 · dabrafenib + trametinib', nct: 'NCT07440290', short: 'DETERMINE', title: 'DETERMINE Trial Treatment Arm 07: Dabrafenib in Combination With Trametinib in Adult, Paediatric and Teenage/Young Adult Patients With BRAF V600 Mutation-Positive Cancers.', drugs: ['Dabrafenib', 'Trametinib'] },
+  { label: 'CodeBreaK 202 · sotorasib', nct: 'NCT05920356', short: 'A Study Evaluating Sotorasib Platinum Doublet Combination…', title: 'A Study Evaluating Sotorasib Platinum Doublet Combination Versus Pembrolizumab Platinum Doublet Combination as a Front-Line Therapy in Participants With Stage IV or Advanced Stage IIIB/C Nonsquamous Non-Small Cell Lung Cancers (CodeBreaK 202)', drugs: ['Sotorasib', 'Pembrolizumab'] },
+  { label: 'KRYSTAL-7 · adagrasib', nct: 'NCT04613596', short: 'Phase 2 Trial of Adagrasib Monotherapy and in Combination…', title: 'Phase 2 Trial of Adagrasib Monotherapy and in Combination With Pembrolizumab and a Phase 3 Trial of Adagrasib in Combination in Patients With a KRAS G12C Mutation KRYSTAL-7', drugs: ['Adagrasib', 'Pembrolizumab'] },
+  { label: 'Krascendo 2 · divarasib', nct: 'NCT06793215', short: 'Krascendo 2', title: 'A Study Evaluating the Efficacy and Safety of Divarasib and Pembrolizumab Versus Pembrolizumab and Pemetrexed and Carboplatin or Cisplatin in Participants With Previously Untreated, KRAS G12C-Mutated, Advanced or Metastatic Non-Squamous Non-Small Cell Lung Cancer', drugs: ['Divarasib', 'Pembrolizumab', 'Pemetrexed', 'Carboplatin', 'Cisplatin'] },
+  { label: 'KANDLELIT-007 · calderasib', nct: 'NCT07190248', short: 'A Clinical Study of Calderasib (MK-1084) and Other…', title: 'A Clinical Study of Calderasib (MK-1084) and Other Treatments for Participants With Non-Small Cell Lung Cancer (MK-1084-007/KANDLELIT-007)', drugs: ['Calderasib', 'Pembrolizumab (+) Berahyaluronidase alfa', 'Pemetrexed', 'Cisplatin', 'Carboplatin'] },
+  { label: 'SUNRAY-02 · olomorasib', nct: 'NCT06890598', short: 'SUNRAY-02', title: 'Study of Olomorasib (LY3537982) in Combination With Standard of Care in Participants With Resected or Unresectable KRAS G12C-mutant Non-Small Cell Lung Cancer', drugs: ['Olomorasib', 'Pembrolizumab', 'Durvalumab'] },
+  { label: 'RASolve 308 · zoldonrasib', nct: 'NCT07777822', short: 'RASolve 308', title: 'Study of Pembrolizumab + Pemetrexed + Platinum Chemotherapy With or Without Zoldonrasib as First Line Treatment in Metastatic Non-squamous RAS G12D-Mutated NSCLC', drugs: ['zoldonrasib', 'pembrolizumab', 'pemetrexed + cisplatin /carboplatin'] },
+  { label: 'FLETEO · TY-9591 vs osimertinib', nct: 'NCT05382728', short: 'Phase III Study of TY-9591 in Patients With Locally…', title: 'Phase III Study of TY-9591 in Patients With Locally Advanced or Metastatic Non-small Cell Lung Cancer (FLETEO)', drugs: ['TY-9591', 'Osimertinib'] },
+  { label: 'Lorlatinib vs chemoradiotherapy', nct: 'NCT06858410', short: 'Lorlatinib Compared with Concurrent/ Sequential…', title: 'Lorlatinib Compared with Concurrent/ Sequential Chemoradiotherapy in Stage III ALK Positive Lung Adenocarcinoma', drugs: ['lorlatinib', 'concurrent/sequential platinum-based…'] },
+  { label: 'ALKAZAR · neladalkib vs alectinib', nct: 'NCT06765109', short: 'ALKAZAR', title: 'Neladalkib (NVL-655) for TKI-naive Patients With Advanced ALK-Positive NSCLC', drugs: ['Neladalkib (NVL-655)', 'Alectinib'] },
+  { label: 'Taletrectinib vs crizotinib', nct: 'NCT06564324', short: 'A Phase III Study Comparing Taletrectinib With Standard…', title: 'A Phase III Study Comparing Taletrectinib With Standard Therapy in ROS1 Positive Locally Advanced or Metastatic Non-small Cell Lung Cancer Patients', drugs: ['Taletrectinib', 'Crizotinib'] },
+  { label: 'COMET · tepotinib', nct: 'NCT06908993', short: 'COMET', title: 'Tepotinib vs Standard Treatment in Patients With Advanced MET Exon 14 Mutated Non-Small Cell Lung Cancer Previously Treated', drugs: ['Tepotinib', 'Pemetrexed (Alimta)', 'Vinorelbine', 'Gemcitabine alone', 'Docetaxel'] },
+  { label: 'DETERMINE arm 05 · vemurafenib', nct: 'NCT05768178', short: 'DETERMINE', title: 'DETERMINE Trial Treatment Arm 05: Vemurafenib in Combination With Cobimetinib in Adult Patients With BRAF Positive Cancers.', drugs: ['Vemurafenib', 'Cobimetinib'] }
+];
+var NAMES = { EGFR: 'EGFR', KRAS_G12C: 'KRAS G12C', KRAS_G12D: 'KRAS G12D', BRAF_V600E: 'BRAF V600E', ALK: 'ALK', ROS1: 'ROS1', RET: 'RET', MET_ex14: 'MET exon 14' };
+</script>
+<script src="protein/protein-view.js"></script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var $p = document.getElementById('patient'), $t = document.getElementById('trial'), $card = document.getElementById('card');
+  PATIENTS.forEach(function (p) { $p.add(new Option((p.synthetic ? 'Synthetic · ' : '') + p.id, p.id)); });
+  TRIALS.forEach(function (t) { $t.add(new Option(t.label, t.nct)); });
+  if (q.get('p')) $p.value = q.get('p');
+  if (q.get('t')) $t.value = q.get('t');
+  var theme = q.get('theme') || 'auto';
+
+  function setTheme(t) {
+    theme = t;
+    document.documentElement.setAttribute('data-theme', t);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-theme-set]'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-theme-set') === t ? 'true' : 'false');
+    });
+    TMProtein.setTheme(t);
+    if (window.__pvMount) window.__pvMount.setTheme(t);
+  }
+  // mount(): the same view inside a host element (no scrim, focus trap or Esc)
+  var layout = q.get('embed') === '1' ? 'embed' : 'drawer';
+  function setLayout(l) {
+    layout = l;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-layout]'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-layout') === l ? 'true' : 'false');
+    });
+    remount();
+  }
+  function remount() {
+    var box = document.getElementById('embed');
+    if (window.__pvMount) { window.__pvMount.destroy(); window.__pvMount = null; }
+    box.hidden = layout !== 'embed';
+    if (layout !== 'embed') return;
+    var c = current();
+    window.__pvMount = TMProtein.mount(box, { record: c.record, trial: c.trial, theme: theme, mode: q.get('mode') || 'change',
+      forceStill: q.get('nogl') === '1', onReady: function (info) { box.setAttribute('data-ready', info.render); } });
+  }
+  function current() {
+    return { record: PATIENTS.filter(function (p) { return p.id === $p.value; })[0], trial: TRIALS.filter(function (t) { return t.nct === $t.value; })[0] };
+  }
+  function render() {
+    var c = current(), r = TMProtein.resolve(c.record, c.trial), bm = c.record.biomarkers;
+    var chips = Object.keys(NAMES).map(function (k) {
+      var s = bm[k] || 'unknown';
+      return '<span class="pill ' + (s === 'positive' ? 'p-pos' : s === 'negative' ? 'p-neg' : 'p-unk') + '">' + NAMES[k] +
+        (s === 'positive' ? '' : s === 'negative' ? ' −' : ' ?') + '</span>';
+    }).join('');
+    $card.innerHTML =
+      '<div><span class="pid">' + c.record.id + '</span>' + (c.record.synthetic ? '<span class="syn">Synthetic</span>' : '') + '</div>' +
+      '<div class="trial">' + c.trial.label + '</div>' +
+      '<div class="chips">' + chips + '</div>' +
+      '<button type="button" class="see" id="see">' +
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="7" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="M8.3 8.2l2.6 6.6M15.6 8.1l-2.5 6.6M8.5 7l6-.8"/></svg>' +
+        (r.kind === 'nodriver' ? 'See the tests' : 'See the change') + '</button>';
+    $card.style.animation = 'none'; void $card.offsetWidth; $card.style.animation = '';
+  }
+  function openView() {
+    var c = current();
+    TMProtein.open({ record: c.record, trial: c.trial, opener: document.getElementById('see'), theme: theme,
+      mode: q.get('mode') || 'change', forceStill: q.get('nogl') === '1' });
+  }
+  document.addEventListener('click', function (e) {
+    var tb = e.target.closest('[data-theme-set]');
+    if (tb) setTheme(tb.getAttribute('data-theme-set'));
+    var lb = e.target.closest('[data-layout]');
+    if (lb) setLayout(lb.getAttribute('data-layout'));
+    if (e.target.closest('#see')) openView();
+  });
+  $p.addEventListener('change', function () { render(); remount(); });
+  $t.addEventListener('change', function () { render(); remount(); });
+  setTheme(theme);
+  render();
+  setLayout(layout);
+  if (q.get('open') === '1') openView();
+})();
+</script>
+</body>
+</html>

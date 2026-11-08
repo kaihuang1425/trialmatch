@@ -1,0 +1,547 @@
+{
+  "patientId": "SYN-0417",
+  "synthetic": true,
+  "note": "SYNTHETIC patient. Facts written by hand before any document was generated. Demo hero case.",
+  "summary": "63, non-squamous adenocarcinoma, stage IVA, untreated, ECOG 1, no brain metastases. No molecular report at first; labs about 7 weeks old on 2026-11-08.",
+  "profile": {
+    "sex": "Female"
+  },
+  "preferences": {
+    "homeCity": "London",
+    "travelLimitMiles": 60,
+    "daysAvailable": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu"
+    ]
+  },
+  "documents": [
+    {
+      "id": "SYN-0417-REF",
+      "kind": "referral_summary",
+      "date": "2026-09-20",
+      "initial": true,
+      "context": {
+        "sex": "Female",
+        "tnm": "cT2b N2 M1a",
+        "lesion": "right upper lobe mass 41 mm",
+        "comorbidities": "Hypertension, controlled on amlodipine.",
+        "molecularStatus": "Molecular pathology report awaited (tissue sent).",
+        "referringTeam": "Thoracic Oncology, North Thames District Hospital (simulated)",
+        "medicines": "Amlodipine 5 mg once daily."
+      }
+    },
+    {
+      "id": "SYN-0417-LAB",
+      "kind": "labs",
+      "date": "2026-09-20",
+      "initial": true
+    },
+    {
+      "id": "SYN-0417-MOL",
+      "kind": "molecular",
+      "date": "2026-11-07",
+      "initial": false,
+      "context": {
+        "generatedBy": "makeMolecularReport(DEFAULT_DEMO_MOLECULAR)"
+      }
+    }
+  ],
+  "facts": [
+    {
+      "key": "age",
+      "value": 63,
+      "unit": "years",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "histology",
+      "value": "nonsquamous_adenocarcinoma",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "stage",
+      "value": "IVA",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "curative_option",
+      "value": "not_amenable",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "ecog",
+      "value": 1,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_systemic_advanced",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_lines_advanced",
+      "value": 0,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_immunotherapy",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_platinum_chemo",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_kras_g12c_inhibitor",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_pan_ras_inhibitor",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_egfr_tki",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_osimertinib",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_alk_tki",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_docetaxel",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "brain_mets",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-12"
+    },
+    {
+      "key": "cns_symptomatic",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-12"
+    },
+    {
+      "key": "cns_untreated",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-12"
+    },
+    {
+      "key": "cns_progressing",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-12"
+    },
+    {
+      "key": "leptomeningeal",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-12"
+    },
+    {
+      "key": "measurable_disease",
+      "value": true,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "ild_history",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "ibd_history",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_anc",
+      "value": 4.1,
+      "unit": "x10^9/L",
+      "refHigh": 7.5,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_hemoglobin",
+      "value": 128,
+      "unit": "g/L",
+      "refHigh": 165,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_platelets",
+      "value": 265,
+      "unit": "x10^9/L",
+      "refHigh": 400,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_bilirubin",
+      "value": 9,
+      "unit": "umol/L",
+      "refHigh": 21,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_alt",
+      "value": 22,
+      "unit": "U/L",
+      "refHigh": 40,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_ast",
+      "value": 25,
+      "unit": "U/L",
+      "refHigh": 40,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_alp",
+      "value": 96,
+      "unit": "U/L",
+      "refHigh": 130,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_creatinine",
+      "value": 71,
+      "unit": "umol/L",
+      "refHigh": 90,
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "lab_egfr_renal",
+      "value": 88,
+      "unit": "mL/min/1.73m2",
+      "doc": "SYN-0417-LAB",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "kras",
+      "value": "G12C",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "nras",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "hras",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "egfr",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "alk",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "ros1",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "braf",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "met_ex14",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "met_amp",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "ret",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "her2_mutation",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "her2_amplification",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "nrg1",
+      "value": "not_detected",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "pdl1_tps",
+      "value": 0,
+      "unit": "%",
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    },
+    {
+      "key": "prior_her2_adc",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_anti_vegf",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_met_inhibitor",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "prior_zongertinib",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "last_systemic_therapy_end",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "adjuvant_therapy_end",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "in_investigational_study",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "measurable_unirradiated",
+      "value": true,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "spinal_cord_compression",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "gi_absorption_issue",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "cv_disease",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "uncontrolled_hypertension",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "qtcf_ms",
+      "value": 421,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-18",
+      "unit": "ms"
+    },
+    {
+      "key": "hiv",
+      "value": "negative",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "hepatitis_active",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "tb_active",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "active_infection",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "autoimmune_active",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "transplant_history",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "other_malignancy",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "uncontrolled_pain",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "effusion_drainage",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "major_surgery_recent",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "last_radiotherapy",
+      "value": "none",
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "immunosuppressive_meds",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "qt_prolonging_meds",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "strong_cyp3a_meds",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "growth_factor_4w",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "recent_antibiotics",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "live_vaccine_recent",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "pregnant_or_breastfeeding",
+      "value": false,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "tumour_sample_available",
+      "value": true,
+      "doc": "SYN-0417-REF",
+      "observedOn": "2026-09-20"
+    },
+    {
+      "key": "molecular_lab_accredited",
+      "value": true,
+      "doc": "SYN-0417-MOL",
+      "observedOn": "2026-11-07"
+    }
+  ]
+}

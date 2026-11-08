@@ -1,0 +1,5761 @@
+[
+ {
+  "nct": "NCT04951635",
+  "title": "A Phase III Study to Assess the Effects of Almonertinib Following Chemoradiation in Patients With Stage III Unresectable Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06956001",
+  "title": "Firmonertinib Versus Platinum Based Chemotherapy as First-line Treatment for NSCLC With EGFR PACC or EGFR l861q Mutation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.094,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07660094",
+  "title": "Aglatimagene Besadenovec + Prodrug and Pembrolizumab vs Docetaxel for Stage IV Non-Squamous NSCLC Progressing on Pembrolizumab (AURORA)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05382728",
+  "title": "Phase III Study of TY-9591 in Patients With Locally Advanced or Metastatic Non-small Cell Lung Cancer (FLETEO)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.121,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07185997",
+  "title": "Study to Evaluate Efficacy and Safety of Firmonertinib Compared With Investigator's Choice of EGFR Inhibitor as First-Line Treatment in Participants Who Have Locally Advanced or Metastatic NSCLC With EGFR P-Loop and Alpha C-Helix Compressing (PACC) Uncommon Mutations",
+  "uk_sites": 3,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07440290",
+  "title": "DETERMINE Trial Treatment Arm 07: Dabrafenib in Combination With Trametinib in Adult, Paediatric and Teenage/Young Adult Patients With BRAF V600 Mutation-Positive Cancers.",
+  "uk_sites": 27,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-2666",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06955325",
+  "title": "Umbrella Trial of Adjuvant Therapy in Completely Resected High-risk Stage IA-IB NSCLC: Focus on Driver Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-2666",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-3917",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06980272",
+  "title": "SSGJ-707 in Advanced Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07554846",
+  "title": "Comparison of Perioperative Immunotherapy, Adjuvant Immunotherapy or Neoadjuvant Immunotherapy for Resectable Stage II-IIIA NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07896005",
+  "title": "A Study of SHR-A1811 Combined With Adebrelimab for the First-line HER2-overexpressing Non-squamous Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05920356",
+  "title": "A Study Evaluating Sotorasib Platinum Doublet Combination Versus Pembrolizumab Platinum Doublet Combination as a Front-Line Therapy in Participants With Stage IV or Advanced Stage IIIB/C Nonsquamous Non-Small Cell Lung Cancers (CodeBreaK 202)",
+  "uk_sites": 6,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07560358",
+  "title": "Adebrelimab Combined With Chemoradiotherapy in Patients With Large Bulky Stage III Unresectable Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07756645",
+  "title": "A Study to Assess Intravenous ABBV-1480 Combined With Chemotherapy Versus Pembrolizumab Combined With Chemotherapy for the First Line Treatment of Locally Advanced/Metastatic Non-Small Cell Lung Cancer in Adult Participants",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05623267",
+  "title": "Sugemalimab as Consolidation Therapy in Patients With LS-SCLC Following cCRT or sCRT",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.296,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07010263",
+  "title": "A Study of AK112 as Consolidation Treatment for Patients With Limited Stage Small-cell Lung Cancer Who Have Not Progressed Following Concurrent Chemoradiation Therapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.296,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06350097",
+  "title": "Phase III, Open-label Study of First-line Osimertinib With or Without Datopotamab Deruxtecan for EGFRm Locally Advanced or Metastatic Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04465968",
+  "title": "Efficacy and Safety of CRT, Durvalumab and Surgery for SST",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07154706",
+  "title": "Phase 3 Study of Taletrectinib vs Placebo as an Adjuvant Therapy in ROS1 Positive NSCLC (TRUST-IV)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.296,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05852990",
+  "title": "Glutamine Plus L. Reuteri Prevents TKI Therapy-diarrhea in Patients With NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06704620",
+  "title": "Study of Tislelizumab and Platinum-based Chemotherapy Combination With H1 Receptor Antagonist\uff08Diphenhydramine\uff09in Advanced and Metastatic Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06847334",
+  "title": "A Study to Compare the Efficacy, Safety, Immunogenicity, and Pharmacokinetic Profile of HLX17 Vs. Keytruda\u00ae in the First-Line Treatment of Advanced Non-squamous Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04267848",
+  "title": "Testing the Addition of a Type of Drug Called Immunotherapy to the Usual Chemotherapy Treatment for Non-small Cell Lung Cancer, an ALCHEMIST Treatment Trial (Chemo-IO [ACCIO])",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-2666",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05624996",
+  "title": "Testing the Addition of High Dose, Targeted Radiation to the Usual Treatment for Locally-Advanced Inoperable Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06927986",
+  "title": "Phase III Trial of SYS6010 Versus Platinum-based Chemotherapy for EGFR-mutated NSCLC\uff08SYNSTAR01\uff09",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07816380",
+  "title": "A Phase III Study to Evaluate the Efficacy and Safety of JYP0322 in Previously Untreated ROS1-Positive Locally Advanced or Metastatic Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06080776",
+  "title": "SH-1028 Tablets Versus Placebo as Adjuvant Therapy in Resected Stage II-IIIB NSCLC With Sensitizing EGFR Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.173,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07672223",
+  "title": "A Study of SYS6010 Plus Anti-PD-(L)-1 Monoclonal Antibody as Adjuvant Therapy in Non-small Cell Lung Cancer (NSCLC)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4505",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06417008",
+  "title": "A Study of HS-20117 Combined With Aumolertinib in Participants With Advanced Non-Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07149649",
+  "title": "Magnesium Supplementation in Advanced Non-small Cell Lung Cancer (NSCLC)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.145,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.102,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07829549",
+  "title": "Phase III Study of RC148 Plus Chemotherapy Versus Tislelizumab Plus Chemotherapy as First-Line Treatment for Non-Squamous Non-Small Cell Lung Cancer Without Actionable Genomic Alterations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05255302",
+  "title": "De-escalation Immunotherapy mAintenance Duration Trial for Stage IV Lung Cancer Patients With Disease Control After Chemo-immunotherapy Induction",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06452277",
+  "title": "A Study to Learn More About How Well Sevabertinib Works and How Safe it is Compared With Standard Treatment, in Participants Who Have Advanced Non-small Cell Lung Cancer (NSCLC) With Mutations of the Human Epidermal Growth Factor Receptor 2 (HER2)",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04585490",
+  "title": "Adaptive ctDNA-Based Personalization of Treatment During Consolidation Therapy in NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07601048",
+  "title": "A Trial of HRS-7058 in Advanced or Metastatic Non-Small Cell Lung Cancer Patients Who Have Failed Standard Treatment",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06908993",
+  "title": "Tepotinib vs Standard Treatment in Patients With Advanced MET Exon 14 Mutated Non-Small Cell Lung Cancer Previously Treated",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.094,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05487391",
+  "title": "A Study of QL1706 Combined With Platinum-containing Chemotherapy in Adjuvant Treatment of Stage II-IIIB Non-small Cell Lung Cancer After Complete Surgical Resection.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.296,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07662395",
+  "title": "SCTB41 Combined With Chemotherapy in Advanced Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.113,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07360132",
+  "title": "Phase III Clinical Study of HB0025 Combined With Chemotherapy Versus Pembrolizumab Combined With Chemotherapy for the First-Line Treatment of Advanced Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06486142",
+  "title": "EGFR-mutated Lung Cancer in Randomized Investigator-Initiated Study",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07895992",
+  "title": "SHR-A2009 Combined With Bevacizumab in the Treatment of Locally Advanced or Metastatic Non-squamous Non-small Cell Lung Cancer : a Randomized Controlled, Open, Multicenter Phase III Study",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06561386",
+  "title": "A Study to Compare the Efficacy of Nivolumab and Relatlimab Plus Chemotherapy vs Pembrolizumab Plus Chemotherapy for Stage IV/Recurrent Non-squamous Non-small Cell Lung Cancer With PD-L1 Expression \u2265 1%",
+  "uk_sites": 12,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06735391",
+  "title": "A Clinical Study of JMT101 in Combination With Osimertinib Versus Osimertinib Alone as First-Line Treatment for Patients With Locally Advanced or Metastatic Non-Squamous Non-Small Cell Lung Cancer (NSCLC) Harboring Epidermal Growth Factor Receptor (EGFR) Sensitive Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.094,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07361510",
+  "title": "A Study to Evaluate the Efficacy of Pumitamig Versus Pembrolizumab in Participants With Previously Untreated Advanced Non-Small Cell Lung Cancer and PD-L1 \u2265 50%. (ROSETTA Lung-202)",
+  "uk_sites": 9,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07715396",
+  "title": "Addition of Platinum-based Chemotherapy to Tislelizumab in PD-L1high Metastatic Non-small Cell Lung Cancer With a High Tumor Burden",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06141070",
+  "title": "Addition of Hypofractionated High Dose Radiation in Oligometastatic Disease",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05236946",
+  "title": "Observation or Upfront Cranial RT in Oncogene Mutated NSCLC With Asymptomatic BM: A Phase III RCT",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-50-6673",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-3917",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06123754",
+  "title": "Phase III Study of Envafolimab Versus Placebo Plus Chemotherapy in Resectable Stage III NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05768178",
+  "title": "DETERMINE Trial Treatment Arm 05: Vemurafenib in Combination With Cobimetinib in Adult Patients With BRAF Positive Cancers.",
+  "uk_sites": 16,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07897188",
+  "title": "ASKC202 Plus Limertinib as the First-line Therapy for Patients With EGFRm+/MET+ Locally Advanced or Metastatic NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07222566",
+  "title": "Symbiotic-Lung-01 : A Study to Learn About the Study Medicine Called PF-08634404 in Combination With Chemotherapy in Adult Participants With Locally Advanced or Metastatic Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05800223",
+  "title": "Armatinib Alone or in Combination With SRT for Brain Metastases EGFR-mutated Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07150663",
+  "title": "Nanocrystalline Megestrol Acetate in Concurrent Chemoradiotherapy for Locally Advanced Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06881784",
+  "title": "Study of Daraxonrasib (RMC-6236) in Patients With RAS Mutated NSCLC (RASolve 301)",
+  "uk_sites": 9,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07376382",
+  "title": "A Phase \u2162 Clinical Study of SYS6010 in Combination With Osimertinib in Patients With Locally Advanced or Metastatic NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07182682",
+  "title": "A Phase 3 Study of Sunvozertinib Versus Placebo as Adjuvant Therapy in Patients With Early-Stage Non-Small Cell Lung Cancer Harboring EGFR Exon 20 Insertion Mutations or PACC Mutations After Radical Surgery",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.296,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04181060",
+  "title": "Osimertinib With or Without Bevacizumab as Initial Treatment for Patients With EGFR-Mutant Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-8067",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06598527",
+  "title": "Stereotactic Body Radiotherapy Followed by Tislelizumab Plus Platinum-based Chemotherapy Versus Tislelizumab Plus Platinum-based Chemotherapy as Neoadjuvant Therapy in Patients With Resectable Stage \u2161-\u2162 Non-small Cell Lung Cancer: A Phase \u2162, Randomized, Multicenter, Prospective Study",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06908772",
+  "title": "Glumetinib Combined With Osimertinib Treatment for Non-Small Cell Lung Cancer Patients",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.173,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06041776",
+  "title": "Adjuvant Befotertinib in Stage IB-IIIB Non-small Cell Lung Cancer With Positive EGFR Sensitive Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.864,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-50-6673",
+    "score": 0.423,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07242274",
+  "title": "Phase 3 Trial of JMKX001899 Versus Docetaxel in Previously Treated Advanced or Metastatic KRAS G12C-Mutant NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06712316",
+  "title": "Safety, Efficacy, and Pharmacokinetics of BNT327 in Combination With Chemotherapy and Other Investigational Agents for Lung Cancer (ROSETTA Lung-02)",
+  "uk_sites": 19,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07005102",
+  "title": "A Study to Assess Adverse Events, Change in Disease Activity of Intravenous Telisotuzumab Adizutecan in Combination With Osimertinib as First-Line Treatment in Adult Participants With Locally Advanced Unresectable or Metastatic EGFR-Mutated Non-Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04853342",
+  "title": "To Assess the Efficacy and Safety of Furmonertinib Versus Placebo, in Patients With Epidermal Growth Factor Receptor Mutation Positive Stage II-IIIA Non-small Cell Lung Carcinoma, Following Complete Tumour Resection With or Without Adjuvant Chemotherapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-44-3917",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06357533",
+  "title": "Phase III, Open-label, Study of First-line Dato-DXd in Combination With Rilvegostomig for Advanced Non-squamous NSCLC With High PD-L1 Expression (TC \u2265 50%) and Without Actionable Genomic Alterations",
+  "uk_sites": 8,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.113,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04980716",
+  "title": "Early Specialized Cardiovascular Intervention Based on Impedance Cardiography in Locally Advanced Non-small Cell Lung Cancer Patients",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07908732",
+  "title": "Risk-Adapted Segmental Esophagus-Sparing Radiotherapy for Definitive Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07895238",
+  "title": "A Study of Perioperative Adebrelimab Plus Chemotherapy Versus Adjuvant Therapy in Patients With Resectable NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07131319",
+  "title": "SFRT+Tislelizumab+Platinum Chemotherapy for Unresectable Stage III NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07566052",
+  "title": "A Study to Compare Setidegrasib (ASP3082) With Docetaxel, in People With Non-small Cell Lung Cancer With a KRAS G12D Mutation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.032,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05317858",
+  "title": "Blood-brain Barrier (BBB) Opening Using Exablate Focused Ultrasound With Standard of Care Treatment of NSCLC Brain Mets",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07668752",
+  "title": "A Study to Evaluate GFH375 Versus Docetaxel in Participants With Non-Small Cell Lung Cancer With KRAS G12D Mutation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06096844",
+  "title": "Chemotherapy Combined With Immunotherapy Versus Immunotherapy Alone for Older Adults With Stage IIIB-IV Lung Cancer, The ACHIEVE Trial",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06754644",
+  "title": "A Study to Evaluate Efficacy, and Safety of QL2107 Plus Chemo and Compare With Keytruda in Participants With IV nqNSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07109531",
+  "title": "ASKC202 Combined With Limertinib Versus Platinum-based Chemotherapy in Treatment of Locally Advanced or Metastatic NSCLC With MET Amplification/Overexpression After Failure of EGFR-TKI Therapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06931717",
+  "title": "A Clinical Study to Assess the Efficacy of Adjuvant Immunotherapy With Cemiplimab in Patients With Surgically Removed Non-small Cell Lung Cancer Who Have Not Received Prior Chemotherapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7166",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06868277",
+  "title": "A Global Phase III Study of Rilvegostomig or Pembrolizumab Monotherapy for First-Line Treatment of PD-L1-high Metastatic Non-small Cell Lung Cancer",
+  "uk_sites": 6,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07190248",
+  "title": "A Clinical Study of Calderasib (MK-1084) and Other Treatments for Participants With Non-Small Cell Lung Cancer (MK-1084-007/KANDLELIT-007)",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06323148",
+  "title": "Adjuvant Target Therapy Guided by ctDNA-MRD in Patients With EGFR-mutant II-IIIA Non-small Cell Lung Cancer (ECTOP-1022)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07908745",
+  "title": "Reduced-Dose vs Standard-Dose Thoracic Radiotherapy After Induction Chemoimmunotherapy in Older or Frail Stage III NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06430437",
+  "title": "A Study of SHR-A1811 in First-line Treatment of Patients With Advanced or Metastatic Non-small Cell Lung Cancer With HER2 Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06545747",
+  "title": "Adaptive Hypofractionated Radiotherapy for Locally Advanced NSCLC Based on Dynamic Enhanced MRI",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07442565",
+  "title": "SYS6010 Versus Docetaxel for Previously Treated EGFR Wild-type NSCLC: Phase \u2162",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07135882",
+  "title": "Primary Radiotherapy In MEtastatic Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07362459",
+  "title": "A Study to Evaluate the Safety and Tolerability of SCTB14 as First-Line Therapy in Non-Small Cell Lung Cancer.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.055,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.055,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.046,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07388524",
+  "title": "Testing the Impact of an Anti-Cancer Drug, Atezolizumab, After Surgery to Prevent Early Stage Non-small Cell Lung Cancer From Returning, AASI-NSCLC Trial",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-93-8067",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06838273",
+  "title": "A Study of BL-B01D1 in Combination With Osimertinib Versus Osimertinib as First-Line Treatment in Patients With EGFR-Mutated Locally Advanced or Metastatic Non-Small Cell Lung Cancer(PANKU-Lung04)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07416474",
+  "title": "RC148 Plus Platinum-Based Chemotherapy vs Tislelizumab Plus Platinum-Based Chemotherapy for First-Line Squamous Non-Small Cell Lung Cancer (sqNSCLC)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.113,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07642024",
+  "title": "A Study of BL-B01D1 in Combination With Osimertinib as Perioperative Therapy in Patients With EGFR-mutated Resectable Non-small Cell Lung Cancer(PANKU-Lung09)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-44-3917",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07738172",
+  "title": "Osimertinib With or Without Primary Lung Tumor Resection for EGFR-Mutant Oligometastatic Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06523673",
+  "title": "Stereotactic Body Radiotherapy for Oligo-Progression Metastatic Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06564324",
+  "title": "A Phase III Study Comparing Taletrectinib With Standard Therapy in ROS1 Positive Locally Advanced or Metastatic Non-small Cell Lung Cancer Patients",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05990127",
+  "title": "A Study of AK104/Tislelizumab With Chemotherapy as First-line Treatment in PD-L1 TPS < 1% Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06300177",
+  "title": "D-1553 Tablet Versus Docetaxel Injection for KRAS G12C Mutation-positive Locally Advanced or Metastatic Non-small Cell Lung Cancer After Prior Standard Therapy Failure",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06745908",
+  "title": "Clinical Trial of N-803 Plus Tislelizumab or Prior Failed Immune Checkpoint Inhibitor and Docetaxel Versus Docetaxel Monotherapy in Participants With Advanced or Metastatic Non-Small Cell Lung Cancer Who Have Acquired Resistance to Immune Checkpoint Inhibitor Therapy",
+  "uk_sites": 10,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07361497",
+  "title": "A Study to Evaluate Pumitamig Versus Durvalumab Following Concurrent Chemoradiation Therapy in Participants With Unresectable Stage III Non-small Cell Lung Cancer (NSCLC) (ROSETTA Lung-201)",
+  "uk_sites": 12,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07633873",
+  "title": "SYS6010 Combined With Enlonstobart Versus Immunotherapy+ Platinum-based Chemotherapy for Patients With PD-L1-Positive Locally Advanced or Metastatic NSCLC\uff08SYNSTAR 04\uff09",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.055,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.055,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.046,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06254599",
+  "title": "A Study Of SY-3505 Versus Crizotinib In First Line Treatment Of Patients With ALK-Positive NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05445791",
+  "title": "Metformin Plus Tyrosine Kinase Inhibitors for Treatment of Patients With Non-small Cell Lung Cancer With EGFR Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.207,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.207,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.173,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07251582",
+  "title": "Effect of Infusion Timing on Pathologic Response to Neoadjuvant Immunotherapy in Resectable Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.113,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07318883",
+  "title": "A Phase II/III Clinical Study to Evaluate HLX07 in Combination With Serplulimab and Chemotherapy Versus Placebo in Combination With Serplulimab or Pembrolizumab and Chemotherapy as First-Line Treatment in Advanced Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.145,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.102,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07155187",
+  "title": "A Study to Assess Adverse Events and Change in Disease Activity of Intravenous (IV) Telisotuzumab Adizutecan, Monotherapy or in Combination With Osimertinib, Compared to Standard of Care in Adult Participants With Locally Advanced or Metastatic EGFR-Mutated Non-Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 2,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05278052",
+  "title": "Standard Maintenance Therapy (SMT) vs Local Consolidative Radiation Therapy and SMT in OM-NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06498635",
+  "title": "Immunotherapy After Surgery for People Who Have No Remaining Cancer Cells After Standard Treatment for Early-Stage Non-Small Cell Lung Cancer, INSIGHT Trial",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7166",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07100080",
+  "title": "Study of Izalontamab Brengitecan (BMS-986507) Versus Platinum-Pemetrexed for EGFR-mutated Non-small Cell Lung Cancer After Failure of EGFR TKI Therapy (IZABRIGHT-Lung01)",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07431827",
+  "title": "MK-3475A\u00b1Calderasib (MK-1084) in Completely Resected Stage IIA-IIIB (N2) KRAS G12Cm NSCLC (MK-1084-013)",
+  "uk_sites": 2,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.353,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06858410",
+  "title": "Lorlatinib Compared with Concurrent/ Sequential Chemoradiotherapy in Stage III ALK Positive Lung Adenocarcinoma",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07754123",
+  "title": "Phase III Study of HS-10504 Versus Platinum-Based Doublet Chemotherapy in Patients With C797S+ NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.094,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05989542",
+  "title": "A Confirmatory Clinical Study in NSCLC Patients With MET Exon 14 Mutation (KUNPENG-2)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07680790",
+  "title": "Study of Izalontamab Brengitecan (BMS-986507) in Combination With Osimertinib Versus Osimertinib Monotherapy or Osimertinib in Combination With Platinum-based Chemotherapy for EGFRmt Non-small Cell Lung Cancer (IZABRIGHT-Lung02)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06319313",
+  "title": "Efficacy and Safety of JMT101 Combined Wth Docetaxel / HB1801 in Patients With Squamous Cell Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0010636",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07154368",
+  "title": "JYP0322 Versus Platinum Based Doublet Chemotherapy in ROS1 Positive Patients Previously Treated With ROS1-TKIs.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05522660",
+  "title": "Immunotherapy or Targeted Therapy With or Without Stereotactic Radiosurgery for Patients With Brain Metastases From Melanoma or Non-small Cell Lung Cancer",
+  "uk_sites": 2,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-78-7166",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-50-6673",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07863999",
+  "title": "Neoadjuvant Chemotherapy Combined With Bispecific Antibody Versus Combined With Monoclonal Antibody in Locally Advanced NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06623422",
+  "title": "A Study of Pembrolizumab (MK-3475) With or Without Intismeran Autogene (V940) in Participants With Non-small Cell Lung Cancer (V940-009/INTerpath-009)",
+  "uk_sites": 12,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.207,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06908304",
+  "title": "A Phase III Study With THIO + Cemiplimab vs Chemotherapy as 3rd Line Treatment in Advanced/Metastatic NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06616584",
+  "title": "Adding the Immunotherapy Drug Cemiplimab to Usual Treatment for People With Advanced Non-Small Cell Lung Cancer Who Had Previous Treatment With Platinum Chemotherapy and Immunotherapy (An Expanded Lung-MAP Treatment Trial)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06284317",
+  "title": "A Study to Evaluate the Benefit of Adding Durvalumab After Chemotherapy, Durvalumab and Surgery in Patients With Early-stage, Operable, Non-small Cell Lung Cancer.",
+  "uk_sites": 7,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06170788",
+  "title": "Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab Versus Pembrolizumab Alone in Metastatic Non-small Cell Lung Cancer (NSCLC) With Programmed Cell Death Ligand 1 (PD-L1) Tumor Proportion Score (TPS) \u2265 50% (MK-2870-007)",
+  "uk_sites": 5,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06970782",
+  "title": "Vebreltinib Plus PLB1004 Versus Platinum-based Doublet Chemotherapy in Patients With EGFRm, MET+, Locally Advanced or Metastatic NSCLC Following EGFR-TKI Failure",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06961188",
+  "title": "Clinical Study on Nanocrystalline Megestrol Acetate for Appetite Improvement and Weight Gain in Pre-Cachexia and Cachexia Stages Key Terminology Analysis",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT02468024",
+  "title": "JoLT-Ca Sublobar Resection (SR) Versus Stereotactic Ablative Radiotherapy (SAbR) for Lung Cancer",
+  "uk_sites": 1,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-8067",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-50-6673",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-2666",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-44-3917",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07217301",
+  "title": "A Study Comparing TAK-928 With Docetaxel in Adults With Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.094,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06380348",
+  "title": "JMT101 in Combination With Osimertinib, Versus Cisplatin-pemetrexed in Participants With Locally Advanced or Metastatic Non-small Cell Lung Cancer (NSCLC) Characterized by Epithermal Growth Factor Receptor (EGFR) Exon 20ins Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07822542",
+  "title": "A Study Evaluating HS-10370 Plus Platinum-based Doublet Chemotherapy With or Without Adebrelimab vs. Tislelizumab Plus Chemotherapy as First-Line Therapy in Patients With Advanced KRAS G12C-Mutant Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07617389",
+  "title": "Selective Mediastinal Lymph Node Sampling Versus Systematic medIastinal Lymph Node Dissection After Neoadjuvant Chemoimmunotherapy for Non-small Cell Lung Cancer (SCIENCE Study)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06734702",
+  "title": "Neoadjuvant Immunotherapy Plus Chemotherapy Followed by Concurrent Chemoradiotherapy and Consolidative Immunotherapy for Locally Advanced Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07197853",
+  "title": "Clinical Efficacy and Safety of Microwave Ablation Combined With Huaier Granules in Patients With Inoperable Stage IA Non-Small Cell Lung Cancer: A Prospective, Single-Center, Randomized Controlled Clinical Trial",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0000731",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07416994",
+  "title": "Pivotal Study to Evaluate YL202 Versus Docetaxel in Patients With Locally Advanced or Metastatic EGFR Sensitive Mutation Non-Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07718737",
+  "title": "Global, Multicenter Study of AMT-116 Versus Investigator's Choice in Participants With Advanced or Metastatic Non-squamous EGFR-Wildtype Non-Small Cell Lung Cancer (NSCLC) With Progression on or After Platinum-Based Chemotherapy and Anti-PD-1/PD-L1 Immunotherapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07908537",
+  "title": "A Clinical Trial of Gocatamig (MK-6070) With Durvalumab in Participants With Small Cell Lung Cancer (MK-6070-004)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06692738",
+  "title": "A Global Phase III Study of Rilvegostomig or Pembrolizumab Plus Chemotherapy for First-Line Treatment of Locally Advanced or Metastatic Squamous Non-small Cell Lung Cancer (NSCLC)",
+  "uk_sites": 10,
+  "candidates": [
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07361484",
+  "title": "Docetaxel Plus Plinabulin vs Docetaxel Plus Placebo in Advanced/Metastatic Non-Squamous NSCLC After PD-1/PD-L1 Therapy and Platinum Chemotherapy (DUBLIN-4)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.207,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.173,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.145,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.145,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05767892",
+  "title": "YK-029A as First-Line Treatment Versus Platinum-Based Chemotherapy for Non-Small Cell Lung Cancer (NSCLC) With EGFR Exon 20 Insertion Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07739199",
+  "title": "A Study Comparing BL-B01D1 in Combination With PD-1/VEGF Bispecific Antibody Versus Chemotherapy in Combination With PD-1/VEGF Bispecific Antibody in First-line Patients With Locally Advanced or Metastatic Squamous Non-small Cell Lung Cancer(PANKU-Lung05)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07877584",
+  "title": "PD-1 Blockade Alone Versus in Combination With Chemotherapy as First Line Therapy in Females With Advanced NSCLC & PD-L1 Expression \u226550%",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06928389",
+  "title": "Ivonescimab in Combination With Docetaxel in Advanced Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.207,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.207,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06765109",
+  "title": "Neladalkib (NVL-655) for TKI-naive Patients With Advanced ALK-Positive NSCLC",
+  "uk_sites": 8,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07291037",
+  "title": "Phase III Study of Datopotamab Deruxtecan Versus Docetaxel in Previously Treated TROP2-positive Advanced or Metastatic Non-squamous NSCLC Without Actionable Genomic Alterations",
+  "uk_sites": 7,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07831863",
+  "title": "A Study of 7MW3711 Compared With Docetaxel in Advanced Squamous NSCLC After Prior Chemoimmunotherapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06767514",
+  "title": "Clinical Study of Ivonescimab for First-line Treatment of Metastatic NSCLC Patients With High PD-L1",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06617416",
+  "title": "A Study of AK104 in Subjects With Unresectable Locally Advanced NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07178795",
+  "title": "A Study of BL-M07D1 vs Pembrolizumab-platinum Chemotherapy in First-line Treatment of HER2-mutant Advanced or Metastatic Non-squamous NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04772287",
+  "title": "Adjuvant Toripalimab Plus Chemotherapy for EGFR/ALK Mutation Negative Stage II-IIIB(N2) NSCLC (LungMate-008)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07513376",
+  "title": "A Clinical Trial of Adjuvant Intismeran (V940) With or Without Pembrolizumab Coformulated With Berahyaluronidase Alfa (MK-3475A) in High-Risk Stage I Non-Small Cell Lung Cancer (V940-014)",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-50-6673",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-8067",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-44-2666",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-44-3917",
+    "score": 0.504,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06793215",
+  "title": "A Study Evaluating the Efficacy and Safety of Divarasib and Pembrolizumab Versus Pembrolizumab and Pemetrexed and Carboplatin or Cisplatin in Participants With Previously Untreated, KRAS G12C-Mutated, Advanced or Metastatic Non-Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 12,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04322617",
+  "title": "Anlotinib Plus Immune Checkpoint Inhibitors for Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07608159",
+  "title": "Neoadjuvant SF-SBRT Plus Toripalimab and Chemotherapy in Resectable Stage II-III NSCLC.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07541170",
+  "title": "A Study to Evaluate the Efficacy and Safety of Divarasib Compared With Investigator's Choice of Immunotherapy or Observation in Participants With Resected Stage II-III KRAS G12C-Positive Non-Small Cell Lung Cancer (NSCLC)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06930794",
+  "title": "A Study of Vebreltinib and Platinum-Containing Double Agents in Subjects With MET-Positive",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06345729",
+  "title": "A Study of Calderasib (MK-1084) Plus Pembrolizumab (MK-3475) in Participants With KRAS G12C Mutant Non-small Cell Lung Cancer (NSCLC) With Programmed Cell Death Ligand 1 (PD-L1) Tumor Proportion Score (TPS) \u226550% (MK-1084-004/KANDLELIT-004)",
+  "uk_sites": 2,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.207,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.173,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.173,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.173,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.173,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07383116",
+  "title": "Phase III Clinical Study of HB0025 Combined With Chemotherapy Versus Tislelizumab Combined With Chemotherapy as First-Line Treatment for Advanced Nonsquamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06758401",
+  "title": "This is a Study to Learn About How the Combination of the Study Medicines Sigvotatug Vedotin Plus Pembrolizumab Works in People With Non-small Cell Lung Cancer With High Levels of PD-L1.",
+  "uk_sites": 9,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.055,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.046,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.046,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07144280",
+  "title": "A Study to Learn About the Study Medicine Called PF-08046054/SGN-PDL1V Versus Docetaxel in Adult Participants With Previously-Treated Programmed Cell Death Ligand 1 (PD-L1) Positive Non-Small-Cell Lung Cancer (NSCLC)",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07739186",
+  "title": "A Study Evaluating BL-B01D1 in Combination With a PD-1/VEGF Bispecific Antibody Versus Tislelizumab Plus Platinum-doublet Chemotherapy as First-line Treatment for Locally Advanced or Metastatic Non-squamous Non-small Cell Lung Cancer(PANKU-Lung06)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07052669",
+  "title": "Hypofractionated Versus Conventional Chemoradiotherapy Followed by Consolidative Immunotherapy in Locally Advanced NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06500481",
+  "title": "Testing Proton Craniospinal Radiation Therapy Versus the Usual Radiation Therapy for Leptomeningeal Metastasis, RADIATE-LM Trial",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07662811",
+  "title": "SYHX2011 in Combination With Carboplatin and Enlonstobart as First-Line Therapy for Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-33-4538",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07365319",
+  "title": "A Safety and Efficacy Study of EIK1001 in Combination With Pembrolizumab and Chemotherapy in Participants With Stage 4 Non-Small Cell Lung Cancer.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.173,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.145,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.145,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.145,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.121,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07195695",
+  "title": "Beamion LUNG-3: Adjuvant Zongertinib vs Standard Treatment in People With Completely Resected Stage II-IIIB NSCLC Harboring Activating HER2 TKD Mutations",
+  "uk_sites": 6,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7166",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4505",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05085028",
+  "title": "A Randomised Open-label Phase III Trial of REduced Frequency Pembrolizumab immuNothErapy for First-line Treatment of Patients With Advanced Non-small Cell Lung Cancer (NSCLC)",
+  "uk_sites": 37,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07477808",
+  "title": "Megestrol Acetate for First-Line Treatment of Malnourished Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06216301",
+  "title": "LUNAR-2: TTFields With Pembrolizumab + Platinum-based Chemotherapy for Metastatic NSCLC",
+  "uk_sites": 5,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06890598",
+  "title": "Study of Olomorasib (LY3537982) in Combination With Standard of Care in Participants With Resected or Unresectable KRAS G12C-mutant Non-Small Cell Lung Cancer",
+  "uk_sites": 7,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06674343",
+  "title": "Furmonertinib 160mg as First-line Treatment in Locally Advanced or Metastatic NSCLC With EGFR Classical Mutations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.094,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.094,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07174908",
+  "title": "A Phase 3 Study of IN10018 in Combination With D-1553 Versus Standard Therapy for First Line Non-squamous Non-small Cell Lung Cancer With KRAS G12C Mutation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06970639",
+  "title": "A Study Evaluating Furmonertinib Plus Platinum-based Doublet Chemotherapy Versus Osimertinib in Patients With Epidermal Growth Factor Receptor (EGFR) Sensitizing Mutation-Positive Non-squamous Non-Small Cell Lung Cancer (NSCLC) and Brain Metastases",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.113,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.079,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.066,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.066,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07063745",
+  "title": "A Study to Compare the Combination of Navlimetostat (BMS-986504) With Pembrolizumab and Chemotherapy Versus Placebo Plus Pembrolizumab and Chemotherapy in First-line Metastatic Non-small Cell Lung Cancer Participants With Homozygous MTAP Deletion",
+  "uk_sites": 2,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.353,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06840782",
+  "title": "First-line Immunotherapy-based Standard of Care and Local Ablative Treatments for Oligometastatic Non-small Cell Lung Cancer Patients.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06031246",
+  "title": "Selective Lymph Node Dissection for cT1N0M0 Invasive NSCLC With CTR>0.5 Located in the Apical Segment (ECTOP-1018)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.8,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06416410",
+  "title": "JAB-21822 Combined With JAB-3312 Compared SOC in the First Line for Treatment of Advanced Non-small Cell Lung Cancer With KRAS p.G12C Mutation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07833202",
+  "title": "A Phase 3 Study of Sosimerasib in Combination With IN10018 Versus Standard Therapy for First Line Non-squamous Non-small Cell Lung Cancer With KRAS G12C Mutation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07809256",
+  "title": "A Prospective, Single-center, Non-randomized, Interventional Study on the Effectiveness and Safety of Combined Immunotargeted Therapy in Patients With Metastatic Non-small Cell Cancer With a RET Gene Translocation",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07554339",
+  "title": "A Clinical Trial of Calderasib (MK-1084) and Durvalumab in People With Non-Small Cell Lung Cancer (MK-1084-015/KANDLELIT-015)",
+  "uk_sites": 2,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.296,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06437977",
+  "title": "Neoadjuvant Therapy of SBRT Sequencial With Toripalimab and Chemotherapy in Resectable Stage II-III NSCLC Patients(neoR-TORCH)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06422143",
+  "title": "Pembrolizumab With or Without Maintenance Sacituzumab Tirumotecan (Sac-TMT; MK-2870) in Metastatic Squamous Non-small Cell Lung Cancer (NSCLC) [MK-2870-023]",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06875310",
+  "title": "A Study of Adagrasib Plus Pembrolizumab Plus Chemotherapy vs. Placebo Plus Pembrolizumab Plus Chemotherapy in Participants With Previously Untreated Non-squamous Non-small Cell Lung Cancer With KRAS G12C Mutation (KRYSTAL-4)",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.121,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.121,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.121,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04928846",
+  "title": "A Study to Assess Disease Activity and Adverse Events of Intravenous (IV) Telisotuzumab Vedotin Compared to IV Docetaxel in Adult Participants With Previously Treated Non-Squamous Non-Small Cell Lung Cancer (NSCLC)",
+  "uk_sites": 6,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT05654454",
+  "title": "A Safety and Efficacy Study of Bevacizumab, Paclitaxel, Carboplatin Compared to Avastin\u00ae in Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0001955",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0008944",
+    "score": 0.192,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04316364",
+  "title": "A Trial of SHR-1316/Placebo in Combination With Chemotherapy in Patients With Resectable NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.423,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06686771",
+  "title": "Radiotherapy to Block Oligoprogression In Metastatic Non-Small-Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06335355",
+  "title": "A Phase II/III Study of Adebrelimab in Combination With SHR-8068 and Chemotherapy in Advanced or Metastatic NSCLC Patients",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06828757",
+  "title": "Clinical Study of Nanocrystalline Megestrol in Malnourished Patients With First-Line Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-37-4132",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07865910",
+  "title": "A Study to Learn the Safety and Efficacy of HLX37 in Combination With Chemotherapy for First-line Treatment in Adult Participants With Locally Advanced or Metastatic Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06829459",
+  "title": "A Study to Evaluate the Efficacy and Safety of Glumetinib Combined With Osimertinib Mesylate Versus Platinum-based Doublet Chemotherapy in Non-Small Cell Lung Cancer Patients After Resistance to EGFR-TKIs",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-8067",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06119581",
+  "title": "A Study of First-Line Olomorasib (LY3537982) and Pembrolizumab With or Without Chemotherapy in Patients With Advanced KRAS G12C-Mutant Non-small Cell Lung Cancer",
+  "uk_sites": 8,
+  "candidates": [
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.042,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06627647",
+  "title": "A Global Phase III Study of Rilvegostomig or Pembrolizumab Plus Chemotherapy for First-Line Treatment of Locally Advanced or Metastatic Non-Squamous NSCLC",
+  "uk_sites": 10,
+  "candidates": [
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.079,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06899126",
+  "title": "Study of Trastuzumab Deruxtecan, Pembrolizumab, and Platinum-based Chemotherapy in First-line HER2 Overexpressing Non-small Cell Lung Cancer",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07640789",
+  "title": "A Study Comparing BL-B01D1 in Combination With Osimertinib Versus Osimertinib Alone in Patients With Locally Advanced, Unresectable EGFR-mutated Non-small Cell Lung Cancer(Stage III) Whose Disease Has Not Progressed Following Definitive Platinum-based Chemoradiation Therapy(PANKU-Lung08)",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0010891",
+    "score": 0.274,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07821684",
+  "title": "A Study to Assess Intravenous (IV) Telisotuzumab Adizutecan Compared to Standard of Care in Adult Participants Previously Treated, EGFR Wildtype, Locally Advanced/Metastatic Non-Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07777822",
+  "title": "Study of Pembrolizumab + Pemetrexed + Platinum Chemotherapy With or Without Zoldonrasib as First Line Treatment in Metastatic Non-squamous RAS G12D-Mutated NSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.353,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.247,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06607796",
+  "title": "Efficacy and Safety of Intratumoral Toluenesulfonamide (PTS) Injection in Stage IV Driver Gene-Negative NSCLC With/Without Chemoimmunotherapy",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.23,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06312137",
+  "title": "A Study to Assess Efficacy and Safety of Pembrolizumab With or Without Sacituzumab Tirumotecan (MK- 2870) in Adult Participants With Resectable Non Small Cell Lung Cancer (NSCLC) Not Achieving Pathological Complete Response (pCR) (MK-2870-019)",
+  "uk_sites": 5,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-78-7166",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-4505",
+    "score": 0.56,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT02448992",
+  "title": "Hippocampal-Sparing Prophylactic Cranial Irradiation in Pathologically Nodal Positive Non-Small-Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07128199",
+  "title": "A Study to Assess Zipalertinib Versus Placebo in Participants With Early Stage NSCLC With Uncommon EGFR Mutations, Following Complete Tumor Resection",
+  "uk_sites": 4,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.296,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.247,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-49-4494",
+    "score": 0.207,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-50-6673",
+    "score": 0.207,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06472245",
+  "title": "Trial of Therapeutic Cancer Vaccine OSE2101 in Patients With Non-Small Cell Lung Cancer and Secondary Resistance to Immune Checkpoint Inhibitor",
+  "uk_sites": 5,
+  "candidates": [
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.161,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0000731",
+    "score": 0.161,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07170995",
+  "title": "Phase III Study of SHR-8068 Combined With Adebrelimab and Chemotherapy Versus Tislelizumab Combined With Chemotherapy in the Treatment of Locally Advanced or Metastatic Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.329,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07888075",
+  "title": "Master Protocol for the Study of Rilogrotug for the Treatment of Weight Loss and Anorexia in Patients With Cancer Cachexia and mCRC or mNSCLC",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.605,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.504,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.504,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07459751",
+  "title": "A Global Phase II/III Clinical Study to Evaluate the Efficacy and Safety of HLX43 Monotherapy or HLX43 in Combination With HLX07 Versus Docetaxel in Advanced or Metastatic Squamous Non-Small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-18-3414",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-21-5787",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "P-0015758",
+    "score": 0.23,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-70-6722",
+    "score": 0.192,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07464327",
+  "title": "A Phase III Study of HS-20093 Injection Combined With Adebrelimab Versus Docetaxel in Previously Treated Patients With Advanced or Metastatic Non-Squamous Non-Small Cell Lung Cancer Without Actionable Genomic Alterations",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-97-8171",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-99-8033",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-78-7160",
+    "score": 0.392,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.392,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT06431633",
+  "title": "Study of Treatment With Sacituzumab and Zimberelimab for Patients With Lung Cancer Confined to the Chest and Previously Operated on Who Were Not Disease-free.",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.672,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-73-4668",
+    "score": 0.56,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-86-7714",
+    "score": 0.47,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.47,
+    "D": 1.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT04613596",
+  "title": "Phase 2 Trial of Adagrasib Monotherapy and in Combination With Pembrolizumab and a Phase 3 Trial of Adagrasib in Combination in Patients With a KRAS G12C Mutation KRYSTAL-7",
+  "uk_sites": 8,
+  "candidates": [
+   {
+    "patient": "P-0015758",
+    "score": 0.329,
+    "D": 1.0
+   },
+   {
+    "patient": "P-0010636",
+    "score": 0.274,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-53-7624",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-55-8620",
+    "score": 0.134,
+    "D": 0.0
+   },
+   {
+    "patient": "TCGA-93-A4JP",
+    "score": 0.134,
+    "D": 0.0
+   }
+  ]
+ },
+ {
+  "nct": "NCT07034326",
+  "title": "Electroacupuncture Combined With Immune Checkpoint Inhibitors as Adjuvant Therapy After Surgery for Early-stage Non-small Cell Lung Cancer",
+  "uk_sites": 0,
+  "candidates": [
+   {
+    "patient": "TCGA-49-AAQV",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-55-7914",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-49-AARO",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-93-8067",
+    "score": 0.96,
+    "D": 1.0
+   },
+   {
+    "patient": "TCGA-96-A4JL",
+    "score": 0.96,
+    "D": 1.0
+   }
+  ]
+ }
+]

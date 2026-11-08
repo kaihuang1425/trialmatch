@@ -1,0 +1,49 @@
+# Relay data
+
+Every file here is plain JSON (readable from Python), except the raw snapshot, which is the API response as downloaded.
+
+## Trials
+
+- `trials/raw/<NCT>.json` — ClinicalTrials.gov API v2 responses, snapshot `2026-11-07T15:35:10Z` (`trials/raw/SNAPSHOT_DATE`). Not edited.
+- `trials/encoded/<NCT>.json` — built by `npm run encode` from the raw records and the hand-written definitions in `scripts/trial-criteria.ts`.
+  - Metadata: NCT id, acronym, titles, phase, sponsor, overall status, conditions, arms and interventions (`armsInterventionsModule`), brief summary, UK sites (facility, city, registry recruitment status).
+  - Sites carry a **simulated** availability flag (starts from the registry site status; coordinators can mark a site or cohort unavailable) and **approximate** city coordinates from `src/engine/geo.ts` (straight-line miles, not travel time).
+  - Criteria: every registry eligibility line is encoded; the encoder fails if a line is left out. Each row keeps the **verbatim** text (markdown escapes as in the record), `derivedFrom` (`criteria`, `title` for KANDLELIT-007's KRAS G12C and COPERNICUS's line of therapy, `structured_fields` for minimum/maximum age), `mandatory`, and optional `atScreening` (done by the study team at screening, e.g. central PD-L1 confirmation, consent) or `completeness` (the registry says its list is "not limited to" or "further criteria apply").
+
+### Rule language (`logic`)
+
+Rules evaluate to one of four states: `supported`, `conflicting`, `unknown`, `needs_review`. A rule is written as "the requirement is satisfied", for inclusions and exclusions alike.
+
+| op | fields | meaning |
+|---|---|---|
+| `and` / `or` | `args` | three-valued: AND is `conflicting` if any arg is, else `unknown` if any is, else `needs_review` if any is, else `supported`. OR is `supported` if any arg is, else `unknown`, else `needs_review`, else `conflicting`. |
+| `not` | `arg` | swaps supported/conflicting; `unknown` and `needs_review` stay. |
+| `cmp` | `key, cmp, value, unit?, window?` | numeric threshold. `unit` converts (g/L→g/dL, /mm³→10⁹/L, mL/min/1.73m²≈mL/min); `xULN` divides by the reference upper limit printed on the report. Unknown conversion → `needs_review`. |
+| `is` / `in` | `key, value` / `key, values` | equality / membership. Variant patterns: `G12*` prefix, `G719X` = any residue. |
+| `present` | `key` | documented with any value. |
+| `current` | `keys, window` | all documented and inside the window. |
+| `not_within` | `key, days` | value `none`, or an ISO date older than `days` before the as-of date. |
+| `table` | `table, column, genes` | per gene: not detected → supported; detected → look up `data/policy/relay-policy.json` (`approved`/`yes` → conflicting, `uncertain` → needs_review, `no` → supported). |
+| `any_positive` | `checks, otherwise` | supported if any listed finding is documented positive, else evaluate `otherwise` (keeps negatives assay-specific). |
+| `review` / `unparseable` | `reason` | always `needs_review`. |
+| `at_screening` | `reason` | `unknown`, marked at-screening; never counts toward the trial status. |
+
+Fact resolution: a coordinator correction wins, then the most recent observation. No fact → `unknown` (missing, "not documented"). Value `not_tested` → `unknown` (not tested). Value `uncertain` → `needs_review`. Outside a `window` → `unknown` (stale); `window.source` is `protocol` (registry text) or `relay_policy` (`labRecencyDays`).
+
+Trial status: any mandatory, non-at-screening row `conflicting` → *Not a match on current evidence*; else any `unknown` → *Potential match — needs evidence*; else any `needs_review` → *Potential match — needs clinical review*; else *Ready for prescreening review* (at-screening items listed alongside).
+
+## Synthetic patients (`patients/<id>/`)
+
+How they were made, in order:
+
+1. **`facts.gold.json` first, by hand.** Each patient's clinical facts (diagnosis, stage, treatment history, CNS findings, medical history checklist, molecular results, labs with units and reference limits, dates) and their preferences (home city, travel limit, days). SYN-0417 is the demo case; the other four each exercise one behaviour (common EGFR; squamous conflict with molecular testing "not performed"; KRAS G12C after first-line chemo-immunotherapy; ALK-positive with ECOG 2 and an ambiguous treatment history recorded as `uncertain`). The expanded history facts were added with a one-off script whose per-patient values were also written by hand.
+2. **Documents generated from the facts** by `scripts/make-synthetic.ts` using the templates in `src/engine/synthetic/templates.ts` (referral summary, blood results, histopathology, molecular pathology). Every document starts with `SYNTHETIC DOCUMENT — NOT A REAL PATIENT`. Output: `documents.json`, readable copies in `docs/*.txt`, and `patient.json` (profile, preferences, which documents are present at the start). SYN-0417's molecular report is generated by `makeMolecularReport()` with the default demo values (KRAS G12C, everything else not detected, PD-L1 TPS 0%); a judge can set other values live.
+3. **`passages.gold.json`** — for each fact, the exact line the template wrote (the gold passage for evidence accuracy).
+4. **`labels.gold.json`** — expected state for every (trial, criterion) and the trial status, written by hand in `scripts/gold-labels.ts` from the facts and the registry text (checkable rows default to `supported` unless listed; review-only rows are `needs_review`; at-screening rows are `unknown`). The generator refuses to write labels whose hand-written status disagrees with the row labels. SYN-0417 has two stages: `initial` (referral + labs) and `final` (with the default molecular report).
+5. **`labels.review.json`** — empty slot for an independent second reviewer.
+
+Nothing in these files describes a real person. The labels were written by the team that built the engine; treat agreement as internal consistency, not clinical validation.
+
+## Policy
+
+`policy/relay-policy.json` holds Relay's own prescreening choices: lab recency (28 days), the PD-L1 negative cut-off used for CodeBreaK 202 (TPS < 1%), the sensitizing-EGFR list for Lung-MAP, and a dated table of UK targeted-therapy approvals (as of 2026-11-07, compiled from general knowledge and **not verified** against NICE/MHRA; any `uncertain` cell gives `needs_review`).

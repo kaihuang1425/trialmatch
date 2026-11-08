@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Relay · Staff review deck</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#F3F2EE}
+*{box-sizing:border-box}
+a{color:#3158DB;text-decoration:none}a:hover{color:#294BBD}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;margin:0;padding:0}
+.app{display:grid;grid-template-columns:72px minmax(0,1fr);min-height:100%;font-family:'DM Sans',system-ui,sans-serif;color:#12131C;font-size:15px;line-height:1.45}
+.dsp{font-family:'Bricolage Grotesque','DM Sans',sans-serif;letter-spacing:-0.035em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px}
+.rail{background:#19231F;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 0}
+.logo{width:40px;height:40px;border-radius:12px;background:#26322D;display:grid;place-items:center;margin-bottom:14px}
+.rb{position:relative;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#A9B5AF;transition:background .15s ease,color .15s ease}
+.rb:hover{background:#222D28;color:#F6F3EB}
+.rb.on{background:#26322D;color:#F6F3EB}
+.badge{position:absolute;top:2px;right:0;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#E0281B;color:#fff;font:700 11.5px/20px 'DM Sans',sans-serif;text-align:center;box-shadow:0 0 0 3px #19231F}
+.main{min-width:0;padding:22px clamp(16px,3.5vw,48px) 48px}
+.bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:10px;height:44px;width:340px;max-width:100%;padding:0 10px 0 16px;border-radius:14px;background:#fff;border:1px solid #E6E4DE;color:#555A6E;font-size:14px;transition:border-color .15s ease,box-shadow .2s ease}
+.search:hover{border-color:#C9C5BB;box-shadow:0 6px 16px rgba(25,35,31,.06)}
+.kbd{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#555A6E;border:1px solid #DEDBD3;border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:#fff;margin-left:auto}
+.mode{display:flex;align-items:center;gap:8px;color:#555A6E}
+.mode i{width:8px;height:8px;border-radius:50%;background:#197654}
+.hero{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:28px;align-items:start}
+.count{display:flex;font-size:168px;font-weight:800;line-height:.9;color:#12131C;font-variant-numeric:tabular-nums}
+.dg{display:inline-block;height:1em;width:.6em;overflow:hidden;text-align:center}
+.stk{display:block;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.stk span{display:block;height:1em;line-height:1}
+.cl{font-size:22px;font-weight:600;margin-top:8px}
+.sub{color:#555A6E}
+.agent{margin-top:26px;border-radius:22px;background:#fff;border:1px solid #E6E4DE;padding:18px;transition:box-shadow .22s ease,transform .22s cubic-bezier(.22,1,.36,1)}
+.agent:hover{box-shadow:0 14px 30px rgba(25,35,31,.08);transform:translateY(-2px)}
+.al{display:flex;align-items:center;gap:8px;font:600 12px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#555A6E}
+.pulse{width:9px;height:9px;border-radius:50%;background:#FF5B2E;animation:beat 1.8s ease-in-out infinite}
+.idle{width:9px;height:9px;border-radius:50%;background:#197654}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(255,91,46,.55)}70%{box-shadow:0 0 0 8px rgba(255,91,46,0)}}
+.ah{font-size:19px;font-weight:700;margin:8px 0 4px;line-height:1.3}
+.steps{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.steps li{display:flex;gap:10px;align-items:center;font-size:14px;color:#555A6E;animation:drop .5s cubic-bezier(.22,1,.36,1) both}
+.steps li.done{color:#12131C}
+.tick{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;flex:none;border:2px solid #DEDBD3;transition:background .2s ease,border-color .2s ease}
+.done .tick{background:#197654;border-color:#197654}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 18px;border-radius:14px;border:1px solid #DEDBD3;background:#fff;font-size:15px;font-weight:600;color:#12131C;white-space:nowrap;transition:transform .1s ease,background .12s ease,border-color .12s ease}
+.btn:hover{border-color:#C9C5BB}.btn:active{transform:scale(.97)}
+.btn-b{background:#3158DB;border-color:#3158DB;color:#fff}.btn-b:hover{background:#294BBD;border-color:#294BBD;color:#fff}
+.opts{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.opt{height:40px;padding:0 14px;border-radius:12px;border:1px solid #E6E4DE;background:#F3F2EE;font-size:14px;font-weight:600;color:#3A3F4E;transition:background .15s ease,border-color .15s ease,color .15s ease}
+.opt[aria-pressed="true"]{background:#12131C;border-color:#12131C;color:#fff}
+.deckwrap{position:relative;min-height:600px}
+.deck{position:relative;height:580px;max-width:640px}
+.shero{position:relative;margin:-26px -26px 0;height:176px;flex:none;overflow:hidden;background:#26322D}
+.himg{width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block;transform:scale(1.02);transition:transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.now:hover .himg{transform:scale(1.07)}
+.shero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(25,35,31,0) 35%,#19231F 100%)}
+.hscene{position:absolute;inset:0}
+.hscene svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.schip{position:absolute;left:18px;bottom:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:999px;background:rgba(18,26,23,.66);color:#F6F3EB;font-size:13.5px;font-weight:600;backdrop-filter:blur(8px)}
+.stamp{z-index:3}
+.kc{display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 5px;border-radius:6px;border:1px solid #DEDBD3;border-bottom-width:2px;background:#fff;color:#555A6E;font:600 11px 'JetBrains Mono',monospace}
+.kc-b{position:absolute;right:-6px;bottom:-6px}
+.kc-d{background:transparent;border-color:rgba(246,243,235,.25);color:#C9D1CC;margin-left:6px}
+.draft{margin-top:12px;padding:12px 14px;border-radius:14px;background:#F3F2EE;font-size:14px;color:#3A3F4E;animation:drop .5s cubic-bezier(.22,1,.36,1) both}
+.ghostcard{position:absolute;inset:0;border-radius:28px;background:#26322D;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+.g1{transform:translateY(16px) scale(.95);opacity:.55}
+.g2{transform:translateY(32px) scale(.9);opacity:.3}
+.now{position:absolute;inset:0;border-radius:28px;background:#19231F;color:#F6F3EB;padding:26px;display:flex;flex-direction:column;gap:16px;overflow:hidden;touch-action:pan-y;user-select:none;cursor:grab;box-shadow:0 24px 50px rgba(25,35,31,.22)}
+.now.settle{transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.now.drag{cursor:grabbing}
+.now.inA{animation:riseA .5s cubic-bezier(.22,1,.36,1) both}.now.inB{animation:riseB .5s cubic-bezier(.22,1,.36,1) both}
+.now.flyR{animation:flyR .34s cubic-bezier(.5,0,.2,1) forwards}.now.flyL{animation:flyL .34s cubic-bezier(.5,0,.2,1) forwards}.now.flyU{animation:flyU .34s cubic-bezier(.5,0,.2,1) forwards}
+.nl{display:flex;align-items:center;gap:10px}
+.nl h2{margin:0;font:600 13px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#A9B5AF}
+.segs{display:flex;gap:4px;margin-left:auto}
+.seg{width:22px;height:6px;border-radius:6px;transition:background .35s ease,transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease}
+.s-o{background:#4CC38A}.s-x{background:#FF6B5E}.s-u{background:transparent;box-shadow:inset 0 0 0 1.5px #FF8A5C}.s-r{background:#A29BFF}.s-s{background:#4D4A7A}
+.seg.pop{animation:segpop .4s cubic-bezier(.34,1.56,.64,1) both}
+.who{color:#A9B5AF}
+.title{font-size:46px;font-weight:700;line-height:1;margin:0}
+.drug{color:#C9D1CC;font-size:16px;margin-top:6px}
+.status{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.status i{width:10px;height:10px;border-radius:50%}
+.t-ready{color:#4CC38A}.t-evidence{color:#FF8A5C}.t-review{color:#A29BFF}.t-no{color:#FF6B5E}
+.status.swA{animation:fadeA .3s ease both}.status.swB{animation:fadeB .3s ease both}
+.open{display:grid;gap:6px}
+.oi{display:flex;gap:10px;align-items:center;font-size:14.5px;color:#E7EBE8}
+.k{flex:none;width:12px;height:12px;border-radius:4px}
+.k-o{background:#4CC38A}.k-x{background:#FF6B5E;transform:rotate(45deg) scale(.85)}.k-u{box-shadow:inset 0 0 0 2px #FF8A5C}.k-r{background:linear-gradient(90deg,#A29BFF 50%,transparent 50%);box-shadow:inset 0 0 0 2px #A29BFF}.k-s{box-shadow:inset 0 0 0 2px #7A76B8}
+.site{display:flex;align-items:center;gap:8px;color:#8FA8FF;margin-top:auto}
+.why{height:36px;padding:0 12px;border-radius:12px;border:1px solid rgba(246,243,235,.18);color:#C9D1CC;font-size:13.5px;font-weight:600;margin-left:auto;transition:background .15s ease,color .15s ease}
+.why:hover{background:rgba(246,243,235,.08);color:#fff}
+.stamp{position:absolute;top:24px;padding:6px 12px;border:3px solid;border-radius:12px;font:800 15px 'DM Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.stR{right:24px;color:#4CC38A;border-color:#4CC38A;transform:rotate(8deg)}
+.stL{left:24px;color:#FF6B5E;border-color:#FF6B5E;transform:rotate(-8deg)}
+.acts{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:22px;max-width:640px}
+.big{position:relative;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid #E6E4DE;box-shadow:0 10px 24px rgba(25,35,31,.10);transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease,background .2s ease}
+.big:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(25,35,31,.14)}
+.big:active{transform:scale(.88)}
+.big.yes.on{background:#197654;border-color:#197654}
+.later{height:48px;padding:0 18px;border-radius:14px;border:1px solid #DEDBD3;background:#fff;font-weight:600;color:#3A3F4E;display:inline-flex;align-items:center;gap:8px;transition:transform .1s ease}
+.later:active{transform:scale(.96)}
+.burst{position:absolute;inset:0;pointer-events:none}
+.ray{position:absolute;left:50%;top:50%;width:0;height:0}
+.pt{position:absolute;left:-3.5px;top:-3.5px;width:7px;height:7px;border-radius:50%;opacity:0}
+.burst.on .pt{animation:burst .65s cubic-bezier(.22,1,.36,1) forwards}
+.confirm{position:absolute;left:18px;right:18px;bottom:18px;z-index:6;border-radius:20px;background:#F6F3EB;color:#12131C;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.3);animation:riseA .32s cubic-bezier(.22,1,.36,1) both}
+.rchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rchip{height:40px;padding:0 14px;border-radius:12px;border:1px solid #DEDBD3;background:#fff;font-size:14px;font-weight:600;color:#12131C;transition:border-color .15s ease,background .15s ease}
+.rchip:hover{border-color:#12131C}
+.next{margin-top:40px}
+.nh{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.nh h3{margin:0;font-size:28px;font-weight:700}
+.ngrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.rc{position:relative;display:flex;flex-direction:column;gap:8px;min-height:112px;padding:16px 18px;border-radius:22px;background:#fff;border:1px solid #E6E4DE;text-align:left;width:100%;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease}
+.rc:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(25,35,31,.08)}
+.rc.drop{animation:drop .65s cubic-bezier(.22,1,.36,1) both}
+.rct{font-size:18px;font-weight:700}
+.rcs{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:600}
+.rcs i{width:8px;height:8px;border-radius:50%}
+.d-ready{color:#197654}.d-ready i{background:#197654}.d-evidence{color:#C2410C}.d-evidence i{background:#FF5B2E}.d-review{color:#5B52D6}.d-review i{background:#6C63FF}.d-no{color:#B42318}.d-no i{background:#C2362B}
+.minis{display:flex;gap:3px}
+.mini{width:14px;height:5px;border-radius:5px;transition:background .35s ease}
+.m-o{background:#197654}.m-x{background:#C2362B}.m-u{box-shadow:inset 0 0 0 1.5px #FF5B2E}.m-r{background:#6C63FF}.m-s{background:#C9C5E8}
+.tally{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.tc{height:32px;padding:0 12px;border-radius:999px;background:#fff;border:1px solid #E6E4DE;font-size:13px;font-weight:600;color:#3A3F4E;display:inline-flex;align-items:center;gap:6px}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(25,35,31,.24);animation:fadeA .3s ease both}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);z-index:41;background:#FFFDF8;display:flex;flex-direction:column;box-shadow:-24px 0 60px rgba(25,35,31,.2);animation:drawerIn .44s cubic-bezier(.22,1,.36,1) both}
+.dh{padding:22px 22px 12px;border-bottom:1px solid #E6E4DE}
+.db{flex:1;overflow:auto;padding:12px 18px 24px}
+.cr{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid #EFEDE7;font-size:14.5px}
+.cr .k-o{background:#197654}.cr .k-x{background:#C2362B}.cr .k-u{box-shadow:inset 0 0 0 2px #FF5B2E}.cr .k-r{background:linear-gradient(90deg,#6C63FF 50%,transparent 50%);box-shadow:inset 0 0 0 2px #6C63FF}.cr .k-s{box-shadow:inset 0 0 0 2px #9A95D8}
+.psg{margin-top:16px;border-radius:16px;background:#fff;border:1px solid #E6E4DE;padding:14px}
+.psrc{display:flex;gap:8px;align-items:center;color:#3158DB;font-weight:600;font-size:13.5px;margin-bottom:8px}
+.hl{background-image:linear-gradient(#E3EAFC,#E3EAFC);background-repeat:no-repeat;background-size:0% 100%;border-radius:4px;padding:0 2px;animation:sweep .42s cubic-bezier(.22,1,.36,1) .2s forwards}
+.toast{position:fixed;left:50%;bottom:28px;z-index:35;display:flex;align-items:center;gap:12px;min-height:54px;padding:0 10px 0 16px;border-radius:16px;background:#19231F;color:#F6F3EB;font-size:14.5px;box-shadow:0 18px 40px rgba(25,35,31,.25);overflow:hidden;transform:translateX(-50%);max-width:calc(100% - 32px)}
+.toast.tA{animation:toastA .5s cubic-bezier(.34,1.56,.64,1) both}.toast.tB{animation:toastB .5s cubic-bezier(.34,1.56,.64,1) both}
+.tbtn{height:38px;padding:0 14px;border-radius:12px;background:#26322D;color:#F6F3EB;font-weight:600}
+.drain{position:absolute;left:0;bottom:0;height:3px;background:#FF5B2E;animation:drain 5.2s linear forwards}
+.toast:hover .drain{animation-play-state:paused}
+:focus-visible{outline:2px solid #3158DB;outline-offset:3px}
+@keyframes drop{0%{opacity:0;transform:translateY(-22px) scale(.92)}60%{opacity:1;transform:translateY(4px) scale(1.01)}100%{transform:none}}
+@keyframes riseA{0%{opacity:.4;transform:translateY(16px) scale(.95)}100%{opacity:1;transform:none}}
+@keyframes riseB{0%{opacity:.4;transform:translateY(16px) scale(.95)}100%{opacity:1;transform:none}}
+@keyframes flyR{to{transform:translate(130%,-24px) rotate(16deg);opacity:0}}
+@keyframes flyL{to{transform:translate(-130%,-24px) rotate(-16deg);opacity:0}}
+@keyframes flyU{to{transform:translateY(-60px) scale(.92);opacity:0}}
+@keyframes segpop{0%{transform:scaleY(.4)}60%{transform:scaleY(1.9)}100%{transform:scaleY(1)}}
+@keyframes burst{0%{transform:translateX(22px) scale(1);opacity:1}100%{transform:translateX(58px) scale(.2);opacity:0}}
+@keyframes fadeA{from{opacity:0}to{opacity:1}}
+@keyframes fadeB{from{opacity:0}to{opacity:1}}
+@keyframes drawerIn{0%{transform:translateX(100%)}100%{transform:none}}
+@keyframes sweep{to{background-size:100% 100%}}
+@keyframes toastA{0%{opacity:0;transform:translate(-50%,26px) scale(.95)}100%{opacity:1;transform:translate(-50%,0)}}
+@keyframes toastB{0%{opacity:0;transform:translate(-50%,26px) scale(.95)}100%{opacity:1;transform:translate(-50%,0)}}
+@keyframes drain{from{width:100%}to{width:0}}
+@media (max-width:1100px){.hero{grid-template-columns:minmax(0,1fr)}.count{font-size:120px}}
+@media (max-width:700px){.app{grid-template-columns:minmax(0,1fr)}.rail{flex-direction:row;justify-content:space-around;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:8px}.logo{display:none}.main{padding:16px 16px 96px}.title{font-size:40px}.deck{height:560px}.now{padding:20px}.mode{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+<div class="app">
+<nav class="rail" aria-label="Main">
+<span class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F6F3EB" stroke-width="2" stroke-linecap="round"><path d="M5 15a7 7 0 0112-5"></path><path d="M19 9a7 7 0 01-12 5"></path></svg></span>
+<a class="rb on" href="#" aria-current="page" aria-label="Review deck"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="6" width="14" height="14" rx="3"></rect><path d="M8 3h8"></path></svg><span class="badge" aria-label="{{ badgeAria }}">{{ left }}</span></a>
+<a class="rb" href="PatientDeck.dc.html" aria-label="Patient view"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1-4.4 4.2-6.5 8-6.5s7 2.1 8 6.5"></path></svg></a>
+<a class="rb" href="MissionControl.dc.html" aria-label="Agent activity"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 12a9 9 0 103-6.7L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l3.5 2"></path></svg></a>
+</nav>
+<main class="main">
+<div class="bar">
+<a class="search" href="#"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M7 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM10.6 10.6 13.5 13.5"></path></svg><span>Find a patient or study…</span><span class="kbd">/</span></a>
+<div style="flex:1"></div>
+<div class="mode mono"><i></i>Replay</div>
+<button class="btn" type="button" onClick="{{ reset }}">Reset</button>
+</div>
+<div class="hero">
+<div>
+<div class="count dsp" role="img" aria-label="{{ countAria }}"><sc-for list="{{ digits }}" as="dd" hint-placeholder-count="1"><span class="dg" aria-hidden="true"><span class="stk" style="{{ dd.shift }}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span></sc-for></div>
+<div class="cl dsp">referrals to review</div>
+<div class="sub"><span class="mono" style="border:1px dashed #C9C5BB;border-radius:6px;padding:0 6px">SYNTHETIC DATA</span></div>
+<section class="agent" aria-labelledby="ag-h">
+<div class="al" id="ag-h"><span class="{{ agentDot }}"></span>Investigator</div>
+<div class="ah">{{ agentHead }}</div>
+<sc-if value="{{ hasAgentSub }}" hint-placeholder-val="{{ false }}"><div class="sub">{{ agentSub }}</div></sc-if>
+<sc-if value="{{ showSteps }}" hint-placeholder-val="{{ false }}"><ol class="steps"><sc-for list="{{ steps }}" as="st" hint-placeholder-count="3"><li class="{{ st.cls }}"><span class="tick"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>{{ st.t }}</li></sc-for></ol></sc-if>
+<sc-if value="{{ showCfg }}" hint-placeholder-val="{{ false }}"><div><div class="opts" role="group" aria-label="KRAS result"><sc-for list="{{ krasOpts }}" as="ko" hint-placeholder-count="2"><button class="opt" type="button" aria-pressed="{{ ko.pressed }}" onClick="{{ ko.pick }}">{{ ko.label }}</button></sc-for></div><div class="opts" role="group" aria-label="PD-L1 score" style="margin-top:0"><sc-for list="{{ pdOpts }}" as="po" hint-placeholder-count="2"><button class="opt" type="button" aria-pressed="{{ po.pressed }}" onClick="{{ po.pick }}">{{ po.label }}</button></sc-for></div></div></sc-if>
+<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+<sc-if value="{{ showPrimary }}" hint-placeholder-val="{{ true }}"><button class="btn btn-b" type="button" onClick="{{ primary }}">{{ primaryLabel }}</button></sc-if>
+<sc-if value="{{ showAllReady }}" hint-placeholder-val="{{ false }}"><button class="btn btn-b" type="button" onClick="{{ allReady }}">Invite all ready · {{ readyN }}</button></sc-if>
+<sc-if value="{{ showDraftBtn }}" hint-placeholder-val="{{ true }}"><button class="btn" type="button" aria-expanded="{{ draftOpen }}" onClick="{{ toggleDraft }}">Draft</button></sc-if>
+<sc-if value="{{ showChanges }}" hint-placeholder-val="{{ false }}"><button class="btn" type="button" onClick="{{ openChanges }}">What changed</button></sc-if>
+</div>
+<sc-if value="{{ draftOpen }}" hint-placeholder-val="{{ false }}"><div class="draft">Hello, could you share the molecular pathology report for SYN-0417 (NGS panel and PD-L1)? The referral says results are awaited. It would let us check {{ draftN }} open requirements across {{ draftS }} studies.</div></sc-if>
+</section>
+</div>
+<div class="deckwrap">
+<div class="deck">
+<sc-for list="{{ ghosts }}" as="gh" hint-placeholder-count="2"><div class="{{ gh.cls }}"></div></sc-for>
+<sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}">
+<article class="{{ top.cls }}" style="{{ top.transform }}" onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" aria-label="{{ top.aria }}">
+<span class="stamp stR" style="opacity: {{ top.rOp }}">Invite</span>
+<span class="stamp stL" style="opacity: {{ top.lOp }}">Not suitable</span>
+<div class="shero"><sc-if value="{{ top.hasImg }}" hint-placeholder-val="{{ true }}"><img class="himg" src="{{ top.img }}" alt="" draggable="false"></sc-if><sc-if value="{{ top.noImg }}" hint-placeholder-val="{{ false }}"><div class="hscene" style="{{ top.scene }}"><svg viewBox="0 0 640 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 170V112h40V88h28v24h22V70h34v42h26V96h30V60l18-14 18 14v52h24V84h40v28h30V74h22l8-18 8 18h22v38h34V92h44v20h30V66h36v46h26V98h32v14h38V80h24v32h30v58z" fill="#19231F" opacity=".82"></path></svg></div></sc-if><span class="schip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0118.5 10c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>{{ top.site }}</span></div>
+<div class="nl"><h2>Now</h2><div class="segs" role="img" aria-label="{{ top.segAria }}"><sc-for list="{{ top.segs }}" as="sg" hint-placeholder-count="9"><span class="{{ sg.cls }}" style="{{ sg.delay }}"></span></sc-for></div></div>
+<div class="mono who">SYN-0417 · 63 · Adenocarcinoma IVA</div>
+<div><h3 class="title dsp">{{ top.acr }}</h3><div class="drug">{{ top.drug }}</div></div>
+<div class="{{ top.stCls }}"><i style="background: currentColor"></i>{{ top.status }}</div>
+<div class="open"><sc-for list="{{ top.items }}" as="it" hint-placeholder-count="3"><div class="oi"><span class="{{ it.cls }}"></span><span>{{ it.t }}</span></div></sc-for></div>
+<div class="site"><button class="why" type="button" onClick="{{ openWhy }}">Why? <span class="kc kc-d">Space</span></button></div>
+<sc-if value="{{ hasConfirm }}" hint-placeholder-val="{{ false }}">
+<div class="confirm" role="group" aria-label="{{ confirmHead }}"><div style="font-weight:700;font-size:16px">{{ confirmHead }}</div><div class="rchips"><sc-for list="{{ reasons }}" as="rs" hint-placeholder-count="3"><button class="rchip" type="button" onClick="{{ rs.pick }}">{{ rs.label }}</button></sc-for><button class="rchip" type="button" style="border-color:transparent;background:transparent;color:#555A6E" onClick="{{ cancelConfirm }}">Cancel</button></div></div>
+</sc-if>
+</article>
+</sc-if>
+<sc-if value="{{ deckEmpty }}" hint-placeholder-val="{{ false }}"><div class="now" style="cursor:default;align-items:flex-start;justify-content:center"><div class="title dsp" style="font-size:44px">Nothing left to review.</div><button class="btn" type="button" onClick="{{ reset }}">Start again</button></div></sc-if>
+</div>
+<div class="acts">
+<button class="big" type="button" aria-label="Not suitable" aria-keyshortcuts="ArrowLeft" onClick="{{ left }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C2362B" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span class="kc kc-b" aria-hidden="true">←</span></button>
+<button class="later" type="button" aria-keyshortcuts="ArrowDown" onClick="{{ later }}">Later <span class="kc" aria-hidden="true">↓</span></button>
+<button class="{{ yesCls }}" type="button" aria-label="Invite for prescreening" aria-keyshortcuts="ArrowRight" onClick="{{ right }}"><span class="kc kc-b" aria-hidden="true">→</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="{{ yesStroke }}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="{{ burstCls }}" aria-hidden="true"><sc-for list="{{ rays }}" as="ry" hint-placeholder-count="8"><span class="ray" style="{{ ry.rot }}"><span class="pt" style="{{ ry.col }}"></span></span></sc-for></span></button>
+</div>
+</div>
+</div>
+<section class="next" aria-labelledby="nx-h">
+<div class="nh"><h3 id="nx-h" class="dsp">Up next</h3><div class="tally"><span class="tc">Invited {{ nInv }}</span><span class="tc">Later {{ nLater }}</span><span class="tc">Closed {{ nClosed }}</span></div></div>
+<div class="ngrid"><sc-for list="{{ nextCards }}" as="nc" hint-placeholder-count="4"><button type="button" class="{{ nc.cls }}" onClick="{{ nc.pick }}" aria-label="{{ nc.aria }}"><div class="rct dsp">{{ nc.acr }}</div><div class="{{ nc.dCls }}"><i></i>{{ nc.status }}</div><div class="minis" aria-hidden="true"><sc-for list="{{ nc.minis }}" as="mn" hint-placeholder-count="8"><span class="{{ mn.cls }}"></span></sc-for></div><div class="sub" style="font-size:13.5px">{{ nc.reason }}</div></button></sc-for></div>
+</section>
+</main>
+<sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+<div class="scrim" onClick="{{ closeDrawer }}"></div>
+<aside class="drawer" role="dialog" aria-labelledby="dw-h">
+<div class="dh"><div style="display:flex;align-items:center;gap:10px"><h2 id="dw-h" class="dsp" style="margin:0;font-size:28px;flex:1">{{ dwTitle }}</h2><button class="btn" type="button" style="height:44px;width:44px;padding:0" aria-label="Close" onClick="{{ closeDrawer }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div><div class="sub">{{ dwSub }}</div></div>
+<div class="db">
+<sc-for list="{{ dwRows }}" as="dr" hint-placeholder-count="6"><div class="cr"><span class="{{ dr.cls }}"></span><span style="flex:1">{{ dr.name }}</span><span class="mono" style="color:#555A6E">{{ dr.val }}</span></div></sc-for>
+<sc-if value="{{ dwHasPsg }}" hint-placeholder-val="{{ true }}"><div class="psg"><div class="psrc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path></svg>{{ psgDoc }}</div><div class="mono" style="line-height:1.7;color:#3A3F4E">{{ psgBefore }}<mark class="hl">{{ psgHl }}</mark>{{ psgAfter }}</div></div></sc-if>
+</div>
+</aside>
+</sc-if>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div class="{{ toastCls }}" role="status"><div><div style="font-weight:600">{{ toastMsg }}</div><div class="mono" style="color:#A9B5AF;font-size:12px">{{ toastSub }}</div></div><sc-if value="{{ toastUndo }}" hint-placeholder-val="{{ true }}"><button class="tbtn" type="button" onClick="{{ undo }}">Undo</button></sc-if><span class="drain"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = this.fresh(); this.timers = []; }
+  fresh() { return { phase: 0, upd: 0, kras: 'G12C', pdl1: 0, cfg: false, decided: {}, later: [], pinned: '', dx: 0, drag: false, sx: 0, fly: '', confirm: null, drawer: '', burst: 0, toast: null, tk: 0, gen: 0, draft: false }; }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  wait(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  notify(msg, sub, undo) { const tk = this.state.tk + 1; this.setState({ toast: { msg: msg, sub: sub, undo: undo }, tk: tk }); this.wait(() => { if (this.state.tk === tk) this.setState({ toast: null }); }, 5300); }
+  T() {
+    return [
+      { id: 'cbk', acr: 'CodeBreaK 202', nct: 'NCT05920356', ph: 'Phase 3', drug: 'Sotorasib + platinum doublet, first line', site: 'Royal Marsden Hospital · 3 mi', b: 'ouuu-uooo-s' },
+      { id: 'kan', acr: 'KANDLELIT-007', nct: 'NCT07190248', ph: 'Phase 3', drug: 'Calderasib + pembrolizumab, first line', site: 'Royal Free Hospital · 4 mi', b: 'ou----o-o-s' },
+      { id: 'kra', acr: 'Krascendo 2', nct: 'NCT06793215', ph: 'Phase 3', drug: 'Divarasib + pembrolizumab, first line', site: 'Barts Hospital · 1 mi', b: 'ouuuuuooou-' },
+      { id: 'alk', acr: 'ALKAZAR', nct: 'NCT06765109', ph: 'Phase 3', drug: 'Neladalkib vs alectinib, ALK-positive', site: "Guy's Cancer Centre · 1 mi", b: '-uuuu-o----' },
+      { id: 'alp', acr: 'ALPACCA', nct: 'NCT07185997', ph: 'Phase 3', drug: 'Firmonertinib, EGFR PACC mutations', site: 'UCLH · 1 mi', b: 'o-u---o----' },
+      { id: 'cop', acr: 'COPERNICUS', nct: 'NCT06667076', ph: 'Phase 2', drug: 'Amivantamab SC, common EGFR', site: "Guy's and St Thomas' · 1 mi", b: 'o-u--------' },
+      { id: 'bea', acr: 'Beamion LUNG-1', nct: 'NCT04886804', ph: 'Phase 1', drug: 'Zongertinib, HER2 aberrations', site: 'No UK site recruiting', b: 'o---u--o-u-' },
+      { id: 'ras', acr: 'RASolve 301', nct: 'NCT06881784', ph: 'Phase 3', drug: 'Daraxonrasib vs docetaxel, previously treated', site: 'No UK site recruiting', b: 'ou----xo---' }
+    ];
+  }
+  after(id) {
+    const k = this.state.kras === 'G12C' ? 'o' : 'x', p = this.state.pdl1 < 1 ? 'o' : 'x';
+    return { cbk: 'o' + k + 'oo-' + p + 'ooo-s', kan: 'o' + k + '----o-o-s', kra: 'o' + k + 'ooooooou-', alk: '-xoxo-o----', alp: 'o-x---o----', cop: 'o-x--------', bea: 'o---r--o-u-', ras: 'oo----xo---' }[id];
+  }
+  decide(id, kind, reason) {
+    const fly = kind === 'invited' ? 'R' : kind === 'closed' ? 'L' : 'U';
+    this.setState({ fly: fly, confirm: null, dx: 0, drag: false, burst: kind === 'invited' ? this.state.burst + 1 : this.state.burst });
+    this.wait(() => {
+      const d = Object.assign({}, this.state.decided);
+      let later = this.state.later.filter((x) => x !== id);
+      if (kind === 'later') later = later.concat([id]); else d[id] = kind;
+      this.setState({ decided: d, later: later, fly: '', pinned: '', gen: this.state.gen + 1 });
+      const name = this.T().find((t) => t.id === id).acr;
+      const undo = () => { const d2 = Object.assign({}, this.state.decided); delete d2[id]; this.setState({ decided: d2, later: this.state.later.filter((x) => x !== id), pinned: id, gen: this.state.gen + 1 }); };
+      if (kind === 'invited') this.notify('Invitation approved (simulated)', name + (reason ? ' · reason saved: ' + reason : ''), undo);
+      if (kind === 'closed') this.notify('Closed · ' + reason, name + (reason === 'Cohort full (simulated)' ? ' · profile kept, agent looking for the next site' : ''), undo);
+      if (kind === 'later') this.notify('Moved to the back', name, undo);
+    }, 330);
+  }
+  renderVals() {
+    const s = this.state, T = this.T();
+    const COLS = ['Hist', 'KRAS', 'EGFR', 'ALK', 'HER2', 'PD-L1', 'Prior', 'ECOG', 'CNS', 'Bloods', 'Screen'];
+    const NAME = { Hist: 'Nonsquamous NSCLC, advanced', KRAS: 'KRAS status', EGFR: 'EGFR status', ALK: 'ALK status', HER2: 'HER2 aberration', 'PD-L1': 'PD-L1 status', Prior: 'Prior systemic therapy', ECOG: 'Performance status', CNS: 'Brain metastases', Bloods: 'Organ function (bloods)', Screen: 'Central tests and full protocol' };
+    const LABEL = { ready: 'Ready for prescreening', evidence: 'Needs evidence', review: 'Needs clinical review', no: 'Not a match' };
+    const RANK = { ready: 0, review: 1, evidence: 2, no: 3 };
+    const statusOf = (st) => st.indexOf('x') >= 0 ? 'no' : st.indexOf('u') >= 0 ? 'evidence' : st.indexOf('r') >= 0 ? 'review' : 'ready';
+    const idx = (id) => T.findIndex((t) => t.id === id);
+    const isUpd = (id) => s.phase >= 3 || (s.phase === 2 && s.upd > idx(id));
+    const stOf = (id) => isUpd(id) ? this.after(id) : T[idx(id)].b;
+    const reported = s.phase >= 3 || (s.phase === 2 && s.upd > 0);
+    const openText = (c, v) => {
+      if (v === 'u') return c === 'Bloods' ? 'Bloods from 18 Sep are past the 28-day policy' : NAME[c] + ' not documented yet';
+      if (v === 'x') return c === 'PD-L1' ? 'PD-L1 TPS ' + s.pdl1 + '%: the study needs PD-L1 negative' : c === 'Prior' ? 'Study is for previously treated disease' : c === 'KRAS' ? 'KRAS ' + s.kras + ' doesn\'t fit this study' : NAME[c] + ' doesn\'t fit this study';
+      if (v === 'r') return 'HER2 overexpression wasn\'t tested';
+      if (v === 's') return 'Central tests and full protocol checked at screening';
+      return NAME[c] + ' supported';
+    };
+    const VAL = { Hist: 'Adenocarcinoma · 30 Oct', KRAS: reported ? s.kras + ' · 7 Nov' : 'Not documented', EGFR: reported ? 'Not detected · 7 Nov' : 'Not documented', ALK: reported ? 'Not detected · 7 Nov' : 'Not documented', HER2: reported ? 'Mut/amp not detected' : 'Not documented', 'PD-L1': reported ? 'TPS ' + s.pdl1 + '% · local' : 'Not documented', Prior: 'None · 30 Oct', ECOG: 'ECOG 1 · 30 Oct', CNS: 'None · MRI 12 Oct', Bloods: '18 Sep · outdated', Screen: 'Study team' };
+    const IMG = { cbk: '/_blob/57ec11008e1d8cf76f4214cb68db9e0e', alp: '/_blob/80d3492a803e652fd109abc37cebc8aa' };
+    const SCENE = { kan: 'background: linear-gradient(180deg,#E3EBDD 0%,#B7C8AE 100%)', kra: 'background: linear-gradient(180deg,#F1E8DA 0%,#D8C3A6 100%)', alk: 'background: linear-gradient(180deg,#DCE6EE 0%,#AFC2D0 100%)', cop: 'background: linear-gradient(180deg,#DCE6EE 0%,#AFC2D0 100%)', bea: 'background: linear-gradient(180deg,#E6E2EE 0%,#C2BBD4 100%)', ras: 'background: linear-gradient(180deg,#EEE2DC 0%,#D4BBB0 100%)', def: 'background: linear-gradient(180deg,#E6E4DE 0%,#C9C5BB 100%)' };
+    const pending = T.filter((t) => !s.decided[t.id]).map((t) => t.id);
+    const order = pending.slice().sort((a, b) => {
+      if (a === s.pinned) return -1; if (b === s.pinned) return 1;
+      const la = s.later.indexOf(a) >= 0 ? 1 : 0, lb = s.later.indexOf(b) >= 0 ? 1 : 0;
+      if (la !== lb) return la - lb;
+      return RANK[statusOf(stOf(a))] - RANK[statusOf(stOf(b))] || idx(a) - idx(b);
+    });
+    const topId = order[0];
+    let top = null;
+    if (topId) {
+      const t = T[idx(topId)], st = stOf(topId), status = statusOf(st);
+      const vis = COLS.map((c, j) => ({ c: c, v: st[j], b: t.b[j] })).filter((x) => x.v !== '-');
+      const ord = { x: 0, u: 1, r: 2, s: 3, o: 4 };
+      const items = vis.filter((x) => x.v !== 'o').sort((a, b) => ord[a.v] - ord[b.v]).slice(0, 3).map((x) => ({ cls: 'k k-' + x.v, t: openText(x.c, x.v) }));
+      const dx = s.drag ? s.dx : 0;
+      const okN = vis.filter((x) => x.v === 'o').length;
+      top = {
+        acr: t.acr, nct: t.nct, ph: t.ph, drug: t.drug, site: t.site,
+        img: IMG[topId] || '', hasImg: !!IMG[topId], noImg: !IMG[topId], scene: SCENE[topId] || SCENE.def,
+        pos: '1 of ' + order.length,
+        status: LABEL[status], stCls: 'status t-' + status + (s.gen % 2 ? ' swA' : ' swB'),
+        segs: vis.map((x, i) => ({ cls: 'seg s-' + x.v + (isUpd(topId) && x.v !== x.b ? ' pop' : ''), delay: 'animation-delay: ' + (i * 40) + 'ms' })),
+        segAria: okN + ' of ' + vis.length + ' checked requirements supported',
+        items: items.length ? items : [{ cls: 'k k-o', t: 'Every checked requirement is supported' }],
+        cls: 'now ' + (s.drag ? 'drag' : 'settle') + (s.fly ? ' fly' + s.fly : (s.gen % 2 ? ' inA' : ' inB')),
+        transform: 'transform: translateX(' + dx + 'px) rotate(' + (dx / 24).toFixed(2) + 'deg)',
+        rOp: String(Math.max(0, Math.min(1, dx / 120))), lOp: String(Math.max(0, Math.min(1, -dx / 120))),
+        aria: t.acr + ', ' + LABEL[status] + '. Drag right to invite, left if not suitable.'
+      };
+    }
+    const openRight = () => { if (!topId) return; if (statusOf(stOf(topId)) === 'ready') this.decide(topId, 'invited', ''); else this.setState({ confirm: { kind: 'invite', id: topId }, dx: 0, drag: false }); };
+    const openLeft = () => { if (topId) this.setState({ confirm: { kind: 'close', id: topId }, dx: 0, drag: false }); };
+    const conf = s.confirm;
+    let reasons = [], ch = '', cs = '';
+    if (conf && conf.kind === 'close') { ch = 'Why isn\'t it suitable?'; cs = ''; reasons = ['Protocol requirement not met', 'Cohort full (simulated)', 'Travel not manageable', 'Patient prefers another option'].map((r) => ({ label: r, pick: () => this.decide(conf.id, 'closed', r) })); }
+    if (conf && conf.kind === 'invite') { const n = stOf(conf.id).split('').filter((c) => c === 'u' || c === 'x' || c === 'r').length; ch = n + ' open item' + (n === 1 ? '' : 's') + ' · invite anyway because…'; cs = ''; reasons = ['Checked at screening anyway', 'I have reviewed the evidence'].map((r) => ({ label: r, pick: () => this.decide(conf.id, 'invited', r) })); }
+    const n = order.length;
+    const digits = String(n).split('').map((d) => ({ shift: 'transform: translateY(-' + d + 'em)' }));
+    let openChecks = 0, openStudies = 0;
+    pending.forEach((id) => { const st = stOf(id); if (statusOf(st) === 'no') return; const c = (s.phase >= 3 ? [9] : [1, 2, 3, 4, 5]).filter((j) => st[j] === 'u').length; if (c) { openChecks += c; openStudies++; } });
+    let ah = 'Request the molecular report: it settles ' + openChecks + ' checks in ' + openStudies + ' studies', asub = '', pl = 'Approve request', showP = true, dot = 'pulse';
+    if (s.phase === 1) { ah = 'Waiting for the molecular report'; asub = s.cfg ? '' : 'Requested · simulated'; pl = s.cfg ? 'Add to the record' : 'Add the report'; }
+    if (s.phase === 2) { ah = 'Re-checking ' + T.length + ' studies'; asub = ''; showP = false; }
+    if (s.phase >= 3) { ah = openChecks ? (s.bloods ? 'Waiting for current bloods' : 'Request current bloods: they settle ' + openChecks + ' checks in ' + openStudies + ' studies') : 'Nothing is blocked on evidence'; asub = s.bloods ? 'Requested · simulated' : ''; pl = s.bloods ? '' : 'Request bloods'; showP = !!openChecks && !s.bloods; dot = openChecks && !s.bloods ? 'pulse' : 'idle'; }
+    const steps = [];
+    if (s.phase >= 2) { steps.push({ t: 'Read the molecular report · 8 facts cited', done: true }); steps.push({ t: 'Every quote found in the document', done: s.upd >= 2 || s.phase >= 3 }); steps.push({ t: s.phase >= 3 ? 'Re-checked 8 studies · 7 changed' : 'Re-checking studies', done: s.phase >= 3 }); }
+    const nextIds = order.slice(1);
+    const nextCards = nextIds.map((id) => { const t = T[idx(id)], st = stOf(id), status = statusOf(st); const first = COLS.map((c, j) => ({ c: c, v: st[j] })).filter((x) => x.v === 'x' || x.v === 'u' || x.v === 'r')[0]; return { acr: t.acr, status: s.later.indexOf(id) >= 0 ? 'Later · ' + LABEL[status] : LABEL[status], dCls: 'rcs d-' + status, cls: 'rc' + (isUpd(id) && s.phase === 2 ? ' drop' : ''), reason: first ? openText(first.c, first.v) : 'Every checked requirement is supported', minis: COLS.map((c, j) => st[j]).filter((v) => v !== '-').map((v) => ({ cls: 'mini m-' + v })), aria: 'Bring ' + t.acr + ' to the top', pick: () => this.setState({ pinned: id, gen: s.gen + 1 }) }; });
+    const dw = s.drawer;
+    let dwTitle = '', dwSub = '', dwRows = [], psg = { doc: '', before: '', hl: '', after: '' }, dwHasPsg = false;
+    if (dw === 'why' && topId) {
+      const t = T[idx(topId)], st = stOf(topId);
+      dwTitle = t.acr; dwSub = 'SYN-0417 · record v' + (reported ? 3 : 2) + ' · registry snapshot 7 Nov 2026';
+      dwRows = COLS.map((c, j) => ({ c: c, v: st[j] })).filter((x) => x.v !== '-').map((x) => ({ cls: 'k k-' + x.v, name: NAME[x.c], val: VAL[x.c] }));
+      dwHasPsg = true;
+      psg = reported ? { doc: 'Molecular pathology report · 7 Nov 2026', before: '…NGS panel (DNA and RNA): ', hl: 'KRAS: ' + (s.kras === 'G12C' ? 'c.34G>T p.(G12C)' : 'c.35G>A p.(G12D)') + ' detected', after: '. EGFR: no pathogenic variant detected…' } : { doc: 'Referral summary · 30 Oct 2026', before: '…biopsy of the right upper lobe mass shows ', hl: 'adenocarcinoma (nonsquamous)', after: '. No small-cell component identified…' };
+    }
+    if (dw === 'changes') {
+      dwTitle = 'What changed'; dwSub = 'Molecular pathology report · 7 Nov · record v2 → v3';
+      dwRows = T.filter((t) => this.after(t.id) !== t.b).map((t) => ({ cls: 'k k-' + (statusOf(this.after(t.id)) === 'no' ? 'x' : statusOf(this.after(t.id)) === 'evidence' ? 'u' : statusOf(this.after(t.id)) === 'review' ? 'r' : 'o'), name: t.acr, val: LABEL[statusOf(t.b)] + ' → ' + LABEL[statusOf(this.after(t.id))] }));
+    }
+    const cnt = (k) => String(Object.keys(s.decided).filter((x) => s.decided[x] === k).length);
+    const readyIds = order.filter((id) => statusOf(stOf(id)) === 'ready');
+    const RAYC = ['#FF5B2E', '#3158DB', '#197654', '#F0508C', '#6C63FF', '#FF8A3D', '#4CC38A', '#8FA8FF'];
+    return {
+      reset: () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState(this.fresh()); },
+      left: openLeft, right: openRight, later: () => { if (topId) this.decide(topId, 'later', ''); },
+      badgeAria: n + ' referrals waiting', countAria: n + ' referrals to review', digits: digits,
+      agentDot: dot, agentHead: ah, agentSub: asub, hasAgentSub: !!asub, showSteps: steps.length > 0, steps: steps.map((x) => ({ t: x.t, cls: x.done ? 'done' : '' })),
+      showCfg: s.cfg && s.phase === 1,
+      krasOpts: ['G12C', 'G12D'].map((v) => ({ label: 'KRAS ' + v, pressed: String(s.kras === v), pick: () => this.setState({ kras: v }) })),
+      pdOpts: [0, 60].map((v) => ({ label: 'PD-L1 ' + v + '%', pressed: String(s.pdl1 === v), pick: () => this.setState({ pdl1: v }) })),
+      showPrimary: showP, primaryLabel: pl,
+      primary: () => {
+        if (s.phase === 0) { this.setState({ phase: 1 }); this.notify('Request sent (simulated)', 'Molecular pathology report · referring team', () => this.setState({ phase: 0, cfg: false })); return; }
+        if (s.phase === 1 && !s.cfg) { this.setState({ cfg: true }); return; }
+        if (s.phase === 1) {
+          this.setState({ phase: 2, upd: 0, cfg: false, gen: s.gen + 1 });
+          for (let i = 1; i <= 8; i++) this.wait(() => this.setState({ upd: i }), 250 + i * 190);
+          this.wait(() => { this.setState({ phase: 3, gen: this.state.gen + 1 }); this.notify('7 studies updated', 'The deck re-sorted by readiness', null); }, 250 + 9 * 190);
+          return;
+        }
+        if (s.phase >= 3) { this.setState({ bloods: true }); this.notify('Request sent (simulated)', 'Current blood results', () => this.setState({ bloods: false })); }
+      },
+      showChanges: s.phase >= 3, openChanges: () => this.setState({ drawer: 'changes' }),
+      showAllReady: s.phase >= 3 && readyIds.length >= 2, readyN: String(readyIds.length),
+      allReady: () => { readyIds.forEach((id, i) => this.wait(() => this.decide(id, 'invited', ''), i * 560)); },
+      showDraftBtn: s.phase === 0, draftOpen: s.draft && s.phase === 0, toggleDraft: () => this.setState({ draft: !s.draft }),
+      draftN: String(openChecks), draftS: String(openStudies),
+      ghosts: order.slice(1, 3).map((x, i) => ({ cls: 'ghostcard ' + (i === 0 ? 'g1' : 'g2') })).reverse(),
+      hasTop: !!top, top: top || { segs: [], items: [], cls: 'now', transform: '', aria: '', rOp: '0', lOp: '0', segAria: '', acr: '', drug: '', site: '', status: '', stCls: 'status', img: '', hasImg: false, noImg: false, scene: '' }, deckEmpty: !top,
+      down: (e) => { if (s.confirm || s.fly) return; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} this.setState({ drag: true, sx: e.clientX, dx: 0 }); },
+      move: (e) => { if (this.state.drag) this.setState({ dx: e.clientX - this.state.sx }); },
+      up: () => { const dx = this.state.dx; if (!this.state.drag) return; this.setState({ drag: false, dx: 0 }); if (dx > 110) openRight(); else if (dx < -110) openLeft(); },
+      hasConfirm: !!conf, confirmHead: ch, confirmSub: cs, reasons: reasons, cancelConfirm: () => this.setState({ confirm: null }),
+      openWhy: () => this.setState({ drawer: 'why' }),
+      yesCls: 'big yes' + (s.fly === 'R' ? ' on' : ''), yesStroke: s.fly === 'R' ? '#FFFFFF' : '#197654',
+      burstCls: 'burst' + (s.fly === 'R' ? ' on' : ''),
+      rays: RAYC.map((c, i) => ({ rot: 'transform: rotate(' + (i * 45) + 'deg)', col: 'background: ' + c })),
+      nextSub: nextIds.length ? nextIds.length + ' after this one' : 'Nothing after this one',
+      nextCards: nextCards, nInv: cnt('invited'), nClosed: cnt('closed'), nLater: String(s.later.length),
+      drawerOpen: !!dw && (dw === 'changes' || !!topId), closeDrawer: () => this.setState({ drawer: '' }),
+      dwTitle: dwTitle, dwSub: dwSub, dwRows: dwRows, dwHasPsg: dwHasPsg, psgDoc: psg.doc, psgBefore: psg.before, psgHl: psg.hl, psgAfter: psg.after,
+      undo: () => { const u = s.toast && s.toast.undo; this.setState({ toast: null }); if (u) u(); },
+      hasToast: !!s.toast, toastMsg: s.toast ? s.toast.msg : '', toastSub: s.toast ? s.toast.sub : '', toastUndo: !!(s.toast && s.toast.undo), toastCls: 'toast ' + (s.tk % 2 ? 'tA' : 'tB')
+    };
+  }
+}
+</script>
+</body>
+</html>

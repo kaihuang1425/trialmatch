@@ -1,0 +1,37 @@
+{
+  "patientId": "SYN-0288",
+  "synthetic": true,
+  "summary": "58, non-squamous adenocarcinoma stage IVB, EGFR exon 19 deletion, untreated advanced disease, ECOG 0.",
+  "profile": {
+    "sex": "Female"
+  },
+  "preferences": {
+    "homeCity": "Manchester",
+    "travelLimitMiles": 40,
+    "daysAvailable": [
+      "Mon",
+      "Wed",
+      "Fri"
+    ]
+  },
+  "documents": [
+    {
+      "id": "SYN-0288-REF",
+      "kind": "referral_summary",
+      "date": "2026-10-27",
+      "initial": true
+    },
+    {
+      "id": "SYN-0288-MOL",
+      "kind": "molecular",
+      "date": "2026-10-20",
+      "initial": true
+    },
+    {
+      "id": "SYN-0288-LAB",
+      "kind": "labs",
+      "date": "2026-10-30",
+      "initial": true
+    }
+  ]
+}

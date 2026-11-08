@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Relay · Loaders</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#141B18}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;margin:0;padding:0}
+.stage{--bg:#141B18;--tile:#19231F;--bd:#26322D;--ln:#F6F3EB;--mut:#A9B5AF;--soft:#2B3833;--txt:#F6F3EB;min-height:1500px;padding:24px clamp(16px,3vw,40px) 48px;font-family:'DM Sans',system-ui,sans-serif;color:var(--txt);background:var(--bg);transition:background .4s ease,color .4s ease}
+.stage.light{--bg:#F3F2EE;--tile:#FFFFFF;--bd:#E6E4DE;--ln:#12131C;--mut:#555A6E;--soft:#E6E4DE;--txt:#12131C}
+.wrap{max-width:1200px;margin:0 auto}
+.dsp{font-family:'Bricolage Grotesque','DM Sans',sans-serif;letter-spacing:-0.035em}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{width:36px;height:36px;border-radius:11px;background:#26322D;display:grid;place-items:center}
+.syn{font:500 10.5px/1.6 'JetBrains Mono',monospace;letter-spacing:.08em;color:var(--mut);border:1px dashed var(--mut);border-radius:6px;padding:0 6px}
+.seg{margin-left:auto;display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--tile);border:1px solid var(--bd)}
+.seg button{height:38px;padding:0 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--mut);transition:background .15s ease,color .15s ease}
+.seg button[aria-pressed="true"]{background:var(--soft);color:var(--txt)}
+.status{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:30px 0 22px}
+.step{font-size:44px;font-weight:700;line-height:1;flex:1;min-width:260px}
+.sA{animation:stepA .45s cubic-bezier(.22,1,.36,1) both}.sB{animation:stepB .45s cubic-bezier(.22,1,.36,1) both}
+.prog{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.dots{display:flex;gap:6px}
+.dot{width:30px;height:6px;border-radius:6px;background:var(--soft);transition:background .35s ease}
+.dot.on{background:#FF5B2E}.dot.ok{background:#4CC38A}
+.bar{width:260px;height:6px;border-radius:6px;background:var(--soft);overflow:hidden}
+.bar span{display:block;height:100%;background:#FF5B2E;transition:width .2s linear,background .4s ease}
+.bar.ok span{background:#4CC38A}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;grid-auto-flow:dense}
+.tile{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:6px;aspect-ratio:1;padding:14px 16px;border-radius:24px;background:var(--tile);border:1px solid var(--bd);text-align:left;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .2s ease}
+.tile:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.18)}
+.tile.sel{grid-column:span 2;grid-row:span 2;border-color:#FF5B2E;box-shadow:0 0 0 2px #FF5B2E inset}
+.tile svg{flex:1;width:100%;min-height:0;overflow:visible}
+.tname{font-size:16px;font-weight:700}
+.tile.sel .tname{font-size:22px}
+.ln{stroke:var(--ln)}.lnf{fill:var(--ln)}.mu{stroke:var(--mut)}.muf{fill:var(--mut)}
+.lobe{transform-box:fill-box;transform-origin:50% 0;animation:breath 3.2s ease-in-out infinite}
+.alv{animation:twinkle 3.2s ease-in-out infinite}
+.alv2{animation-delay:.6s}.alv3{animation-delay:1.2s}
+.focus{transform-box:fill-box;transform-origin:center;animation:focus 3.4s ease-in-out infinite}
+.drift{transform-box:fill-box;transform-origin:center;animation:drift 12s linear infinite}
+.rung{transform-origin:100px 100px;animation:twist 2.2s ease-in-out infinite}
+.level{transform-box:fill-box;transform-origin:center bottom;animation:empty 4.8s ease-in-out infinite}
+.drop{animation:fall 1.2s cubic-bezier(.5,0,.8,.6) infinite}
+.halfL{animation:snapL 2.8s cubic-bezier(.65,0,.35,1) infinite}
+.halfR{animation:snapR 2.8s cubic-bezier(.65,0,.35,1) infinite}
+.spin{transform-origin:100px 100px;animation:spin180 2.8s cubic-bezier(.65,0,.35,1) infinite}
+.rod{animation:push 3s cubic-bezier(.65,0,.35,1) infinite}
+.dose{transform-box:fill-box;transform-origin:center bottom;animation:dose 3s cubic-bezier(.65,0,.35,1) infinite}
+.tipdrop{animation:tip 3s ease-in infinite}
+.ripple{transform-box:fill-box;transform-origin:center;animation:ripple 3s ease-out infinite}
+.trace{stroke-dasharray:340;animation:draw 2.2s linear infinite}
+.head{stroke-dasharray:6 600;animation:head 2.2s linear infinite}
+.heart{transform-box:fill-box;transform-origin:center;animation:beat 1.1s cubic-bezier(.34,1.56,.64,1) infinite}
+.cellL{transform-box:fill-box;transform-origin:center;animation:splitL 3s cubic-bezier(.65,0,.35,1) infinite}
+.cellR{transform-box:fill-box;transform-origin:center;animation:splitR 3s cubic-bezier(.65,0,.35,1) infinite}
+.wound{animation:heal 3.6s ease-in-out infinite}
+.st{stroke-dasharray:30;stroke-dashoffset:30;animation:stitch 3.6s ease-out infinite}
+.fill{transform-box:fill-box;transform-origin:center bottom;animation:pour 3.6s cubic-bezier(.65,0,.35,1) infinite}
+.armT{animation:armT 3s cubic-bezier(.65,0,.35,1) infinite}.armB{animation:armB 3s cubic-bezier(.65,0,.35,1) infinite}.armL{animation:armL 3s cubic-bezier(.65,0,.35,1) infinite}.armR{animation:armR 3s cubic-bezier(.65,0,.35,1) infinite}
+.crossg{transform-origin:100px 100px;animation:turn 3s cubic-bezier(.65,0,.35,1) infinite}
+.orbit{transform-origin:100px 100px;animation:rot 6s linear infinite}
+.orbit2{transform-origin:100px 100px;animation:rot 2.4s linear infinite reverse}
+.core{transform-box:fill-box;transform-origin:center;animation:beat 2.4s ease-in-out infinite}
+.d1{animation-delay:-.2s}.d2{animation-delay:-.4s}.d3{animation-delay:-.6s}.d4{animation-delay:-.8s}.d5{animation-delay:-1s}.d6{animation-delay:-1.2s}.d7{animation-delay:-1.4s}.d8{animation-delay:-1.6s}
+.p1{animation-delay:.25s}.p2{animation-delay:.5s}.p3{animation-delay:.75s}.p4{animation-delay:1s}.p5{animation-delay:1.25s}
+@keyframes breath{0%,100%{transform:scale(.93)}50%{transform:scale(1.06)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes focus{0%,100%{filter:blur(5px);transform:scale(1.05)}45%,65%{filter:blur(0);transform:scale(1)}}
+@keyframes drift{to{transform:rotate(360deg)}}
+@keyframes twist{0%,100%{transform:scaleX(1)}50%{transform:scaleX(-1)}}
+@keyframes empty{0%,8%{transform:scaleY(1)}92%,100%{transform:scaleY(.25)}}
+@keyframes fall{0%{transform:translateY(0);opacity:0}15%{opacity:1}80%{transform:translateY(24px);opacity:1}100%{transform:translateY(28px);opacity:0}}
+@keyframes snapL{0%,100%{transform:translateX(-22px)}30%,70%{transform:translateX(0)}}
+@keyframes snapR{0%,100%{transform:translateX(22px)}30%,70%{transform:translateX(0)}}
+@keyframes spin180{0%,30%{transform:rotate(0)}70%,100%{transform:rotate(180deg)}}
+@keyframes push{0%,10%{transform:translateY(0)}75%,100%{transform:translateY(62px)}}
+@keyframes dose{0%,10%{transform:scaleY(1)}75%,100%{transform:scaleY(.08)}}
+@keyframes tip{0%,70%{transform:translateY(0);opacity:0}78%{opacity:1;transform:translateY(0)}95%{transform:translateY(16px);opacity:1}100%{transform:translateY(18px);opacity:0}}
+@keyframes ripple{0%,92%{transform:scale(0);opacity:0}95%{opacity:1}100%{transform:scale(1.6);opacity:0}}
+@keyframes draw{0%{stroke-dashoffset:340;opacity:1}80%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes head{0%{stroke-dashoffset:0}80%{stroke-dashoffset:-334}100%{stroke-dashoffset:-334;opacity:0}}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(.96)}45%{transform:scale(1.1)}60%{transform:scale(1)}}
+@keyframes splitL{0%,20%{transform:translateX(0) scale(1)}65%,85%{transform:translateX(-26px) scale(.82)}100%{transform:translateX(0) scale(1)}}
+@keyframes splitR{0%,20%{transform:translateX(0) scale(1)}65%,85%{transform:translateX(26px) scale(.82)}100%{transform:translateX(0) scale(1)}}
+@keyframes heal{0%,60%{stroke:#FF5B2E;opacity:1}85%,100%{stroke:#FFB59A;opacity:.25}}
+@keyframes stitch{0%{stroke-dashoffset:30}15%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes pour{0%,5%{transform:scaleY(0)}45%,85%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+@keyframes armT{0%,100%{transform:translateY(-34px);opacity:0}30%,75%{transform:translateY(0);opacity:1}}
+@keyframes armB{0%,100%{transform:translateY(34px);opacity:0}30%,75%{transform:translateY(0);opacity:1}}
+@keyframes armL{0%,100%{transform:translateX(-34px);opacity:0}30%,75%{transform:translateX(0);opacity:1}}
+@keyframes armR{0%,100%{transform:translateX(34px);opacity:0}30%,75%{transform:translateX(0);opacity:1}}
+@keyframes turn{0%,35%{transform:rotate(0)}60%,100%{transform:rotate(90deg)}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes stepA{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes stepB{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.step{font-size:32px}.bar{width:200px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div class="{{ stageCls }}">
+<div class="wrap">
+<div class="top"><span class="logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F6F3EB" stroke-width="2.2" stroke-linecap="round"><path d="M5 15a7 7 0 0112-5"></path><path d="M19 9a7 7 0 01-12 5"></path></svg></span><span class="dsp" style="font-size:22px;font-weight:700">Relay</span><span class="syn">SYNTHETIC</span><div class="seg" role="group" aria-label="Background"><button type="button" aria-pressed="{{ isDark }}" onClick="{{ dark }}">Dark</button><button type="button" aria-pressed="{{ isLight }}" onClick="{{ light }}">Light</button></div></div>
+<div class="status" role="status" aria-live="polite"><div class="{{ stepCls }}">{{ step }}</div><div class="prog" aria-hidden="true"><div class="dots"><sc-for list="{{ dots }}" as="d" hint-placeholder-count="4"><span class="{{ d.cls }}"></span></sc-for></div><div class="{{ barCls }}"><span style="width: {{ barW }}"></span></div></div></div>
+<div class="grid">
+<button type="button" class="{{ t.lungs.cls }}" aria-pressed="{{ t.lungs.on }}" onClick="{{ t.lungs.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="ln" d="M100 30v46M100 76l-16 14M100 76l16 14" stroke-width="7" stroke-linecap="round" fill="none"></path><g class="lobe"><path d="M86 74c-24 2-44 40-42 80 1 18 22 22 38 12 10-6 8-30 8-50 0-20 2-34-4-42z" fill="#FF8A5C"></path><path d="M80 98c-12 6-20 26-20 44" stroke="#FFB59A" stroke-width="4" fill="none" stroke-linecap="round"></path><circle class="alv" cx="68" cy="128" r="4" fill="#FFE3D8"></circle><circle class="alv alv2" cx="76" cy="150" r="3" fill="#FFE3D8"></circle></g><g class="lobe"><path d="M114 74c24 2 44 40 42 80-1 18-22 22-38 12-10-6-8-30-8-50 0-20-2-34 4-42z" fill="#FF8A5C"></path><path d="M120 98c12 6 20 26 20 44" stroke="#FFB59A" stroke-width="4" fill="none" stroke-linecap="round"></path><circle class="alv alv3" cx="132" cy="128" r="4" fill="#FFE3D8"></circle><circle class="alv" cx="124" cy="150" r="3" fill="#FFE3D8"></circle></g></svg><span class="tname">Breathe</span></button>
+<button type="button" class="{{ t.focus.cls }}" aria-pressed="{{ t.focus.on }}" onClick="{{ t.focus.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="lens"><circle cx="100" cy="100" r="66"></circle></clipPath></defs><circle cx="100" cy="100" r="66" fill="#F2E6D5"></circle><g clip-path="url(#lens)"><g class="drift"><g class="focus"><circle cx="78" cy="80" r="20" fill="#FFCDB8" stroke="#FF8A5C" stroke-width="3"></circle><circle cx="82" cy="78" r="7" fill="#C2410C"></circle><circle cx="126" cy="92" r="16" fill="#FFCDB8" stroke="#FF8A5C" stroke-width="3"></circle><circle cx="122" cy="94" r="6" fill="#C2410C"></circle><circle cx="96" cy="130" r="18" fill="#E5DDFB" stroke="#A29BFF" stroke-width="3"></circle><circle cx="98" cy="128" r="6" fill="#6C63FF"></circle><circle cx="140" cy="132" r="10" fill="#FFCDB8" stroke="#FF8A5C" stroke-width="3"></circle><circle cx="58" cy="122" r="11" fill="#FFCDB8" stroke="#FF8A5C" stroke-width="3"></circle></g></g></g><circle cx="100" cy="100" r="66" fill="none" class="ln" stroke-width="6"></circle><path class="mu" d="M100 40v12M100 148v12M40 100h12M148 100h12" stroke-width="3" stroke-linecap="round"></path></svg><span class="tname">Focus</span></button>
+<button type="button" class="{{ t.helix.cls }}" aria-pressed="{{ t.helix.on }}" onClick="{{ t.helix.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="rung"><path class="mu" d="M60 40h80" stroke-width="3"></path><circle cx="60" cy="40" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="40" r="7" fill="#8FA8FF"></circle></g><g class="rung d1"><path class="mu" d="M60 55h80" stroke-width="3"></path><circle cx="60" cy="55" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="55" r="7" fill="#8FA8FF"></circle></g><g class="rung d2"><path class="mu" d="M60 70h80" stroke-width="3"></path><circle cx="60" cy="70" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="70" r="7" fill="#8FA8FF"></circle></g><g class="rung d3"><path class="mu" d="M60 85h80" stroke-width="3"></path><circle cx="60" cy="85" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="85" r="7" fill="#8FA8FF"></circle></g><g class="rung d4"><path class="mu" d="M60 100h80" stroke-width="3"></path><circle cx="60" cy="100" r="7" fill="#4CC38A"></circle><circle cx="140" cy="100" r="7" fill="#8FA8FF"></circle></g><g class="rung d5"><path class="mu" d="M60 115h80" stroke-width="3"></path><circle cx="60" cy="115" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="115" r="7" fill="#8FA8FF"></circle></g><g class="rung d6"><path class="mu" d="M60 130h80" stroke-width="3"></path><circle cx="60" cy="130" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="130" r="7" fill="#8FA8FF"></circle></g><g class="rung d7"><path class="mu" d="M60 145h80" stroke-width="3"></path><circle cx="60" cy="145" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="145" r="7" fill="#8FA8FF"></circle></g><g class="rung d8"><path class="mu" d="M60 160h80" stroke-width="3"></path><circle cx="60" cy="160" r="7" fill="#FF5B2E"></circle><circle cx="140" cy="160" r="7" fill="#8FA8FF"></circle></g></svg><span class="tname">Helix</span></button>
+<button type="button" class="{{ t.drip.cls }}" aria-pressed="{{ t.drip.on }}" onClick="{{ t.drip.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="bag"><rect x="72" y="22" width="56" height="66" rx="14"></rect></clipPath></defs><path class="mu" d="M100 8v14" stroke-width="3" stroke-linecap="round"></path><g clip-path="url(#bag)"><rect class="level" x="72" y="30" width="56" height="58" fill="#FF8A5C"></rect></g><rect class="ln" x="72" y="22" width="56" height="66" rx="14" fill="none" stroke-width="4"></rect><rect class="lnf" x="94" y="88" width="12" height="10" rx="2"></rect><rect class="ln" x="86" y="98" width="28" height="44" rx="9" fill="none" stroke-width="4"></rect><rect x="90" y="128" width="20" height="10" rx="3" fill="#FF8A5C"></rect><circle class="drop" cx="100" cy="104" r="4.5" fill="#FF8A5C"></circle><path class="mu" d="M100 142c0 20 0 30 18 40" stroke-width="4" fill="none" stroke-linecap="round"></path></svg><span class="tname">Drip</span></button>
+<button type="button" class="{{ t.capsule.cls }}" aria-pressed="{{ t.capsule.on }}" onClick="{{ t.capsule.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="spin"><g class="halfL"><path d="M100 76H66a24 24 0 000 48h34z" fill="#FF5B2E"></path><path d="M70 86h22" stroke="#FFB59A" stroke-width="5" stroke-linecap="round"></path></g><g class="halfR"><path d="M100 76h34a24 24 0 010 48h-34z" class="lnf"></path></g></g><circle class="muf" cx="62" cy="152" r="3" opacity=".6"></circle><circle class="muf" cx="138" cy="48" r="3" opacity=".6"></circle></svg><span class="tname">Capsule</span></button>
+<button type="button" class="{{ t.dose.cls }}" aria-pressed="{{ t.dose.on }}" onClick="{{ t.dose.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="rod"><rect class="lnf" x="80" y="4" width="40" height="10" rx="5"></rect><rect class="muf" x="95" y="14" width="10" height="36" rx="3"></rect><rect class="lnf" x="84" y="48" width="32" height="8" rx="3"></rect></g><defs><clipPath id="barrel2"><rect x="83" y="56" width="34" height="80" rx="8"></rect></clipPath></defs><g clip-path="url(#barrel2)"><rect class="dose" x="83" y="62" width="34" height="74" fill="#FF8A5C"></rect></g><rect class="ln" x="80" y="40" width="40" height="100" rx="10" fill="none" stroke-width="4"></rect><path class="mu" d="M80 70h10M80 90h10M80 110h10" stroke-width="3" stroke-linecap="round"></path><rect class="lnf" x="94" y="140" width="12" height="10" rx="3"></rect><path class="mu" d="M100 150v22" stroke-width="3" stroke-linecap="round"></path><circle class="tipdrop" cx="100" cy="176" r="4" fill="#FF8A5C"></circle><ellipse class="ripple" cx="100" cy="194" rx="12" ry="3" fill="none" stroke="#FF8A5C" stroke-width="2"></ellipse></svg><span class="tname">Dose</span></button>
+<button type="button" class="{{ t.pulse.cls }}" aria-pressed="{{ t.pulse.on }}" onClick="{{ t.pulse.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="heart" d="M100 74c-10-7-18-13-18-21a8 8 0 0118-3 8 8 0 0118 3c0 8-8 14-18 21z" fill="#FF5B2E"></path><path class="mu" d="M20 120h160" stroke-width="2" opacity=".35"></path><path class="trace" d="M20 120h36l8-12 8 12h10l7-46 9 86 9-40h12l12-16 12 16h31" fill="none" stroke="#FF5B2E" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"></path><path class="head ln" d="M20 120h36l8-12 8 12h10l7-46 9 86 9-40h12l12-16 12 16h31" fill="none" stroke-width="9" stroke-linecap="round"></path></svg><span class="tname">Pulse</span></button>
+<button type="button" class="{{ t.divide.cls }}" aria-pressed="{{ t.divide.on }}" onClick="{{ t.divide.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="cellL"><circle cx="100" cy="100" r="36" fill="#FFCDB8" stroke="#FF8A5C" stroke-width="4" opacity=".92"></circle><circle cx="100" cy="100" r="11" fill="#C2410C"></circle></g><g class="cellR"><circle cx="100" cy="100" r="36" fill="#FFCDB8" stroke="#FF8A5C" stroke-width="4" opacity=".92"></circle><circle cx="100" cy="100" r="11" fill="#C2410C"></circle></g></svg><span class="tname">Divide</span></button>
+<button type="button" class="{{ t.stitch.cls }}" aria-pressed="{{ t.stitch.on }}" onClick="{{ t.stitch.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><rect x="28" y="40" width="144" height="120" rx="28" fill="#F2E6D5"></rect><path class="wound" d="M48 132c30-8 60-34 104-66" fill="none" stroke="#FF5B2E" stroke-width="6" stroke-linecap="round"></path><g stroke="#19231F" stroke-width="5" stroke-linecap="round"><path class="st" d="M56 114l12 22"></path><path class="st p1" d="M74 104l14 22"></path><path class="st p2" d="M94 92l14 22"></path><path class="st p3" d="M112 80l14 22"></path><path class="st p4" d="M128 68l14 22"></path><path class="st p5" d="M142 58l12 20"></path></g></svg><span class="tname">Stitch</span></button>
+<button type="button" class="{{ t.tubes.cls }}" aria-pressed="{{ t.tubes.on }}" onClick="{{ t.tubes.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="tb1"><rect x="38" y="44" width="22" height="108" rx="11"></rect></clipPath><clipPath id="tb2"><rect x="73" y="44" width="22" height="108" rx="11"></rect></clipPath><clipPath id="tb3"><rect x="108" y="44" width="22" height="108" rx="11"></rect></clipPath><clipPath id="tb4"><rect x="143" y="44" width="22" height="108" rx="11"></rect></clipPath></defs><g clip-path="url(#tb1)"><rect class="fill" x="38" y="80" width="22" height="72" fill="#FF5B2E"></rect></g><g clip-path="url(#tb2)"><rect class="fill p2" x="73" y="80" width="22" height="72" fill="#FF9670"></rect></g><g clip-path="url(#tb3)"><rect class="fill p4" x="108" y="80" width="22" height="72" fill="#4CC38A"></rect></g><g clip-path="url(#tb4)"><rect class="fill p5" x="143" y="80" width="22" height="72" fill="#8FA8FF"></rect></g><g class="ln" fill="none" stroke-width="4"><rect x="38" y="44" width="22" height="108" rx="11"></rect><rect x="73" y="44" width="22" height="108" rx="11"></rect><rect x="108" y="44" width="22" height="108" rx="11"></rect><rect x="143" y="44" width="22" height="108" rx="11"></rect></g><path class="mu" d="M26 120h150" stroke-width="6" stroke-linecap="round"></path></svg><span class="tname">Samples</span></button>
+<button type="button" class="{{ t.cross.cls }}" aria-pressed="{{ t.cross.on }}" onClick="{{ t.cross.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="crossg"><rect class="armT" x="82" y="38" width="36" height="46" rx="10" fill="#FF5B2E"></rect><rect class="armB" x="82" y="116" width="36" height="46" rx="10" fill="#FF5B2E"></rect><rect class="armL" x="38" y="82" width="46" height="36" rx="10" fill="#FF5B2E"></rect><rect class="armR" x="116" y="82" width="46" height="36" rx="10" fill="#FF5B2E"></rect><rect class="lnf" x="82" y="82" width="36" height="36" rx="8"></rect></g></svg><span class="tname">Cross</span></button>
+<button type="button" class="{{ t.bond.cls }}" aria-pressed="{{ t.bond.on }}" onClick="{{ t.bond.pick }}"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="orbit"><path class="mu" d="M100 100l0-56M100 100l48 28M100 100l-48 28" stroke-width="5" stroke-linecap="round"></path><circle cx="100" cy="44" r="13" fill="#8FA8FF"></circle><circle cx="148" cy="128" r="13" fill="#4CC38A"></circle><circle cx="52" cy="128" r="13" fill="#A29BFF"></circle></g><g class="orbit2"><ellipse class="mu" cx="100" cy="100" rx="76" ry="26" fill="none" stroke-width="2" opacity=".5"></ellipse><circle cx="176" cy="100" r="5" class="lnf"></circle></g><circle class="core" cx="100" cy="100" r="20" fill="#FF5B2E"></circle></svg><span class="tname">Bond</span></button>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ground":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { p: 0, done: false, sel: 'lungs', ground: '' }; }
+  componentDidMount() { this.tick(); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  tick() {
+    this.t = setTimeout(() => {
+      const s = this.state;
+      if (s.done) { this.setState({ p: 0, done: false }); this.tick(); return; }
+      if (s.p >= 100) { this.setState({ done: true }); this.t = setTimeout(() => this.tick(), 1500); return; }
+      this.setState({ p: Math.min(100, s.p + (s.p < 30 ? 1.5 : s.p < 75 ? 1 : 1.8)) });
+      this.tick();
+    }, 60);
+  }
+  renderVals() {
+    const s = this.state;
+    const ground = s.ground || this.props.ground || 'dark';
+    const p = s.done ? 100 : s.p;
+    const idx = s.done ? 3 : p < 30 ? 0 : p < 65 ? 1 : 2;
+    const STEPS = ['Reading the letter', 'Citing every fact', 'Checking 8 studies', 'Ready'];
+    const IDS = ['lungs', 'focus', 'helix', 'drip', 'capsule', 'dose', 'pulse', 'divide', 'stitch', 'tubes', 'cross', 'bond'];
+    const t = {};
+    IDS.forEach((id) => { t[id] = { cls: 'tile' + (s.sel === id ? ' sel' : ''), on: String(s.sel === id), pick: () => this.setState({ sel: id }) }; });
+    return {
+      stageCls: 'stage' + (ground === 'light' ? ' light' : ''),
+      isDark: String(ground === 'dark'), isLight: String(ground === 'light'),
+      dark: () => this.setState({ ground: 'dark' }), light: () => this.setState({ ground: 'light' }),
+      step: STEPS[idx], stepCls: 'step dsp ' + (idx % 2 ? 'sA' : 'sB'),
+      dots: STEPS.map((x, i) => ({ cls: 'dot' + (s.done ? ' ok' : i <= idx ? ' on' : '') })),
+      barCls: 'bar' + (s.done ? ' ok' : ''), barW: p.toFixed(1) + '%',
+      t: t
+    };
+  }
+}
+</script>
+</body>
+</html>

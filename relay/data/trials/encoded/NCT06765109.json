@@ -1,0 +1,626 @@
+{
+  "id": "NCT06765109",
+  "nct": "NCT06765109",
+  "acronym": "ALKAZAR",
+  "briefTitle": "Neladalkib (NVL-655) for TKI-naive Patients With Advanced ALK-Positive NSCLC",
+  "officialTitle": "A Phase 3 Study of the Selective Anaplastic Lymphoma Kinase (ALK) Inhibitor NVL-655 Compared to Alectinib in First-Line Treatment of Patients With ALK-Positive Advanced Non-Small Cell Lung Cancer (ALKAZAR)",
+  "phase": [
+    "PHASE3"
+  ],
+  "sponsor": "Nuvalent Inc.",
+  "status": "RECRUITING",
+  "conditions": [
+    "Non-small Cell Lung Cancer",
+    "Anaplastic Lymphoma Kinase-positive"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "Multicenter, randomized, controlled, open-label, Phase 3 study designed to demonstrate that neladalkib (NVL-655) is superior to alectinib in prolonging progression-free survival (PFS) in patients with treatment-naïve, Anaplastic Lymphoma Kinase (ALK) positive, advanced Non-Small Cell Lung Cancer (NSCLC).",
+  "arms": [
+    {
+      "label": "Neladalkib (NVL-655)",
+      "type": "EXPERIMENTAL",
+      "description": "150mg taken orally once daily (QD)",
+      "interventionNames": [
+        "Drug: Neladalkib (NVL-655)"
+      ]
+    },
+    {
+      "label": "Alectinib",
+      "type": "ACTIVE_COMPARATOR",
+      "description": "600mg taken orally twice daily (BID)",
+      "interventionNames": [
+        "Drug: Alectinib"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "Neladalkib (NVL-655)"
+    },
+    {
+      "type": "DRUG",
+      "name": "Alectinib"
+    }
+  ],
+  "sites": [
+    {
+      "id": "alk-cambridge-university-hospitals-nhs-trust-addenbr",
+      "facility": "Cambridge University Hospitals NHS Trust, Addenbrooke's Hospital",
+      "city": "Cambridge",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 52.2053,
+      "lon": 0.1218,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-royal-surrey-county-hospital",
+      "facility": "Royal Surrey County Hospital",
+      "city": "Guildford",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.2362,
+      "lon": -0.5704,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-royal-free-london-nhs-foundation-trust",
+      "facility": "Royal Free London NHS Foundation Trust",
+      "city": "Hampstead",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.556,
+      "lon": -0.178,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-guy-s-cancer-centre-nhs-foundation-trust",
+      "facility": "Guy's Cancer Centre NHS Foundation Trust",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-the-royal-marsden-nhs-foundation-trust",
+      "facility": "The Royal Marsden NHS Foundation Trust",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-maidstone-hospital",
+      "facility": "Maidstone Hospital",
+      "city": "Maidstone",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.272,
+      "lon": 0.529,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-the-christie-nhs-foundation-trust",
+      "facility": "The Christie NHS Foundation Trust",
+      "city": "Manchester",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.4808,
+      "lon": -2.2426,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "alk-nottingham-city-hospital",
+      "facility": "Nottingham City Hospital",
+      "city": "Nottingham",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 52.9548,
+      "lon": -1.1581,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT06765109",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT06765109",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "alk-age",
+      "trialId": "NCT06765109",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-setting",
+      "trialId": "NCT06765109",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed locally advanced (not amenable for multimodality treatment) or metastatic Non-small Cell Lung Cancer (NSCLC)",
+      "plain": "Locally advanced (not for multimodality treatment) or metastatic NSCLC",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma",
+              "squamous"
+            ]
+          },
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIA",
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "histology",
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-alk",
+      "trialId": "NCT06765109",
+      "kind": "inclusion",
+      "text": "Documented Anaplastic Lymphoma Kinase (ALK) rearrangement via testing of tissue or blood",
+      "plain": "ALK rearrangement documented",
+      "logic": {
+        "op": "is",
+        "key": "alk",
+        "value": "rearranged"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "alk"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-prior",
+      "trialId": "NCT06765109",
+      "kind": "inclusion",
+      "text": "No prior systemic anticancer treatment for NSCLC (adjuvant/neoadjuvant chemotherapy allowed if 12 months prior to randomization; prior ALK tyrosine kinase inhibitor \\[TKI\\] such as alectinib is not allowed in any setting)",
+      "plain": "No prior systemic therapy for NSCLC; adjuvant chemo allowed if ≥ 12 months ago; never an ALK inhibitor",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_systemic_advanced",
+            "value": false
+          },
+          {
+            "op": "not_within",
+            "key": "adjuvant_therapy_end",
+            "days": 365,
+            "what": "adjuvant/neoadjuvant chemotherapy"
+          },
+          {
+            "op": "is",
+            "key": "prior_alk_tki",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced",
+        "adjuvant_therapy_end",
+        "prior_alk_tki"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-measurable",
+      "trialId": "NCT06765109",
+      "kind": "inclusion",
+      "text": "Measurable disease (1 or more target lesions per Response Evaluation Criteria in Solid Tumors \\[RECIST\\] 1.1)",
+      "plain": "Measurable disease (RECIST 1.1)",
+      "logic": {
+        "op": "is",
+        "key": "measurable_disease",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "measurable_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-tissue",
+      "trialId": "NCT06765109",
+      "kind": "inclusion",
+      "text": "Pretreatment tumor tissue",
+      "plain": "Pretreatment tumour tissue available",
+      "logic": {
+        "op": "is",
+        "key": "tumour_sample_available",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "tumour_sample_available"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-driver",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Patient's cancer has a known oncogenic driver alteration other than ALK.",
+      "plain": "No other known driver alteration, KRAS included (Relay dated table)",
+      "logic": {
+        "op": "table",
+        "table": "alterations",
+        "column": "driver",
+        "genes": [
+          "egfr",
+          "kras",
+          "ros1",
+          "braf",
+          "met_ex14",
+          "met_amp",
+          "ret",
+          "her2_mutation",
+          "nrg1"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "egfr",
+        "kras",
+        "ros1",
+        "braf",
+        "met_ex14",
+        "met_amp",
+        "ret",
+        "her2_mutation",
+        "nrg1"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-allergy",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Known allergy/hypersensitivity to excipients of neladalkib or alectinib.",
+      "plain": "No allergy to neladalkib or alectinib excipients (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "alk-x-radiotherapy",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Ongoing or recent radiotherapy as per protocol-specified timeframes prior to randomization",
+      "plain": "No ongoing or recent radiotherapy (protocol timeframes)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "last_radiotherapy",
+            "value": "none"
+          },
+          {
+            "op": "review",
+            "reason": "Radiotherapy given: the protocol-specified timeframes are not in the registry"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "last_radiotherapy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-surgery",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Major surgery within 4 weeks prior to randomization",
+      "plain": "No major surgery in the last 4 weeks",
+      "logic": {
+        "op": "is",
+        "key": "major_surgery_recent",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "major_surgery_recent"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-infection",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Uncontrolled clinically relevant infection requiring systemic therapy",
+      "plain": "No uncontrolled infection needing systemic therapy",
+      "logic": {
+        "op": "is",
+        "key": "active_infection",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "active_infection"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-tb-hep",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Known active tuberculosis, or active Hepatitis B or C",
+      "plain": "No active tuberculosis, hepatitis B or C",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "tb_active",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "hepatitis_active",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "tb_active",
+        "hepatitis_active"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-qtc",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "QT corrected for heart rate by Fridericia's formula (QTcF) \\> 470 msec on repeated assessments",
+      "plain": "QTcF ≤ 470 ms",
+      "logic": {
+        "op": "cmp",
+        "key": "qtcf_ms",
+        "cmp": "<=",
+        "value": 470,
+        "unit": "ms",
+        "note": "repeated assessments are done at screening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "qtcf_ms"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-cv",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Clinically significant cardiovascular disease",
+      "plain": "No clinically significant cardiovascular disease",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "cv_disease",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "cv_disease",
+                "value": "controlled"
+              },
+              {
+                "op": "review",
+                "reason": "Known cardiovascular disease: whether it is clinically significant"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "cv_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-brain",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Brain metastases associated with progressive neurological symptoms or requiring increasing doses of corticosteroids to control CNS disease",
+      "plain": "No brain metastases with progressive symptoms or rising steroids",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "none"
+          },
+          {
+            "op": "is",
+            "key": "cns_symptomatic",
+            "value": false
+          },
+          {
+            "op": "review",
+            "reason": "Symptomatic brain metastases: progressive symptoms or a rising steroid dose decides"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "brain_mets",
+        "cns_symptomatic"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "alk-x-malignancy",
+      "trialId": "NCT06765109",
+      "kind": "exclusion",
+      "text": "Active malignancy requiring therapy within 2 years prior to randomization",
+      "plain": "No other malignancy needing therapy in 2 years",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "other_malignancy",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "other_malignancy",
+                "value": "present"
+              },
+              {
+                "op": "review",
+                "reason": "Other malignancy: therapy within 2 years decides"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "other_malignancy"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: registry acronym field.",
+    "No ECOG requirement is listed in the registry criteria; none is invented.",
+    "Treatment history: adjuvant chemotherapy ended ≥ 12 months before randomisation is allowed."
+  ]
+}

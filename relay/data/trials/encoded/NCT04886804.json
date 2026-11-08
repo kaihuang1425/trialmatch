@@ -1,0 +1,1330 @@
+{
+  "id": "NCT04886804",
+  "nct": "NCT04886804",
+  "acronym": "Beamion LUNG-1",
+  "briefTitle": "Beamion LUNG-1: A Study to Test Different Doses of Zongertinib in People With Different Types of Advanced Cancer (Solid Tumours With Changes in the HER2 Gene)",
+  "officialTitle": "Beamion LUNG-1: An Open Label, Phase I Dose Escalation Trial, With Dose Confirmation and Expansion, of Zongertinib (BI 1810631) as Monotherapy in Patients With Advanced or Metastatic Solid Tumors With HER2 Aberrations",
+  "phase": [
+    "PHASE1"
+  ],
+  "sponsor": "Boehringer Ingelheim",
+  "status": "RECRUITING",
+  "conditions": [
+    "Neoplasm Metastasis",
+    "Non-Small Cell Lung Cancer"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "The study has 2 parts. The first part is open to adults with different types of advanced cancer (solid tumours with changes in the HER2 gene) for whom previous treatment was not successful.\n\nThe second part is open to people with non-small cell lung cancer with a specific mutation in the HER2 gene.\n\nThe purpose of the first study part is to find the highest dose of a medicine called zongertinib the participants can tolerate. Once this dose is found, it will be used in the second study part to test whether zongertinib can make tumours shrink.\n\nIn this study, zongertinib is given to people for the first time. Participants take zongertinib as tablets once a day or twice a day.\n\nThe participants are in the study for as long as they benefit from and can tolerate treatment.\n\nStudy doctors regularly check the participants' health and monitor the tumours. The doctors also take note of any unwanted effects that could have been caused by zongertinib.",
+  "arms": [
+    {
+      "label": "Phase Ia - Dose escalation part",
+      "type": "EXPERIMENTAL",
+      "description": "Consecutive cohorts of patients treated with escalating doses of BI 1810631 monotherapy.",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 1",
+      "type": "EXPERIMENTAL",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 2",
+      "type": "EXPERIMENTAL",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 3",
+      "type": "EXPERIMENTAL",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 4",
+      "type": "EXPERIMENTAL",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 5",
+      "type": "EXPERIMENTAL",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 6",
+      "type": "EXPERIMENTAL",
+      "description": "Cohort only in the United States of America (USA)",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 7",
+      "type": "EXPERIMENTAL",
+      "description": "Cohort only in Japan",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 8",
+      "type": "EXPERIMENTAL",
+      "description": "Cohort only in the United States of America (USA)",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    },
+    {
+      "label": "Phase Ib - Dose expansion part: Cohort 9",
+      "type": "EXPERIMENTAL",
+      "description": "Cohort only in China",
+      "interventionNames": [
+        "Drug: zongertinib"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "zongertinib"
+    }
+  ],
+  "sites": [
+    {
+      "id": "bm1-the-royal-marsden-hospital-chelsea",
+      "facility": "The Royal Marsden Hospital, Chelsea",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "bm1-hammersmith-hospital",
+      "facility": "Hammersmith Hospital",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "bm1-the-royal-marsden-hospital-sutton",
+      "facility": "The Royal Marsden Hospital, Sutton",
+      "city": "Sutton",
+      "country": "United Kingdom",
+      "recruitmentStatus": "ACTIVE_NOT_RECRUITING",
+      "lat": 51.3618,
+      "lon": -0.1945,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": false,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status ACTIVE_NOT_RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT04886804",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT04886804",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "bm1-advanced",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of an advanced, unresectable and/or metastatic non-haematologic malignancy. Patient must show presence of at least one measurable lesion according to Response Evaluation Criteria In Solid Tumors (RECIST) 1.1.",
+      "plain": "Advanced, unresectable and/or metastatic cancer",
+      "logic": {
+        "op": "is",
+        "key": "curative_option",
+        "value": "not_amenable"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-measurable",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of an advanced, unresectable and/or metastatic non-haematologic malignancy. Patient must show presence of at least one measurable lesion according to Response Evaluation Criteria In Solid Tumors (RECIST) 1.1.",
+      "plain": "At least one measurable lesion (RECIST 1.1)",
+      "logic": {
+        "op": "is",
+        "key": "measurable_disease",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "measurable_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-ecog",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Eastern Cooperative Oncology Group (ECOG) score of 0, 1 or 2 (ECOG=2 only for Cohorts 6, 7 and 9) .",
+      "plain": "ECOG 0–1 (ECOG 2 only in cohorts 6, 7, 9)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "ecog",
+            "cmp": "<=",
+            "value": 1
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "ecog",
+                "cmp": "==",
+                "value": 2
+              },
+              {
+                "op": "review",
+                "reason": "ECOG 2 is allowed only in cohorts 6, 7 and 9 (arm descriptions: USA, Japan and China only)"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "ecog"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-sample",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Availability and patient willingness to provide a sample of tumour for confirmation of the patient´s Human epidermal growth factor receptor 2 (HER2) status. This sample can be archival material obtained at any time prior to study enrollment.",
+      "plain": "Tumour sample available for HER2 confirmation",
+      "logic": {
+        "op": "is",
+        "key": "tumour_sample_available",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "tumour_sample_available"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-sample-willing",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Availability and patient willingness to provide a sample of tumour for confirmation of the patient´s Human epidermal growth factor receptor 2 (HER2) status. This sample can be archival material obtained at any time prior to study enrollment.",
+      "plain": "Patient willing to provide the sample (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-biopsies",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Patient willing and able to comply with the protocol requirements for tumour biopsies (biopsies from brain metastases are not allowed).",
+      "plain": "Willing to have protocol biopsies (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-organ",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Adequate organ function defined as all of the following:",
+      "plain": "Adequate organ function: ALL of ANC, haemoglobin, platelets (no growth factors 4 weeks), bilirubin, eGFR, AST/ALT, ALP — labs current (Relay policy)",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "cmp",
+            "key": "lab_anc",
+            "cmp": ">=",
+            "value": 1.5,
+            "unit": "10^9/L",
+            "window": {
+              "source": "relay_policy",
+              "policy": "labRecencyDays"
+            }
+          },
+          {
+            "op": "cmp",
+            "key": "lab_hemoglobin",
+            "cmp": ">=",
+            "value": 9,
+            "unit": "g/dL",
+            "window": {
+              "source": "relay_policy",
+              "policy": "labRecencyDays"
+            }
+          },
+          {
+            "op": "cmp",
+            "key": "lab_platelets",
+            "cmp": ">=",
+            "value": 100,
+            "unit": "10^9/L",
+            "window": {
+              "source": "relay_policy",
+              "policy": "labRecencyDays"
+            }
+          },
+          {
+            "op": "is",
+            "key": "growth_factor_4w",
+            "value": false
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "lab_bilirubin",
+                "cmp": "<=",
+                "value": 1.5,
+                "unit": "xULN",
+                "window": {
+                  "source": "relay_policy",
+                  "policy": "labRecencyDays"
+                }
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "cmp",
+                    "key": "lab_bilirubin",
+                    "cmp": "<=",
+                    "value": 3,
+                    "unit": "xULN",
+                    "window": {
+                      "source": "relay_policy",
+                      "policy": "labRecencyDays"
+                    }
+                  },
+                  {
+                    "op": "review",
+                    "reason": "Bilirubin above 1.5 x ULN is allowed only with Gilbert's syndrome"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "lab_egfr_renal",
+                "cmp": ">=",
+                "value": 50,
+                "unit": "mL/min",
+                "window": {
+                  "source": "relay_policy",
+                  "policy": "labRecencyDays"
+                }
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "cmp",
+                    "key": "lab_egfr_renal",
+                    "cmp": ">=",
+                    "value": 30,
+                    "unit": "mL/min",
+                    "window": {
+                      "source": "relay_policy",
+                      "policy": "labRecencyDays"
+                    }
+                  },
+                  {
+                    "op": "review",
+                    "reason": "eGFR 30–49 is allowed only in cohorts 6, 8 and 9"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "cmp",
+                    "key": "lab_ast",
+                    "cmp": "<=",
+                    "value": 3,
+                    "unit": "xULN",
+                    "window": {
+                      "source": "relay_policy",
+                      "policy": "labRecencyDays"
+                    }
+                  },
+                  {
+                    "op": "cmp",
+                    "key": "lab_alt",
+                    "cmp": "<=",
+                    "value": 3,
+                    "unit": "xULN",
+                    "window": {
+                      "source": "relay_policy",
+                      "policy": "labRecencyDays"
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "cmp",
+                    "key": "lab_ast",
+                    "cmp": "<=",
+                    "value": 5,
+                    "unit": "xULN",
+                    "window": {
+                      "source": "relay_policy",
+                      "policy": "labRecencyDays"
+                    }
+                  },
+                  {
+                    "op": "cmp",
+                    "key": "lab_alt",
+                    "cmp": "<=",
+                    "value": 5,
+                    "unit": "xULN",
+                    "window": {
+                      "source": "relay_policy",
+                      "policy": "labRecencyDays"
+                    }
+                  },
+                  {
+                    "op": "review",
+                    "reason": "AST/ALT above 3 x ULN is allowed only when attributable to liver metastases"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "cmp",
+            "key": "lab_alp",
+            "cmp": "<",
+            "value": 5,
+            "unit": "xULN",
+            "window": {
+              "source": "relay_policy",
+              "policy": "labRecencyDays"
+            }
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "detail": [
+        "Absolute neutrophil count (ANC) ≥ 1.5 x 10\\^9/L (≥ 1.5 x 10\\^3/μL) (≥ 1500/mm\\^3); haemoglobin ≥ 9.0 g/dL (≥ 90 g/L) (≥ 5.6 mmol/L); platelets ≥ 100 x 10\\^9/L (100 x 10\\^3/μL) (100 x 10\\^3/mm3) without the use of hematopoietic growth factors within 4 weeks of start of trial medication.",
+        "Total bilirubin ≤ 1.5 times the upper limit of normal (ULN), except for patients with Gilbert's syndrome: total bilirubin ≤ 3 x ULN or direct bilirubin ≤ 1.5 x ULN.",
+        "Estimated Glomerular Filtration Rate (eGFR) ≥ 50 mL/min - calculated using Chronic Kidney Disease Epidemiology (CKD-EPI) formula (≥ 30 mL/min/1.73m² for cohorts 6, 8, and 9).",
+        "Aspartate transaminase (AST) and alanine transaminase (ALT) ≤ 3 x ULN if no demonstrable liver metastases, or otherwise ≤ 5 x ULN if transaminase elevation is attributable to liver metastases.",
+        "Alkaline Phosphatase \\< 5 x ULN."
+      ],
+      "needsFacts": [
+        "lab_anc",
+        "lab_hemoglobin",
+        "lab_platelets",
+        "growth_factor_4w",
+        "lab_bilirubin",
+        "lab_egfr_renal",
+        "lab_ast",
+        "lab_alt",
+        "lab_alp"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-tox",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Recovered from any previous therapy-related toxicity to ≤ Common Terminology Criteria for Adverse Events (CTCAE) Grade 1 at start of treatment (except for alopecia, stable sensory neuropathy and hypothyroidism (patients on thyroid replacement therapy) which must be ≤ CTCAE Grade 2)",
+      "plain": "Prior-therapy toxicity recovered to grade ≤ 1 (or no prior therapy)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_systemic_advanced",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "recovered_from_toxicity",
+            "value": true
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced",
+        "recovered_from_toxicity"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-life-expectancy",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Life expectancy of at least 12 weeks at the start of treatment in the opinion of the investigator.",
+      "plain": "Life expectancy ≥ 12 weeks in the investigator’s opinion (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-age",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "At least 18 years of age at the time of consent or over the legal age of consent in countries where that is greater than 18 years.",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-consent",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Signed and dated written informed consent in accordance with International Council on Harmonisation-Good Clinical Practice (ICH-GCP) and local legislation prior to admission to the trial.",
+      "plain": "Informed consent (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-contraception",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Male or female patients. Women of childbearing potential (WOCBP) and men who are able to father a child must be ready and able to use highly effective methods of birth control per International Council on Harmonisation (ICH) M3 (R2) that result in a low failure rate of less than 1% per year when used consistently and correctly.",
+      "plain": "Contraception agreement where relevant (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-cohort-ia",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ia",
+      "plain": "Phase Ia: any HER2 aberration and standard options exhausted or unsuitable",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "any_positive",
+            "checks": [
+              {
+                "key": "her2_mutation",
+                "values": [
+                  "mutation_tkd",
+                  "mutation_non_tkd"
+                ]
+              },
+              {
+                "key": "her2_amplification",
+                "values": [
+                  "detected"
+                ]
+              },
+              {
+                "key": "her2_overexpression",
+                "values": [
+                  "ihc_3plus"
+                ]
+              },
+              {
+                "key": "nrg1",
+                "values": [
+                  "fusion"
+                ]
+              }
+            ],
+            "otherwise": {
+              "op": "and",
+              "args": [
+                {
+                  "op": "present",
+                  "key": "her2_mutation"
+                },
+                {
+                  "op": "present",
+                  "key": "her2_amplification"
+                },
+                {
+                  "op": "review",
+                  "reason": "No qualifying HER2/NRG1 aberration documented; negative NGS results do not rule out HER2 overexpression (IHC) or a rearrangement"
+                }
+              ]
+            }
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "prior_lines_advanced",
+                "cmp": ">=",
+                "value": 1
+              },
+              {
+                "op": "review",
+                "reason": "No therapy of proven efficacy, or not eligible for established options: clinician judgement"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ia",
+      "detail": [
+        "Patients with a documented diagnosis of HER2 aberration: overexpression OR gene amplification OR non-synonymous somatic mutation OR gene rearrangement involving HER2 or Neuregulin 1 (NRG1)",
+        "Patient who has failed conventional treatment or for whom no therapy of proven efficacy exists or who is not eligible for established treatment options. Patient must have exhausted, or not be a suitable candidate for, available treatment options known to prolong survival for their disease"
+      ],
+      "needsFacts": [
+        "her2_mutation",
+        "her2_amplification",
+        "her2_overexpression",
+        "nrg1",
+        "prior_lines_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-her2",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Patients with a documented diagnosis of HER2 aberration: overexpression OR gene amplification OR non-synonymous somatic mutation OR gene rearrangement involving HER2 or Neuregulin 1 (NRG1)",
+      "plain": "Documented HER2 aberration (mutation, amplification, overexpression) or NRG1 rearrangement; negatives are assay-specific",
+      "logic": {
+        "op": "any_positive",
+        "checks": [
+          {
+            "key": "her2_mutation",
+            "values": [
+              "mutation_tkd",
+              "mutation_non_tkd"
+            ]
+          },
+          {
+            "key": "her2_amplification",
+            "values": [
+              "detected"
+            ]
+          },
+          {
+            "key": "her2_overexpression",
+            "values": [
+              "ihc_3plus"
+            ]
+          },
+          {
+            "key": "nrg1",
+            "values": [
+              "fusion"
+            ]
+          }
+        ],
+        "otherwise": {
+          "op": "and",
+          "args": [
+            {
+              "op": "present",
+              "key": "her2_mutation"
+            },
+            {
+              "op": "present",
+              "key": "her2_amplification"
+            },
+            {
+              "op": "review",
+              "reason": "No qualifying HER2/NRG1 aberration documented; negative NGS results do not rule out HER2 overexpression (IHC) or a rearrangement"
+            }
+          ]
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ia",
+      "needsFacts": [
+        "her2_mutation",
+        "her2_amplification",
+        "her2_overexpression",
+        "nrg1"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-cohort-1",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 1 only",
+      "plain": "Cohort 1: non-squamous, HER2 TKD mutation, ≥ 1 prior line",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "her2_mutation",
+            "value": "mutation_tkd"
+          },
+          {
+            "op": "cmp",
+            "key": "prior_lines_advanced",
+            "cmp": ">=",
+            "value": 1
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "table",
+                "table": "alterations",
+                "column": "ukFirstLine",
+                "genes": [
+                  "egfr",
+                  "alk",
+                  "ros1",
+                  "braf",
+                  "met_ex14",
+                  "ret"
+                ]
+              },
+              {
+                "op": "review",
+                "reason": "Another targetable aberration: prior approved targeted therapy is required"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 1 only",
+      "detail": [
+        "Non-squamous non-small cell lung cancer (NSCLC) patients with documented human epidermal growth factor receptor 2 (HER2) mutation in the tyrosine kinase domain (TKD) as per local lab results.",
+        "Patient who had received, in the advanced/metastatic setting, at least one line of systemic therapy. Patients with non-squamous NSCLC harboring additionally genomic aberrations for which approved targeted therapy is available as standard of care, must have received prior treatment with an approved targeted therapy."
+      ],
+      "needsFacts": [
+        "histology",
+        "her2_mutation",
+        "prior_lines_advanced",
+        "egfr",
+        "alk",
+        "ros1",
+        "braf",
+        "met_ex14",
+        "ret"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-cohort-2",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 2 only",
+      "plain": "Cohort 2: non-squamous, HER2 TKD mutation, treatment-naïve",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "her2_mutation",
+            "value": "mutation_tkd"
+          },
+          {
+            "op": "is",
+            "key": "prior_systemic_advanced",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 2 only",
+      "detail": [
+        "Non-squamous NSCLC patient with a documented HER2 mutation in the tyrosine kinase domain (TKD) as per local lab results.",
+        "Treatment naïve for non-squamous NSCLC."
+      ],
+      "needsFacts": [
+        "histology",
+        "her2_mutation",
+        "prior_systemic_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-cohort-3",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 3 only",
+      "plain": "Cohort 3 (CTP v8): non-squamous, HER2 non-TKD mutation, treated or naïve",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "her2_mutation",
+            "value": "mutation_non_tkd"
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "cmp",
+                "key": "prior_lines_advanced",
+                "cmp": ">=",
+                "value": 1
+              },
+              {
+                "op": "is",
+                "key": "prior_systemic_advanced",
+                "value": false
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 3 only",
+      "detail": [
+        "NSCLC Patient with a documented HER2 mutation outside of the tyrosine kinase domain (TKD) as per local lab results or squamous NSCLC patient with mutation in the TKD as per local lab results. After implementation of CTP v8, only non-squamous NSCLC patients with a documented activating HER2 mutation outside of the tyrosine kinase domain (TKD) as per local lab results.",
+        "Patient who had received, in the advanced/metastatic setting, at least one line of systemic therapy. Patients with NSCLC harboring additionally genomic aberrations for which approved targeted therapy is available as standard of care, must have received prior treatment with an approved targeted therapy. After implementation of CTP v8, patients who had received, in the advanced/metastatic setting, at least one line of systemic therapy OR patients who are treatment naïve for non-squamous NSCLC (no prior systemic therapy, immunotherapy or targeted therapy for stage IIIB or IV adenocarcinoma)."
+      ],
+      "needsFacts": [
+        "histology",
+        "her2_mutation",
+        "prior_lines_advanced",
+        "prior_systemic_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-cohort-4",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 4 only",
+      "plain": "Cohort 4: HER2 TKD mutation with active brain metastases not for immediate local therapy",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma",
+              "squamous"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "her2_mutation",
+            "value": "mutation_tkd"
+          },
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "present"
+          },
+          {
+            "op": "review",
+            "reason": "Active brain metastases not eligible for immediate local therapy: investigator evaluation"
+          }
+        ]
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 4 only",
+      "detail": [
+        "NSCLC patients with documented HER2 mutation in the TKD as per local lab results.",
+        "NSCLC patients who are either treatment naïve or who had received any prior line of treatment, in the advanced/metastatic setting. Patients with NSCLC harboring additional genomic aberrations for which approved targeted therapy is available as standard of care, must have received prior treatment with an approved targeted therapy.",
+        "Patient with active brain metastases who are not eligible for immediate local therapy, as per investigator evaluation."
+      ],
+      "needsFacts": [
+        "histology",
+        "her2_mutation",
+        "brain_mets"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-cohort-5",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 5 only",
+      "plain": "Cohort 5: non-squamous, HER2 TKD, prior platinum and prior HER2 ADC with progression",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "histology",
+            "values": [
+              "nonsquamous_adenocarcinoma"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "her2_mutation",
+            "value": "mutation_tkd"
+          },
+          {
+            "op": "cmp",
+            "key": "prior_lines_advanced",
+            "cmp": ">=",
+            "value": 1
+          },
+          {
+            "op": "is",
+            "key": "prior_platinum_chemo",
+            "value": true
+          },
+          {
+            "op": "is",
+            "key": "prior_her2_adc",
+            "value": true
+          },
+          {
+            "op": "review",
+            "reason": "Progression during or after the HER2-directed ADC"
+          }
+        ]
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 5 only",
+      "detail": [
+        "Non-squamous NSCLC patients with documented HER2 mutation in the TKD as per local lab results.",
+        "Patient should have received, in the advanced/metastatic setting, at least one line of systemic therapy that includes a platinum-based combination chemotherapy and should have been treated with previous HER2 directed antibody-drug conjugates (ADC) in the same advanced/metastatic setting and developed disease progression recurrence during or after completing this therapy. Patients with NSCLC harboring additional genomic aberrations for which approved targeted therapy is available as standard of care, must have received prior treatment with an approved targeted therapy."
+      ],
+      "needsFacts": [
+        "histology",
+        "her2_mutation",
+        "prior_lines_advanced",
+        "prior_platinum_chemo",
+        "prior_her2_adc"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-cohort-6",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 6 only",
+      "plain": "Cohort 6: not open at UK sites (registry arm description)",
+      "logic": {
+        "op": "review",
+        "reason": "Registry arm description: cohort 6 is USA only, so it is not available at UK sites"
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 6 only",
+      "detail": [
+        "Non-squamous NSCLC patient with documented HER2 mutation in the TKD as per local lab results.",
+        "Patient who had received, in the advanced/metastatic setting, at least one line of systemic therapy.",
+        "Patient without active brain metastases or patient with active brain metastases who are not eligible for immediate local therapy, as per investigator evaluation.",
+        "Patient who is not eligible for any other recruiting cohort."
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-cohort-7",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 7 only",
+      "plain": "Cohort 7: not open at UK sites (registry arm description)",
+      "logic": {
+        "op": "review",
+        "reason": "Registry arm description: cohort 7 is Japan only, so it is not available at UK sites"
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 7 only",
+      "detail": [
+        "Non-squamous NSCLC patient with documented HER2 mutation in the TKD as per local lab results.",
+        "Patient who had received, in the advanced/metastatic setting, at least one line of systemic therapy.",
+        "Patient without active brain metastases or patient with active brain metastases who are not eligible for immediate local therapy, as per investigator evaluation.",
+        "Patient who is not eligible for any other recruiting cohort."
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-cohort-8",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 8 only",
+      "plain": "Cohort 8: not open at UK sites (registry arm description)",
+      "logic": {
+        "op": "review",
+        "reason": "Registry arm description: cohort 8 is USA only, so it is not available at UK sites"
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 8 only",
+      "detail": [
+        "Treatment naïve for NSCLC",
+        "NSCLC (adenocarcinoma or squamous) patient with documented HER2 mutation in the tyrosine kinase domain (TKD) or non-squamous NSCLC with a documented HER2 mutation in the non tyrosine kinase domain (non TKD) as per local lab results"
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-cohort-9",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Additional inclusion criteria for Phase Ib - Cohort 9 only",
+      "plain": "Cohort 9: not open at UK sites (registry arm description)",
+      "logic": {
+        "op": "review",
+        "reason": "Registry arm description: cohort 9 is China only, so it is not available at UK sites"
+      },
+      "mandatory": false,
+      "derivedFrom": "criteria",
+      "section": "Additional inclusion criteria for Phase Ib - Cohort 9 only",
+      "detail": [
+        "Non-squamous NSCLC patient with documented HER2 mutation in the TKD as per local lab results.",
+        "Patient who had received, in the advanced/metastatic setting, at least one line of systemic therapy. Patients with NSCLC harboring additionally genomic aberrations for which approved targeted therapy is available as standard of care, must have received prior treatment with an approved targeted therapy."
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-completeness",
+      "trialId": "NCT04886804",
+      "kind": "inclusion",
+      "text": "Further inclusion criteria apply.",
+      "plain": "Protocol completeness: the registry says further criteria apply",
+      "logic": {
+        "op": "review",
+        "reason": "The registry says further inclusion and exclusion criteria apply; the study team checks the full protocol list"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Further inclusion criteria apply.",
+      "completeness": true,
+      "detail": [
+        "Further exclusion criteria apply."
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-x-surgery",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Major surgery (major according to the investigator's assessment) performed within 4 weeks prior to first trial treatment or planned within 6 months after screening",
+      "plain": "No major surgery in the last 4 weeks",
+      "logic": {
+        "op": "is",
+        "key": "major_surgery_recent",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "major_surgery_recent"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-x-surgery-planned",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Major surgery (major according to the investigator's assessment) performed within 4 weeks prior to first trial treatment or planned within 6 months after screening",
+      "plain": "No major surgery planned in the next 6 months (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-x-malignancy",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Previous or concomitant malignancies other than the one treated in this trial within the last 2 years, except:",
+      "plain": "No other malignancy in 2 years (listed exceptions)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "other_malignancy",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "other_malignancy",
+                "value": "present"
+              },
+              {
+                "op": "review",
+                "reason": "Other malignancy: timing (2 years) and the listed exceptions decide"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "detail": [
+        "effectively treated non-melanoma skin cancers",
+        "effectively treated carcinoma in situ of the cervix",
+        "effectively treated ductal carcinoma in situ",
+        "other effectively treated malignancy that is considered cured by local treatment."
+      ],
+      "needsFacts": [
+        "other_malignancy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-x-recent-therapy",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Treatment with a systemic anti-cancer therapy or investigational drug within 21 days or 5 half-lives (whichever is shorter) of the first treatment with the study medication",
+      "plain": "No systemic anticancer or investigational therapy within 21 days (or 5 half-lives)",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "not_within",
+                "key": "last_systemic_therapy_end",
+                "days": 21,
+                "what": "systemic anticancer therapy"
+              },
+              {
+                "op": "review",
+                "reason": "Therapy within 21 days: 5 half-lives may be shorter"
+              }
+            ]
+          },
+          {
+            "op": "is",
+            "key": "in_investigational_study",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "last_systemic_therapy_end",
+        "in_investigational_study"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-x-restricted-meds",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Patients who must or wish to continue the intake of restricted medication or any drug considered likely to interfere with the safe conduct of the trial",
+      "plain": "No restricted medication (protocol list; study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "bm1-x-zongertinib",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Previous treatment with zongertinib.",
+      "plain": "No prior zongertinib",
+      "logic": {
+        "op": "is",
+        "key": "prior_zongertinib",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "prior_zongertinib"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "bm1-x-radiotherapy",
+      "trialId": "NCT04886804",
+      "kind": "exclusion",
+      "text": "Radiotherapy within 2 weeks prior to first study treatment, except palliative radiotherapy to regions other than the chest, which is allowed up to 1 week prior to first study treatment.",
+      "plain": "No radiotherapy in 2 weeks (palliative non-chest RT up to 1 week)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "not_within",
+            "key": "last_radiotherapy",
+            "days": 14,
+            "what": "radiotherapy"
+          },
+          {
+            "op": "review",
+            "reason": "Palliative radiotherapy outside the chest is allowed up to 1 week before treatment"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria",
+      "needsFacts": [
+        "last_radiotherapy"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: official title.",
+    "Organ function is one full conjunction (all components plus growth-factor history); any missing component keeps it unknown.",
+    "HER2 negatives are assay-specific: \"no mutation or amplification detected\" leaves overexpression open, so the HER2 row is needs_review unless a qualifying aberration is documented.",
+    "Cohort rows are non-mandatory (a patient needs one cohort); cohorts 6–9 are not open at UK sites per the arm descriptions.",
+    "All UK sites are ACTIVE_NOT_RECRUITING in the snapshot; the simulated site lane starts closed."
+  ]
+}

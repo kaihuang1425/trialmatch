@@ -1,0 +1,1009 @@
+{
+  "id": "NCT06793215",
+  "nct": "NCT06793215",
+  "acronym": "Krascendo 2",
+  "briefTitle": "A Study Evaluating the Efficacy and Safety of Divarasib and Pembrolizumab Versus Pembrolizumab and Pemetrexed and Carboplatin or Cisplatin in Participants With Previously Untreated, KRAS G12C-Mutated, Advanced or Metastatic Non-Squamous Non-Small Cell Lung Cancer",
+  "officialTitle": "A Phase III, Randomized, Open-Label Study Evaluating the Efficacy and Safety of Divarasib and Pembrolizumab Versus Pembrolizumab and Pemetrexed and Carboplatin or Cisplatin in Patients With Previously Untreated, KRAS G12C-Mutated, Advanced or Metastatic Non-Squamous Non-Small Cell Lung Cancer",
+  "phase": [
+    "PHASE3"
+  ],
+  "sponsor": "Hoffmann-La Roche",
+  "status": "RECRUITING",
+  "conditions": [
+    "Non-Small Cell Lung Cancer",
+    "KRAS G12C Lung Cancer"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "The purpose of this study is to evaluate the efficacy and safety of divarasib and pembrolizumab compared with pembrolizumab and pemetrexed and carboplatin or cisplatin, for the first-line treatment of adult participants with KRAS G12C-mutated, advanced or metastatic non squamous non-small cell lung cancer (NSCLC).",
+  "arms": [
+    {
+      "label": "Divarasib + Pembrolizumab",
+      "type": "EXPERIMENTAL",
+      "description": "Participants will receive divarasib orally, once daily (QD) and pembrolizumab via intravenous (IV) infusion every 3 weeks (Q3W)",
+      "interventionNames": [
+        "Drug: Divarasib",
+        "Drug: Pembrolizumab"
+      ]
+    },
+    {
+      "label": "Pembrolizumab + Pemetrexed + Carboplatin or Cisplatin",
+      "type": "ACTIVE_COMPARATOR",
+      "description": "Participants will receive pembrolizumab, pemetrexed and carboplatin or cisplatin via IV infusion Q3W",
+      "interventionNames": [
+        "Drug: Pembrolizumab",
+        "Drug: Pemetrexed",
+        "Drug: Carboplatin",
+        "Drug: Cisplatin"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "Divarasib"
+    },
+    {
+      "type": "DRUG",
+      "name": "Pembrolizumab"
+    },
+    {
+      "type": "DRUG",
+      "name": "Pemetrexed"
+    },
+    {
+      "type": "DRUG",
+      "name": "Carboplatin"
+    },
+    {
+      "type": "DRUG",
+      "name": "Cisplatin"
+    }
+  ],
+  "sites": [
+    {
+      "id": "kr2-blackpool-teaching-hospitals-nhs-foundation-trus",
+      "facility": "Blackpool Teaching Hospitals NHS Foundation Trust , Victoria Hospital",
+      "city": "Blackpool",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.8175,
+      "lon": -3.0357,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-bristol-haematology-oncology-centre",
+      "facility": "Bristol Haematology & Oncology Centre",
+      "city": "Bristol",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.4545,
+      "lon": -2.5879,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-east-kent-hospitals-university-nhs-foundation-tr",
+      "facility": "East Kent Hospitals University NHS Foundation Trust",
+      "city": "Canterbury",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.2802,
+      "lon": 1.0789,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-velindre-nhs-trust-velindre-cancer-centre",
+      "facility": "Velindre NHS Trust - Velindre Cancer Centre",
+      "city": "Cardiff",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.4816,
+      "lon": -3.1791,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-hull-university-teaching-hospitals-nhs-trust",
+      "facility": "Hull University Teaching Hospitals NHS Trust",
+      "city": "Hull",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.7676,
+      "lon": -0.3274,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-barts-and-the-london-nhs-trust",
+      "facility": "Barts and the London NHS Trust",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-royal-marsden-hospital-fulham",
+      "facility": "Royal Marsden Hospital - Fulham",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-sarah-cannon-research-institute",
+      "facility": "Sarah Cannon Research Institute",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-maidstone-and-tunbridge-wells-nhs-trust",
+      "facility": "Maidstone and Tunbridge Wells NHS Trust",
+      "city": "Maidstone",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.272,
+      "lon": 0.529,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-oxford-university-hospitals-nhs-trust-churchill-",
+      "facility": "Oxford University Hospitals NHS Trust - Churchill Hospital",
+      "city": "Oxford",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.752,
+      "lon": -1.2577,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-university-hospitals-of-north-midlands-nhs-trust",
+      "facility": "University Hospitals of North Midlands NHS Trust-Royal Stoke University Hospital",
+      "city": "Stoke-on-Trent",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 53.0027,
+      "lon": -2.1794,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kr2-royal-marsden-nhs-foundation-trust",
+      "facility": "Royal Marsden NHS Foundation Trust",
+      "city": "Sutton",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.3618,
+      "lon": -0.1945,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT06793215",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT06793215",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "kr2-age",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-ecog",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Eastern Cooperative Oncology Group (ECOG) performance status of 0 or 1",
+      "plain": "ECOG 0–1",
+      "logic": {
+        "op": "cmp",
+        "key": "ecog",
+        "cmp": "<=",
+        "value": 1
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "ecog"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-histology",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of advanced or metastatic non squamous NSCLC that is not eligible for curative surgery and/or definitive chemoradiotherapy",
+      "plain": "Non-squamous NSCLC",
+      "logic": {
+        "op": "in",
+        "key": "histology",
+        "values": [
+          "nonsquamous_adenocarcinoma"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "histology"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-setting",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Histologically or cytologically confirmed diagnosis of advanced or metastatic non squamous NSCLC that is not eligible for curative surgery and/or definitive chemoradiotherapy",
+      "plain": "Advanced/metastatic, not for curative surgery or chemoradiotherapy",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIA",
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-measurable",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Measurable disease, as defined by RECIST v1.1",
+      "plain": "Measurable disease (RECIST 1.1)",
+      "logic": {
+        "op": "is",
+        "key": "measurable_disease",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "measurable_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-prior",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "No prior systemic treatment for advanced or metastatic NSCLC",
+      "plain": "No systemic therapy for advanced disease",
+      "logic": {
+        "op": "is",
+        "key": "prior_systemic_advanced",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "prior_systemic_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-kras",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Documentation of the presence of a KRAS G12C mutation",
+      "plain": "KRAS G12C mutation documented",
+      "logic": {
+        "op": "is",
+        "key": "kras",
+        "value": "G12C"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "kras"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-pdl1",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Documentation of known PD-L1 expression status in tumor tissue",
+      "plain": "PD-L1 status documented (any value)",
+      "logic": {
+        "op": "present",
+        "key": "pdl1_tps"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "pdl1_tps"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-specimen",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Availability of a representative tumor specimen",
+      "plain": "Representative tumour specimen available",
+      "logic": {
+        "op": "is",
+        "key": "tumour_sample_available",
+        "value": true
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "tumour_sample_available"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-organ",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Adequate end-organ function",
+      "plain": "Adequate end-organ function: current labs (Relay policy 28 days), judged by the study team (no thresholds in the registry)",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "current",
+            "keys": [
+              "lab_anc",
+              "lab_hemoglobin",
+              "lab_platelets",
+              "lab_bilirubin",
+              "lab_alt",
+              "lab_ast",
+              "lab_creatinine"
+            ],
+            "window": {
+              "source": "relay_policy",
+              "policy": "labRecencyDays"
+            }
+          },
+          {
+            "op": "review",
+            "reason": "The registry gives no thresholds for \"adequate end-organ function\"; the study team judges current results"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [
+        "lab_anc",
+        "lab_hemoglobin",
+        "lab_platelets",
+        "lab_bilirubin",
+        "lab_alt",
+        "lab_ast",
+        "lab_creatinine"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-platinum",
+      "trialId": "NCT06793215",
+      "kind": "inclusion",
+      "text": "Eligible to receive a platinum-based chemotherapy regimen",
+      "plain": "Fit for platinum-based chemotherapy (clinical judgement)",
+      "logic": {
+        "op": "review",
+        "reason": "Eligibility for platinum-based chemotherapy is a clinical judgement"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Inclusion Criteria",
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "kr2-x-driver",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Known concomitant second oncogenic driver with available targeted treatment",
+      "plain": "No second driver with available targeted treatment, HER2 included (Relay dated table)",
+      "logic": {
+        "op": "table",
+        "table": "alterations",
+        "column": "ukAnyLine",
+        "genes": [
+          "egfr",
+          "alk",
+          "ros1",
+          "braf",
+          "met_ex14",
+          "ret",
+          "her2_mutation",
+          "nrg1"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to NSCLC",
+      "needsFacts": [
+        "egfr",
+        "alk",
+        "ros1",
+        "braf",
+        "met_ex14",
+        "ret",
+        "her2_mutation",
+        "nrg1"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-cns",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Symptomatic, untreated, or actively progressing central nervous system (CNS) metastases",
+      "plain": "No symptomatic, untreated or progressing CNS metastases",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "brain_mets",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "cns_symptomatic",
+                "value": false
+              },
+              {
+                "op": "is",
+                "key": "cns_untreated",
+                "value": false
+              },
+              {
+                "op": "is",
+                "key": "cns_progressing",
+                "value": false
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to NSCLC",
+      "needsFacts": [
+        "brain_mets",
+        "cns_symptomatic",
+        "cns_untreated",
+        "cns_progressing"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-spinal",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Spinal cord compression not definitively treated with surgery and/or radiation or previously diagnosed and treated spinal cord compression without evidence that disease has been clinically stable for \\>=2 weeks prior to randomization",
+      "plain": "No untreated spinal cord compression; treated compression stable ≥ 2 weeks",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "spinal_cord_compression",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "spinal_cord_compression",
+                "value": "treated_stable"
+              },
+              {
+                "op": "review",
+                "reason": "Treated spinal cord compression: clinical stability for at least 2 weeks"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to NSCLC",
+      "needsFacts": [
+        "spinal_cord_compression"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-lepto",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "History of leptomeningeal disease",
+      "plain": "No leptomeningeal disease",
+      "logic": {
+        "op": "is",
+        "key": "leptomeningeal",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to NSCLC",
+      "needsFacts": [
+        "leptomeningeal"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-pain",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Uncontrolled tumor-related pain",
+      "plain": "No uncontrolled tumour-related pain",
+      "logic": {
+        "op": "is",
+        "key": "uncontrolled_pain",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to NSCLC",
+      "needsFacts": [
+        "uncontrolled_pain"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-effusion",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Uncontrolled pleural effusion, pericardial effusion, or ascites requiring recurrent drainage procedures (once a month or more frequently)",
+      "plain": "No effusion or ascites needing monthly drainage",
+      "logic": {
+        "op": "is",
+        "key": "effusion_drainage",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to NSCLC",
+      "needsFacts": [
+        "effusion_drainage"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-recent-therapy",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Any anti-cancer systemic therapy, including hormonal therapy, within 21 days prior to randomization, or is expected to require any other form of antineoplastic therapy while in the study",
+      "plain": "No systemic anticancer therapy in the 21 days before randomisation",
+      "logic": {
+        "op": "not_within",
+        "key": "last_systemic_therapy_end",
+        "days": 21,
+        "what": "systemic anticancer therapy"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "last_systemic_therapy_end"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-future-therapy",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Any anti-cancer systemic therapy, including hormonal therapy, within 21 days prior to randomization, or is expected to require any other form of antineoplastic therapy while in the study",
+      "plain": "Not expected to need other antineoplastic therapy during the study (study team)",
+      "logic": {
+        "op": "at_screening",
+        "reason": "Done by the study team at screening; not available at prescreening"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "atScreening": true,
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "kr2-x-radiotherapy",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Radiation therapy including palliative RT to bone metastases within 2 weeks prior to randomization and RT to the lung \\>30Gy within 6 months prior to randomization",
+      "plain": "No radiotherapy in 2 weeks; no lung RT > 30 Gy in 6 months",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "not_within",
+            "key": "last_radiotherapy",
+            "days": 183,
+            "what": "any radiotherapy"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "not_within",
+                "key": "last_radiotherapy",
+                "days": 14,
+                "what": "any radiotherapy"
+              },
+              {
+                "op": "review",
+                "reason": "Radiotherapy in the last 6 months: whether it was > 30 Gy to the lung decides"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "last_radiotherapy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-priorkras",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Prior treatment with KRAS G12C inhibitors or pan-KRAS/RAS inhibitors",
+      "plain": "No prior KRAS G12C or pan-RAS inhibitor",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "prior_kras_g12c_inhibitor",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "prior_pan_ras_inhibitor",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "prior_kras_g12c_inhibitor",
+        "prior_pan_ras_inhibitor"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-immune",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Treatment with systemic immunosuppressive or immunostimulatory medications, including CD137 agonists and immune checkpoint inhibitors",
+      "plain": "No systemic immunosuppressive or immunostimulatory treatment, including checkpoint inhibitors",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "immunosuppressive_meds",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "prior_immunotherapy",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "immunosuppressive_meds",
+        "prior_immunotherapy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-qt",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Current treatment with medications that are well known to prolong the QT interval",
+      "plain": "No QT-prolonging medication",
+      "logic": {
+        "op": "is",
+        "key": "qt_prolonging_meds",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "qt_prolonging_meds"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-antibiotics",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Treatment with therapeutic oral or IV antibiotics within 2 weeks prior to randomization",
+      "plain": "No therapeutic antibiotics in 2 weeks",
+      "logic": {
+        "op": "is",
+        "key": "recent_antibiotics",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "recent_antibiotics"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-transplant",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Prior allogeneic stem cell or solid organ transplantation",
+      "plain": "No allogeneic stem cell or organ transplant",
+      "logic": {
+        "op": "is",
+        "key": "transplant_history",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to Current or Prior Treatments",
+      "needsFacts": [
+        "transplant_history"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-malignancy",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "History of malignancy other than NSCLC within 5 years prior to screening, with the exception of malignancies with a negligible risk of metastasis or death (e.g., 5-year overall survival \\[OS\\] rate \\>90%), such as adequately treated carcinoma in situ of the cervix, non melanoma skin carcinoma, localized prostate cancer, ductal breast carcinoma in situ, or Stage I uterine cancer",
+      "plain": "No other malignancy within 5 years (low-risk exceptions)",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "other_malignancy",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "other_malignancy",
+                "value": "present"
+              },
+              {
+                "op": "review",
+                "reason": "Other malignancy: timing (5 years) and the low-risk exceptions decide"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to General Health",
+      "needsFacts": [
+        "other_malignancy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-gi",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Individuals with chronic diarrhea, short bowel syndrome or significant upper gastrointestinal surgery including gastric resection, a history of inflammatory bowel disease (e.g., Crohn's disease or ulcerative colitis) or any active bowel inflammation (including diverticulitis), malabsorption syndrome, conditions that would interfere with enteral absorption",
+      "plain": "No IBD, chronic diarrhoea, short bowel, malabsorption or major gastric surgery",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "ibd_history",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "gi_absorption_issue",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to General Health",
+      "needsFacts": [
+        "ibd_history",
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-ild",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "History of idiopathic pulmonary fibrosis, organizing pneumonia (e.g., bronchiolitis obliterans), drug-induced pneumonitis, or idiopathic pneumonitis, or evidence of active pneumonitis on the screening chest computed tomography scan",
+      "plain": "No pulmonary fibrosis, organising pneumonia or pneumonitis",
+      "logic": {
+        "op": "is",
+        "key": "ild_history",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to General Health",
+      "needsFacts": [
+        "ild_history"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kr2-x-cv",
+      "trialId": "NCT06793215",
+      "kind": "exclusion",
+      "text": "Significant cardiovascular disease within 3 months prior to screening",
+      "plain": "No significant cardiovascular disease in 3 months",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "cv_disease",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "cv_disease",
+                "value": "controlled"
+              },
+              {
+                "op": "review",
+                "reason": "Known cardiovascular disease: whether it was significant in the last 3 months"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "Exclusion Criteria Related to General Health",
+      "needsFacts": [
+        "cv_disease"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: registry acronym field.",
+    "\"Adequate end-organ function\" has no thresholds in the record: Relay checks that labs are current (policy) and the study team judges them.",
+    "The second-driver exclusion includes HER2 and uses the dated alteration table in data/policy/relay-policy.json (column ukAnyLine)."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "patientId": "SYN-0417",
+  "synthetic": true,
+  "summary": "63, non-squamous adenocarcinoma, stage IVA, untreated, ECOG 1, no brain metastases. No molecular report at first; labs about 7 weeks old on 2026-11-08.",
+  "profile": {
+    "sex": "Female"
+  },
+  "preferences": {
+    "homeCity": "London",
+    "travelLimitMiles": 60,
+    "daysAvailable": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu"
+    ]
+  },
+  "documents": [
+    {
+      "id": "SYN-0417-REF",
+      "kind": "referral_summary",
+      "date": "2026-09-20",
+      "initial": true
+    },
+    {
+      "id": "SYN-0417-LAB",
+      "kind": "labs",
+      "date": "2026-09-20",
+      "initial": true
+    },
+    {
+      "id": "SYN-0417-MOL",
+      "kind": "molecular",
+      "date": "2026-11-07",
+      "initial": false
+    }
+  ]
+}

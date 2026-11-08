@@ -1,0 +1,669 @@
+{
+  "id": "NCT07190248",
+  "nct": "NCT07190248",
+  "acronym": "KANDLELIT-007",
+  "briefTitle": "A Clinical Study of Calderasib (MK-1084) and Other Treatments for Participants With Non-Small Cell Lung Cancer (MK-1084-007/KANDLELIT-007)",
+  "officialTitle": "A Phase 3, Randomized, Open-label, Multicenter Clinical Study to Evaluate the Safety and Efficacy of MK-1084 in Combination With Subcutaneous Pembrolizumab and Berahyaluronidase Alfa (MK-3475A) Versus MK-3475A in Combination With Pemetrexed/Platinum (Carboplatin or Cisplatin) Chemotherapy as First-line Treatment of Participants With KRAS G12C-Mutant, Advanced or Metastatic Nonsquamous NSCLC (KANDLELIT-007)",
+  "phase": [
+    "PHASE3"
+  ],
+  "sponsor": "Merck Sharp & Dohme LLC",
+  "status": "RECRUITING",
+  "conditions": [
+    "Non-small Cell Lung Cancer"
+  ],
+  "minimumAge": "18 Years",
+  "briefSummary": "Researchers want to learn if the study medicines calderasib and subcutaneous (SC) pembrolizumab can be used to treat non-small cell lung cancer (NSCLC) when given together. Calderasib is a targeted therapy for the KRAS G12C mutation.\n\nThe goal of this study is to learn if people who receive calderasib with SC pembrolizumab live longer without the cancer growing or spreading than in people who receive SC pembrolizumab with chemotherapy.",
+  "arms": [
+    {
+      "label": "Calderasib + Pembrolizumab (+) Berahyaluronidase alfa",
+      "type": "EXPERIMENTAL",
+      "description": "Participants will receive pembrolizumab (+) berahyaluronidase alfa at a fixed dose subcutaneously on Day 1 of each 6-week cycle for up to 18 cycles (approximately 2 years) plus calderasib until discontinuation criterion is met.",
+      "interventionNames": [
+        "Drug: Calderasib",
+        "Biological: Pembrolizumab (+) Berahyaluronidase alfa"
+      ]
+    },
+    {
+      "label": "Pembrolizumab (+) Berahyaluronidase alfa + Chemotherapy",
+      "type": "ACTIVE_COMPARATOR",
+      "description": "Participants will receive pembrolizumab (+) berahyaluronidase alfa at a fixed dose subcutaneously on Day 1 of each 6-week cycle for up to 18 cycles (approximately 2 years) and pemetrexed via intravenous (IV) infusion at a dose of 500 mg/m\\^2 on days 1 and 22 of cycles 1 and 3 until discontinuation criterion is met PLUS investigator's choice of carboplatin via IV infusion at area under curve (AUC) 5 mg/mL/minute on days 1 and 22 of cycles 1 and 3 (up to 4 doses, approximately 6 weeks) OR cisplatin via IV infusion at a dose of 75 mg/m\\^2 on days 1 and 22 of cycles 1 and 3 (up to 4 doses, approximately 6 weeks).",
+      "interventionNames": [
+        "Biological: Pembrolizumab (+) Berahyaluronidase alfa",
+        "Drug: Pemetrexed",
+        "Drug: Cisplatin",
+        "Drug: Carboplatin"
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "DRUG",
+      "name": "Calderasib"
+    },
+    {
+      "type": "BIOLOGICAL",
+      "name": "Pembrolizumab (+) Berahyaluronidase alfa"
+    },
+    {
+      "type": "DRUG",
+      "name": "Pemetrexed"
+    },
+    {
+      "type": "DRUG",
+      "name": "Cisplatin"
+    },
+    {
+      "type": "DRUG",
+      "name": "Carboplatin"
+    }
+  ],
+  "sites": [
+    {
+      "id": "kl007-royal-cornwall-hospital-site-2614",
+      "facility": "Royal Cornwall Hospital ( Site 2614)",
+      "city": "Truro",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 50.2632,
+      "lon": -5.051,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kl007-royal-free-hospital-site-2601",
+      "facility": "Royal Free Hospital ( Site 2601)",
+      "city": "London",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kl007-queen-elizabeth-hospital-birmingham-site-2612",
+      "facility": "Queen Elizabeth Hospital Birmingham ( Site 2612)",
+      "city": "Birmingham",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 52.4862,
+      "lon": -1.8904,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    },
+    {
+      "id": "kl007-leicester-royal-infirmary-site-2610",
+      "facility": "Leicester Royal Infirmary ( Site 2610)",
+      "city": "Leicester",
+      "country": "United Kingdom",
+      "recruitmentStatus": "RECRUITING",
+      "lat": 52.6369,
+      "lon": -1.1398,
+      "geoSource": "relay_city_table_approx",
+      "availability": {
+        "open": true,
+        "simulated": true,
+        "basis": "SIMULATED: starts from registry site status RECRUITING (snapshot 2026-11-07); real cohort capacity is unknown"
+      }
+    }
+  ],
+  "snapshotDate": "2026-11-07",
+  "source": {
+    "url": "https://clinicaltrials.gov/study/NCT07190248",
+    "api": "https://clinicaltrials.gov/api/v2/studies/NCT07190248",
+    "licence": "ClinicalTrials.gov record (U.S. National Library of Medicine). Public registry content; see ClinicalTrials.gov Terms and Conditions. Cite the source and snapshot date."
+  },
+  "criteria": [
+    {
+      "id": "kl007-age",
+      "trialId": "NCT07190248",
+      "kind": "inclusion",
+      "text": "minimumAge: 18 Years",
+      "plain": "Aged 18 or over",
+      "logic": {
+        "op": "cmp",
+        "key": "age",
+        "cmp": ">=",
+        "value": 18,
+        "unit": "years"
+      },
+      "mandatory": true,
+      "derivedFrom": "structured_fields",
+      "section": "eligibilityModule",
+      "needsFacts": [
+        "age"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-kras",
+      "trialId": "NCT07190248",
+      "kind": "inclusion",
+      "text": "KRAS G12C-Mutant, Advanced or Metastatic Nonsquamous NSCLC",
+      "plain": "KRAS G12C mutation (from the study title; listed criteria are \"not limited to\")",
+      "logic": {
+        "op": "is",
+        "key": "kras",
+        "value": "G12C"
+      },
+      "mandatory": true,
+      "derivedFrom": "title",
+      "section": "officialTitle",
+      "needsFacts": [
+        "kras"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-completeness",
+      "trialId": "NCT07190248",
+      "kind": "inclusion",
+      "text": "The main inclusion criteria include but are not limited to the following:",
+      "plain": "Protocol completeness: the registry lists the main criteria only (\"not limited to\")",
+      "logic": {
+        "op": "review",
+        "reason": "The registry lists only the main inclusion and exclusion criteria (\"include but are not limited to\"); the study team checks the full protocol list"
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main inclusion criteria include but are not limited to the following",
+      "completeness": true,
+      "detail": [
+        "The main exclusion criteria include but are not limited to the following:"
+      ],
+      "needsFacts": [],
+      "checkable": false
+    },
+    {
+      "id": "kl007-histology",
+      "trialId": "NCT07190248",
+      "kind": "inclusion",
+      "text": "Has nonsquamous NSCLC (Stage IIIB, Stage IIIC) not eligible for curative resection or chemoradiation or Stage IV: M1a, M1b, or M1c",
+      "plain": "Non-squamous NSCLC",
+      "logic": {
+        "op": "in",
+        "key": "histology",
+        "values": [
+          "nonsquamous_adenocarcinoma"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main inclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "histology"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-stage",
+      "trialId": "NCT07190248",
+      "kind": "inclusion",
+      "text": "Has nonsquamous NSCLC (Stage IIIB, Stage IIIC) not eligible for curative resection or chemoradiation or Stage IV: M1a, M1b, or M1c",
+      "plain": "Stage IIIB/IIIC not for curative resection or chemoradiation, or stage IV",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "in",
+            "key": "stage",
+            "values": [
+              "IIIB",
+              "IIIC",
+              "IV",
+              "IVA",
+              "IVB",
+              "IVC"
+            ]
+          },
+          {
+            "op": "is",
+            "key": "curative_option",
+            "value": "not_amenable"
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main inclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "stage",
+        "curative_option"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-hiv",
+      "trialId": "NCT07190248",
+      "kind": "inclusion",
+      "text": "If human immunodeficiency virus (HIV) positive, must have well controlled HIV on antiretroviral therapy (ART)",
+      "plain": "If HIV positive, well controlled on ART",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "hiv",
+            "value": "negative"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "hiv",
+                "value": "positive"
+              },
+              {
+                "op": "review",
+                "reason": "HIV positive: control on antiretroviral therapy is for the study team"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main inclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "hiv"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-smallcell",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has diagnosis of small cell lung cancer or, for mixed tumors, presence of small cell elements",
+      "plain": "No small-cell lung cancer or small-cell elements",
+      "logic": {
+        "op": "not",
+        "arg": {
+          "op": "in",
+          "key": "histology",
+          "values": [
+            "small_cell",
+            "mixed_small_cell"
+          ]
+        }
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "histology"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-ibd",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has active inflammatory bowel disease requiring immunosuppressive medication or previous clear history of inflammatory bowel disease (e.g., Crohn's disease, ulcerative colitis, or chronic diarrhea)",
+      "plain": "No IBD (active or past) and no chronic diarrhoea",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "ibd_history",
+            "value": false
+          },
+          {
+            "op": "is",
+            "key": "gi_absorption_issue",
+            "value": false
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "ibd_history",
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-cv",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has uncontrolled, significant cardiovascular disease or cerebrovascular disease",
+      "plain": "No uncontrolled, significant cardiovascular or cerebrovascular disease",
+      "logic": {
+        "op": "in",
+        "key": "cv_disease",
+        "values": [
+          "none",
+          "controlled"
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "cv_disease"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-gi",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has a gastrointestinal disorder affecting absorption",
+      "plain": "No GI disorder affecting absorption",
+      "logic": {
+        "op": "is",
+        "key": "gi_absorption_issue",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "gi_absorption_issue"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-hiv-kaposi",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Is HIV positive and has a history of Kaposi's sarcoma and/or Multicentric Castleman's Disease",
+      "plain": "If HIV positive: no Kaposi's sarcoma or multicentric Castleman's disease",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "hiv",
+            "value": "negative"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "hiv",
+                "value": "positive"
+              },
+              {
+                "op": "review",
+                "reason": "HIV positive: history of Kaposi's sarcoma or Castleman's disease is not captured"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "hiv"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-prior",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has received prior systemic anticancer therapy for their advanced or metastatic NSCLC",
+      "plain": "No systemic therapy for advanced disease",
+      "logic": {
+        "op": "is",
+        "key": "prior_systemic_advanced",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "prior_systemic_advanced"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-malignancy",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has known additional malignancy that is progressing or has required active treatment within the past 3 years",
+      "plain": "No other malignancy progressing or treated in the last 3 years",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "other_malignancy",
+            "value": "none"
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "other_malignancy",
+                "value": "present"
+              },
+              {
+                "op": "review",
+                "reason": "Other malignancy: progression or treatment within the last 3 years decides"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "other_malignancy"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-cns",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has known active central nervous system (CNS) metastases and/or carcinomatous meningitis",
+      "plain": "No active CNS metastases and no carcinomatous meningitis",
+      "logic": {
+        "op": "and",
+        "args": [
+          {
+            "op": "is",
+            "key": "leptomeningeal",
+            "value": false
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "is",
+                "key": "brain_mets",
+                "value": "none"
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "is",
+                    "key": "cns_untreated",
+                    "value": false
+                  },
+                  {
+                    "op": "is",
+                    "key": "cns_progressing",
+                    "value": false
+                  },
+                  {
+                    "op": "is",
+                    "key": "cns_symptomatic",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "is",
+                    "key": "cns_progressing",
+                    "value": false
+                  },
+                  {
+                    "op": "review",
+                    "reason": "Untreated or symptomatic but non-progressing CNS metastases: whether they are \"active\" is for the study team"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "leptomeningeal",
+        "brain_mets",
+        "cns_untreated",
+        "cns_progressing",
+        "cns_symptomatic"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-autoimmune",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has active autoimmune disease that has required systemic treatment in the past 2 years",
+      "plain": "No autoimmune disease needing systemic treatment in 2 years",
+      "logic": {
+        "op": "is",
+        "key": "autoimmune_active",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "autoimmune_active"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-ild",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "History of (noninfectious) pneumonitis/interstitial lung disease that required steroids or has current pneumonitis/interstitial lung disease",
+      "plain": "No pneumonitis / ILD that needed steroids, and none current",
+      "logic": {
+        "op": "or",
+        "args": [
+          {
+            "op": "is",
+            "key": "ild_history",
+            "value": false
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "is",
+                "key": "ild_history",
+                "value": true
+              },
+              {
+                "op": "review",
+                "reason": "ILD/pneumonitis history: whether it required steroids or is current"
+              }
+            ]
+          }
+        ]
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "ild_history"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-infection",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has active infection requiring systemic therapy except those specified by protocol",
+      "plain": "No active infection needing systemic therapy",
+      "logic": {
+        "op": "is",
+        "key": "active_infection",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "active_infection"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-transplant",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has history of stem cell/solid organ transplant",
+      "plain": "No stem cell or solid organ transplant",
+      "logic": {
+        "op": "is",
+        "key": "transplant_history",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "transplant_history"
+      ],
+      "checkable": true
+    },
+    {
+      "id": "kl007-x-surgery",
+      "trialId": "NCT07190248",
+      "kind": "exclusion",
+      "text": "Has not adequately recovered from major surgery or has ongoing surgical complications",
+      "plain": "Recovered from any major surgery",
+      "logic": {
+        "op": "is",
+        "key": "major_surgery_recent",
+        "value": false
+      },
+      "mandatory": true,
+      "derivedFrom": "criteria",
+      "section": "The main exclusion criteria include but are not limited to the following",
+      "needsFacts": [
+        "major_surgery_recent"
+      ],
+      "checkable": true
+    }
+  ],
+  "encodingNotes": [
+    "Acronym source: official title.",
+    "KRAS G12C requirement derived from the official title: the registry lists only \"main\" criteria.",
+    "One protocol-completeness row (needs_review) covers both \"not limited to\" statements; every listed criterion has its own row."
+  ]
+}

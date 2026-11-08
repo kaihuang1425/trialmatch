@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Relay · Match deck</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2FF}
+a{color:#4A2FD9}a:hover{color:#3720B0}
+.app{font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:#1B1530;font-size:14px;line-height:1.45;min-height:100%}
+.mono{font-family:"DM Mono",ui-monospace,monospace;font-size:12px}
+.muted{color:#5E5873}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.03em}
+.brand-mark{width:32px;height:32px;border-radius:50%;background:#5B3DF5;display:grid;place-items:center;box-shadow:0 6px 16px rgba(91,61,245,.35)}
+.syn{font:500 10.5px/1.6 "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#5E5873;border:1px dashed #BDB5DA;border-radius:6px;padding:0 6px}
+.spacer{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #D9D3F2;background:#FFFFFF;color:#1B1530;font:700 13.5px "Plus Jakarta Sans",sans-serif;cursor:pointer;transition:transform .14s cubic-bezier(.34,1.56,.64,1),background .18s ease-out,border-color .18s ease-out}
+.btn:hover{border-color:#A79BE6}.btn:active{transform:scale(.95)}
+.btn-p{background:#5B3DF5;border-color:#5B3DF5;color:#FFFFFF}.btn-p:hover{background:#4A2FD9;border-color:#4A2FD9}
+.btn-c{background:#FF6B4A;border-color:#FF6B4A;color:#FFFFFF}.btn-c:hover{background:#F2552F;border-color:#F2552F}
+.btn-g{border-color:transparent;background:transparent}
+.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr) 380px;gap:20px;padding:4px 28px 40px;max-width:1440px;margin:0 auto;box-sizing:border-box;align-items:start}
+.side{font:800 12px "Plus Jakarta Sans",sans-serif;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:0 0 12px}
+.side i{width:10px;height:10px;border-radius:50%}
+.deck{position:relative;height:540px}
+.cardw{position:absolute;inset:0;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .3s ease-out}
+.cardw.back1{transform:translateY(14px) scale(.95);opacity:.75}
+.cardw.back2{transform:translateY(28px) scale(.9);opacity:.45}
+.card{position:absolute;inset:0;background:#FFFFFF;border-radius:28px;box-shadow:0 18px 40px rgba(43,26,120,.14);padding:24px;display:flex;flex-direction:column;gap:14px;touch-action:pan-y;user-select:none;cursor:grab;box-sizing:border-box}
+.card.drag{cursor:grabbing;transition:none}
+.card.settle{transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
+.card.flyR{animation:flyR .32s cubic-bezier(.5,0,.2,1) forwards}
+.card.flyL{animation:flyL .32s cubic-bezier(.5,0,.2,1) forwards}
+.stamp{position:absolute;top:22px;padding:6px 12px;border:3px solid;border-radius:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;transition:opacity .12s linear}
+.stamp-r{right:22px;color:#0B7F62;border-color:#10A37F;transform:rotate(8deg)}
+.stamp-l{left:22px;color:#C4343A;border-color:#E5484D;transform:rotate(-8deg)}
+.c-top{display:flex;align-items:flex-start;gap:12px}
+.acr{font-weight:800;font-size:28px;letter-spacing:-.03em;line-height:1.05}
+.ring{flex:none;position:relative;width:118px;height:118px}
+.ring .arc{position:absolute;inset:0;display:block}
+.ring circle{transition:stroke .35s ease-out,stroke-width .35s ease-out}
+.ring-c{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-weight:800;font-size:22px;line-height:1}
+.ring-c small{display:block;font:500 11px "DM Mono",monospace;color:#5E5873;margin-top:4px}
+.st{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}
+.s-ready{background:#E2F6EF;color:#0B7F62}.s-evidence{background:#FFF1D6;color:#8A5C00}.s-review{background:#F1E6FA;color:#7A3BB0}.s-no{background:#FDE7E8;color:#B42E33}
+.st.swapA{animation:popin .3s cubic-bezier(.34,1.56,.64,1) both}.st.swapB{animation:popin2 .3s cubic-bezier(.34,1.56,.64,1) both}
+.lst{display:grid;gap:6px}
+.li{display:flex;gap:10px;align-items:center;font-size:13.5px}
+.dotk{flex:none;width:12px;height:12px;border-radius:4px}
+.k-o{background:#10A37F}.k-x{background:#E5484D;transform:rotate(45deg) scale(.85)}.k-u{border:2px dashed #E8A317;box-sizing:border-box}.k-r{background:linear-gradient(90deg,#8E4EC6 50%,#E9DDF6 50%)}.k-s{border:2px solid #8E4EC6;box-sizing:border-box}
+.acts{display:flex;justify-content:center;gap:18px;margin-top:22px}
+.round{width:64px;height:64px;border-radius:50%;border:0;background:#FFFFFF;box-shadow:0 8px 20px rgba(43,26,120,.14);display:grid;place-items:center;cursor:pointer;transition:transform .16s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease-out}
+.round:hover{transform:translateY(-2px) scale(1.06)}.round:active{transform:scale(.92)}
+.round.sm{width:52px;height:52px;margin-top:6px}
+.confirm{position:absolute;left:16px;right:16px;bottom:16px;z-index:5;background:#1B1530;color:#FFFFFF;border-radius:20px;padding:16px;animation:rise .26s cubic-bezier(.2,.8,.2,1) both}
+.rchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rchip{min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid #4A4170;background:transparent;color:#FFFFFF;font:600 13px "Plus Jakarta Sans",sans-serif;cursor:pointer;transition:background .18s ease-out,border-color .18s ease-out}
+.rchip:hover{background:#2C2450;border-color:#8B7FD0}
+.empty{display:grid;place-items:center;text-align:center;height:100%;border:2px dashed #D9D3F2;border-radius:28px;color:#5E5873;gap:10px;padding:24px;box-sizing:border-box}
+.relay{background:#FFFFFF;border-radius:24px;padding:18px;box-shadow:0 10px 26px rgba(43,26,120,.08)}
+.msg{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid #EFECFA}
+.msg:last-child{border-bottom:0}
+.msg.new{animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:800 11px "Plus Jakarta Sans",sans-serif;color:#FFFFFF}
+.av-p{background:#FF6B4A}.av-t{background:#5B3DF5}.av-i{background:#1B1530}.av-c{background:#10A37F}
+.who{font-weight:700;font-size:12.5px}
+.msg-t{font-size:13.5px}
+.cfg{margin-top:12px;padding:14px;border-radius:16px;background:#F4F2FF;animation:rise .24s ease-out both}
+.seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:#E7E2FB;margin:6px 0 10px}
+.seg button{flex:1;min-height:38px;border:0;border-radius:999px;background:transparent;color:#5E5873;font:600 12.5px "Plus Jakarta Sans",sans-serif;cursor:pointer;transition:background .18s ease-out}
+.seg button[aria-pressed="true"]{background:#FFFFFF;color:#1B1530;box-shadow:0 2px 6px rgba(43,26,120,.15)}
+.phone{width:360px;max-width:100%;margin:0 auto;border-radius:44px;background:#1B1530;padding:12px;box-sizing:border-box;box-shadow:0 24px 50px rgba(27,21,48,.28)}
+.screen{border-radius:34px;background:#FFF7F4;min-height:700px;padding:22px 18px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.pcard{background:#FFFFFF;border-radius:22px;padding:16px;box-shadow:0 8px 20px rgba(255,107,74,.12)}
+.ph{font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.2}
+.pl{font:600 11px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#B4472C;margin-top:12px}
+.inv{padding:12px 14px;border-radius:16px;background:#5B3DF5;color:#FFFFFF;animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+.mutual{position:relative;height:56px;margin:4px 0}
+.m1,.m2{position:absolute;top:14px;width:28px;height:28px;border-radius:50%}
+.m1{background:#5B3DF5;left:0;animation:meetL .5s cubic-bezier(.2,.8,.2,1) forwards}
+.m2{background:#FF6B4A;right:0;animation:meetR .5s cubic-bezier(.2,.8,.2,1) forwards}
+.mcheck{position:absolute;left:50%;top:8px;margin-left:-20px;width:40px;height:40px;border-radius:50%;background:#10A37F;display:grid;place-items:center;transform:scale(0);animation:mpop .32s cubic-bezier(.34,1.56,.64,1) .46s forwards}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(420px,calc(100% - 32px));display:flex;align-items:center;gap:12px;padding:12px 12px 14px 18px;border-radius:999px;background:#1B1530;color:#FFFFFF;box-shadow:0 16px 36px rgba(27,21,48,.3);overflow:hidden;z-index:30}
+.toast.tA{animation:toastA .26s cubic-bezier(.2,.8,.2,1) both}.toast.tB{animation:toastB .26s cubic-bezier(.2,.8,.2,1) both}
+.toast .btn{min-height:40px;background:#2C2450;border-color:#2C2450;color:#FFFFFF}
+.drain{position:absolute;left:18px;right:18px;bottom:4px;height:3px;border-radius:2px;background:#FF6B4A;transform-origin:left;animation:drain 5.2s linear forwards}
+.toast:hover .drain{animation-play-state:paused}
+@keyframes flyR{to{transform:translate(140%,-30px) rotate(18deg);opacity:0}}
+@keyframes flyL{to{transform:translate(-140%,-30px) rotate(-18deg);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes popin{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes popin2{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes meetL{to{left:calc(50% - 28px)}}
+@keyframes meetR{to{right:calc(50% - 28px)}}
+@keyframes mpop{to{transform:scale(1)}}
+@keyframes toastA{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes toastB{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@media (max-width:1200px){.layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pside{grid-column:1 / -1}}
+@media (max-width:760px){.top{padding:14px 16px}.layout{grid-template-columns:minmax(0,1fr);padding:4px 16px 40px}.deck{height:600px}.acr{font-size:24px}.ring{width:96px;height:96px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:1ms !important;transition-duration:1ms !important}.drain{animation-duration:5.2s !important}}
+</style>
+</helmet>
+<div class="app">
+<header class="top">
+<div class="brand"><span class="brand-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 15a7 7 0 0112-5"></path><path d="M19 9a7 7 0 01-12 5"></path></svg></span>Relay</div>
+<span class="mono">SYN-0417</span><span class="syn">Synthetic</span>
+<div class="spacer"></div>
+<span class="mono muted">Replay</span>
+<button class="btn btn-g" type="button" onClick="{{ reset }}">Reset</button>
+</header>
+<main class="layout">
+<section aria-labelledby="co-h">
+<h2 class="side" id="co-h"><i style="background:#5B3DF5"></i>Research coordinator</h2>
+<div class="deck">
+<sc-for list="{{ backs }}" as="bk" hint-placeholder-count="2"><div class="{{ bk.cls }}"><div class="card" style="cursor:default"></div></div></sc-for>
+<sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}">
+<div class="cardw">
+<article class="{{ top.cls }}" style="{{ top.transform }}" onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" aria-label="{{ top.aria }}">
+<span class="stamp stamp-r" style="opacity: {{ top.rOp }}">Invite</span>
+<span class="stamp stamp-l" style="opacity: {{ top.lOp }}">Not suitable</span>
+<div class="c-top">
+<div style="flex:1;min-width:0"><div class="acr">{{ top.acr }}</div><div class="muted" style="margin-top:6px">{{ top.drug }}</div><div style="margin-top:12px"><span class="{{ top.stCls }}">{{ top.status }}</span></div></div>
+<div class="ring" role="img" aria-label="{{ top.ringAria }}"><sc-for list="{{ top.arcs }}" as="ar" hint-placeholder-count="8"><svg class="arc" width="100%" height="100%" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="48" fill="none" stroke="{{ ar.color }}" stroke-width="12" stroke-dasharray="{{ ar.dash }}" stroke-dashoffset="{{ ar.off }}" transform="rotate(-90 60 60)" style="{{ ar.style }}"></circle></svg></sc-for><div class="ring-c">{{ top.okN }}<small>of {{ top.total }} supported</small></div></div>
+</div>
+<div class="muted" style="font-weight:600">{{ top.reason }}</div>
+<div class="lst"><sc-for list="{{ top.items }}" as="it" hint-placeholder-count="5"><div class="li"><span class="{{ it.cls }}"></span><span style="flex:1">{{ it.name }}</span><span class="mono muted">{{ it.val }}</span></div></sc-for></div>
+<div class="mono muted" style="margin-top:auto">{{ top.site }}</div>
+</article>
+</div>
+</sc-if>
+<sc-if value="{{ deckEmpty }}" hint-placeholder-val="{{ false }}"><div class="empty"><div style="font-weight:700">Every referral has a decision.</div><button class="btn" type="button" onClick="{{ reset }}">Start again</button></div></sc-if>
+<sc-if value="{{ hasConfirm }}" hint-placeholder-val="{{ false }}">
+<div class="confirm" role="dialog" aria-label="{{ confirmHead }}">
+<div style="font-weight:800;font-size:16px">{{ confirmHead }}</div>
+
+<div class="rchips"><sc-for list="{{ reasons }}" as="rs" hint-placeholder-count="4"><button class="rchip" type="button" onClick="{{ rs.pick }}">{{ rs.label }}</button></sc-for><button class="rchip" type="button" style="border-color:transparent;color:#C9C2E8" onClick="{{ cancelConfirm }}">Cancel</button></div>
+</div>
+</sc-if>
+</div>
+<div class="acts">
+<button class="round" type="button" aria-label="Not suitable" onClick="{{ left }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E5484D" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<button class="round sm" type="button" aria-label="Save for later" onClick="{{ save }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E4EC6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17L12 16.5l-5.5 4z"></path></svg></button>
+<button class="round" type="button" aria-label="Invite for prescreening" onClick="{{ right }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10A37F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></button>
+</div>
+
+</section>
+<section aria-labelledby="rl-h">
+<h2 class="side" id="rl-h"><i style="background:#1B1530"></i>Agent relay</h2>
+<div class="relay">
+<sc-for list="{{ feed }}" as="m" hint-placeholder-count="4"><div class="{{ m.cls }}"><span class="{{ m.avCls }}">{{ m.av }}</span><div><div class="who">{{ m.who }}</div><div class="msg-t">{{ m.t }}</div></div></div></sc-for>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+<sc-if value="{{ showApproveReq }}" hint-placeholder-val="{{ true }}"><button class="btn btn-p" type="button" onClick="{{ approveRequest }}">Approve request</button></sc-if>
+<sc-if value="{{ showAdd }}" hint-placeholder-val="{{ false }}"><button class="btn" type="button" onClick="{{ toggleCfg }}">Add synthetic report</button></sc-if>
+</div>
+<sc-if value="{{ cfg }}" hint-placeholder-val="{{ false }}">
+<div class="cfg">
+<div class="seg" role="group" aria-label="KRAS result"><sc-for list="{{ krasOpts }}" as="ko" hint-placeholder-count="2"><button type="button" aria-pressed="{{ ko.pressed }}" onClick="{{ ko.pick }}">{{ ko.label }}</button></sc-for></div>
+<div class="seg" role="group" aria-label="PD-L1 score"><sc-for list="{{ pdOpts }}" as="po" hint-placeholder-count="2"><button type="button" aria-pressed="{{ po.pressed }}" onClick="{{ po.pick }}">{{ po.label }}</button></sc-for></div>
+<div style="display:flex;gap:8px"><button class="btn btn-p" type="button" style="flex:1" onClick="{{ addReport }}">Add to record</button><button class="btn btn-g" type="button" onClick="{{ toggleCfg }}">Cancel</button></div>
+</div>
+</sc-if>
+</div>
+</section>
+<section class="pside" aria-labelledby="pt-h">
+<h2 class="side" id="pt-h"><i style="background:#FF6B4A"></i>Patient · SYN-0417</h2>
+<div class="phone"><div class="screen">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:800;font-size:22px;letter-spacing:-.02em">Your studies</span><span class="syn">Synthetic</span></div>
+<sc-if value="{{ invited }}" hint-placeholder-val="{{ false }}"><div class="inv"><div style="font-weight:800">Invitation to talk (simulated)</div><div style="font-size:13px;opacity:.9">The CodeBreaK 202 team at Royal Marsden would like to arrange a prescreening discussion.</div></div></sc-if>
+<sc-if value="{{ mutual }}" hint-placeholder-val="{{ false }}"><div class="mutual" aria-label="Both sides said yes"><span class="m1"></span><span class="m2"></span><span class="mcheck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></span></div><div style="text-align:center;font-weight:800">Both sides said yes. A discussion is being arranged (simulated).</div></sc-if>
+<div class="pcard">
+<div class="mono muted">CodeBreaK 202 · Phase 3</div>
+<div class="ph">A study of sotorasib with chemotherapy, compared with immunotherapy with chemotherapy</div>
+<div class="pl">Why it was suggested</div>
+<div style="font-size:13.5px">Your type and stage of lung cancer, and no treatment yet for advanced disease.</div>
+<div class="pl">Still being checked</div>
+<sc-for list="{{ ptOpen }}" as="po2" hint-placeholder-count="2"><div class="li" style="margin-top:4px"><span class="{{ po2.cls }}"></span><span>{{ po2.t }}</span></div></sc-for>
+<div class="pl">Where</div>
+<div style="font-size:13.5px">Royal Marsden Hospital, London · about 3 miles</div>
+<div class="pl">Visits and support</div>
+<div style="font-size:13.5px">Not listed in the registry. Ask the team.</div>
+</div>
+<sc-if value="{{ canInterest }}" hint-placeholder-val="{{ true }}"><button class="btn btn-c" type="button" style="width:100%;min-height:52px" onClick="{{ interest }}">I'm interested — arrange a discussion</button></sc-if>
+<sc-if value="{{ interested }}" hint-placeholder-val="{{ false }}"><div class="pcard" style="text-align:center;font-weight:700">You said you're interested. The team will be in touch.</div></sc-if>
+</div></div>
+</section>
+</main>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div class="{{ toastCls }}" role="status"><div style="flex:1"><div style="font-weight:700">{{ toastMsg }}</div><div class="mono" style="color:#C9C2E8">{{ toastSub }}</div></div><sc-if value="{{ toastUndo }}" hint-placeholder-val="{{ true }}"><button class="btn" type="button" onClick="{{ undo }}">Undo</button></sc-if><span class="drain"></span></div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh();
+    this.timers = [];
+  }
+  fresh() { return { phase: 0, upd: 0, kras: 'G12C', pdl1: 0, cfg: false, decided: {}, saved: [], dx: 0, drag: false, sx: 0, fly: '', confirm: null, interested: false, feed: [], toast: null, tk: 0 }; }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  notify(msg, sub, undo) {
+    const tk = this.state.tk + 1;
+    this.setState({ toast: { msg: msg, sub: sub, undo: undo }, tk: tk });
+    this.later(() => { if (this.state.tk === tk) this.setState({ toast: null }); }, 5300);
+  }
+  after(id) {
+    const k = this.state.kras === 'G12C' ? 'o' : 'x', p = this.state.pdl1 < 1 ? 'o' : 'x';
+    return { cbk: 'o' + k + 'oo-' + p + 'ooo-s', kan: 'o' + k + '----o-o-s', kra: 'o' + k + 'ooooooou-', alk: '-xoxo-o----', alp: 'o-x---o----', cop: 'o-x--------', bea: 'o---r--o-u-', ras: 'oo----xo---' }[id];
+  }
+  post(who, t) { this.setState({ feed: this.state.feed.concat([{ who: who, t: t }]) }); }
+  decide(id, kind, reason) {
+    const fly = kind === 'invited' ? 'R' : kind === 'closed' ? 'L' : '';
+    this.setState({ fly: fly, confirm: null, dx: 0 });
+    this.later(() => {
+      const decided = Object.assign({}, this.state.decided); decided[id] = kind;
+      this.setState({ decided: decided, fly: '' });
+      const name = this.trial(id).acr;
+      if (kind === 'invited') { this.post('coord', 'Invited SYN-0417 to ' + name + ' prescreening' + (reason ? ' (open items noted: ' + reason + ')' : '') + '. Simulated.'); this.notify('Invitation approved (simulated)', name, () => this.undoDecision(id)); }
+      if (kind === 'closed') { this.post('coord', 'Closed ' + name + ': ' + reason + '.'); if (reason === 'Cohort full (simulated)') this.post('patient', 'Kept the profile. Krascendo 2 at Barts (1 mi) is at the same stage, so no restart is needed.'); this.notify('Closed · ' + reason, name, () => this.undoDecision(id)); }
+    }, 300);
+  }
+  undoDecision(id) { const d = Object.assign({}, this.state.decided); delete d[id]; this.setState({ decided: d, interested: id === 'cbk' ? false : this.state.interested }); this.post('coord', 'Undid the decision on ' + this.trial(id).acr + '.'); }
+  trial(id) { return this.T().find((t) => t.id === id); }
+  T() {
+    return [
+      { id: 'cbk', acr: 'CodeBreaK 202', nct: 'NCT05920356', ph: 'Phase 3', drug: 'Sotorasib + platinum doublet, first line', site: 'Royal Marsden Hospital · 3 mi', b: 'ouuu-uooo-s' },
+      { id: 'kan', acr: 'KANDLELIT-007', nct: 'NCT07190248', ph: 'Phase 3', drug: 'Calderasib + pembrolizumab, first line', site: 'Royal Free Hospital · 4 mi', b: 'ou----o-o-s' },
+      { id: 'kra', acr: 'Krascendo 2', nct: 'NCT06793215', ph: 'Phase 3', drug: 'Divarasib + pembrolizumab, first line', site: 'Barts Hospital · 1 mi', b: 'ouuuuuooou-' },
+      { id: 'alk', acr: 'ALKAZAR', nct: 'NCT06765109', ph: 'Phase 3', drug: 'Neladalkib vs alectinib, ALK-positive', site: "Guy's Cancer Centre · 1 mi", b: '-uuuu-o----' },
+      { id: 'alp', acr: 'ALPACCA', nct: 'NCT07185997', ph: 'Phase 3', drug: 'Firmonertinib, EGFR PACC mutations', site: 'UCLH · 1 mi', b: 'o-u---o----' },
+      { id: 'cop', acr: 'COPERNICUS', nct: 'NCT06667076', ph: 'Phase 2', drug: 'Amivantamab SC, common EGFR', site: "Guy's and St Thomas' · 1 mi", b: 'o-u--------' },
+      { id: 'bea', acr: 'Beamion LUNG-1', nct: 'NCT04886804', ph: 'Phase 1', drug: 'Zongertinib, HER2 aberrations', site: 'No UK site recruiting', b: 'o---u--o-u-' },
+      { id: 'ras', acr: 'RASolve 301', nct: 'NCT06881784', ph: 'Phase 3', drug: 'Daraxonrasib vs docetaxel, previously treated', site: 'No UK site recruiting', b: 'ou----xo---' }
+    ];
+  }
+  renderVals() {
+    const s = this.state;
+    const T = this.T();
+    const COLS = ['Hist', 'KRAS', 'EGFR', 'ALK', 'HER2', 'PD-L1', 'Prior', 'ECOG', 'CNS', 'Bloods', 'Screen'];
+    const NAME = { Hist: 'Nonsquamous, advanced', KRAS: 'KRAS', EGFR: 'EGFR', ALK: 'ALK', HER2: 'HER2', 'PD-L1': 'PD-L1', Prior: 'Prior therapy', ECOG: 'ECOG', CNS: 'Brain mets', Bloods: 'Bloods', Screen: 'At screening' };
+    const WORD = { o: 'supported', x: 'conflict', u: 'open', r: 'review', s: 'screening' };
+    const COLOR = { o: '#10A37F', x: '#E5484D', u: '#F6D489', r: '#8E4EC6', s: '#D8C6EE' };
+    const LABEL = { ready: 'Ready for prescreening', evidence: 'Needs evidence', review: 'Clinician review', no: 'Not a match' };
+    const RANK = { ready: 0, review: 1, evidence: 2, no: 3 };
+    const statusOf = (st) => st.indexOf('x') >= 0 ? 'no' : st.indexOf('u') >= 0 ? 'evidence' : st.indexOf('r') >= 0 ? 'review' : 'ready';
+    const idx = (id) => T.findIndex((t) => t.id === id);
+    const isUpd = (id) => s.phase >= 3 || (s.phase === 2 && s.upd > idx(id));
+    const stOf = (id) => isUpd(id) ? this.after(id) : T[idx(id)].b;
+    const reasonOf = (id, st) => {
+      const at = (c) => st[COLS.indexOf(c)];
+      if (at('PD-L1') === 'x') return 'PD-L1 TPS ' + s.pdl1 + '%. The study needs PD-L1 negative.';
+      if (at('Prior') === 'x') return 'For previously treated disease. SYN-0417 has had no treatment yet.';
+      if (at('ALK') === 'x') return 'ALK fusion not detected.';
+      if (at('EGFR') === 'x') return 'No qualifying EGFR mutation documented.';
+      if (at('KRAS') === 'x') return 'KRAS ' + s.kras + ' documented. The study needs G12C.';
+      const mol = ['KRAS', 'EGFR', 'ALK', 'HER2', 'PD-L1'].filter((c) => at(c) === 'u');
+      if (mol.length) return 'Waiting on the molecular report.';
+      if (at('Bloods') === 'u') return 'Bloods from 18 Sep are past the 28-day policy.';
+      if (at('HER2') === 'r') return 'HER2 overexpression wasn\'t tested.';
+      return 'Every checked requirement is supported.';
+    };
+    const pending = T.filter((t) => !s.decided[t.id]).map((t) => t.id);
+    const order = pending.slice().sort((a, b) => {
+      const sa = s.saved.indexOf(a) >= 0 ? 1 : 0, sb = s.saved.indexOf(b) >= 0 ? 1 : 0;
+      if (sa !== sb) return sa - sb;
+      return RANK[statusOf(stOf(a))] - RANK[statusOf(stOf(b))] || idx(a) - idx(b);
+    });
+    const topId = order[0];
+    let top = null;
+    if (topId) {
+      const t = T[idx(topId)], st = stOf(topId), status = statusOf(st);
+      const vis = COLS.map((c, j) => ({ c: c, v: st[j] })).filter((x) => x.v !== '-');
+      const n = vis.length, C = 2 * Math.PI * 48, gap = 3;
+      const seg = C / n;
+      const arcs = vis.map((x, i) => ({ color: COLOR[x.v], dash: Math.max(seg - gap, 1).toFixed(2) + ' ' + (C - Math.max(seg - gap, 1)).toFixed(2), off: (-i * seg).toFixed(2), style: 'transition-delay: ' + (i * 40) + 'ms' }));
+      const okN = vis.filter((x) => x.v === 'o').length;
+      const dx = s.drag ? s.dx : 0;
+      top = {
+        acr: t.acr, nct: t.nct, ph: t.ph, drug: t.drug, site: t.site,
+        status: LABEL[status], stCls: 'st s-' + status + (isUpd(topId) ? ' swapB' : ' swapA'), reason: reasonOf(topId, st),
+        arcs: arcs, okN: String(okN), total: String(n), ringAria: okN + ' of ' + n + ' checked requirements supported',
+        items: vis.filter((x) => x.v !== 'o').slice(0, 5).map((x) => ({ cls: 'dotk k-' + x.v, name: NAME[x.c], val: WORD[x.v] })),
+        cls: 'card' + (s.drag ? ' drag' : ' settle') + (s.fly ? ' fly' + s.fly : ''),
+        transform: 'transform: translateX(' + dx + 'px) rotate(' + (dx / 22).toFixed(2) + 'deg)',
+        rOp: String(Math.max(0, Math.min(1, dx / 120))), lOp: String(Math.max(0, Math.min(1, -dx / 120))),
+        aria: t.acr + ': ' + LABEL[status] + '. Drag right to invite, left if not suitable.'
+      };
+      if (top.items.length === 0) top.items = [{ cls: 'dotk k-o', name: 'All checked requirements', val: 'supported' }];
+    }
+    const backs = order.slice(1, 3).reverse().map((id, i, arr) => ({ cls: 'cardw ' + (arr.length - i === 1 ? 'back1' : 'back2') }));
+    const openRight = () => {
+      if (!topId) return;
+      const st = statusOf(stOf(topId));
+      if (st === 'ready') return this.decide(topId, 'invited', '');
+      this.setState({ confirm: { kind: 'invite', id: topId }, dx: 0, drag: false });
+    };
+    const openLeft = () => { if (topId) this.setState({ confirm: { kind: 'close', id: topId }, dx: 0, drag: false }); };
+    const conf = s.confirm;
+    let reasons = [], ch = '', cs = '';
+    if (conf && conf.kind === 'close') { ch = 'Why is ' + this.trial(conf.id).acr + ' not suitable?'; cs = 'The reason decides what the agent tries next.'; reasons = ['Protocol requirement not met', 'Cohort full (simulated)', 'Travel not manageable', 'Patient prefers another option'].map((r) => ({ label: r, pick: () => this.decide(conf.id, 'closed', r) })); }
+    if (conf && conf.kind === 'invite') { const st = stOf(conf.id); const n = st.split('').filter((c) => c === 'u' || c === 'x' || c === 'r').length; ch = n + ' requirement' + (n === 1 ? ' is' : 's are') + ' not supported yet'; cs = 'Invite anyway only with a reason. It is saved with the open items.'; reasons = ['Will be checked at screening', 'Clinician has reviewed the evidence'].map((r) => ({ label: r, pick: () => this.decide(conf.id, 'invited', r) })); }
+    const cbkSt = stOf('cbk');
+    const ptOpen = [];
+    COLS.forEach((c, j) => { const v = cbkSt[j]; if (v === 'u' || v === 'x' || v === 'r' || v === 's') ptOpen.push({ cls: 'dotk k-' + v, t: ({ KRAS: 'A gene test result (KRAS)', EGFR: 'Other gene results', ALK: 'Other gene results', 'PD-L1': c === 'PD-L1' && v === 'x' ? 'PD-L1 result doesn\'t fit this study' : 'A tumour marker result (PD-L1)', Screen: 'Final checks by the study team', Bloods: 'Recent blood tests' })[c] || NAME[c] }); });
+    const seen = {}; const ptOpenU = ptOpen.filter((x) => (seen[x.t] ? false : (seen[x.t] = true)));
+    const AV = { patient: ['P', 'av av-p', 'Patient agent'], trial: ['T', 'av av-t', 'Trial agents'], inv: ['AI', 'av av-i', 'Investigator'], coord: ['RC', 'av av-c', 'Coordinator'] };
+    const base = [
+      { who: 'patient', t: 'Shared 6 facts with 8 studies. Consent: share profile for matching.' },
+      { who: 'trial', t: '7 studies need the molecular report. RASolve 301 needs previous treatment.' },
+      { who: 'inv', t: s.phase >= 1 ? 'Request for the molecular report sent to the referring team (simulated).' : 'Proposed: request the molecular pathology report. Needs your approval.' }
+    ];
+    if (s.phase >= 2) base.push({ who: 'patient', t: 'Read the new molecular report. 8 facts cited, every quote checked.' });
+    if (s.phase >= 3) base.push({ who: 'trial', t: '7 studies updated. CodeBreaK 202 is ready for prescreening review.' });
+    const feed = base.concat(s.feed).map((m, i, arr) => ({ av: AV[m.who][0], avCls: AV[m.who][1], who: AV[m.who][2], t: m.t, cls: 'msg' + (i === arr.length - 1 && arr.length > 3 ? ' new' : '') }));
+    const invited = s.decided.cbk === 'invited';
+    return {
+      reset: () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState(this.fresh()); },
+      backs: backs, hasTop: !!top, top: top || {}, deckEmpty: !top,
+      deckCount: order.length + ' referral' + (order.length === 1 ? '' : 's') + ' to decide · ' + Object.keys(s.decided).length + ' decided',
+      down: (e) => { if (s.confirm || s.fly) return; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} this.setState({ drag: true, sx: e.clientX, dx: 0 }); },
+      move: (e) => { if (this.state.drag) this.setState({ dx: e.clientX - this.state.sx }); },
+      up: () => { const dx = this.state.dx; this.setState({ drag: false, dx: 0 }); if (dx > 110) openRight(); else if (dx < -110) openLeft(); },
+      right: openRight, left: openLeft,
+      save: () => { if (topId) { this.setState({ saved: s.saved.filter((x) => x !== topId).concat([topId]) }); this.notify('Saved for later', this.trial(topId).acr, () => this.setState({ saved: this.state.saved.filter((x) => x !== topId) })); } },
+      hasConfirm: !!conf, confirmHead: ch, confirmSub: cs, reasons: reasons, cancelConfirm: () => this.setState({ confirm: null }),
+      feed: feed,
+      showApproveReq: s.phase === 0, showAdd: s.phase === 1 && !s.cfg, cfg: s.cfg && s.phase < 2,
+      approveRequest: () => { this.setState({ phase: 1 }); this.notify('Request sent (simulated)', 'Molecular pathology report', () => this.setState({ phase: 0 })); },
+      toggleCfg: () => this.setState({ cfg: !s.cfg }),
+      krasOpts: ['G12C', 'G12D'].map((v) => ({ label: 'KRAS ' + v, pressed: String(s.kras === v), pick: () => this.setState({ kras: v }) })),
+      pdOpts: [0, 60].map((v) => ({ label: 'PD-L1 ' + v + '%', pressed: String(s.pdl1 === v), pick: () => this.setState({ pdl1: v }) })),
+      addReport: () => {
+        if (s.phase >= 2) return;
+        this.setState({ phase: 2, upd: 0, cfg: false });
+        for (let i = 1; i <= 8; i++) this.later(() => this.setState({ upd: i }), 300 + i * 180);
+        this.later(() => { this.setState({ phase: 3 }); this.notify('7 studies updated', 'The deck re-sorted by readiness', null); }, 300 + 9 * 180);
+      },
+      ptOpen: ptOpenU.length ? ptOpenU : [{ cls: 'dotk k-o', t: 'Nothing else from you for now' }],
+      invited: invited && !s.interested, mutual: invited && s.interested,
+      canInterest: !s.interested, interested: s.interested && !invited,
+      interest: () => { this.setState({ interested: true }); this.post('patient', 'SYN-0417 is interested in CodeBreaK 202 and agreed to share the profile with that team.'); this.notify('Interest sent', 'CodeBreaK 202 · the team sees it with your profile', () => this.setState({ interested: false })); },
+      undo: () => { const u = s.toast && s.toast.undo; this.setState({ toast: null }); if (u) u(); },
+      hasToast: !!s.toast, toastMsg: s.toast ? s.toast.msg : '', toastSub: s.toast ? s.toast.sub : '', toastUndo: !!(s.toast && s.toast.undo), toastCls: 'toast ' + (s.tk % 2 ? 'tA' : 'tB')
+    };
+  }
+}
+</script>
+</body>
+</html>

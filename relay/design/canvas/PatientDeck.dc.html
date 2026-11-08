@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Relay · Patient study deck</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#F3F2EE}
+*{box-sizing:border-box}
+a{color:#3158DB;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;margin:0;padding:0}
+.ph{position:relative;width:390px;height:844px;overflow:hidden;background:#F3F2EE;font-family:'DM Sans',system-ui,sans-serif;color:#12131C;font-size:15px;line-height:1.4;display:flex;flex-direction:column}
+.dsp{font-family:'Bricolage Grotesque','DM Sans',sans-serif;letter-spacing:-0.035em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px}
+.top{display:flex;align-items:center;gap:10px;padding:18px 20px 6px}
+.logo{width:34px;height:34px;border-radius:11px;background:#19231F;display:grid;place-items:center}
+.syn{margin-left:auto;font:500 10.5px/1.6 'JetBrains Mono',monospace;letter-spacing:.08em;color:#555A6E;border:1px dashed #C9C5BB;border-radius:6px;padding:0 6px}
+.hd{display:flex;align-items:flex-end;gap:12px;padding:4px 20px 10px}
+.count{display:flex;font-size:64px;font-weight:800;line-height:.9;font-variant-numeric:tabular-nums}
+.dg{display:inline-block;height:1em;width:.6em;overflow:hidden;text-align:center}
+.stk{display:block;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.stk span{display:block;height:1em;line-height:1}
+.cl{font-size:19px;font-weight:700;line-height:1.1;padding-bottom:4px}
+.bub{margin:0 16px;padding:14px;border-radius:20px;background:#fff;border:1px solid #E6E4DE;display:grid;gap:10px}
+.bub.inA{animation:dropA .55s cubic-bezier(.22,1,.36,1) both}.bub.inB{animation:dropB .55s cubic-bezier(.22,1,.36,1) both}
+.bl{display:flex;gap:10px;align-items:flex-start}
+.av{flex:none;width:28px;height:28px;border-radius:50%;background:#19231F;display:grid;place-items:center;position:relative}
+.av i{position:absolute;right:-1px;top:-1px;width:9px;height:9px;border-radius:50%;background:#FF5B2E;box-shadow:0 0 0 2px #fff}
+.av i.beat{animation:beat 1.8s ease-in-out infinite}
+.btxt{font-size:15px;font-weight:500}
+.brow{display:flex;gap:8px}
+.bb{height:44px;padding:0 14px;border-radius:13px;border:1px solid #DEDBD3;background:#fff;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:6px;transition:transform .1s ease,background .12s ease}
+.bb:active{transform:scale(.96)}
+.bb-b{background:#3158DB;border-color:#3158DB;color:#fff}
+.dots{display:inline-flex;gap:4px;margin-left:4px}
+.dots i{width:5px;height:5px;border-radius:50%;background:#555A6E;animation:dot 1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+.deck{position:relative;margin:12px 16px 0;height:404px}
+.phero{position:relative;height:168px;flex:none;overflow:hidden;background:#26322D}
+.phero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(25,35,31,0) 45%,#19231F 100%)}
+.himg{width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block;pointer-events:none;transform:scale(1.02);transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.now:hover .himg{transform:scale(1.07)}
+.hscene{position:absolute;inset:0}
+.hscene svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.tchip{position:absolute;left:14px;top:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:999px;background:rgba(18,26,23,.66);color:#F6F3EB;font-size:13.5px;font-weight:700;backdrop-filter:blur(8px)}
+.phero .segs{position:absolute;right:14px;bottom:14px;z-index:2}
+.pbody{display:flex;flex-direction:column;gap:10px;padding:12px 18px 16px;flex:1;min-height:0}
+.facts{display:flex;gap:6px;flex-wrap:wrap}
+.fact{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:10px;background:#26322D;color:#E7EBE8;font-size:13px;font-weight:600}
+.gc{position:absolute;inset:0;border-radius:28px;background:#26322D;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+.g1{transform:translateY(12px) scale(.95);opacity:.5}.g2{transform:translateY(24px) scale(.9);opacity:.28}
+.now{position:absolute;inset:0;border-radius:28px;background:#19231F;color:#F6F3EB;padding:0;display:flex;flex-direction:column;gap:0;overflow:hidden;touch-action:pan-y;user-select:none;cursor:grab;box-shadow:0 20px 40px rgba(25,35,31,.22)}
+.now.settle{transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.now.drag{cursor:grabbing}
+.now.inA{animation:riseA .5s cubic-bezier(.22,1,.36,1) both}.now.inB{animation:riseB .5s cubic-bezier(.22,1,.36,1) both}
+.now.flyR{animation:flyR .34s cubic-bezier(.5,0,.2,1) forwards}.now.flyL{animation:flyL .34s cubic-bezier(.5,0,.2,1) forwards}.now.flyD{animation:flyD .36s cubic-bezier(.5,0,.2,1) forwards}
+.nl{display:flex;align-items:center;gap:8px}
+.nl span{font:600 12px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#A9B5AF}
+.segs{display:flex;gap:4px;margin-left:auto}
+.seg{width:18px;height:6px;border-radius:6px;transition:background .35s ease,box-shadow .35s ease}
+.s-o{background:#4CC38A}.s-x{background:#FF6B5E}.s-u{box-shadow:inset 0 0 0 1.5px #FF8A5C}.s-r{background:#A29BFF}.s-s{background:#4D4A7A}
+.seg.pop{animation:segpop .4s cubic-bezier(.34,1.56,.64,1) both}
+.tt{font-size:25px;font-weight:700;line-height:1.08;margin:0}
+.acr{color:#A9B5AF}
+.site{display:flex;align-items:center;gap:6px;color:#8FA8FF;font-size:14px;font-weight:500}
+.chk{display:grid;gap:7px;margin-top:2px}
+.ci{display:flex;align-items:center;gap:9px;font-size:14px;color:#E7EBE8}
+.k{flex:none;width:11px;height:11px;border-radius:4px}
+.k-u{box-shadow:inset 0 0 0 2px #FF8A5C}.k-s{box-shadow:inset 0 0 0 2px #7A76B8}.k-o{background:#4CC38A}.k-r{background:#A29BFF}
+.more{margin-top:auto;align-self:flex-start;height:40px;padding:0 14px;border-radius:12px;border:1px solid rgba(246,243,235,.18);color:#C9D1CC;font-size:14px;font-weight:600;transition:background .15s ease}
+.more:hover{background:rgba(246,243,235,.08)}
+.stamp{position:absolute;z-index:3;top:18px;padding:4px 10px;border:3px solid;border-radius:10px;font:800 13px 'DM Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.stR{right:18px;color:#4CC38A;border-color:#4CC38A;transform:rotate(8deg)}.stL{left:18px;color:#FF6B5E;border-color:#FF6B5E;transform:rotate(-8deg)}
+.acts{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0 0}
+.big{position:relative;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid #E6E4DE;box-shadow:0 10px 22px rgba(25,35,31,.10);transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.big:active{transform:scale(.88)}
+.big.on{background:#197654;border-color:#197654}
+.save{height:46px;padding:0 16px;border-radius:14px;border:1px solid #DEDBD3;background:#fff;font-weight:600;color:#3A3F4E;display:inline-flex;align-items:center;gap:6px}
+.burst{position:absolute;inset:0;pointer-events:none}
+.ray{position:absolute;left:50%;top:50%;width:0;height:0}
+.pt{position:absolute;left:-3.5px;top:-3.5px;width:7px;height:7px;border-radius:50%;opacity:0}
+.burst.on .pt{animation:burst .65s cubic-bezier(.22,1,.36,1) forwards}
+.empty{position:absolute;inset:0;border-radius:28px;border:2px dashed #DEDBD3;display:grid;place-items:center;text-align:center;padding:24px;color:#555A6E}
+.mutual{position:absolute;inset:0;border-radius:28px;background:#197654;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;animation:riseA .45s cubic-bezier(.22,1,.36,1) both}
+.mm{position:relative;width:120px;height:44px}
+.m1,.m2{position:absolute;top:8px;width:28px;height:28px;border-radius:50%}
+.m1{background:#F6F3EB;left:0;animation:meetL .55s cubic-bezier(.22,1,.36,1) .15s forwards}
+.m2{background:#FF9670;right:0;animation:meetR .55s cubic-bezier(.22,1,.36,1) .15s forwards}
+.mc{position:absolute;left:40px;top:2px;width:40px;height:40px;border-radius:50%;background:#12131C;display:grid;place-items:center;transform:scale(0);animation:mpop .32s cubic-bezier(.34,1.56,.64,1) .62s forwards}
+.nav{margin-top:auto;display:flex;justify-content:space-around;padding:8px 8px 14px;background:#19231F}
+.nb{position:relative;width:64px;height:48px;border-radius:14px;display:grid;place-items:center;color:#A9B5AF}
+.nb.on{background:#26322D;color:#F6F3EB}
+.badge{position:absolute;top:4px;right:10px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#E0281B;color:#fff;font:700 11px/18px 'DM Sans',sans-serif;text-align:center;box-shadow:0 0 0 3px #19231F;animation:popin .45s cubic-bezier(.34,1.9,.64,1) both}
+.scrim{position:absolute;inset:0;z-index:40;background:rgba(25,35,31,.28);animation:fadeIn .25s ease both}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:41;background:#FFFDF8;border-radius:26px 26px 0 0;padding:10px 18px 22px;box-shadow:0 -18px 40px rgba(25,35,31,.18);animation:sheetIn .4s cubic-bezier(.22,1,.36,1) both;max-height:78%;overflow:auto}
+.grab{width:40px;height:5px;border-radius:3px;background:#DEDBD3;margin:0 auto 12px}
+.sh{font-size:22px;font-weight:700;margin:0 0 10px}
+.rs{display:grid;gap:8px}
+.rb{height:50px;border-radius:14px;border:1px solid #E6E4DE;background:#fff;text-align:left;padding:0 16px;font-weight:600;font-size:15px;transition:border-color .15s ease}
+.rb:hover{border-color:#12131C}
+.dl{display:grid;gap:10px;font-size:14.5px}
+.dl b{display:block;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#555A6E;margin-bottom:2px}
+.toast{position:absolute;left:16px;right:16px;bottom:82px;z-index:35;display:flex;align-items:center;gap:10px;min-height:52px;padding:0 8px 0 14px;border-radius:16px;background:#19231F;color:#F6F3EB;font-size:14px;overflow:hidden;box-shadow:0 14px 30px rgba(25,35,31,.25)}
+.toast.tA{animation:toastA .45s cubic-bezier(.34,1.56,.64,1) both}.toast.tB{animation:toastB .45s cubic-bezier(.34,1.56,.64,1) both}
+.tbtn{height:38px;padding:0 12px;border-radius:12px;background:#26322D;color:#F6F3EB;font-weight:600;margin-left:auto}
+.drain{position:absolute;left:0;bottom:0;height:3px;background:#FF5B2E;animation:drain 5.2s linear forwards}
+:focus-visible{outline:2px solid #3158DB;outline-offset:3px}
+@keyframes beat{0%,100%{box-shadow:0 0 0 2px #fff,0 0 0 2px rgba(255,91,46,.55)}70%{box-shadow:0 0 0 2px #fff,0 0 0 8px rgba(255,91,46,0)}}
+@keyframes dot{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes dropA{0%{opacity:0;transform:translateY(-14px) scale(.96)}60%{opacity:1;transform:translateY(3px)}100%{transform:none}}
+@keyframes dropB{0%{opacity:0;transform:translateY(-14px) scale(.96)}60%{opacity:1;transform:translateY(3px)}100%{transform:none}}
+@keyframes riseA{0%{opacity:.4;transform:translateY(14px) scale(.95)}100%{opacity:1;transform:none}}
+@keyframes riseB{0%{opacity:.4;transform:translateY(14px) scale(.95)}100%{opacity:1;transform:none}}
+@keyframes flyR{to{transform:translate(130%,-20px) rotate(16deg);opacity:0}}
+@keyframes flyL{to{transform:translate(-130%,-20px) rotate(-16deg);opacity:0}}
+@keyframes flyD{to{transform:translateY(120%) scale(.9);opacity:0}}
+@keyframes segpop{0%{transform:scaleY(.4)}60%{transform:scaleY(1.9)}100%{transform:scaleY(1)}}
+@keyframes burst{0%{transform:translateX(20px) scale(1);opacity:1}100%{transform:translateX(52px) scale(.2);opacity:0}}
+@keyframes meetL{to{left:28px}}
+@keyframes meetR{to{right:28px}}
+@keyframes mpop{to{transform:scale(1)}}
+@keyframes popin{0%{transform:scale(.3)}100%{transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetIn{from{transform:translateY(100%)}to{transform:none}}
+@keyframes toastA{0%{opacity:0;transform:translateY(20px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes toastB{0%{opacity:0;transform:translateY(20px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes drain{from{width:100%}to{width:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+<div class="ph">
+<div class="top"><span class="logo" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F3EB" stroke-width="2.2" stroke-linecap="round"><path d="M5 15a7 7 0 0112-5"></path><path d="M19 9a7 7 0 01-12 5"></path></svg></span><span class="syn">SYNTHETIC</span><button class="bb" type="button" style="height:36px" onClick="{{ reset }}">Reset</button></div>
+<div class="hd"><div class="count dsp" role="img" aria-label="{{ countAria }}"><sc-for list="{{ digits }}" as="dd" hint-placeholder-count="1"><span class="dg" aria-hidden="true"><span class="stk" style="{{ dd.shift }}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span></sc-for></div><div class="cl dsp">{{ countLabel }}</div></div>
+<div class="{{ bubCls }}" role="status">
+<div class="bl"><span class="av" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F6F3EB" stroke-width="2.4" stroke-linecap="round"><path d="M5 15a7 7 0 0112-5"></path><path d="M19 9a7 7 0 01-12 5"></path></svg><i class="{{ avDot }}"></i></span><div class="btxt">{{ say }}<sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></sc-if></div></div>
+<sc-if value="{{ showAsk }}" hint-placeholder-val="{{ true }}"><div class="brow"><button class="bb bb-b" type="button" onClick="{{ upload }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>Snap my letter</button><button class="bb" type="button" onClick="{{ notSure }}">Not sure</button></div></sc-if>
+</div>
+<div class="deck">
+<sc-for list="{{ ghosts }}" as="gh" hint-placeholder-count="2"><div class="{{ gh.cls }}"></div></sc-for>
+<sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}">
+<article class="{{ top.cls }}" style="{{ top.transform }}" onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" aria-label="{{ top.aria }}">
+<span class="stamp stR" style="opacity: {{ top.rOp }}">Interested</span>
+<span class="stamp stL" style="opacity: {{ top.lOp }}">Not for me</span>
+<div class="phero"><sc-if value="{{ top.hasImg }}" hint-placeholder-val="{{ true }}"><img class="himg" src="{{ top.img }}" alt="" draggable="false"></sc-if><sc-if value="{{ top.noImg }}" hint-placeholder-val="{{ false }}"><div class="hscene" style="{{ top.scene }}"><svg viewBox="0 0 360 168" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 168v-50h24v-22h18v22h14V78h22v40h16v-16h20V68l12-10 12 10v50h16V92h26v26h20V82h14l6-14 6 14h14v36h22v-20h28v20h20V74h24v44h16v-12h22v62z" fill="#19231F" opacity=".82"></path></svg></div></sc-if><span class="tchip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="14" rx="3"></rect><path d="M6 11h12M9 21l1.5-4M15 21l-1.5-4"></path></svg>{{ top.travel }}</span><div class="segs" role="img" aria-label="{{ top.segAria }}"><sc-for list="{{ top.segs }}" as="sg" hint-placeholder-count="6"><span class="{{ sg.cls }}" style="{{ sg.delay }}"></span></sc-for></div></div>
+<div class="pbody">
+<h2 class="tt dsp">{{ top.title }}</h2>
+<div class="facts"><span class="fact"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="7" rx="3.5" transform="rotate(-35 12 12)"></rect><path d="M9.5 8l5 8"></path></svg>{{ top.how }}</span><span class="fact">{{ top.phase }}</span><span class="fact"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0118.5 10c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>{{ top.place }}</span></div>
+<div class="chk"><sc-for list="{{ top.items }}" as="it" hint-placeholder-count="2"><div class="ci"><span class="{{ it.cls }}"></span>{{ it.t }}</div></sc-for></div>
+<button class="more" type="button" onClick="{{ openAbout }}">What's involved</button>
+</div>
+</article>
+</sc-if>
+<sc-if value="{{ showEmpty }}" hint-placeholder-val="{{ false }}"><div class="empty"><div><div class="dsp" style="font-size:24px;font-weight:700;color:#12131C">That's everything for now.</div><button class="bb" type="button" style="margin-top:12px" onClick="{{ reset }}">See them again</button></div></div></sc-if>
+<sc-if value="{{ mutual }}" hint-placeholder-val="{{ false }}"><div class="mutual" role="status"><div class="mm" aria-hidden="true"><span class="m1"></span><span class="m2"></span><span class="mc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></span></div><div class="dsp" style="font-size:28px;font-weight:700;line-height:1.1">You both said yes</div><div style="font-size:15px">The CodeBreaK 202 team will call to arrange a chat. Simulated.</div><button class="bb" type="button" style="color:#12131C" onClick="{{ closeMutual }}">Keep looking</button></div></sc-if>
+</div>
+<div class="acts">
+<button class="big" type="button" aria-label="Not for me" onClick="{{ left }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2362B" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<button class="save" type="button" onClick="{{ save }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17L12 16.5l-5.5 4z"></path></svg>Save</button>
+<button class="{{ yesCls }}" type="button" aria-label="I'm interested" onClick="{{ right }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="{{ yesStroke }}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="{{ burstCls }}" aria-hidden="true"><sc-for list="{{ rays }}" as="ry" hint-placeholder-count="8"><span class="ray" style="{{ ry.rot }}"><span class="pt" style="{{ ry.col }}"></span></span></sc-for></span></button>
+</div>
+<nav class="nav" aria-label="Main">
+<a class="nb on" href="#" aria-current="page" aria-label="Studies"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="6" width="14" height="14" rx="3"></rect><path d="M8 3h8"></path></svg></a>
+<a class="nb" href="#" aria-label="My profile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1-4.4 4.2-6.5 8-6.5s7 2.1 8 6.5"></path></svg></a>
+<a class="nb" href="#" aria-label="{{ msgAria }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg><sc-if value="{{ hasMsg }}" hint-placeholder-val="{{ false }}"><span class="badge">1</span></sc-if></a>
+</nav>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div class="{{ toastCls }}" role="status"><span>{{ toastMsg }}</span><sc-if value="{{ toastUndo }}" hint-placeholder-val="{{ true }}"><button class="tbtn" type="button" onClick="{{ undo }}">Undo</button></sc-if><span class="drain"></span></div></sc-if>
+<sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+<div class="scrim" onClick="{{ closeSheet }}"></div>
+<div class="sheet" role="dialog" aria-label="{{ sheetTitle }}">
+<div class="grab"></div>
+<h3 class="sh dsp">{{ sheetTitle }}</h3>
+<sc-if value="{{ sheetReasons }}" hint-placeholder-val="{{ true }}"><div class="rs"><sc-for list="{{ reasons }}" as="rs" hint-placeholder-count="4"><button class="rb" type="button" onClick="{{ rs.pick }}">{{ rs.label }}</button></sc-for></div></sc-if>
+<sc-if value="{{ sheetAbout }}" hint-placeholder-val="{{ false }}"><div class="dl"><div><b>What it tests</b>{{ about.what }}</div><div><b>Why it might suit you</b>Your type and stage of lung cancer, and no treatment yet for advanced disease.</div><div><b>Visits and support</b>Not listed in the registry. Ask the team.</div><div><b>Team</b>{{ about.site }} · contact simulated</div><a class="mono" href="{{ about.url }}" target="_blank" rel="noopener">{{ about.nct }} on ClinicalTrials.gov ↗</a></div></sc-if>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = this.fresh(); this.timers = []; }
+  fresh() { return { phase: 0, upd: 0, decided: {}, saved: [], dx: 0, drag: false, sx: 0, fly: '', sheet: '', mutual: false, invitedBy: '', gen: 0, bub: 0, toast: null, tk: 0 }; }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  wait(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  notify(msg, undo) { const tk = this.state.tk + 1; this.setState({ toast: { msg: msg, undo: undo }, tk: tk }); this.wait(() => { if (this.state.tk === tk) this.setState({ toast: null }); }, 5300); }
+  T() {
+    return [
+      { id: 'cbk', title: 'Sotorasib with chemotherapy, as a first treatment', acr: 'CodeBreaK 202 · Phase 3', nct: 'NCT05920356', site: 'Royal Marsden, London · 3 mi', what: 'Whether sotorasib tablets with chemotherapy work better than immunotherapy with chemotherapy for KRAS G12C lung cancer.', b: 'ouuu-uooo-s', a: 'oooo-oooo-s' },
+      { id: 'kan', title: 'Calderasib with immunotherapy, as a first treatment', acr: 'KANDLELIT-007 · Phase 3', nct: 'NCT07190248', site: 'Royal Free, London · 4 mi', what: 'Whether calderasib added to immunotherapy helps people with KRAS G12C lung cancer.', b: 'ou----o-o-s', a: 'oo----o-o-s' },
+      { id: 'kra', title: 'Divarasib with immunotherapy, as a first treatment', acr: 'Krascendo 2 · Phase 3', nct: 'NCT06793215', site: 'Barts, London · 1 mi', what: 'Whether divarasib with immunotherapy works better than immunotherapy with chemotherapy for KRAS G12C lung cancer.', b: 'ouuuuuooou-', a: 'ooooooooou-' },
+      { id: 'alk', title: 'Neladalkib for ALK-positive lung cancer', acr: 'ALKAZAR · Phase 3', nct: 'NCT06765109', site: "Guy's, London · 1 mi", what: 'Whether neladalkib works better than alectinib for ALK-positive lung cancer.', b: '-uuuu-o----', a: '-xoxo-o----' },
+      { id: 'alp', title: 'Firmonertinib for uncommon EGFR changes', acr: 'ALPACCA · Phase 3', nct: 'NCT07185997', site: 'UCLH, London · 1 mi', what: 'Whether firmonertinib works better than standard tablets for uncommon EGFR changes.', b: 'o-u---o----', a: 'o-x---o----' },
+      { id: 'cop', title: 'Amivantamab injections for common EGFR changes', acr: 'COPERNICUS · Phase 2', nct: 'NCT06667076', site: "Guy's and St Thomas', London · 1 mi", what: 'How well amivantamab given as an injection works for common EGFR changes.', b: 'o-u--------', a: 'o-x--------' }
+    ];
+  }
+  renderVals() {
+    const s = this.state, T = this.T();
+    const idx = (id) => T.findIndex((t) => t.id === id);
+    const isUpd = (id) => s.phase >= 3 || (s.phase === 2 && s.upd > idx(id));
+    const stOf = (id) => isUpd(id) ? T[idx(id)].a : T[idx(id)].b;
+    const fits = (id) => stOf(id).indexOf('x') < 0;
+    const live = T.filter((t) => !s.decided[t.id] && fits(t.id)).map((t) => t.id);
+    const order = live.slice().sort((a, b) => (s.saved.indexOf(a) >= 0 ? 1 : 0) - (s.saved.indexOf(b) >= 0 ? 1 : 0) || idx(a) - idx(b));
+    const topId = order[0];
+    const COLS = ['Hist', 'KRAS', 'EGFR', 'ALK', 'HER2', 'PD-L1', 'Prior', 'ECOG', 'CNS', 'Bloods', 'Screen'];
+    const INFO = {
+      cbk: { travel: '≈ 25 min', how: 'Tablets + drip', ph: 'Phase 3', place: 'Chelsea', img: '/_blob/57ec11008e1d8cf76f4214cb68db9e0e' },
+      kan: { travel: '≈ 30 min', how: 'Tablets + injection', ph: 'Phase 3', place: 'Hampstead', scene: 'background: linear-gradient(180deg,#E3EBDD 0%,#B7C8AE 100%)' },
+      kra: { travel: '≈ 15 min', how: 'Tablets + drip', ph: 'Phase 3', place: 'City', scene: 'background: linear-gradient(180deg,#F1E8DA 0%,#D8C3A6 100%)' },
+      alk: { travel: '≈ 15 min', how: 'Tablets', ph: 'Phase 3', place: 'London Bridge', scene: 'background: linear-gradient(180deg,#DCE6EE 0%,#AFC2D0 100%)' },
+      alp: { travel: '≈ 15 min', how: 'Tablets', ph: 'Phase 3', place: 'Euston', img: '/_blob/80d3492a803e652fd109abc37cebc8aa' },
+      cop: { travel: '≈ 15 min', how: 'Injection + tablets', ph: 'Phase 2', place: 'London Bridge', scene: 'background: linear-gradient(180deg,#DCE6EE 0%,#AFC2D0 100%)' }
+    };
+    const PLAIN = { KRAS: 'A gene test result (KRAS)', EGFR: 'Other gene results', ALK: 'Other gene results', HER2: 'Other gene results', 'PD-L1': 'A tumour marker result (PD-L1)', Bloods: 'Recent blood tests', Screen: 'Final checks by the study team' };
+    let top = null;
+    if (topId && !s.mutual) {
+      const t = T[idx(topId)], st = stOf(topId);
+      const vis = COLS.map((c, j) => ({ c: c, v: st[j], b: t.b[j] })).filter((x) => x.v !== '-');
+      const seen = {};
+      const items = vis.filter((x) => x.v === 'u' || x.v === 's').map((x) => ({ cls: 'k k-' + x.v, t: PLAIN[x.c] || x.c })).filter((x) => (seen[x.t] ? false : (seen[x.t] = true))).slice(0, 1);
+      const dx = s.drag ? s.dx : 0;
+      const inf = INFO[topId];
+      top = {
+        title: t.title, acr: t.acr, site: t.site, travel: inf.travel, how: inf.how, phase: inf.ph, place: inf.place,
+        img: inf.img || '', hasImg: !!inf.img, noImg: !inf.img, scene: inf.scene || '',
+        segs: vis.map((x, i) => ({ cls: 'seg s-' + x.v + (isUpd(topId) && x.v !== x.b ? ' pop' : ''), delay: 'animation-delay: ' + (i * 40) + 'ms' })),
+        segAria: vis.filter((x) => x.v === 'o').length + ' of ' + vis.length + ' checks done',
+        items: items.length ? items : [{ cls: 'k k-o', t: 'Nothing more needed from you' }],
+        cls: 'now ' + (s.drag ? 'drag' : 'settle') + (s.fly ? ' fly' + s.fly : (s.gen % 2 ? ' inA' : ' inB')),
+        transform: 'transform: translateX(' + dx + 'px) rotate(' + (dx / 22).toFixed(2) + 'deg)',
+        rOp: String(Math.max(0, Math.min(1, dx / 110))), lOp: String(Math.max(0, Math.min(1, -dx / 110))),
+        aria: t.title + '. Drag right if you are interested, left if not.'
+      };
+    }
+    const decide = (id, kind, msg) => {
+      this.setState({ fly: kind === 'yes' ? 'R' : 'L', sheet: '', dx: 0, drag: false });
+      this.wait(() => {
+        const d = Object.assign({}, this.state.decided); d[id] = kind;
+        this.setState({ decided: d, fly: '', gen: this.state.gen + 1 });
+        this.notify(msg, () => { const d2 = Object.assign({}, this.state.decided); delete d2[id]; this.setState({ decided: d2, gen: this.state.gen + 1, invitedBy: this.state.invitedBy === id ? '' : this.state.invitedBy }); });
+        if (kind === 'yes') { this.setState({ bub: this.state.bub + 1 }); this.wait(() => { if (this.state.decided[id] === 'yes') this.setState({ invitedBy: id, mutual: id === 'cbk', bub: this.state.bub + 1 }); }, 1600); }
+      }, 330);
+    };
+    const n = order.length;
+    let say = 'Some studies need your gene test results. Got a hospital letter?', typing = false, ask = true, dot = 'beat';
+    if (s.phase === 1) { say = 'That\'s fine. I\'ve asked your care team for it. Simulated.'; ask = false; dot = ''; }
+    if (s.phase === 2) { say = 'Reading your letter'; typing = true; ask = false; dot = ''; }
+    if (s.phase >= 3) { say = 'Found KRAS G12C and PD-L1 0 on page 1. Three studies no longer fit; three still might.'; ask = false; dot = ''; }
+    const yes = Object.keys(s.decided).filter((k) => s.decided[k] === 'yes');
+    if (yes.length && s.phase >= 3) { say = s.invitedBy ? 'The ' + T[idx(s.invitedBy)].acr.split(' · ')[0] + ' team wants to talk. Simulated.' : 'Sent. The team sees your profile because you agreed to share it.'; }
+    const RAYC = ['#FF5B2E', '#3158DB', '#197654', '#F0508C', '#6C63FF', '#FF8A3D', '#4CC38A', '#8FA8FF'];
+    const about = topId ? T[idx(topId)] : T[0];
+    return {
+      reset: () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState(this.fresh()); },
+      digits: String(n).split('').map((d) => ({ shift: 'transform: translateY(-' + d + 'em)' })),
+      countAria: n + ' studies might suit you', countLabel: n === 1 ? 'study might suit you' : 'studies might suit you',
+      bubCls: 'bub ' + (s.bub % 2 ? 'inA' : 'inB'), say: say, typing: typing, showAsk: ask, avDot: dot,
+      upload: () => {
+        if (s.phase >= 2) return;
+        this.setState({ phase: 2, upd: 0, bub: s.bub + 1 });
+        for (let i = 1; i <= 6; i++) this.wait(() => this.setState({ upd: i }), 500 + i * 220);
+        this.wait(() => this.setState({ phase: 3, gen: this.state.gen + 1, bub: this.state.bub + 1 }), 500 + 7 * 220);
+      },
+      notSure: () => this.setState({ phase: 1, bub: s.bub + 1 }),
+      ghosts: order.slice(1, 3).map((x, i) => ({ cls: 'gc ' + (i === 0 ? 'g1' : 'g2') })).reverse(),
+      hasTop: !!top, top: top || { segs: [], items: [], cls: 'now', transform: '', aria: '', rOp: '0', lOp: '0', segAria: '', title: '', acr: '', site: '', travel: '', how: '', phase: '', place: '', img: '', hasImg: false, noImg: false, scene: '' }, showEmpty: !top && !s.mutual, mutual: s.mutual,
+      closeMutual: () => this.setState({ mutual: false, gen: s.gen + 1 }),
+      down: (e) => { if (s.fly || s.sheet) return; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} this.setState({ drag: true, sx: e.clientX, dx: 0 }); },
+      move: (e) => { if (this.state.drag) this.setState({ dx: e.clientX - this.state.sx }); },
+      up: () => { const dx = this.state.dx; if (!this.state.drag) return; this.setState({ drag: false, dx: 0 }); if (dx > 100 && topId) decide(topId, 'yes', 'Interest sent'); else if (dx < -100 && topId) this.setState({ sheet: 'reasons' }); },
+      right: () => { if (topId) decide(topId, 'yes', 'Interest sent'); },
+      left: () => { if (topId) this.setState({ sheet: 'reasons' }); },
+      save: () => { if (topId) { this.setState({ saved: s.saved.filter((x) => x !== topId).concat([topId]), gen: s.gen + 1 }); this.notify('Saved for later', () => this.setState({ saved: this.state.saved.filter((x) => x !== topId) })); } },
+      yesCls: 'big' + (s.fly === 'R' ? ' on' : ''), yesStroke: s.fly === 'R' ? '#FFFFFF' : '#197654', burstCls: 'burst' + (s.fly === 'R' ? ' on' : ''),
+      rays: RAYC.map((c, i) => ({ rot: 'transform: rotate(' + (i * 45) + 'deg)', col: 'background: ' + c })),
+      hasMsg: !!s.invitedBy, msgAria: s.invitedBy ? 'Messages, 1 new' : 'Messages',
+      sheetOpen: !!s.sheet, sheetReasons: s.sheet === 'reasons', sheetAbout: s.sheet === 'about',
+      sheetTitle: s.sheet === 'reasons' ? 'Why not this one?' : about.title,
+      reasons: ['Too far to travel', 'I prefer another option', 'The timing doesn\'t work', 'Something else'].map((r) => ({ label: r, pick: () => { if (topId) decide(topId, 'no', 'Set aside · ' + r.toLowerCase()); } })),
+      openAbout: () => this.setState({ sheet: 'about' }), closeSheet: () => this.setState({ sheet: '' }),
+      about: { what: about.what, site: about.site, nct: about.nct, url: 'https://clinicaltrials.gov/study/' + about.nct },
+      undo: () => { const u = s.toast && s.toast.undo; this.setState({ toast: null }); if (u) u(); },
+      hasToast: !!s.toast, toastMsg: s.toast ? s.toast.msg : '', toastUndo: !!(s.toast && s.toast.undo), toastCls: 'toast ' + (s.tk % 2 ? 'tA' : 'tB')
+    };
+  }
+}
+</script>
+</body>
+</html>

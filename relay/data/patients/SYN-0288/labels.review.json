@@ -1,0 +1,8 @@
+{
+  "patientId": "SYN-0288",
+  "reviewer": null,
+  "reviewedOn": null,
+  "agreement": null,
+  "disagreements": [],
+  "note": "Slot for an independent second reviewer of labels.gold.json. Empty: not yet reviewed."
+}

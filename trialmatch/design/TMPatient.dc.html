@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TrialMatch · Patient swipe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#f3f6f9}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;margin:0;padding:0}
+a{color:inherit;text-decoration:none}
+.ph{position:relative;width:390px;height:844px;overflow:hidden;background:#f3f6f9;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#14202e;font-size:15px;line-height:1.4;display:flex;flex-direction:column}
+.dsp{font-family:'Bricolage Grotesque','IBM Plex Sans',sans-serif;letter-spacing:-.02em}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px}
+.top{display:flex;align-items:center;gap:8px;padding:14px 16px 6px}
+.logo{display:flex;align-items:center;gap:6px;font:800 19px 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em}
+.mode{margin-left:auto;display:flex;padding:3px;border-radius:999px;background:#fff;border:1px solid #dde3ea}
+.mode a{height:32px;padding:0 12px;border-radius:999px;display:grid;place-items:center;font-size:13.5px;font-weight:600;color:#5b6878}
+.mode a.on{background:#fdecef;color:#c8304a}
+.hello{display:flex;align-items:center;gap:10px;padding:8px 16px 10px}
+.av{width:44px;height:44px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 0 0 3px #fff,0 0 0 4px #dde3ea}
+.av img{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block}
+.h1{font-size:22px;font-weight:700;line-height:1.05}
+.left{margin-left:auto;color:#5b6878}
+.deck{position:relative;margin:0 16px;height:438px}
+.ghost{position:absolute;inset:0;border-radius:24px;background:#fff;border:1px solid #dde3ea;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+.g1{transform:translateY(10px) scale(.955);opacity:.7}.g2{transform:translateY(20px) scale(.91);opacity:.4}
+.card{position:absolute;inset:0;border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 10px 30px rgba(20,32,46,.12),0 2px 6px rgba(20,32,46,.06);display:flex;flex-direction:column;touch-action:pan-y;user-select:none;cursor:grab}
+.card.settle{transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.card.inA{animation:riseA .5s cubic-bezier(.22,1,.36,1) both}.card.inB{animation:riseB .5s cubic-bezier(.22,1,.36,1) both}
+.card.flyR{animation:flyR .34s cubic-bezier(.5,0,.2,1) forwards}.card.flyL{animation:flyL .34s cubic-bezier(.5,0,.2,1) forwards}.card.flyD{animation:flyD .4s cubic-bezier(.5,0,.2,1) forwards}
+.photo{position:relative;height:186px;flex:none;background:#dde3ea;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:center 62%;display:block;pointer-events:none;transform:scale(1.02);transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.card:hover .photo img{transform:scale(1.07)}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,32,46,0) 45%,rgba(20,32,46,.55) 100%)}
+.scene{position:absolute;inset:0}
+.scene svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.where{position:absolute;left:12px;bottom:10px;z-index:2;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:999px;background:rgba(255,255,255,.92);color:#14202e;font-size:13px;font-weight:600}
+.uk{position:absolute;right:12px;top:12px;z-index:2;height:28px;padding:0 10px;border-radius:999px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:600}
+.uk-y{background:#e6f4f2;color:#0f6b62}.uk-n{background:#fff3e6;color:#9a4f08}
+.stamp{position:absolute;top:16px;z-index:3;padding:4px 10px;border:3px solid;border-radius:10px;font:800 14px 'IBM Plex Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;pointer-events:none;background:rgba(255,255,255,.85)}
+.stR{left:14px;color:#c8304a;border-color:#e2445c;transform:rotate(-8deg)}.stL{right:14px;color:#5b6878;border-color:#9aa7b6;transform:rotate(8deg)}
+.body{padding:14px 16px 12px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0}
+.tt{font-size:21px;font-weight:700;line-height:1.12;margin:0}
+.meta{color:#5b6878}
+.score{display:flex;align-items:center;gap:10px;margin-top:2px}
+.segs{display:flex;gap:4px}
+.seg{width:22px;height:7px;border-radius:7px;transition:background .35s ease,box-shadow .35s ease}
+.s-met{background:#1f7a3d}.s-unknown{box-shadow:inset 0 0 0 1.6px #6b5bd2;background:#f1effd}
+.seg.pop{animation:segpop .42s cubic-bezier(.34,1.56,.64,1) both}
+.stext{font-size:14px;font-weight:600;color:#14202e}
+.ring{position:relative;width:58px;height:58px;flex:none}
+.ring svg{display:block}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font:800 15px 'Bricolage Grotesque',sans-serif}
+.more{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:4px;height:36px;color:#5b6878;font-size:14px;font-weight:600}
+.acts{display:flex;align-items:flex-start;justify-content:center;gap:40px;padding:14px 0 4px}
+.act{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12.5px;color:#5b6878;font-weight:500}
+.round{position:relative;width:62px;height:62px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(20,32,46,.12);transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.round:hover{transform:translateY(-2px)}.round:active{transform:scale(.88)}
+.round.on{background:#e2445c}
+.burst{position:absolute;inset:0;pointer-events:none}
+.ray{position:absolute;left:50%;top:50%;width:0;height:0}
+.pt{position:absolute;left:-3.5px;top:-3.5px;width:7px;height:7px;border-radius:50%;opacity:0}
+.burst.on .pt{animation:burst .65s cubic-bezier(.22,1,.36,1) forwards}
+.qbar{margin:6px 16px 0;height:50px;border-radius:14px;background:#efedfc;color:#4f43b3;display:flex;align-items:center;gap:8px;padding:0 14px;font-weight:600;font-size:14.5px;width:calc(100% - 32px);text-align:left;transition:background .15s ease}
+.qbar:hover{background:#e6e2fb}
+.qbar span{flex:1}
+.qn{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:11px;background:#6b5bd2;color:#fff;font-size:12px;font-weight:700}
+.nav{margin-top:auto;display:flex;justify-content:space-around;padding:6px 8px 12px;background:#fff;border-top:1px solid #dde3ea}
+.nb{position:relative;flex:1;height:52px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11.5px;font-weight:600;color:#5b6878}
+.nb.on{color:#c8304a}
+.nbadge{position:absolute;top:4px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#e2445c;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;animation:popin .45s cubic-bezier(.34,1.9,.64,1) both}
+.picks{margin:0 16px;display:grid;gap:10px;overflow:auto;height:560px;align-content:start}
+.pick{display:flex;gap:12px;align-items:center;padding:10px;border-radius:18px;background:#fff;border:1px solid #dde3ea;animation:dropA .5s cubic-bezier(.22,1,.36,1) both}
+.pthumb{width:64px;height:64px;border-radius:14px;overflow:hidden;flex:none;position:relative;background:#dde3ea}
+.pthumb img{width:100%;height:100%;object-fit:cover}
+.pst{font-size:13px;font-weight:600}
+.st-wait{color:#9a4f08}.st-match{color:#c8304a}
+.empty{display:grid;place-items:center;height:100%;text-align:center;color:#5b6878;border:2px dashed #dde3ea;border-radius:24px;padding:24px}
+.scrim{position:absolute;inset:0;z-index:40;background:rgba(20,32,46,.32);animation:fadeIn .25s ease both}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:41;background:#fff;border-radius:24px 24px 0 0;padding:10px 18px 22px;animation:sheetIn .4s cubic-bezier(.22,1,.36,1) both;max-height:80%;overflow:auto}
+.grab{width:40px;height:5px;border-radius:3px;background:#dde3ea;margin:0 auto 12px}
+.sh{font-size:22px;font-weight:700;margin:0 0 12px;line-height:1.15}
+.opt{display:block;width:100%;min-height:52px;margin-bottom:8px;padding:0 16px;border-radius:14px;border:1px solid #dde3ea;text-align:left;font-weight:600;font-size:15px;transition:border-color .15s ease,background .15s ease}
+.opt:hover{border-color:#6b5bd2;background:#f7f6fe}
+.crit{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eef1f5;font-size:14.5px}
+.ic{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:12px;font-weight:800;color:#fff}
+.ic-met{background:#1f7a3d}.ic-unknown{background:#fff;box-shadow:inset 0 0 0 2px #6b5bd2;color:#6b5bd2}
+.lbl{font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#5b6878;margin:14px 0 4px}
+.match{position:absolute;inset:0;z-index:50;background:rgba(20,32,46,.86);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#fff;text-align:center;padding:28px;animation:fadeIn .3s ease both}
+.pair{position:relative;width:250px;height:120px}
+.mp{position:absolute;top:0;width:120px;height:120px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 4px #fff}
+.mp img{width:100%;height:100%;object-fit:cover}
+.mp1{left:0;animation:inL .6s cubic-bezier(.34,1.56,.64,1) .1s both}.mp2{right:0;animation:inR .6s cubic-bezier(.34,1.56,.64,1) .1s both}
+.mh{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:#e2445c;display:grid;place-items:center;z-index:2;transform:scale(0);animation:mpop .4s cubic-bezier(.34,1.9,.64,1) .55s forwards;box-shadow:0 0 0 4px #fff}
+.mt{font:800 38px 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;animation:riseA .5s cubic-bezier(.22,1,.36,1) .5s both}
+.toast{position:absolute;left:16px;right:16px;bottom:84px;z-index:35;display:flex;align-items:center;gap:10px;min-height:50px;padding:0 8px 0 14px;border-radius:14px;background:#14202e;color:#fff;font-size:14px;overflow:hidden;box-shadow:0 12px 28px rgba(20,32,46,.3)}
+.toast.tA{animation:toastA .45s cubic-bezier(.34,1.56,.64,1) both}.toast.tB{animation:toastB .45s cubic-bezier(.34,1.56,.64,1) both}
+.tbtn{margin-left:auto;height:36px;padding:0 12px;border-radius:10px;background:#2a3644;color:#fff;font-weight:600}
+.drain{position:absolute;left:0;bottom:0;height:3px;background:#e2445c;animation:drain 5.2s linear forwards}
+:focus-visible{outline:2px solid #2b6fd6;outline-offset:3px}
+@keyframes riseA{0%{opacity:.4;transform:translateY(12px) scale(.955)}100%{opacity:1;transform:none}}
+@keyframes riseB{0%{opacity:.4;transform:translateY(12px) scale(.955)}100%{opacity:1;transform:none}}
+@keyframes flyR{to{transform:translate(130%,-20px) rotate(16deg);opacity:0}}
+@keyframes flyL{to{transform:translate(-130%,-20px) rotate(-16deg);opacity:0}}
+@keyframes flyD{to{transform:translateY(110%) rotate(4deg);opacity:0}}
+@keyframes segpop{0%{transform:scaleY(.4)}60%{transform:scaleY(1.9)}100%{transform:scaleY(1)}}
+@keyframes burst{0%{transform:translateX(20px) scale(1);opacity:1}100%{transform:translateX(52px) scale(.2);opacity:0}}
+@keyframes popin{0%{transform:scale(.3)}100%{transform:scale(1)}}
+@keyframes dropA{0%{opacity:0;transform:translateY(-12px) scale(.97)}60%{opacity:1;transform:translateY(3px)}100%{transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetIn{from{transform:translateY(100%)}to{transform:none}}
+@keyframes inL{from{transform:translateX(-80px) rotate(-10deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes inR{from{transform:translateX(80px) rotate(10deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes mpop{to{transform:scale(1)}}
+@keyframes toastA{0%{opacity:0;transform:translateY(18px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes toastB{0%{opacity:0;transform:translateY(18px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes drain{from{width:100%}to{width:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.mh{transform:none}}
+</style>
+</helmet>
+<div class="ph">
+<div class="top"><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.8-8-11a4.4 4.4 0 0 1 8-2.6A4.4 4.4 0 0 1 20 10c0 6.2-8 11-8 11z" fill="#e2445c"></path><path d="M6.5 11.5h3l1.2-2.4 2 4.8 1.3-2.4h3.5" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>TrialMatch</span><nav class="mode" aria-label="Mode"><a class="on" href="#" aria-current="page">Patient</a><a href="TMStaff.dc.html">Staff</a></nav></div>
+<div class="hello"><span class="av" title="Stock photo, posed by model"><img src="/_blob/95941b4e39615538db6397ed85e29d5e" alt="Demo patient"></span><div><div class="h1 dsp">{{ heading }}</div><div class="mono" style="color:#5b6878">TCGA-99-8033 · demo</div></div><span class="left mono">{{ leftText }}</span></div>
+<sc-if value="{{ isSwipe }}" hint-placeholder-val="{{ true }}">
+<div class="deck">
+<sc-for list="{{ ghosts }}" as="gh" hint-placeholder-count="2"><div class="{{ gh.cls }}"></div></sc-for>
+<sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}">
+<article class="{{ top.cls }}" style="{{ top.transform }}" onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" aria-label="{{ top.aria }}">
+<span class="stamp stR" style="opacity: {{ top.rOp }}">Interested</span>
+<span class="stamp stL" style="opacity: {{ top.lOp }}">Not for me</span>
+<div class="photo"><sc-if value="{{ top.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ top.img }}" alt="" draggable="false"></sc-if><sc-if value="{{ top.noImg }}" hint-placeholder-val="{{ false }}"><div class="scene" style="{{ top.scene }}"><svg viewBox="0 0 360 186" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="{{ top.skyline }}" fill="#14202e" opacity=".78"></path></svg></div></sc-if><span class="{{ top.ukCls }}">{{ top.uk }}</span><span class="where"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0118.5 10c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>{{ top.where }}</span></div>
+<div class="body">
+<h2 class="tt dsp">{{ top.title }}</h2>
+<div class="meta mono">{{ top.meta }}</div>
+<div class="score">
+<sc-if value="{{ showChecks }}" hint-placeholder-val="{{ true }}"><div class="segs" aria-hidden="true"><sc-for list="{{ top.segs }}" as="sg" hint-placeholder-count="3"><span class="{{ sg.cls }}" style="{{ sg.delay }}"></span></sc-for></div><span class="stext">{{ top.checks }}</span></sc-if>
+<sc-if value="{{ showRing }}" hint-placeholder-val="{{ false }}"><div class="ring" aria-hidden="true"><svg width="58" height="58" viewBox="0 0 58 58"><circle cx="29" cy="29" r="24" fill="none" stroke="#eef1f5" stroke-width="6"></circle><circle cx="29" cy="29" r="24" fill="none" stroke="#e2445c" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ top.dash }}" transform="rotate(-90 29 29)" style="transition: stroke-dasharray .5s cubic-bezier(.22,1,.36,1)"></circle></svg><b>{{ top.pct }}</b></div><span class="stext">{{ top.checks }}</span></sc-if>
+</div>
+<button class="more" type="button" onClick="{{ openDetails }}">Tap for details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+</article>
+</sc-if>
+<sc-if value="{{ deckEmpty }}" hint-placeholder-val="{{ false }}"><div class="empty"><div><div class="dsp" style="font-size:22px;font-weight:700;color:#14202e">You've seen every pick.</div><button class="opt" type="button" style="margin-top:12px;text-align:center" onClick="{{ reset }}">See them again</button></div></div></sc-if>
+</div>
+<div class="acts">
+<div class="act"><button class="round" type="button" aria-label="Not for me" onClick="{{ left }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b6878" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>Not for me</div>
+<div class="act"><button class="{{ yesCls }}" type="button" aria-label="Interested" onClick="{{ right }}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.8-8-11a4.4 4.4 0 0 1 8-2.6A4.4 4.4 0 0 1 20 10c0 6.2-8 11-8 11z" fill="{{ yesFill }}"></path></svg><span class="{{ burstCls }}" aria-hidden="true"><sc-for list="{{ rays }}" as="ry" hint-placeholder-count="8"><span class="ray" style="{{ ry.rot }}"><span class="pt" style="{{ ry.col }}"></span></span></sc-for></span></button>Interested</div>
+</div>
+<sc-if value="{{ hasQ }}" hint-placeholder-val="{{ true }}"><button class="qbar" type="button" onClick="{{ openQ }}"><span class="qn">{{ qN }}</span><span>{{ qText }}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></sc-if>
+</sc-if>
+<sc-if value="{{ isPicks }}" hint-placeholder-val="{{ false }}">
+<div class="picks"><sc-for list="{{ picks }}" as="pk" hint-placeholder-count="2"><div class="pick"><div class="pthumb"><sc-if value="{{ pk.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ pk.img }}" alt=""></sc-if><sc-if value="{{ pk.noImg }}" hint-placeholder-val="{{ false }}"><div class="scene" style="{{ pk.scene }}"></div></sc-if></div><div style="min-width:0"><div style="font-weight:700;line-height:1.2">{{ pk.title }}</div><div class="{{ pk.stCls }}">{{ pk.status }}</div></div></div></sc-for>
+<sc-if value="{{ noPicks }}" hint-placeholder-val="{{ false }}"><div class="empty" style="height:240px">Tap the heart on a trial you'd like to talk about.</div></sc-if></div>
+</sc-if>
+<nav class="nav" aria-label="Pages">
+<button type="button" class="{{ navSwipe }}" onClick="{{ goSwipe }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="3"></rect><path d="M8 2h8"></path></svg>Swipe</button>
+<button type="button" class="nb" onClick="{{ openQ }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.5a2.5 2.5 0 015 0c0 1.7-2.5 2-2.5 3.5M12 17h.01"></path></svg>Questions<sc-if value="{{ hasQ }}" hint-placeholder-val="{{ true }}"><span class="nbadge">{{ qN }}</span></sc-if></button>
+<button type="button" class="{{ navPicks }}" onClick="{{ goPicks }}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.8-8-11a4.4 4.4 0 0 1 8-2.6A4.4 4.4 0 0 1 20 10c0 6.2-8 11-8 11z" fill="none" stroke="currentColor" stroke-width="2"></path></svg>My picks<sc-if value="{{ hasPicks }}" hint-placeholder-val="{{ false }}"><span class="nbadge">{{ nPicks }}</span></sc-if></button>
+</nav>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div class="{{ toastCls }}" role="status"><span>{{ toastMsg }}</span><sc-if value="{{ toastUndo }}" hint-placeholder-val="{{ true }}"><button class="tbtn" type="button" onClick="{{ undo }}">Undo</button></sc-if><span class="drain"></span></div></sc-if>
+<sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+<div class="scrim" onClick="{{ closeSheet }}"></div>
+<div class="sheet" role="dialog" aria-label="{{ sheetTitle }}">
+<div class="grab"></div>
+<h3 class="sh dsp">{{ sheetTitle }}</h3>
+<sc-if value="{{ isQ }}" hint-placeholder-val="{{ true }}"><sc-for list="{{ qOpts }}" as="qo" hint-placeholder-count="3"><button class="opt" type="button" onClick="{{ qo.pick }}">{{ qo.label }}</button></sc-for></sc-if>
+<sc-if value="{{ isDetails }}" hint-placeholder-val="{{ false }}"><div><div class="lbl">Why it might fit</div><sc-for list="{{ dRows }}" as="dr" hint-placeholder-count="3"><div class="crit"><span class="{{ dr.cls }}">{{ dr.mark }}</span><span style="flex:1">{{ dr.t }}</span></div></sc-for><div class="lbl">What it tests</div><div style="font-size:14.5px">{{ dWhat }}</div><div class="lbl">Visits and support</div><div style="font-size:14.5px">Not listed in the registry. Ask the research nurse.</div><div class="lbl">Source</div><a class="mono" href="{{ dUrl }}" target="_blank" rel="noopener" style="color:#2b6fd6">{{ dNct }} on ClinicalTrials.gov ↗</a></div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ matchOpen }}" hint-placeholder-val="{{ false }}">
+<div class="match" role="dialog" aria-label="It's a match"><div class="pair" aria-hidden="true"><span class="mp mp1"><img src="/_blob/95941b4e39615538db6397ed85e29d5e" alt=""></span><span class="mp mp2"><img src="{{ matchImg }}" alt=""></span><span class="mh"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-8-4.8-8-11a4.4 4.4 0 0 1 8-2.6A4.4 4.4 0 0 1 20 10c0 6.2-8 11-8 11z" fill="#fff"></path></svg></span></div><div class="mt">It's a match</div><div style="font-size:15px;max-width:290px">{{ matchText }}</div><button class="opt" type="button" style="width:auto;text-align:center;color:#14202e;background:#fff;padding:0 22px" onClick="{{ closeMatch }}">Keep swiping</button></div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"scoreStyle":{"editor":"enum","options":["checks","percent"],"default":"checks"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = this.fresh(); this.timers = []; }
+  fresh() { return { view: 'swipe', decided: {}, answers: {}, dx: 0, drag: false, sx: 0, fly: '', sheet: '', match: '', gen: 0, toast: null, tk: 0, qi: 0 }; }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  wait(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  notify(msg, undo) { const tk = this.state.tk + 1; this.setState({ toast: { msg: msg, undo: undo }, tk: tk }); this.wait(() => { if (this.state.tk === tk) this.setState({ toast: null }); }, 5300); }
+  cards() {
+    const SKY = 'M0 186v-56h26v-24h18v24h14V86h22v44h16v-18h20V74l12-10 12 10v56h16V100h26v30h20V90h14l6-14 6 14h14v40h22v-22h28v22h20V82h24v48h16v-14h22v70z';
+    return [
+      { nct: 'NCT06712316', title: 'BNT327 with chemotherapy, as a first treatment', meta: 'BioNTech · Phase 2/3', uk: '19 UK sites', ukCls: 'uk uk-y', where: 'Royal Marsden and 18 more', img: '/_blob/57ec11008e1d8cf76f4214cb68db9e0e', scene: '', skyline: SKY, labels: [['stage', 'met', 'Stage IV'], ['ecog', 'met', 'Up and about most of the day'], ['prior_lines', 'unknown', 'Treatment so far']], what: 'A new antibody, BNT327, given with chemotherapy to people starting treatment for advanced lung cancer.', firstLine: true },
+      { nct: 'NCT05085028', title: 'Pembrolizumab less often, with fewer hospital visits', meta: 'Imperial College London · Phase 3', uk: '37 UK sites', ukCls: 'uk uk-y', where: 'The Christie and 36 more', img: '/_blob/6eb69fe917023b5f6bff5bd920b5c32a', scene: '', skyline: SKY, labels: [['stage', 'met', 'Stage IV'], ['ecog', 'unknown', 'How you manage day to day'], ['prior_lines', 'unknown', 'Treatment so far']], what: 'Checks whether giving immunotherapy less often works as well and means fewer trips to hospital.', firstLine: false },
+      { nct: 'NCT07440290', title: 'Two targeted tablets for a BRAF gene change', meta: 'Cancer Research UK · Phase 2/3', uk: '27 UK sites', ukCls: 'uk uk-y', where: 'UCLH and 26 more', img: '/_blob/80d3492a803e652fd109abc37cebc8aa', scene: '', skyline: SKY, labels: [['stage', 'unknown', 'Stage'], ['ecog', 'unknown', 'How you manage day to day'], ['BRAF_V600E', 'unknown', 'BRAF V600E test result'], ['prior_lines', 'unknown', 'Treatment so far']], what: 'Dabrafenib with trametinib for lung cancers with a BRAF V600E change. Needs a fresh biopsy.', firstLine: false },
+      { nct: 'NCT04585490', title: 'A blood test to tailor treatment after chemoradiation', meta: 'Stanford University · Phase 3', uk: 'No UK site', ukCls: 'uk uk-n', where: 'United States only', img: '', scene: 'background: linear-gradient(180deg,#e6eef8 0%,#b9cbe3 100%)', skyline: SKY, labels: [['stage', 'met', 'Stage IV'], ['ecog', 'met', 'Up and about most of the day'], ['prior_lines', 'unknown', 'Treatment so far']], what: 'Uses ctDNA blood tests to decide on extra treatment after chemoradiation. Sites in the United States only.', firstLine: false }
+    ];
+  }
+  renderVals() {
+    const s = this.state, C = this.cards();
+    const style = this.props.scoreStyle || 'checks';
+    const resolve = (c) => c.labels.map((l) => {
+      let st = l[1];
+      if (l[0] === 'prior_lines' && s.answers.prior_lines) st = s.answers.prior_lines === 'none' ? 'met' : s.answers.prior_lines === 'some' ? (c.firstLine ? 'not_met' : 'met') : 'unknown';
+      if (l[0] === 'ecog' && st === 'unknown' && s.answers.ecog) st = s.answers.ecog === 'low' ? 'met' : s.answers.ecog === 'high' ? 'not_met' : 'unknown';
+      return { f: l[0], s: st, t: l[2], was: l[1] };
+    });
+    const live = C.filter((c) => !s.decided[c.nct] && resolve(c).every((l) => l.s !== 'not_met'));
+    const top = live[0];
+    let T = null;
+    if (top && !s.match) {
+      const L = resolve(top), met = L.filter((l) => l.s === 'met').length, unk = L.filter((l) => l.s === 'unknown').length;
+      const pct = Math.round(Math.pow(0.7, unk) * 100);
+      const dx = s.drag ? s.dx : 0;
+      const C2 = 2 * Math.PI * 24;
+      T = {
+        title: top.title, meta: top.meta, uk: top.uk, ukCls: top.ukCls, where: top.where, img: top.img, hasImg: !!top.img, noImg: !top.img, scene: top.scene, skyline: top.skyline,
+        segs: L.map((l, i) => ({ cls: 'seg s-' + l.s + (l.s !== l.was ? ' pop' : ''), delay: 'animation-delay: ' + (i * 60) + 'ms' })),
+        checks: met + ' fit' + (unk ? ' · ' + unk + ' to check' : ''), pct: pct + '%', dash: (C2 * pct / 100).toFixed(1) + ' ' + C2.toFixed(1),
+        cls: 'card ' + (s.drag ? '' : 'settle') + (s.fly ? ' fly' + s.fly : (s.gen % 2 ? ' inA' : ' inB')),
+        transform: 'transform: translateX(' + dx + 'px) rotate(' + (dx / 22).toFixed(2) + 'deg)',
+        rOp: String(Math.max(0, Math.min(1, dx / 110))), lOp: String(Math.max(0, Math.min(1, -dx / 110))),
+        aria: top.title + '. ' + met + ' fit, ' + unk + ' to check. Drag right if interested, left if not.'
+      };
+    }
+    const decide = (c, kind) => {
+      this.setState({ fly: kind === 'like' ? 'R' : 'L', dx: 0, drag: false });
+      this.wait(() => {
+        const d = Object.assign({}, this.state.decided); d[c.nct] = kind;
+        this.setState({ decided: d, fly: '', gen: this.state.gen + 1 });
+        const undo = () => { const d2 = Object.assign({}, this.state.decided); delete d2[c.nct]; this.setState({ decided: d2, gen: this.state.gen + 1, match: '' }); };
+        if (kind === 'like') {
+          this.notify('Sent to the research nurse', undo);
+          if (c.nct === 'NCT06712316') this.wait(() => { if (this.state.decided[c.nct] === 'like') this.setState({ match: c.nct }); }, 1500);
+        } else this.notify('Hidden from your picks', undo);
+      }, 330);
+    };
+    const Q = [
+      { f: 'prior_lines', t: 'Have you had treatment for cancer that has spread?', o: [['none', 'No, not yet'], ['some', 'Yes, I have'], ['unsure', 'I\'m not sure']] },
+      { f: 'ecog', t: 'How are you managing day to day?', o: [['low', 'Up and about most of the day'], ['high', 'Resting for more than half the day'], ['unsure', 'It varies']] }
+    ];
+    const openQs = Q.filter((q) => !s.answers[q.f]);
+    const q = openQs[0];
+    const answer = (f, v) => {
+      const a = Object.assign({}, s.answers); a[f] = v;
+      this.setState({ answers: a, sheet: openQs.length > 1 ? 'q' : '', gen: s.gen + 1 });
+      this.notify('Re-scored ' + C.length + ' trials' + (v === 'some' ? ' · 1 no longer fits' : v === 'high' ? ' · 2 no longer fit' : ''), () => { const a2 = Object.assign({}, this.state.answers); delete a2[f]; this.setState({ answers: a2, gen: this.state.gen + 1 }); });
+    };
+    const likes = C.filter((c) => s.decided[c.nct] === 'like');
+    const det = top || C[0];
+    const RAYC = ['#e2445c', '#2b6fd6', '#1f7a3d', '#f0508c', '#6b5bd2', '#ff8a3d', '#5fd18a', '#8fa8ff'];
+    return {
+      heading: s.view === 'picks' ? 'My picks' : 'Your trial picks', leftText: s.view === 'picks' ? likes.length + ' liked' : live.length + ' left',
+      isSwipe: s.view === 'swipe', isPicks: s.view === 'picks',
+      ghosts: live.slice(1, 3).map((x, i) => ({ cls: 'ghost ' + (i === 0 ? 'g1' : 'g2') })).reverse(),
+      hasTop: !!T, top: T || { segs: [], cls: 'card', transform: '', rOp: '0', lOp: '0', aria: '', title: '', meta: '', uk: '', ukCls: 'uk', where: '', img: '', hasImg: false, noImg: false, scene: '', skyline: '', checks: '', pct: '', dash: '0 1' },
+      deckEmpty: !top && !s.match, showChecks: style === 'checks', showRing: style === 'percent',
+      down: (e) => { if (s.fly || s.sheet || s.match) return; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} this.setState({ drag: true, sx: e.clientX, dx: 0 }); },
+      move: (e) => { if (this.state.drag) this.setState({ dx: e.clientX - this.state.sx }); },
+      up: () => { if (!this.state.drag) return; const dx = this.state.dx; this.setState({ drag: false, dx: 0 }); if (dx > 100 && top) decide(top, 'like'); else if (dx < -100 && top) decide(top, 'no'); },
+      right: () => { if (top) decide(top, 'like'); }, left: () => { if (top) decide(top, 'no'); },
+      yesCls: 'round' + (s.fly === 'R' ? ' on' : ''), yesFill: s.fly === 'R' ? '#ffffff' : '#e2445c', burstCls: 'burst' + (s.fly === 'R' ? ' on' : ''),
+      rays: RAYC.map((c, i) => ({ rot: 'transform: rotate(' + (i * 45) + 'deg)', col: 'background: ' + c })),
+      hasQ: openQs.length > 0, qN: String(openQs.length), qText: openQs.length + ' quick question' + (openQs.length > 1 ? 's' : '') + ' sharpen your picks',
+      openQ: () => { if (openQs.length) this.setState({ sheet: 'q' }); },
+      openDetails: () => this.setState({ sheet: 'details' }), closeSheet: () => this.setState({ sheet: '' }),
+      sheetOpen: !!s.sheet && (s.sheet !== 'q' || !!q), isQ: s.sheet === 'q', isDetails: s.sheet === 'details',
+      sheetTitle: s.sheet === 'q' && q ? q.t : det.title,
+      qOpts: q ? q.o.map((o) => ({ label: o[1], pick: () => answer(q.f, o[0]) })) : [],
+      dRows: resolve(det).map((l) => ({ cls: 'ic ic-' + l.s, mark: l.s === 'met' ? '✓' : '?', t: l.t })), dWhat: det.what, dNct: det.nct, dUrl: 'https://clinicaltrials.gov/study/' + det.nct,
+      goSwipe: () => this.setState({ view: 'swipe' }), goPicks: () => this.setState({ view: 'picks' }),
+      navSwipe: 'nb' + (s.view === 'swipe' ? ' on' : ''), navPicks: 'nb' + (s.view === 'picks' ? ' on' : ''),
+      hasPicks: likes.length > 0, nPicks: String(likes.length), noPicks: likes.length === 0,
+      picks: likes.map((c) => ({ title: c.title, img: c.img, hasImg: !!c.img, noImg: !c.img, scene: c.scene, status: s.match === c.nct || (c.nct === 'NCT06712316' && s.decided[c.nct] === 'like') ? 'It\'s a match · nurse will call (simulated)' : 'Research nurse reviewing', stCls: 'pst ' + (c.nct === 'NCT06712316' ? 'st-match' : 'st-wait') })),
+      matchOpen: !!s.match, matchImg: '/_blob/57ec11008e1d8cf76f4214cb68db9e0e', matchText: 'The research nurse at Royal Marsden passed your prescreen. They will call to arrange a chat. Simulated.',
+      closeMatch: () => this.setState({ match: '', gen: s.gen + 1 }),
+      reset: () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState(this.fresh()); },
+      undo: () => { const u = s.toast && s.toast.undo; this.setState({ toast: null }); if (u) u(); },
+      hasToast: !!s.toast, toastMsg: s.toast ? s.toast.msg : '', toastUndo: !!(s.toast && s.toast.undo), toastCls: 'toast ' + (s.tk % 2 ? 'tA' : 'tB')
+    };
+  }
+}
+</script>
+</body>
+</html>

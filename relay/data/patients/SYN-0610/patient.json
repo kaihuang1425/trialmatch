@@ -1,0 +1,39 @@
+{
+  "patientId": "SYN-0610",
+  "synthetic": true,
+  "summary": "67, non-squamous adenocarcinoma stage IVB, KRAS G12C, progressed after first-line carboplatin-pemetrexed-pembrolizumab, ECOG 1, treated stable brain metastases.",
+  "profile": {
+    "sex": "Male"
+  },
+  "preferences": {
+    "homeCity": "London",
+    "travelLimitMiles": 100,
+    "daysAvailable": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri"
+    ]
+  },
+  "documents": [
+    {
+      "id": "SYN-0610-REF",
+      "kind": "referral_summary",
+      "date": "2026-10-28",
+      "initial": true
+    },
+    {
+      "id": "SYN-0610-MOL",
+      "kind": "molecular",
+      "date": "2026-02-10",
+      "initial": true
+    },
+    {
+      "id": "SYN-0610-LAB",
+      "kind": "labs",
+      "date": "2026-10-28",
+      "initial": true
+    }
+  ]
+}

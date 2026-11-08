@@ -1,0 +1,18 @@
+{
+ "unknown_by_field": {
+  "prior_lines": 0.692,
+  "stage": 0.727,
+  "ecog": 0.727
+ },
+ "feasibility": {},
+ "agent_agreement": {},
+ "counts": {
+  "answer": 8,
+  "rule": 1,
+  "criterion": 6,
+  "outcome": 4
+ },
+ "patients_updated": 8,
+ "trial_rules_corrected": 1,
+ "pair_verdicts_applied": 10
+}
