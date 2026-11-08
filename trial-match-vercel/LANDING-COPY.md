@@ -31,8 +31,8 @@ Notes for editing:
 ## Hero
 
 - Pill (not a link): Team Legacy
-- Heading (*word by word*): 95% of patients would consider a trial if eligible.
-- Heading, second sentence (*gradient*): Yet most never hear about one.
+- Heading (*word by word*): 95% of patients are willing to join trials.
+- Heading, second sentence (*gradient*): Yet few ever hear about them.
 - Intro: Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.
 - Main button: Try the demo →
 - Second button: See how it works
@@ -42,51 +42,51 @@ Notes for editing:
 - Patient name: Mei, 63
 - Patient line: Patient · London
 - Tag 1: Lung adenocarcinoma, stage IV
-- Tag 2: EGFR exon 19
+- Tag 2: EGFR exon 19 deletion
 - Tag 3: Grew on osimertinib
 - Score (*counts up from 0*): 98
 - Score label: MATCH
 - Trial name: Phase III trial LT-301
 - Trial line: Recruiting · 3 miles away
-- Check 1: 8 of 8 entry rules checked
-- Check 2: Each fact traced to her record
+- Check 1: 8 of 8 requirements met
+- Check 2: Every fact verified against real sources
 - Caption: Illustrative example. Mei and LT-301 are synthetic.
 
 ## The gap (section link “The gap”)
 
-- Heading (*word by word*): UK trials open faster than ever.
-- Heading, second sentence (*grey*): Yet many sit empty for weeks, waiting for patients.
+- Heading (*word by word*): Trial teams in the UK open faster than ever.
+- Heading, second sentence (*grey*): Yet spend weeks empty waiting for patients.
 
 ### Left panel
 
 - Label: Patients
 - Number (*counts up from 0*): 95%
-- Text: would consider joining a trial if eligible
+- Text: would consider joining a trial
 - Number (*counts up from 0*, shown in red): 63%
 - Text: were never told about one
 
 ### Right panel
 
-- Label: Time to open a trial
+- Label: Administrative Time Taken to Open Trials
 - Number (*counts down from 169*): 122
-- Text: days to first patient in industry trials, down from 169
+- Text: days to recruit first patient, down from 169
 - Number (*counts up from 0*, shown in red): 4 in 10
-- Text: studies still had no patient a month after opening
+- Text: trials still had no patient a month after opening
 
 ### Closing line
 
-- Text: Patients are willing, and trials are open. What’s missing is the introduction. Today that depends on a busy doctor remembering which trials exist and checking each one’s rules by hand.
+- Text: Patients are willing, and trials are open. What’s missing is the connection. Today that depends on a busy doctor remembering which trials exist and checking each one’s rules by hand.
 
 ## Product (section link “Product”)
 
-- Heading (*word by word*): Trial Match makes the introduction.
+- Heading (*word by word*): Trial Match makes the connection.
 - Heading, second sentence (*gradient*): On both sides.
 
 ### For patients
 
 - Label: For patients
-- Heading: An agent that knows every trial you qualify for.
-- Text: Connect your record once. Your agent checks every open trial, asks you one question when something is missing, and shows only the trials that fit. Swipe right to apply, or let it apply for you.
+- Heading: An agent that finds every trial you qualify for.
+- Text: Connect your record once. Your agent checks every open trial, asks for required information when something is missing, and shows only the trials that fit. Swipe right to apply, or let it apply for you.
 - Link: Try it as a patient →
 - Video description (read by screen readers): Recording of the patient app: answering a question, then swiping right to apply
 - Badge under the video: Recorded live from the working app
@@ -98,12 +98,12 @@ Notes for editing:
 - Badge under the video: Recorded live from the working app
 - Label: For trial teams
 - Heading: A ranked shortlist in minutes, not weeks.
-- Text: Applicants arrive with every entry rule already checked. Compare two at a time with a swipe, invite the best to pre-screening, and the rest hear back straight away.
+- Text: Eligibility is checked before patients even arrive. From there, a quick swipe between two candidates builds the ranking, and the strongest matches are invited to pre-screening.
 - Link: Try it as a clinician →
 
 ### No dead ends
 
-- Heading: No dead ends.
+- Heading: Every rejection builds a stronger match.
 - Text: If a patient doesn’t qualify after pre-screening, those results go straight back to their agent, which finds the next trial that fits. When someone finishes a trial, their results start the next search.
 
 ## Agents (section link “Agents”)
@@ -112,16 +112,16 @@ An animated relay. A light runs along a track, and each card plays its own short
 
 - Label: Under the hood
 - Heading (*word by word*): Each agent does one job.
-- Heading, second sentence (*grey*): Every fact keeps its source.
+- Heading, second sentence (*grey*): Every claim is checked against the record.
 
 ### The five steps (in order)
 
 1. Name: Records Reader
    Tag: MedGemma
-   In the picture: EGFR exon 19
+   In the picture: EGFR ex19del
 2. Name: Skeptic
    Tag: Quote check
-   In the picture (kept): EGFR exon 19 ✓
+   In the picture (kept): EGFR ex19del ✓
    In the picture (struck out): KRAS G12C ✕
 3. Name: Trial Scout
    Tag: ClinicalTrials.gov
@@ -166,14 +166,14 @@ Every number below comes from `npm run eval` (`eval/results.md`). Change them on
 
 ### Four points
 
-1. Title: You choose what to share
-   Text: Each record is read only with your consent.
-2. Title: Your name stays hidden
-   Text: Trial teams see an ID until you say yes.
-3. Title: Doctors make the call
-   Text: Only the trial’s lead doctor can enrol anyone.
-4. Title: Every step is logged
-   Text: Built for UK GDPR from day one.
+1. Title: Patients choose what to share
+   Text: Each record is read only with explicit patient consent.
+2. Title: Patient’s name stays hidden
+   Text: Trial teams see an ID until the patient says yes.
+3. Title: Real humans make the call
+   Text: Clinicians make the decision for every enrolment.
+4. Title: Patient data remains secure throughout.
+   Text: Data management is designed with UK GDPR in mind.
 
 ## Closing
 
@@ -186,9 +186,9 @@ Every number below comes from `npm run eval` (`eval/results.md`). Change them on
 - Name: Trial Match
 - Line: Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.
 - Sources (each linked part is in square brackets, with its link after it):
-  Sources: 95% from [BMJ Open Respiratory Research](https://doi.org/10.1136/bmjresp-2025-003702), 2026, citing the Institute of Cancer Research’s 2021 report (UK cancer patients, if eligible). 63% from an [Institute of Cancer Research survey](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html) of 500+ patients, 2021. 122 and 169 days (median, industry drug trials) and 4 in 10 (all studies, 2025) from [UK Clinical Research Delivery KPIs](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026), 2026.
+  Sources: 95% from [BMJ Open Respiratory Research](https://doi.org/10.1136/bmjresp-2025-003702) (UK cancer patients). 63% from an [Institute of Cancer Research survey](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html) of 500+ patients, 2021. 122 and 169 days (median, industry drug trials) and 4 in 10 (all studies, 2025) from [UK Clinical Research Delivery KPIs](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026), 2026.
 
 ## Link targets (not visible text)
 
 - All five “Try the demo” / “Try it as…” buttons open the demo at `/app/` in this package (live at https://trial-match-ebon.vercel.app/app/).
-- Section links jump to: The gap → `#gap`, Product → `#product`, Agents → `#agents`, Results → `#results`, Trust → `#trust`. The hero pill goes to `#gap`, and “See how it works” goes to `#product`.
+- Section links jump to: The gap → `#gap`, Product → `#product`, Agents → `#agents`, Results → `#results`, Trust → `#trust`. “See how it works” goes to `#product`. The hero pill is not a link.
