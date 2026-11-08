@@ -18,7 +18,7 @@
   var HAS_DOM = typeof document !== 'undefined';
   var SELF = HAS_DOM && document.currentScript ? document.currentScript.src : '';
   var BASE = SELF ? SELF.replace(/[^/]*$/, '') : 'protein/';
-  var PATHS = { lib: BASE + '../vendor/3Dmol-min.js', data: BASE + 'structures.js', still: BASE + 'fallback/' };
+  var PATHS = { lib: BASE + '../vendor/3Dmol-min.js', data: BASE + 'structures.js', still: BASE + 'fallback/', body3d: BASE + 'body3d.js?v=1.0.3' };
 
   // ------------------------------------------------------------------ knowledge tables
   // Biomarker keys as in trialmatch/patients.py. Order = which driver is shown when several are positive
@@ -408,6 +408,8 @@
     '.pv-zbg{position:absolute;inset:0;background:var(--pv-surface)}',
     '.pv-sc{position:absolute;inset:0;will-change:transform,opacity}',
     '.pv-sc svg{display:block;width:100%;height:100%}',
+    '.pv-w3{position:absolute;inset:0}',
+    '.pv-w3 canvas{cursor:grab}.pv-w3 canvas:active{cursor:grabbing}',
     '.pv-root .pv-hot{position:absolute;z-index:2;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%}',
     '.pv-hot::before,.pv-hot::after{content:"";position:absolute;inset:12px;border-radius:50%;box-shadow:0 0 0 2px var(--pv-change);animation:pv-ping 2s var(--pv-ease) infinite}',
     '.pv-hot::after{animation-delay:1s}',
@@ -929,19 +931,22 @@
     function initJourney() {
       if (J || opts.journey === false || !V.c || V.c.kind !== 'structure') return;
       var uid = ++UID;
-      J = { level: 'protein', busy: false, user: false, auto: 0, next: null, cool: 0, sc: {} };
-      ['body', 'lung', 'cell'].forEach(function (l) {
+      J = { level: 'protein', busy: false, user: false, auto: 0, next: null, cool: 0, sc: {}, three: null, mode3: 'none', p3: null };
+      ['body', 'lung', 'cell'].forEach(function (l) {   // flat drawings: shown while the 3D loads, and kept if it can't run
         var d = document.createElement('div');
         d.className = 'pv-sc'; d.hidden = true; d.innerHTML = sceneSvg(l, gene(), uid);
         el.zoom.appendChild(d); J.sc[l] = d;
       });
+      J.w3 = document.createElement('div');
+      J.w3.className = 'pv-w3'; J.w3.hidden = true;
+      el.zoom.appendChild(J.w3);
       J.hot = document.createElement('button');
       J.hot.type = 'button'; J.hot.className = 'pv-hot';
       el.zoom.appendChild(J.hot);
       el.rail.innerHTML = LEVELS.map(function (l) { return '<button type="button" class="pv-railb" data-pv-level="' + l + '" aria-pressed="false">' + LEVEL_NAME[l] + '</button>'; }).join('');
       el.rail.hidden = false;
       on(el.zoom, 'wheel', function (e) { e.preventDefault(); step(e.deltaY < 0 ? 1 : -1); }, { passive: false });
-      var d0 = 0;   // two-finger pinch on the illustrations moves a level
+      var d0 = 0;   // two-finger pinch moves a level
       function dist(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY); }
       on(el.zoom, 'touchstart', function (e) { d0 = e.touches.length === 2 ? dist(e.touches) : 0; }, { passive: true });
       on(el.zoom, 'touchmove', function (e) {
@@ -951,7 +956,41 @@
       }, { passive: true });
       var seen = false;
       try { seen = root.sessionStorage.getItem('pv-zoom-seen') === '1'; } catch (e) { /* storage blocked */ }
-      if (!seen && !reduced()) { jump('body'); watchIntro(); } else syncLevel(false);
+      if (!seen && !reduced()) { jump('body'); ensure3D(); watchIntro(); } else syncLevel(false);
+    }
+    // The 3D body, lungs and cell (body3d.js, three.js) load only when someone zooms out of the protein.
+    function ensure3D() {
+      if (J.p3) return J.p3;
+      J.mode3 = 'loading';
+      var give = new Promise(function (ok) { setTimeout(function () { ok(false); }, 8000); });   // never wait on it for long
+      var load3 = (root.WebGLRenderingContext ? loadScript(PATHS.body3d, function () { return !!root.TMBody3D; }) : Promise.reject(new Error('no webgl')))
+        .then(function () {
+          if (!V.alive || !root.TMBody3D.supported()) throw new Error('3D not supported');
+          var b = root.TMBody3D.create(J.w3, { gene: gene(), membrane: MEMBRANE.test(gene()), dark: isDark(), level: J.level, onFrame: onFrame3 });
+          return b.ready.then(function () { return b; });
+        });
+      J.p3 = Promise.race([load3, give]).then(function (b) {
+        if (!b || !V.alive) throw new Error('3D too slow');
+        J.three = b; J.mode3 = 'on';
+        LEVELS.forEach(function (l) { if (J.sc[l]) J.sc[l].hidden = true; });
+        J.w3.hidden = false;
+        if (J.w3.animate && !reduced()) J.w3.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 420, easing: 'ease' });
+        placeHot();
+        return true;
+      }).catch(function (e) {
+        if (root.console) root.console.warn('TMProtein: 3D zoom unavailable, using drawings.', e && e.message);
+        J.mode3 = 'off'; J.w3.hidden = true;
+        if (J.level !== 'protein' && J.sc[J.level]) J.sc[J.level].hidden = false;
+        placeHot();
+        return false;
+      });
+      return J.p3;
+    }
+    function onFrame3(f) {   // keep the pulsing ring on the 3D target as the model turns
+      if (!J || !J.hot) return;
+      var show = !J.busy && J.level !== 'protein' && f && f.visible;
+      J.hot.hidden = !show;
+      if (show) { J.hot.style.left = f.x + 'px'; J.hot.style.top = f.y + 'px'; }
     }
     function step(d) {
       if (!J || J.busy || now() < J.cool) return;
@@ -968,13 +1007,17 @@
     }
     function placeHot() {
       if (!J || !J.hot) return;
+      var nxt = LEVELS[LEVELS.indexOf(J.level) + 1];
+      if (nxt) {
+        J.hot.setAttribute('data-pv-level', nxt);
+        J.hot.setAttribute('aria-label', 'Zoom in to the ' + (nxt === 'protein' ? gene() + ' protein' : nxt === 'cell' ? 'cancer cell' : nxt));
+      }
+      if (J.three) { if (J.busy || J.level === 'protein') J.hot.hidden = true; return; }   // the frame loop places it
       var sc = J.sc[J.level];
-      J.hot.hidden = !sc || J.busy;
-      if (!sc || J.busy) return;
-      var p = focusOf(sc, el.zoom), nxt = LEVELS[LEVELS.indexOf(J.level) + 1];
+      J.hot.hidden = !sc || J.busy || sc.hidden;
+      if (J.hot.hidden) return;
+      var p = focusOf(sc, el.zoom);
       J.hot.style.left = p.x + 'px'; J.hot.style.top = p.y + 'px';
-      J.hot.setAttribute('data-pv-level', nxt);
-      J.hot.setAttribute('aria-label', 'Zoom in to the ' + (nxt === 'protein' ? gene() + ' protein' : nxt === 'cell' ? 'cancer cell' : nxt));
     }
     function syncLevel(animate) {
       var l = J.level, P = l === 'protein';
@@ -990,8 +1033,9 @@
     }
     function jump(level) {   // no animation
       J.level = level;
-      LEVELS.forEach(function (l) { if (J.sc[l]) J.sc[l].hidden = l !== level; });
+      LEVELS.forEach(function (l) { if (J.sc[l]) J.sc[l].hidden = J.three ? true : l !== level; });
       el.zoom.hidden = level === 'protein';
+      if (J.three) J.three.go(level, 0);
       syncLevel(false);
     }
     function watchIntro() {
@@ -1002,59 +1046,99 @@
       io.observe(el.stage);
       V.offs.push(function () { io.disconnect(); });
     }
-    function playIntro() {   // once per visit: body, lung, cell, then the protein
+    function playIntro() {   // once per visit: body, lungs, cell, then the protein
       try { root.sessionStorage.setItem('pv-zoom-seen', '1'); } catch (e) { /* storage blocked */ }
       var steps = ['lung', 'cell', 'protein'], i = 0;
-      (function next() {
-        if (!V.alive || J.user || i >= steps.length) return;
-        J.auto = setTimeout(function () { if (V.alive && !J.user) go(steps[i++], true, next); }, i === 0 ? 1100 : 700);
-      })();
+      ensure3D().then(function (has3d) {
+        var holds = has3d ? [1900, 1400, 1400] : [1100, 700, 700];   // time to look at each level before moving on
+        (function next() {
+          if (!V.alive || J.user || i >= steps.length) return;
+          J.auto = setTimeout(function () { if (V.alive && !J.user) go(steps[i++], true, next); }, holds[i]);
+        })();
+      });
     }
+    var DUR3 = { 'body>lung': 1400, 'lung>body': 1300, 'lung>cell': 1700, 'cell>lung': 1600, 'cell>protein': 1200, 'protein>cell': 1000 };
     function go(target, auto, done) {
       if (!J || !V.alive || LEVELS.indexOf(target) < 0) return;
       if (!auto) { J.user = true; clearTimeout(J.auto); }
       if (J.busy) { J.next = target; return; }
       var from = J.level;
       if (target === from) { if (done) done(); return; }
-      var inward = LEVELS.indexOf(target) > LEVELS.indexOf(from), dur = reduced() ? 0 : 720, A = [], total = 0;
+      J.busy = true;
+      if (J.mode3 === 'on') go3(from, target, done);
+      else if (J.mode3 === 'off') goFlat(from, target, done);
+      else ensure3D().then(function (ok) { if (V.alive) (ok ? go3 : goFlat)(from, target, done); });
+    }
+    function animator(on) {   // Web Animations with fill, collected so they can be cancelled together
+      var A = [], total = 0;
+      return { list: A, total: function () { return total; }, run: function (node, frames, o) {
+        if (!node || !node.animate || !on) return;
+        o.fill = 'both'; total = Math.max(total, (o.delay || 0) + o.duration); A.push(node.animate(frames, o));
+      } };
+    }
+    function landed(done) {   // shared ending: the zoom layer goes away at the protein, which flies to the change
+      el.zoom.hidden = J.level === 'protein';
+      J.busy = false;
+      placeHot();
+      if (J.three) J.three.pause(J.level === 'protein');
+      if (J.level === 'protein' && V.viewer && V.frames && !reduced()) {
+        tweenTo(V.frames[V.mode], 720, function () { if (V.mode === 'change' && V.models && V.models.hot) pulse(); });
+      }
+      if (J.next) { var n = J.next; J.next = null; go(n, false); } else if (done) done();
+    }
+    function go3(from, target, done) {
+      var ms = reduced() ? 0 : (DUR3[from + '>' + target] || 2000), an = animator(ms > 0);
+      var easeIn = 'cubic-bezier(.55,.05,.8,.35)', easeOut = 'cubic-bezier(.2,.8,.25,1)', world = [el.gl].concat(V.still ? [V.still] : []);
+      J.level = target;
+      el.zoom.hidden = false; J.w3.hidden = false;
+      J.three.pause(false);
+      if (target === 'protein') {   // the camera dives into the target while the real structure grows in behind it
+        if (V.viewer && V.frames && ms) { V.tween++; V.viewer.setView(V.frames.overview); V.viewer.render(); }
+        an.run(el.zbg, [{ opacity: 1 }, { opacity: 0 }], { duration: ms * .45, delay: ms * .55, easing: 'ease' });
+        world.forEach(function (n) { an.run(n, [{ transform: 'scale(.35)' }, { transform: 'none' }], { duration: ms * .5, delay: ms * .5, easing: easeOut }); });
+      } else if (from === 'protein') {
+        V.tween++;
+        an.run(el.zbg, [{ opacity: 0 }, { opacity: 1 }], { duration: 280, easing: 'ease' });
+        world.forEach(function (n) { an.run(n, [{ transform: 'none' }, { transform: 'scale(.35)' }], { duration: 320, easing: easeIn }); });
+      }
+      syncLevel(true);
+      var timer = new Promise(function (ok) { setTimeout(ok, an.list.length ? an.total() + 40 : 0); });
+      Promise.all([J.three.go(target, ms), timer]).then(function () {
+        if (!V.alive) return;
+        an.list.forEach(function (a) { try { a.cancel(); } catch (e) { /* done */ } });
+        landed(done);
+      });
+    }
+    function goFlat(from, target, done) {
+      var inward = LEVELS.indexOf(target) > LEVELS.indexOf(from), dur = reduced() ? 0 : 720, an = animator(dur > 0);
       var outEl = J.sc[from] || null, inEl = J.sc[target] || null;
       var easeIn = 'cubic-bezier(.55,.05,.8,.35)', easeOut = 'cubic-bezier(.2,.8,.25,1)';
-      function anim(node, frames, o) {
-        if (!node || !node.animate || !dur) return;
-        o.fill = 'both'; total = Math.max(total, (o.delay || 0) + o.duration); A.push(node.animate(frames, o));
-      }
-      J.busy = true; J.level = target;
+      J.level = target;
       el.zoom.hidden = false;
       if (inEl) inEl.hidden = false;
       // zooming in grows the old scene around its highlighted spot; zooming out does the same to the scene we return to
       if (outEl && inward) { var fo = focusOf(outEl); outEl.style.transformOrigin = fo.x + 'px ' + fo.y + 'px'; }
       if (inEl && !inward) { var fi = focusOf(inEl); inEl.style.transformOrigin = fi.x + 'px ' + fi.y + 'px'; }
-      anim(outEl, [{ transform: 'none', opacity: 1 }, { transform: inward ? 'scale(7)' : 'scale(.35)', opacity: 0 }], { duration: dur, easing: easeIn });
-      anim(inEl, [{ transform: inward ? 'scale(.35)' : 'scale(7)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: dur, delay: dur * .3, easing: easeOut });
+      an.run(outEl, [{ transform: 'none', opacity: 1 }, { transform: inward ? 'scale(7)' : 'scale(.35)', opacity: 0 }], { duration: dur, easing: easeIn });
+      an.run(inEl, [{ transform: inward ? 'scale(.35)' : 'scale(7)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: dur, delay: dur * .3, easing: easeOut });
       var world = [el.gl].concat(V.still ? [V.still] : []);
       if (target === 'protein') {
         if (V.viewer && V.frames && dur) { V.tween++; V.viewer.setView(V.frames.overview); V.viewer.render(); }
-        anim(el.zbg, [{ opacity: 1 }, { opacity: 0 }], { duration: dur * .7, delay: dur * .45, easing: 'ease' });
-        world.forEach(function (n) { anim(n, [{ transform: 'scale(.35)' }, { transform: 'none' }], { duration: dur, delay: dur * .3, easing: easeOut }); });
+        an.run(el.zbg, [{ opacity: 1 }, { opacity: 0 }], { duration: dur * .7, delay: dur * .45, easing: 'ease' });
+        world.forEach(function (n) { an.run(n, [{ transform: 'scale(.35)' }, { transform: 'none' }], { duration: dur, delay: dur * .3, easing: easeOut }); });
       } else if (from === 'protein') {
         V.tween++;
-        anim(el.zbg, [{ opacity: 0 }, { opacity: 1 }], { duration: dur * .6, easing: 'ease' });
-        world.forEach(function (n) { anim(n, [{ transform: 'none' }, { transform: 'scale(.35)' }], { duration: dur * .7, easing: easeIn }); });
+        an.run(el.zbg, [{ opacity: 0 }, { opacity: 1 }], { duration: dur * .6, easing: 'ease' });
+        world.forEach(function (n) { an.run(n, [{ transform: 'none' }, { transform: 'scale(.35)' }], { duration: dur * .7, easing: easeIn }); });
       }
       syncLevel(true);
       // finish on a timer rather than on the animations' own events: those stall in a background tab
       setTimeout(function () {
         if (!V.alive) return;
         LEVELS.forEach(function (l) { var sc = J.sc[l]; if (sc) { sc.hidden = l !== J.level; sc.style.transformOrigin = ''; } });
-        el.zoom.hidden = J.level === 'protein';
-        A.forEach(function (a) { try { a.cancel(); } catch (e) { /* done */ } });
-        J.busy = false;
-        placeHot();
-        if (J.level === 'protein' && V.viewer && V.frames && dur) {
-          tweenTo(V.frames[V.mode], 720, function () { if (V.mode === 'change' && V.models && V.models.hot) pulse(); });
-        }
-        if (J.next) { var n = J.next; J.next = null; go(n, false); } else if (done) done();
-      }, A.length ? total + 40 : 0);
+        an.list.forEach(function (a) { try { a.cancel(); } catch (e) { /* done */ } });
+        landed(done);
+      }, an.list.length ? an.total() + 40 : 0);
     }
 
     // ---------------- lifecycle
@@ -1106,7 +1190,7 @@
       if (!V.alive) return;
       V.alive = false;
       V.req++; V.tween++; V.glow++; V.fade++;
-      if (J) clearTimeout(J.auto);
+      if (J) { clearTimeout(J.auto); if (J.three) J.three.destroy(); }
       releaseGl();
       V.offs.forEach(function (f) { f(); });
       V.offs = [];
@@ -1258,7 +1342,7 @@
   }
 
   root.TMProtein = {
-    version: '1.2.2',
+    version: '1.3.3',
     resolve: resolve,
     open: open,
     close: close,

@@ -67,6 +67,18 @@ npm test
 
 They cover the fact checks.
 
+## The 3D zoom (body, lungs, cell, protein)
+
+Each trial's 3D box can zoom from a whole body to the lungs (with the tumour), into a cancer cell, and down to the real protein structure. The protein is 3Dmol with a crystal structure from the Protein Data Bank. The body, lungs and cell are illustrations built in code with three.js: signed distance fields meshed with surface nets, drawn as Gemini-style glowing silhouettes. There is no model file to license. The 3D only loads when someone zooms out of the protein. Without WebGL, the zoom falls back to flat drawings.
+
+The source is `src/body3d.js`, and the bundle in `public/app/protein/body3d.js` is committed, so deploys still need no build step. To rebuild it after editing the source:
+
+```bash
+npm i --no-save three@0.186.1 esbuild && npx esbuild src/body3d.js --bundle --format=iife --minify --target=es2019 --legal-comments=eof --outfile=public/app/protein/body3d.js
+```
+
+Then bump `?v=` for `body3d.js` in `protein-view.js`, and for `protein-view.js` in `app/index.html`, because `/app/protein` is cached for a week. three.js is MIT-licensed (`public/app/vendor/LICENSE-three.txt`).
+
 ## Files
 
 ```
