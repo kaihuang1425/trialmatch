@@ -646,6 +646,161 @@ a.cite:hover { background: rgba(168,199,250,.32); }
 .tm-chk.met svg { color: var(--met); background: var(--met-soft); } .tm-chk.not svg { color: var(--not); background: var(--not-soft); } .tm-chk.unk svg { color: var(--unk); background: var(--unk-soft); }
 .tm-out.mine:not(.static) .tm-chk { animation: tmLi .4s ease-out both; } .tm-out.mine:not(.static) .tm-chk:nth-child(3) { animation-delay: .12s; } .tm-out.mine:not(.static) .tm-chk:nth-child(4) { animation-delay: .24s; }
 @media (max-width: 420px) { .tm-board { grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr); } .tm-lane { padding: 10px; } .tm-ag { grid-template-columns: minmax(0, 1fr); } .tm-ag .tm-av { width: 30px; height: 30px; } .tm-lbl { width: 100%; } }
+/* ---------- agent-first home: the agent speaks first, then the details, then the one thing it needs from you.
+   Follows the rules above: surfaces step up in tone (no borders), the gradient only where the agent speaks,
+   and charts use one accent for what needs action, greys for context, and shape (filled / ring / ✕) instead of extra hues. ---------- */
+.af-home { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+body:has(.af) .fab { display: none; }   /* the home has its own ask box, so the floating one would only cover the charts */
+.af-home > .disc { max-width: none; width: 100%; margin: 0; }
+.af-side { display: none; }
+@media (min-width: 1100px) {
+  .af-home { max-width: 1180px; display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .af-side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 88px; }
+}
+.af { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: 22px; background: var(--grad-soft), var(--surface); display: flex; flex-direction: column; gap: 18px; }
+.af::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(66,133,244,.55), rgba(155,114,203,.35), rgba(217,101,112,.2)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.af-who { display: flex; align-items: center; gap: 12px; text-align: left; border-radius: var(--r); margin: -6px; padding: 6px; transition: background-color .2s; }
+button.af-who:hover { background: rgba(255,255,255,.04); }
+.af-who .spark { width: 36px; height: 36px; }
+.af-who .spark svg { width: 18px; height: 18px; }
+.af-who .grow { flex: 1; min-width: 0; }
+.af-who b { font-weight: 500; font-size: 15px; display: block; }
+.af-who small { color: var(--muted); font-size: 14px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.af-who .chev { width: 18px; height: 18px; color: var(--muted); }
+.af-h { font-size: clamp(24px, 3.4vw, 30px); line-height: 1.25; letter-spacing: -0.01em; }
+.af-h .w { display: inline-block; }
+.af-sort { display: flex; gap: 3px; height: 10px; transform-origin: 0 50%; }
+.af-sort i { display: block; min-width: 0; border-radius: 5px; box-sizing: border-box; }
+.af-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); }
+.af-key span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 14px; height: 14px; box-sizing: border-box; border-radius: 4px; display: inline-grid; place-items: center; font-size: 9px; font-weight: 700; flex: none; line-height: 1; }
+.sw.fit, i.fit { background: var(--accent); color: var(--accent-ink); }
+.sw.ask, i.ask { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); color: var(--accent); }
+.sw.out, i.out { background: var(--surface-3); color: var(--muted); }
+.sw.no, i.no { background: #5F6368; color: var(--ink); }
+.sw.prog, i.prog { background: var(--g1); }
+.sw.done, i.done { background: var(--faint); }
+.sw.stop, i.stop { background: transparent; box-shadow: inset 0 0 0 1.5px var(--faint); }
+.af-turn { background: var(--surface-2); border-radius: var(--r-lg); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.af-turn-h { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.af-turn .qt { font-size: 19px; line-height: 1.3; }
+.af-opts { display: grid; gap: 6px; }
+.af-turn .opt { background: var(--surface-3); }
+.af-turn .opt:hover { background: var(--hover); }
+.af-askwrap { display: flex; flex-direction: column; gap: 10px; }
+.af-ask { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border-radius: 28px; padding: 6px 6px 6px 20px; transition: box-shadow .2s; }
+.af-ask:focus-within { box-shadow: inset 0 0 0 2px var(--accent); }
+.af-ask input { flex: 1; min-width: 0; height: 44px; background: none; border: 0; font-size: 16px; color: var(--ink); }
+.af-ask input:focus { outline: none; }
+.af-ask .send { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; flex: none; transition: transform .18s, filter .18s; }
+.af-ask .send:hover { filter: brightness(1.08); } .af-ask .send:active { transform: scale(.94); }
+.af-ask .send svg { width: 20px; height: 20px; }
+.af-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.af-chips button { min-height: 36px; padding: 6px 14px; border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); font-size: 13.5px; color: var(--muted); text-align: left; transition: background-color .2s, transform .18s; }
+.af-chips button:hover { background: var(--surface-2); color: var(--ink); } .af-chips button:active { transform: scale(.96); }
+@media (max-width: 760px) { .af-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -22px; padding: 0 22px; } .af-chips::-webkit-scrollbar { display: none; } .af-chips button { flex: none; white-space: nowrap; } }
+/* clinician: what the agent did, then the next step */
+.af-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 28px; }
+.af-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.af-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.af-steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 14px; }
+.af-steps .tk { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-soft); color: var(--on-soft); display: grid; place-items: center; }
+.af-steps .tk svg { width: 14px; height: 14px; }
+.af-steps .ln { width: 2px; flex: 1; min-height: 10px; margin: 4px auto; border-radius: 1px; background: var(--line); }
+.af-steps li:last-child .ln { visibility: hidden; }
+.af-steps .tx { padding: 2px 0 14px; display: flex; flex-direction: column; gap: 2px; }
+.af-steps .tx span { font-size: 16px; line-height: 1.4; } .af-steps .tx small { font-size: 14px; color: var(--muted); line-height: 1.45; }
+.af-next { background: var(--surface-2); border-radius: var(--r-lg); padding: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.af-next-l { display: flex; flex-direction: column; gap: 4px; }
+.af-next-l button { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r); text-align: left; transition: background-color .2s, transform .18s; }
+.af-next-l button:hover { background: var(--hover); } .af-next-l button:active { transform: scale(.985); }
+.af-next-l button[aria-current="true"] { background: var(--surface-3); }
+.af-next-l .n { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 500; background: var(--surface-3); color: var(--muted); flex: none; }
+.af-next-l button[aria-current="true"] .n { background: var(--accent); color: var(--accent-ink); }
+.af-next-l b { font-weight: 500; font-size: 15px; display: block; } .af-next-l small { color: var(--muted); font-size: 14px; display: block; }
+.af-detail { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; animation: afSlide .35s cubic-bezier(.2,.8,.2,1) both; }
+.af-who2 { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r); background: var(--surface); }
+.af-who2 .nb { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 500; flex: none; }
+/* insight charts */
+.af-ins-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding: 8px 4px 0; }
+.af-ins-h h2 { font-size: 26px; }
+.af-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 16px; align-items: stretch; }
+@media (max-width: 560px) { .af-call { display: none; } .af-card { padding: 20px; } .af-tip:hover::after, .af-tip:focus-visible::after { white-space: pre-wrap; width: max-content; max-width: 220px; } }
+.af-card { background: var(--surface); border-radius: var(--r-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.af-card header { display: flex; align-items: flex-start; gap: 12px; }
+.af-card header > div { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.af-card h3 { font-size: 20px; line-height: 1.3; }
+.af-card .sub { font-size: 14px; color: var(--muted); }
+.af-tbtn { flex: none; height: 32px; padding: 0 14px; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--line); color: var(--accent); font-size: 13px; font-weight: 500; }
+.af-tbtn:hover { background: var(--surface-2); }
+.af-grp { margin: 12px 0 2px; font-size: 13px; color: var(--muted); }
+.af-grp:first-child { margin-top: 0; }
+.af-row { display: grid; grid-template-columns: 112px minmax(0, 1fr) 36px; align-items: center; gap: 12px; padding: 4px 8px; margin: 0 -8px; border-radius: 12px; font-size: 15px; }
+.af-row .bt { position: relative; height: 14px; }
+.af-row .bt i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 8px 8px 0; background: #5F6368; transform-origin: 0 50%; }
+.af-row.hot .bt { height: 24px; } .af-row.hot .bt i { background: var(--accent); } .af-row.hot { font-weight: 500; }
+.af-row .v { text-align: right; font-variant-numeric: tabular-nums; }
+.af-call { position: absolute; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 13px; color: var(--ink); font-weight: 400; }
+.af-wait { display: flex; flex-direction: column; }
+.af-wr { display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: 12px; }
+.af-wr > span { display: flex; align-items: center; height: 40px; font-size: 15px; }
+.af-wr .pl { position: relative; height: 40px; }
+.af-wr .zone { position: absolute; top: 0; bottom: 0; right: 0; background: var(--surface-2); }
+.af-wr .mid { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--surface-3); }
+.af-wr .med { position: absolute; top: 0; bottom: 0; border-left: 2px dashed var(--faint); }
+.af-dot { position: absolute; top: 50%; width: 22px; height: 22px; box-sizing: border-box; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; transform: translate(-50%, -50%); transition: transform .18s cubic-bezier(.2,1.4,.4,1); }
+.af-dot:hover, .af-dot:focus-visible { transform: translate(-50%, -50%) scale(1.25); z-index: 2; }
+.af-dot.fit { background: var(--accent); color: var(--accent-ink); } .af-dot.ask { background: var(--surface); box-shadow: inset 0 0 0 2px var(--accent); color: var(--accent); } .af-dot.no { background: #5F6368; color: var(--ink); }
+.af-wr.dim .af-dot { opacity: .6; } .af-wr.dim > span { color: var(--muted); }
+.af-axis { position: relative; height: 26px; border-top: 1px solid var(--line); }
+.af-axis span { position: absolute; top: 6px; transform: translateX(-50%); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.af-stack { display: flex; gap: 3px; height: 28px; }
+.af-stack i { display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; border-radius: 8px; font-size: 13px; font-weight: 500; font-style: normal; box-sizing: border-box; }
+.af-tr { display: grid; grid-template-columns: 64px minmax(0, 1fr) 104px; align-items: center; gap: 12px; padding: 4px 8px; margin: 0 -8px; border-radius: 12px; font-size: 15px; }
+.af-tr .sk { display: flex; gap: 3px; height: 20px; transform-origin: 0 50%; }
+.af-tr .sk i { border-radius: 6px; min-width: 0; }
+.af-tr .v { font-size: 14px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.af-units { display: grid; gap: 3px; height: 26px; }
+.af-units i { border-radius: 6px; display: grid; place-items: center; font-size: 11px; font-weight: 700; font-style: normal; transform-origin: 50% 100%; }
+.af-tl { display: flex; gap: 2px; height: 14px; }
+.af-tl i { min-width: 0; }
+.af-stops { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.af-stops li { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 12px; padding: 12px 14px; border-radius: var(--r); background: var(--surface-2); align-items: start; }
+.af-tbl { width: 100%; border-collapse: collapse; font-size: 15px; animation: afRise .35s ease-out both; }
+.af-tbl th { font-weight: 400; color: var(--muted); font-size: 14px; text-align: left; padding: 6px 8px 6px 0; }
+.af-tbl td { border-top: 1px solid var(--surface-3); padding: 8px 8px 8px 0; }
+.af-tbl .r { text-align: right; font-variant-numeric: tabular-nums; }
+/* hover and keyboard focus show a mark's numbers */
+.af-tip { position: relative; cursor: default; }
+.af-dot.af-tip { position: absolute; }
+.af-tip:hover, .af-tip:focus-visible { outline: none; filter: brightness(1.15); }
+/* the tooltip exists only while shown, so hidden ones never widen the page on a phone */
+@keyframes afTip { from { opacity: 0; } }
+.af-tip:hover::after, .af-tip:focus-visible::after { content: attr(data-tip); position: absolute; z-index: 6; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); padding: 8px 10px; border-radius: 10px; background: var(--surface-3); color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,.35); font-size: 13px; font-weight: 400; line-height: 1.35; white-space: pre; text-align: left; pointer-events: none; animation: afTip .15s ease-out both; }
+.af-row.af-tip:hover::after, .af-tr.af-tip:hover::after, .af-row.af-tip:focus-visible::after, .af-tr.af-tip:focus-visible::after { left: 120px; transform: none; }
+.af-row.af-tip:hover, .af-tr.af-tip:hover, .af-row.af-tip:focus-visible, .af-tr.af-tip:focus-visible { filter: none; background: var(--surface-2); }
+/* the intro: the spark spins in, the headline arrives word by word, details rise, the ask comes last */
+@keyframes afSpark { 0% { transform: scale(2.2) rotate(-180deg); opacity: 0; } 40% { opacity: 1; } 100% { transform: none; } }
+@keyframes afIn { from { opacity: 0; transform: translateX(-8px); } }
+@keyframes afWord { from { opacity: 0; transform: translateY(.5em); filter: blur(6px); } }
+@keyframes afRise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes afSettle { from { background-color: var(--hover); } }
+@keyframes afGrowX { from { transform: scaleX(0); } }
+@keyframes afGrowY { from { transform: scaleY(0); } }
+@keyframes afSlide { from { opacity: 0; transform: translateX(16px); } }
+@keyframes afPop { from { opacity: 0; transform: translate(-50%, -50%) scale(.4); } }
+.af.intro .af-who .spark { animation: afSpark .9s cubic-bezier(.65,0,.2,1) both; }
+.af.intro .af-who .grow { animation: afIn .45s .55s both; }
+.af.intro .af-h .w { animation: afWord .5s calc(.75s + var(--i) * 45ms) both; }
+.af.intro .af-d { animation: afRise .5s 1.35s both; }
+.af.intro .af-sort { animation: afGrowX .9s 1.4s cubic-bezier(.2,.8,.2,1) both; }
+.af.intro .af-steps li { animation: afRise .45s calc(1.3s + var(--i) * 250ms) both; }
+.af.intro .af-turn, .af.intro .af-next { animation: afRise .5s 1.9s both, afSettle 1.2s 2.1s ease-out both; }
+.af.intro .af-askwrap { animation: afRise .5s 2.4s both; }
+.af-anim .af-row .bt i, .af-anim .af-tr .sk { animation: afGrowX .8s calc(.2s + var(--i) * 50ms) cubic-bezier(.2,.8,.2,1) both; }
+.af-anim .af-dot { animation: afPop .45s calc(.3s + var(--i) * 35ms) cubic-bezier(.2,1.4,.4,1) both; }
+.af-anim .af-units i { animation: afGrowY .45s calc(.2s + var(--i) * 25ms) cubic-bezier(.2,1.2,.4,1) both; }
+@media (prefers-reduced-motion: reduce) { .af *, .af-anim * { animation: none !important; } }
 </style>
 <div id="app"></div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
@@ -1344,7 +1499,10 @@ a.cite:hover { background: rgba(168,199,250,.32); }
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     after();
   }
-  function after() { if (S.who && S.who.role === 'clinician' && S.ctab === 'rank') bindDeck('rank'); if (S.who && S.who.role === 'patient' && S.tab === 'discover') bindDeck('trial'); }
+  function after() {
+    if (S.who && S.who.role === 'clinician' && S.ctab === 'rank') bindDeck('rank'); if (S.who && S.who.role === 'patient' && S.tab === 'discover') bindDeck('trial');
+    var ai = $('#af-in'); if (ai) ai.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); ACT['af-send'](); } });   // the home's ask box sends on Enter
+  }
 
   function bar(nav, cur, who, cls) {
     return '<header class="bar"><div class="bar-in"><div class="logo">' + ICON.logo + ' Trial Match <small>' + (S.who.role === 'patient' ? 'Patient' : 'Clinician') + '</small></div>' +
@@ -1400,20 +1558,110 @@ a.cite:hover { background: rgba(168,199,250,.32); }
     return ev ? ev : null;
   }
 
+  /* ---------- agent-first home ----------
+     The agent speaks first: what it checked, what fits, then the one question that would settle the most trials.
+     The intro plays once per visit (render() redraws the whole view on every change). The charts beside it are
+     computed from this browser's data: the patient's own results, and every application's dates and stages. */
+  var AF = { seen: {} };
+  function afIntro(key) { if (AF.seen[key]) return false; AF.seen[key] = 1; return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  function afMedian(l) { if (!l.length) return null; l = l.slice().sort(function (a, b) { return a - b; }); var m = l.length >> 1; return l.length % 2 ? l[m] : (l[m - 1] + l[m]) / 2; }
+  function afWords(text, gradN) { return text.split(' ').map(function (w, i) { return '<span class="w' + (i < (gradN || 0) ? ' grad-text' : '') + '" style="--i:' + i + '">' + esc(w) + '</span>'; }).join(' '); }
+  function afSw(k) { return '<span class="sw ' + k + '" aria-hidden="true">' + ({ fit: '✓', ask: '?', no: '✕' }[k] || '') + '</span>'; }
+  function afMark(tier) { return tier === 'strong' ? 'fit' : tier === 'possible' ? 'ask' : 'no'; }
+  function afTierText(tier) { return tier === 'strong' ? 'meets every rule' : tier === 'possible' ? 'a fact to check' : 'a rule not met'; }
+  function afLines(list, per) { var out = []; for (var i = 0; i < list.length; i += per) out.push(list.slice(i, i + per).join(', ')); return out.join('\n'); }
+  function afTbtn(key) { var on = !!(S.afT && S.afT[key]); return '<button class="af-tbtn" data-act="af-tab" data-v="' + key + '" aria-pressed="' + on + '">' + (on ? 'Chart' : 'Table') + '</button>'; }
+  function afChips() { return chatSuggestions().map(function (s) { return typeof s === 'string' ? s : s.v; }).slice(0, 3); }
+  function afAsk(ph) {
+    var chips = afChips();
+    return '<div class="af-askwrap"><div class="af-ask"><label class="sr" for="af-in">' + esc(ph) + '</label><input id="af-in" maxlength="500" enterkeyhint="send" autocomplete="off" placeholder="' + esc(ph) + '"><button class="send" data-act="af-send" aria-label="Send">' + ICON.up + '</button></div>' +
+      (chips.length ? '<div class="af-chips">' + chips.map(function (c) { return '<button data-act="af-chip" data-v="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>' : '') + '</div>';
+  }
+  function afAskSend(text) { text = String(text || '').trim(); if (!text) return; openChat(); setTimeout(function () { chatSend(text, false); }, 30); }
+
+  function afPatientCard(pt, res, q, ot, intro) {
+    var n = res.length, strong = 0, poss = 0, not = 0;
+    res.forEach(function (r) { if (r.tier === 'strong') strong++; else if (r.tier === 'possible') poss++; else not++; });
+    var last = lastAgentLine(pt.id);
+    var sub = ot ? 'Paused while you’re on ' + TRIAL[ot.trial].code : (pt.settings.auto === 'auto' ? 'Applying for you · ' : 'Checked ' + n + ' trials · ') + (last ? ago(last.at) : 'just now');
+    var words, gradN = 0;
+    if (ot) words = 'You’re on ' + TRIAL[ot.trial].code + '. I’ve paused so nothing new gets in the way.';
+    else if (strong) { words = strong + (strong === 1 ? ' trial fits' : ' trials fit') + ' you now.' + (q ? ' One answer could settle ' + plural(q.n, 'more trial') + '.' : poss ? ' ' + poss + ' more could, once a fact is checked.' : ''); gradN = 2; }
+    else if (poss) { words = poss + (poss === 1 ? ' trial could' : ' trials could') + ' fit you.' + (q ? ' One answer would tell us more.' : ' Your care team can check the rest.'); gradN = 2; }
+    else words = 'No trial fits your record right now. I’ll keep watching.';
+    var seg = function (cls, k) { return k ? '<i class="' + cls + '" style="flex:' + k + ' 1 0px"></i>' : ''; };
+    var sort = ot ? '' : '<div class="af-d"><div class="af-sort" role="img" aria-label="' + esc(n + ' trials: ' + strong + ' fit you, ' + poss + ' have a fact to check, ' + not + ' are not a fit') + '">' + seg('fit', strong) + seg('ask', poss) + seg('out', not) + '</div>' +
+      '<div class="af-key" style="margin-top:8px"><span>' + afSw('fit') + strong + ' fit you</span><span>' + afSw('ask') + poss + ' to check</span><span>' + afSw('out') + not + ' not a fit</span></div></div>';
+    var turn = '';
+    if (q) {
+      var Q = QUESTIONS[q.key];
+      turn = '<div class="af-turn"><div class="af-turn-h"><span class="chip unk">Your turn</span><span class="muted" style="font-size:14px">One answer could settle ' + plural(q.n, 'trial') + '</span></div>' +
+        '<h3 class="qt">' + esc(Q.ask) + '</h3><div class="af-opts">' + Q.opts.map(function (o, i) { return '<button class="opt" data-act="answer" data-q="' + q.key + '" data-i="' + i + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>' +
+        '<p class="muted" style="font-size:14px">' + esc(Q.why) + '</p>' +
+        ((q.key === 'pdl1' || q.key === 'drivers') && (pt.sources || []).indexOf('gen') < 0 ? '<button class="btn text" data-act="connect" style="align-self:flex-start">' + ICON.link + 'Connect your genomic report instead</button>' : '') + '</div>';
+    }
+    return '<section class="af' + (intro ? ' intro' : '') + '" aria-label="Your agent">' +
+      '<button class="af-who" data-act="activity" aria-label="See what your agent did"><span class="spark' + (pt.settings.auto === 'auto' && !ot ? ' live' : '') + '">' + ICON.spark + '</span><span class="grow"><b>Your agent</b><small>' + esc(sub) + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>' +
+      '<h2 class="af-h">' + afWords(words, gradN) + '</h2>' + sort + turn + afAsk('Ask your agent anything') + '</section>';
+  }
+
+  function afPatientSide(pt, res) {
+    var n = res.length, by = { strong: [], possible: [], not: [] };
+    res.forEach(function (r) { by[r.tier].push(r.t.code); });
+    var strong = by.strong.length, poss = by.possible.length, not = by.not.length;
+    var h1 = strong ? plural(strong, 'trial') + (strong === 1 ? ' fits' : ' fit') + ' you now' + (poss ? ', and ' + poss + ' could once a fact is checked' : '') : poss ? plural(poss, 'trial') + ' could fit once a fact is checked' : 'No trial fits your record yet';
+    var big = function (cls, k, icon, tip) { return k ? '<i class="af-tip ' + cls + '" tabindex="0" style="flex:' + k + ' 1 0px" data-tip="' + esc(tip) + '" aria-label="' + esc(tip.replace(/\n/g, ' ')) + '">' + icon + '</i>' : ''; };
+    var c1 = '<article class="af-card"><header><div><h3>' + esc(h1) + '</h3><span class="sub">' + n + ' trials, every entry rule checked against your record</span></div></header>' +
+      '<div class="af-stack">' + big('fit', strong, '✓', strong + ' fit you\n' + afLines(by.strong, 5)) + big('ask', poss, '?', poss + ' with a fact to check\n' + afLines(by.possible, 5)) + big('out', not, '', not + ' not a fit') + '</div>' +
+      '<div class="af-key"><span>' + afSw('fit') + strong + ' fit you</span><span>' + afSw('ask') + poss + ' to check</span><span>' + afSw('out') + not + ' not a fit</span></div></article>';
+
+    var top = res.filter(function (r) { return r.tier !== 'not'; }).slice(0, 3);
+    var one = top.filter(function (r) { return r.tier === 'possible' && r.unk === 1; })[0];
+    var h2 = one ? one.t.code + ' is one fact away from fitting' : top.length && top.every(function (r) { return r.tier === 'strong'; }) ? (top.length === 1 ? 'Your top trial meets every rule' : 'Your top ' + top.length + ' trials meet every rule') : 'Rules met, trial by trial';
+    var LBL = { fit: 'Met', ask: 'To check', no: 'Not met' }, ICN = { fit: '✓', ask: '?', no: '✕' };
+    var kOf = function (x) { return x.s === OK ? 'fit' : x.s === U ? 'ask' : 'no'; };
+    var body2 = (S.afT && S.afT.p2)
+      ? '<table class="af-tbl"><thead><tr><th>Trial</th><th class="r">Met</th><th>Still open</th></tr></thead><tbody>' + top.map(function (r) { var open = r.rows.filter(function (x) { return x.s !== OK; }).map(function (x) { return x.c.text + ' (' + LBL[kOf(x)].toLowerCase() + ')'; }); return '<tr><td>' + r.t.code + '</td><td class="r">' + r.met + ' of ' + r.rows.length + '</td><td class="muted">' + esc(open.join('; ') || 'Nothing') + '</td></tr>'; }).join('') + '</tbody></table>'
+      : top.map(function (r, ri) {
+        var cells = r.rows.map(function (x, ci) { var k = kOf(x); return '<i class="af-tip ' + k + '" tabindex="0" style="--i:' + (ri * 10 + ci) + '" data-tip="' + esc(x.c.text + '\n' + LBL[k]) + '" aria-label="' + esc(r.t.code + ': ' + x.c.text + ', ' + LBL[k]) + '">' + ICN[k] + '</i>'; }).join('');
+        return '<div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;min-width:0"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.t.code + ' <span class="muted">· ' + esc(r.t.name) + '</span></span><span class="muted num" style="white-space:nowrap">' + r.met + ' of ' + r.rows.length + ' met</span></div><div class="af-units" style="grid-template-columns:repeat(' + r.rows.length + ', minmax(0, 1fr))">' + cells + '</div></div>';
+      }).join('') + '<div class="af-key"><span>' + afSw('fit') + 'Met</span><span>' + afSw('ask') + 'To check</span><span>' + afSw('no') + 'Not met</span></div>';
+    var c2 = top.length ? '<article class="af-card"><header><div><h3>' + esc(h2) + '</h3><span class="sub">Each block is one entry rule. Hover or tab to it for its name.</span></div>' + afTbtn('p2') + '</header>' + body2 + '</article>' : '';
+
+    // what happens next, with typical times from recent applications
+    var mine = appsOf(pt.id).filter(function (a) { return ['applied', 'prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).sort(function (a, b) { return b.at - a.at; })[0];
+    var recent = Store.all('apps').filter(function (a) { return Date.now() - a.at < 45 * DAY; });
+    var used = 0;
+    var med = function (s) { var l = recent.map(function (a) { var h = (a.hist || []).filter(function (x) { return x.s === s; })[0]; return h ? (h.at - a.at) / DAY : null; }).filter(function (v) { return v != null && v >= 0; }); if (s === 'prescreen') used = l.length; return afMedian(l); };
+    var m = [med('prescreen') || 3, med('screening') || 6, med('eligibility') || 8, med('approval') || 11];
+    for (var i = 1; i < 4; i++) m[i] = Math.max(m[i], m[i - 1] + 1);
+    var SEGS = [['Team review', 0, m[0]], ['Pre-screening', m[0], m[1]], ['Screening visit', m[1], m[2]], ['Eligibility and sign-off', m[2], m[3]]], END = m[3];
+    var you = mine ? Math.min(END, (Date.now() - mine.at) / DAY) : 0, code = mine ? TRIAL[mine.trial].code : '';
+    var h3 = mine ? (you < m[0] ? 'You should hear from the ' + code + ' team in about ' + plural(Math.max(1, Math.ceil(m[0] - you)), 'day') : code + ': ' + STAGE_P[mine.stage].toLowerCase()) : 'What happens after you apply';
+    var tl = SEGS.map(function (g, j) {
+      var f = mine ? Math.max(0, Math.min(100, (you - g[1]) / (g[2] - g[1]) * 100)) : 0;
+      return '<i class="af-tip" tabindex="0" style="flex:' + (g[2] - g[1]).toFixed(2) + ' 1 0px;border-radius:' + (j === 0 ? '7px 0 0 7px' : j === 3 ? '0 7px 7px 0' : '0') + ';background:linear-gradient(90deg,var(--accent) 0 ' + f.toFixed(1) + '%,var(--surface-3) ' + f.toFixed(1) + '% 100%)" data-tip="' + esc(g[0] + '\nUsually day ' + Math.round(g[1]) + ' to ' + Math.round(g[2])) + '" aria-label="' + esc(g[0] + ': usually day ' + Math.round(g[1]) + ' to ' + Math.round(g[2])) + '"></i>';
+    }).join('');
+    var c3 = '<article class="af-card"><header><div><h3>' + esc(h3) + '</h3><span class="sub">What happens next, with typical times for recent applicants</span></div></header>' +
+      '<div style="position:relative;padding-top:' + (mine ? 26 : 0) + 'px">' + (mine ? '<span style="position:absolute;top:0;left:' + (you / END * 100).toFixed(1) + '%;transform:translateX(-50%);font-size:13px;color:var(--on-soft);white-space:nowrap">You · day ' + Math.max(1, Math.ceil(you)) + '</span>' : '') +
+      '<div style="position:relative"><div class="af-tl">' + tl + '</div>' + (mine ? '<span aria-hidden="true" style="position:absolute;top:50%;left:' + (you / END * 100).toFixed(1) + '%;width:14px;height:14px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px var(--surface);transform:translate(-50%,-50%)"></span>' : '') + '</div>' +
+      '<div style="display:flex;gap:2px;margin-top:10px">' + SEGS.map(function (g) { var cur = mine && you >= g[1] && you < g[2]; return '<span style="flex:' + (g[2] - g[1]).toFixed(2) + ' 1 0px;min-width:0;display:flex;flex-direction:column;line-height:1.3;padding-right:4px"><span style="font-size:14px' + (cur ? ';font-weight:500' : '') + '">' + g[0] + '</span><span class="muted" style="font-size:13px">day ' + Math.round(g[1]) + '–' + Math.round(g[2]) + '</span></span>'; }).join('') + '</div></div>' +
+      '<p class="note" style="margin:0">' + (used ? 'From ' + plural(used, 'recent application') + ' at the trial sites · synthetic demo data' : 'Typical times · synthetic demo data') + '</p></article>';
+    return c1 + c2 + c3;
+  }
+
   function discoverView(pt) {
     var first = pt.name.split(' ')[0];
     if (pt.rec.empty) return '<div class="col"><h1 class="hello"><span class="grad-text">Hello, ' + esc(first) + '</span></h1><div class="agent"><div class="agent-top"><span class="spark live">' + ICON.spark + '</span><div><h2>Your agent is ready</h2><p>Connect your health record and it will check every rule of every trial for you.</p></div></div><div class="agent-ctl"><button class="btn pri big" data-act="connect">' + ICON.link + 'Connect your health record</button></div></div><p class="note">You choose what to share. Nothing reaches a trial team until you apply.</p></div>';
     var res = results(pt), deck = deckFor(pt), ot = onTrial(pt.id);
     var strong = res.filter(function (r) { return r.tier === 'strong' && !r.done; }).length, poss = res.filter(function (r) { return r.tier === 'possible' && !r.done; }).length;
-    var last = lastAgentLine(pt.id), q = ot ? null : topQuestion(pt, deck);
-    var head = '<div class="disc-h"><div><h1 class="hello" style="padding-top:12px"><span class="grad-text">Hello, ' + esc(first) + '</span></h1></div>' +
-      '<button class="agent-pill" data-act="activity"><span class="spark sm' + (pt.settings.auto === 'auto' && !ot ? ' live' : '') + '">' + ICON.spark + '</span><span class="grow"><b>' + (ot ? 'Paused while you’re on ' + TRIAL[ot.trial].code : (pt.settings.auto === 'auto' ? 'Applying for you' : 'Watching ' + TRIALS.length + ' trials')) + '</b><small>' + (last ? esc(last.text) : 'Ready') + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>' +
-      '<button class="iconbtn tune" data-act="settings" aria-label="Search settings">' + ICON.tune + '</button></div>';
+    var q = ot ? null : topQuestion(pt, deck), intro = afIntro('p:' + pt.id);
+    var head = '<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px"><h1 class="hello" style="padding-top:12px"><span class="grad-text">Hello, ' + esc(first) + '</span></h1>' +
+      '<button class="iconbtn tune" data-act="settings" aria-label="Search settings">' + ICON.tune + '</button></div>' + afPatientCard(pt, res, q, ot, intro);
     var cards = [], invIds = ot ? [] : invitesOf(pt);
-    // invitations from trial teams come first, then the agent's question, then the rest of the matches
+    // invitations from trial teams come first, then the rest of the matches. The agent's question now sits in its card above.
     invIds.forEach(function (tid) { var r = res.filter(function (x) { return x.t.id === tid; })[0]; if (r && r.tier !== 'not' && !r.done) cards.push({ kind: 't', r: r, inv: pt.invites[tid] }); });
     var nInv = cards.length;
-    if (q) cards.push({ kind: 'q', q: q });
     deck.forEach(function (r) { if (invIds.indexOf(r.t.id) < 0) cards.push({ kind: 't', r: r }); });
     var deckHTML;
     if (ot) deckHTML = '<div class="pcard empty-card"><span class="spark">' + ICON.spark + '</span><h3>You’re on ' + TRIAL[ot.trial].code + '</h3><p class="muted">Your agent is paused so nothing new gets in the way. When the trial ends, your results go into your record and it starts looking again.</p><button class="btn tonal" data-act="tab" data-v="mine">See your trial</button></div>';
@@ -1421,9 +1669,10 @@ a.cite:hover { background: rgba(168,199,250,.32); }
     else deckHTML = cardHTML(cards[0], true, pt) + (cards[1] ? cardHTML(cards[1], false, pt) : '');
     var btns = (!ot && cards.length && cards[0].kind === 't') ? '<div class="swipe-btns"><button class="sbtn rej" data-act="swipe" data-v="down"><span>' + ICON.x + '</span>Pass</button><button class="sbtn" data-act="trial" data-id="' + cards[0].r.t.id + '"><span>' + ICON.info + '</span>Details</button><button class="sbtn up" data-act="swipe" data-v="up"><span>' + ICON.heart + '</span>Apply</button></div><p class="kbd">Swipe right to apply, left to pass. Or use ← →.</p>' : '';
     var count = cards.filter(function (c) { return c.kind === 't'; }).length;
-    return '<div class="col disc">' + head +
+    return '<div class="af-home"><div class="col disc">' + head +
       '<div class="deck-meta"><span>' + (ot ? '' : (count ? plural(count, 'trial') + ' to look at' + (nInv ? ' · ' + plural(nInv, 'invitation') : '') : '')) + '</span><span class="faint">' + plural(strong, 'strong match', 'strong matches') + ' · ' + poss + ' possible</span></div>' +
-      '<div class="deck" id="deck">' + deckHTML + '</div>' + btns + '</div>';
+      '<div class="deck" id="deck">' + deckHTML + '</div>' + btns + '</div>' +
+      '<aside class="af-side' + (intro ? ' af-anim' : '') + '" aria-label="Your trials in charts">' + afPatientSide(pt, res) + '</aside></div>';
   }
 
   // Clinicians: the ranking number, called "fit". It orders applicants and never decides eligibility.
@@ -3086,6 +3335,135 @@ a.cite:hover { background: rgba(168,199,250,.32); }
     return '<label class="trialpick"><span class="sr">Trial</span><select class="input" id="' + id + '" data-fresh="1" data-act="' + id + '">' + (withAll ? '<option value="all"' + (cur === 'all' ? ' selected' : '') + '>All trials</option>' : '') + TRIALS.map(function (t) { var n = apps.filter(function (a) { return a.trial === t.id && a.stage === 'applied'; }).length; return '<option value="' + t.id + '"' + (cur === t.id ? ' selected' : '') + '>' + t.code + ' · ' + esc(clinWho(t) + ' · ' + clinWhat(t)) + (n && !withAll ? ' (' + n + ' new)' : '') + '</option>'; }).join('') + '</select></label>';
   }
   function reached(a, s) { return a.stage === s || a.hist.some(function (h) { return h.s === s; }); }
+
+  /* ---------- agent-first home, clinician: what the agent did, then the next step; then what the data says.
+     Each chart answers one question a principal investigator asks, and its headline states the answer. ---------- */
+  function afNb(a) { var m = afMark(a.tier); return '<span class="nb" style="' + (m === 'fit' ? 'background:var(--accent);color:var(--accent-ink)' : m === 'ask' ? 'box-shadow:inset 0 0 0 2px var(--accent);color:var(--accent)' : 'background:#5F6368;color:var(--ink)') + '">' + a.score + '</span>'; }
+  function afCap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function afClinicianCard(apps, needs, intro) {
+    var now = Date.now(), waiting = apps.filter(function (a) { return a.stage === 'applied'; });
+    var byAgent = apps.filter(function (a) { return a.by === 'agent'; }).length, miss = waiting.filter(function (a) { return a.tier === 'not'; }).length;
+    var fresh = needs.filter(function (n) { return n[0] === 'find'; })[0];
+    var couldFit = fresh ? fresh[2].replace(/^.*? with no applicants\. /, '') : '';
+    var steps = [
+      ['Read ' + plural(apps.length, 'application'), byAgent + ' were sent by patients’ agents'],
+      ['Checked every entry rule', miss ? 'Flagged ' + plural(miss, 'application') + ' that miss' + (miss === 1 ? 'es' : '') + ' a rule, so you can decline fast' : 'Every waiting application meets the rules or has one fact to check'],
+      fresh ? ['Looked for people who could fit ' + TRIAL[fresh[1]].code, 'No applicants yet, but ' + couldFit.charAt(0).toLowerCase() + couldFit.slice(1)] : ['Watched all ' + TRIALS.length + ' trials', 'No newly opened trial is short of applicants']
+    ];
+    var wt = {};
+    waiting.forEach(function (a) { var w = wt[a.trial] = wt[a.trial] || { n: 0, over: 0, oldest: null }; w.n++; if (now - a.at > 3 * DAY) w.over++; if (!w.oldest || a.at < w.oldest.at) w.oldest = a; });
+    var topTid = Object.keys(wt).sort(function (x, y) { return (wt[y].over - wt[x].over) || (wt[y].n - wt[x].n) || (wt[x].oldest.at - wt[y].oldest.at); })[0];
+    var head = waiting.length ? waiting.length + (waiting.length === 1 ? ' applicant is' : ' applicants are') + ' ready to rank.' + (topTid ? ' Start with ' + TRIAL[topTid].code + '.' : '') : 'Nothing is waiting to be ranked.';
+    var items = [];
+    if (topTid) items.push({ v: 'rank', id: topTid, t: 'Rank ' + plural(wt[topTid].n, 'new applicant') + ' for ' + TRIAL[topTid].code, s: wt[topTid].over ? plural(wt[topTid].over, 'has', 'have') + ' waited over 3 days' : 'Longest wait ' + ((now - wt[topTid].oldest.at) / DAY).toFixed(1) + ' days' });
+    if (fresh) items.push({ v: 'find', id: fresh[1], t: 'Invite people who could fit ' + TRIAL[fresh[1]].code, s: couldFit + ', no applicants yet' });
+    needs.forEach(function (n) { if (items.length < 3 && n[0] === 'apps' && n[1] !== 'enrolled') items.push({ v: 'apps', id: n[1], t: n[2], s: 'Waiting on you' }); });
+    needs.forEach(function (n) { if (items.length < 3 && n[0] === 'rank' && n[1] !== topTid) items.push({ v: 'rank', id: n[1], t: n[2], s: 'New applicants' }); });
+    var sel = Math.max(0, Math.min(items.length - 1, S.afStep || 0)), it = items[sel], detail = '';
+    if (it && it.v === 'rank') {
+      var o = wt[it.id] && wt[it.id].oldest;
+      detail = (o ? '<div class="af-who2">' + afNb(o) + '<span style="flex:1;min-width:0"><b style="font-weight:500;display:block">Waiting ' + ((now - o.at) / DAY).toFixed(1) + ' days · start here</b><small class="muted" style="display:block;font-size:14px">' + afCap(afTierText(o.tier)) + ' · sent by ' + (o.by === 'agent' ? 'their agent' : 'the patient') + '</small></span></div>' : '') +
+        '<button class="btn pri big" style="align-self:flex-start" data-act="need" data-v="rank" data-id="' + it.id + '">Start ranking ' + TRIAL[it.id].code + ' <span aria-hidden="true">→</span></button>';
+    } else if (it && it.v === 'find') detail = '<p class="muted" style="font-size:15px">' + esc(TRIAL[it.id].code + ' has no applicants yet. ' + couldFit + '. Inviting them tells their agents; each patient still decides.') + '</p><button class="btn pri big" style="align-self:flex-start" data-act="need" data-v="find" data-id="' + it.id + '">Review who could fit <span aria-hidden="true">→</span></button>';
+    else if (it) detail = '<p class="muted" style="font-size:15px">Enter the results so patients’ agents can tell them, then sign off.</p><button class="btn pri big" style="align-self:flex-start" data-act="need" data-v="apps" data-id="' + it.id + '">Open applications <span aria-hidden="true">→</span></button>';
+    return '<section class="af' + (intro ? ' intro' : '') + '" aria-label="Your agent"><div class="af-split"><div class="af-col">' +
+      '<div class="af-who"><span class="spark">' + ICON.spark + '</span><span class="grow"><b>Your agent</b><small>What I did since you last looked</small></span></div>' +
+      '<h2 class="af-h">' + afWords(head, waiting.length ? 2 : 0) + '</h2>' +
+      '<ol class="af-steps">' + steps.map(function (s, i) { return '<li style="--i:' + i + '"><div style="display:flex;flex-direction:column;align-items:center"><span class="tk">' + ICON.check + '</span><span class="ln"></span></div><div class="tx"><span>' + esc(s[0]) + '</span><small>' + esc(s[1]) + '</small></div></li>'; }).join('') + '</ol></div>' +
+      (items.length ? '<div class="af-next"><span class="muted" style="font-size:14px">Your next steps</span><div class="af-next-l">' + items.map(function (x, i) { return '<button data-act="af-step" data-i="' + i + '" aria-current="' + (i === sel) + '"><span class="n">' + (i + 1) + '</span><span style="flex:1;min-width:0"><b>' + esc(x.t) + '</b><small>' + esc(x.s) + '</small></span></button>'; }).join('') + '</div><div class="af-detail" aria-live="polite">' + detail + '</div></div>' : '') +
+      '</div>' + afAsk('Ask about your applicants or trials') + '</section>';
+  }
+
+  function afInsights(apps, needsCard, intro) {
+    var now = Date.now(), T = S.afT || {}, N = apps.length;
+    var G = { applied: 'rank', prescreen: 'prog', screening: 'prog', eligibility: 'prog', approval: 'prog', waitlist: 'prog', enrolled: 'done', completed: 'done', rejected: 'stop', screenfail: 'stop', withdrawn: 'stop' };
+    var GN = { rank: 'Waiting on you', prog: 'In progress', done: 'Done', stop: 'Stopped' };
+    var ORDER = ['applied', 'prescreen', 'screening', 'eligibility', 'approval', 'waitlist', 'enrolled', 'completed', 'rejected', 'screenfail', 'withdrawn'];
+    var cnt = {}, gt = { rank: 0, prog: 0, done: 0, stop: 0 };
+    apps.forEach(function (a) { cnt[a.stage] = (cnt[a.stage] || 0) + 1; gt[G[a.stage] || 'prog']++; });
+    var waiting = apps.filter(function (a) { return a.stage === 'applied'; }), W = waiting.length;
+    var maxC = Math.max.apply(null, ORDER.map(function (s) { return cnt[s] || 0; }).concat([1]));
+    var lbl = function (s) { return s === 'applied' ? 'To rank' : STAGE_C[s]; };
+    var ICN = { fit: '✓', ask: '?', no: '✕' };
+    var key3 = '<div class="af-key"><span>' + afSw('fit') + 'Meets every rule</span><span>' + afSw('ask') + 'A fact to check</span><span>' + afSw('no') + 'A rule not met</span></div>';
+
+    // 1. where every application is now: the bottleneck
+    var prevG = null, k = 0, rows1 = '';
+    ORDER.forEach(function (s) {
+      var n = cnt[s] || 0; if (!n) return;
+      var g = G[s], hot = s === 'applied', w = (72 * n / maxC).toFixed(1);
+      if (g !== prevG) { rows1 += '<div class="af-grp">' + GN[g] + ' · ' + gt[g] + '</div>'; prevG = g; }
+      rows1 += '<div class="af-row af-tip' + (hot ? ' hot' : '') + '" tabindex="0" style="--i:' + (k++) + '" data-tip="' + esc(n + ' at ' + lbl(s).toLowerCase() + ' · ' + Math.round(100 * n / N) + '% of all ' + N) + '"><span>' + lbl(s) + '</span><span class="bt"><i style="width:' + w + '%"></i>' + (hot && n === maxC ? '<span class="af-call" style="left:calc(' + w + '% + 12px)">← the bottleneck</span>' : '') + '</span><span class="v">' + n + '</span></div>';
+    });
+    var h1 = W ? W + ' of ' + N + ' applications are waiting for you to rank them' : 'Nothing is waiting to be ranked';
+    var c1 = '<article class="af-card"><header><div><h3>' + esc(h1) + '</h3><span class="sub">Where every application is now' + (W && cnt.applied === maxC ? '. Ranking is the bottleneck; after it, things move.' : '') + '</span></div>' + afTbtn('c1') + '</header>' +
+      (T.c1 ? '<table class="af-tbl"><thead><tr><th>Group</th><th>Stage</th><th class="r">Applications</th></tr></thead><tbody>' + ORDER.filter(function (s) { return cnt[s]; }).map(function (s) { return '<tr><td class="muted">' + GN[G[s]] + '</td><td>' + lbl(s) + '</td><td class="r">' + cnt[s] + '</td></tr>'; }).join('') + '</tbody></table>' : '<div>' + rows1 + '</div>') + '</article>';
+
+    // 2. who has waited longest
+    var ages = waiting.map(function (a) { return (now - a.at) / DAY; });
+    var med = afMedian(ages) || 0, MAXD = Math.max(4, Math.ceil(Math.max.apply(null, ages.concat([0])) + 0.3));
+    var byT = {}; waiting.forEach(function (a) { (byT[a.trial] = byT[a.trial] || []).push(a); });
+    var oldestOf = function (tid) { return Math.min.apply(null, byT[tid].map(function (a) { return a.at; })); };
+    var tids = Object.keys(byT).sort(function (x, y) { return oldestOf(x) - oldestOf(y); });
+    var over = waiting.filter(function (a) { return now - a.at > 3 * DAY; }), overBy = {};
+    over.forEach(function (a) { overBy[a.trial] = (overBy[a.trial] || 0) + 1; });
+    var focus = Object.keys(overBy).sort(function (x, y) { return overBy[y] - overBy[x]; })[0] || tids[0];
+    var h2 = over.length ? (overBy[focus] === over.length ? TRIAL[focus].code + '’s applicants have waited longest: ' + (over.length === 1 ? 'one' : over.length) + ' of them over 3 days' : plural(over.length, 'application has', 'applications have') + ' waited over 3 days, most for ' + TRIAL[focus].code) : 'Everyone waiting has waited under 3 days';
+    var di = 0, zoneL = (3 / MAXD * 100).toFixed(1), medL = (med / MAXD * 100).toFixed(1), ticks = '';
+    for (var t = 0; t <= MAXD; t++) ticks += '<span style="left:' + (t / MAXD * 100).toFixed(1) + '%">' + t + '</span>';
+    var rows2 = tids.map(function (tid) {
+      var dots = byT[tid].map(function (a) {
+        var d = (now - a.at) / DAY, m = afMark(a.tier);
+        return '<span class="af-dot af-tip ' + m + '" tabindex="0" style="left:' + (d / MAXD * 100).toFixed(1) + '%;--i:' + (di++) + '" data-tip="' + esc(TRIAL[tid].code + ' · waiting ' + d.toFixed(1) + ' days\nScore ' + a.score + ' · ' + afTierText(a.tier) + ' · sent by ' + (a.by === 'agent' ? 'their agent' : 'the patient')) + '" aria-label="' + esc(TRIAL[tid].code + ', waiting ' + d.toFixed(1) + ' days, ' + afTierText(a.tier)) + '">' + ICN[m] + '</span>';
+      }).join('');
+      return '<div class="af-wr' + (tid === focus ? '' : ' dim') + '"><span' + (tid === focus ? ' style="font-weight:500"' : '') + '>' + TRIAL[tid].code + '</span><div class="pl"><span class="zone" style="left:' + zoneL + '%"></span><span class="mid"></span><span class="med" style="left:' + medL + '%"></span>' + dots + '</div></div>';
+    }).join('');
+    var chart2 = '<div class="af-wait"><div class="af-wr"><span style="height:22px"></span><div style="position:relative;height:22px;font-size:13px;color:var(--muted)"><span style="position:absolute;left:' + zoneL + '%;padding-left:10px">Over 3 days</span><span style="position:absolute;left:' + medL + '%;transform:translateX(-50%);white-space:nowrap">median ' + med.toFixed(1) + ' d</span></div></div>' + rows2 +
+      '<div class="af-wr"><span style="height:auto"></span><div class="af-axis">' + ticks + '</div></div><div class="af-wr"><span style="height:auto"></span><span style="justify-content:center;height:auto;font-size:13px;color:var(--muted)">Days waiting to be ranked</span></div></div>' + key3;
+    var c2 = W ? '<article class="af-card"><header><div><h3>' + esc(h2) + '</h3><span class="sub">Each dot is one application waiting to be ranked, by how long it has waited</span></div>' + afTbtn('c2') + '</header>' +
+      (T.c2 ? '<table class="af-tbl"><thead><tr><th>Trial</th><th class="r">Days waiting</th><th>Rules</th><th>Sent by</th></tr></thead><tbody>' + waiting.slice().sort(function (a, b) { return a.at - b.at; }).map(function (a) { return '<tr><td>' + TRIAL[a.trial].code + '</td><td class="r">' + ((now - a.at) / DAY).toFixed(1) + '</td><td>' + afTierText(a.tier) + ' (' + a.score + ')</td><td class="muted">' + (a.by === 'agent' ? 'Patient’s agent' : 'Patient') + '</td></tr>'; }).join('') + '</tbody></table>' : chart2) + '</article>' : '';
+
+    // 3. is the agent sending good applications?
+    var src = [['Sent by patients’ agents', waiting.filter(function (a) { return a.by === 'agent'; })], ['Sent by patients themselves', waiting.filter(function (a) { return a.by !== 'agent'; })]];
+    var pct = src.map(function (s) { return s[1].length ? Math.round(100 * s[1].filter(function (a) { return a.tier === 'strong'; }).length / s[1].length) : null; });
+    var h3 = pct[0] != null && pct[1] != null ? (pct[0] > pct[1] ? 'Applications sent by agents meet every rule more often' : pct[0] < pct[1] ? 'Applications patients send themselves meet every rule more often' : 'Agent-sent and patient-sent applications meet the rules equally often') : 'Who sent the applications waiting for you';
+    var bars3 = src.map(function (s, i) {
+      var L = s[1], tot = L.length; if (!tot) return '';
+      var c = { strong: 0, possible: 0, not: 0 }; L.forEach(function (a) { c[a.tier] = (c[a.tier] || 0) + 1; });
+      var seg = function (tier) { var n = c[tier], m = afMark(tier); return n ? '<i class="' + m + '" style="flex:' + n + ' 1 0px">' + ICN[m] + ' ' + n + '</i>' : ''; };
+      return '<div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:baseline;gap:8px"><span style="flex:1;font-size:15px">' + s[0] + ' <span class="muted">· ' + tot + '</span></span><span class="num" style="font-size:24px">' + pct[i] + '%</span></div><div class="af-stack" role="img" aria-label="' + esc(s[0] + ': ' + c.strong + ' meet every rule, ' + c.possible + ' have a fact to check, ' + c.not + ' miss a rule') + '">' + seg('strong') + seg('possible') + seg('not') + '</div></div>';
+    }).join('');
+    var badAgent = src[0][1].filter(function (a) { return a.tier === 'not'; });
+    var c3 = W ? '<article class="af-card"><header><div><h3>' + esc(h3) + '</h3><span class="sub">The ' + W + ' waiting to be ranked, by who sent them. The % meet every rule.</span></div></header>' + bars3 + key3 +
+      (badAgent.length ? '<p class="muted" style="font-size:14px">' + esc(afCap(plural(badAgent.length, 'agent-sent application')) + ' (' + badAgent.map(function (a) { return TRIAL[a.trial].code; }).join(', ') + ') ' + (badAgent.length === 1 ? 'misses' : 'miss') + ' a rule. ' + (badAgent.length === 1 ? 'Its card names' : 'Their cards name') + ' the rule, so you can decline in one tap.') + '</p>' : '') + '</article>' : '';
+
+    // 4. why people stopped
+    var stops = apps.filter(function (a) { return a.stage === 'rejected' || a.stage === 'screenfail' || a.stage === 'withdrawn'; }).sort(function (a, b) { return b.upd - a.upd; });
+    var atPS = stops.filter(function (a) { return a.stage === 'screenfail'; }).length;
+    var h4 = !stops.length ? 'Nobody has stopped so far' : atPS ? atPS + ' of ' + stops.length + (stops.length === 1 ? ' person' : ' people') + ' stopped at pre-screening' : plural(stops.length, 'application') + ' ended without enrolment';
+    var c4 = '<article class="af-card"><header><div><h3>' + esc(h4) + '</h3><span class="sub">Every application that ended without enrolment, and why</span></div></header>' +
+      (stops.length ? '<ul class="af-stops">' + stops.map(function (a) { return '<li><span style="font-weight:500">' + TRIAL[a.trial].code + '</span><span style="display:flex;flex-direction:column;align-items:flex-start;gap:6px"><span>' + esc(a.reason || STAGE_P[a.stage]) + '</span><span class="chip' + (a.stage === 'screenfail' ? ' not' : '') + '">' + STAGE_C[a.stage] + ' · day ' + Math.max(0, Math.round((a.upd - a.at) / DAY)) + '</span></span></li>'; }).join('') + '</ul>' : '<p class="muted">No screen fails or declines yet.</p>') + '</article>';
+
+    // 5. which trials need attention
+    var KEYS = ['rank', 'prog', 'done', 'stop'], CL = { rank: 'fit', prog: 'prog', done: 'done', stop: 'stop' };
+    var trs = TRIALS.map(function (tr) { var A = apps.filter(function (a) { return a.trial === tr.id; }), g = { rank: 0, prog: 0, done: 0, stop: 0 }; A.forEach(function (a) { g[G[a.stage] || 'prog']++; }); return { t: tr, n: A.length, g: g, enr: A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length }; });
+    var withA = trs.filter(function (x) { return x.n; }).sort(function (x, y) { return (y.g.rank - x.g.rank) || (y.n - x.n); }), empty = trs.filter(function (x) { return !x.n; });
+    var maxN = Math.max.apply(null, withA.map(function (x) { return x.n; }).concat([1]));
+    var h5 = (withA[0] ? withA[0].t.code + ' has the most to do' : 'No applications yet') + (empty.length ? '; ' + plural(empty.length, 'trial has', 'trials have') + ' no applicants yet' : '');
+    var rows5 = withA.map(function (x, i) {
+      var parts = []; if (x.g.rank) parts.push(x.g.rank + ' to rank'); if (x.g.prog) parts.push(x.g.prog + ' in progress'); if (x.g.done) parts.push(x.g.done + ' enrolled or completed'); if (x.g.stop) parts.push(x.g.stop + ' stopped');
+      return '<div class="af-tr af-tip" tabindex="0" style="--i:' + i + '" data-tip="' + esc(x.t.code + '\n' + parts.join(' · ')) + '" aria-label="' + esc(x.t.code + ': ' + parts.join(', ')) + '"><span>' + x.t.code + '</span><span><span class="sk" style="width:' + (100 * x.n / maxN).toFixed(1) + '%">' + KEYS.map(function (k2) { return x.g[k2] ? '<i class="' + CL[k2] + '" style="flex:' + x.g[k2] + ' 1 0px"></i>' : ''; }).join('') + '</span></span><span class="v">' + x.n + ' · ' + x.enr + ' of ' + x.t.goal + '</span></div>';
+    }).join('');
+    var emp = empty.map(function (x) { var hot = x.t.opened && x.t.opened <= 14, pool = hot ? poolFor(x.t.id).fresh.length : 0; return '<button class="chip' + (hot ? ' unk' : '') + '" data-act="need" data-v="find" data-id="' + x.t.id + '">' + x.t.code + (hot ? ' · opened ' + ago(openedAt(x.t)) + (pool ? ' · ' + pool + ' could fit' : '') : '') + '</button>'; }).join('');
+    var c5 = '<article class="af-card"><header><div><h3>' + esc(h5) + '</h3><span class="sub">Every application by trial and where it is. Right: applications · enrolled of goal</span></div></header><div style="display:flex;flex-direction:column;gap:2px">' + rows5 + '</div>' +
+      '<div class="af-key"><span>' + afSw('fit') + 'Waiting to be ranked</span><span>' + afSw('prog') + 'In progress</span><span>' + afSw('done') + 'Enrolled or completed</span><span>' + afSw('stop') + 'Stopped</span></div>' +
+      (empty.length ? '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-top:14px;border-top:1px solid var(--surface-3)"><span style="font-size:14px;margin-right:4px">No applicants yet</span>' + emp + '</div>' : '') + '</article>';
+
+    return '<section class="af-ins' + (intro ? ' af-anim' : '') + '" aria-label="What the data says" style="display:flex;flex-direction:column;gap:16px">' +
+      '<div class="af-ins-h"><h2>What the data says</h2><span class="muted" style="font-size:14px">' + plural(N, 'application') + ' across ' + TRIALS.length + ' trials · synthetic demo data</span></div>' +
+      '<div class="af-grid">' + c1 + needsCard + '</div>' + c2 + '<div class="af-grid">' + c3 + c4 + '</div>' + c5 + '</section>';
+  }
+
   function overview(c) {
     var apps = Store.all('apps');
     var toRank = apps.filter(function (a) { return a.stage === 'applied'; }).length;
@@ -3108,12 +3486,14 @@ a.cite:hover { background: rgba(168,199,250,.32); }
       var n = poolFor(t.id).fresh.length; if (n) needs.unshift(['find', t.id, t.code + ' opened ' + ago(openedAt(t)) + ' with no applicants. ' + cnt(n).replace(/^f/, 'F') + ' people could fit', ICON.people]);
     });
     var rows = TRIALS.map(function (t) { var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length; return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(clinWho(t)) + '</span><br><span class="faint xs">' + esc(clinWhat(t)) + '</span></td><td class="num">' + A.length + '</td><td class="num">' + (A.filter(function (a) { return a.stage === 'applied'; }).length || '–') + '</td><td class="num">' + (A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length || '–') + '</td><td><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>'; }).join('');
+    var intro = afIntro('c:' + c.id);
+    var needsCard = '<div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>';
     return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div>' +
       // the figures below come from synthetic demo applications, so say so before anyone reads them as results
       '<span class="chip unk" title="Every patient, application and LT- trial on this page is synthetic. These counts show how the workflow looks, not results.">' + ICON.info + 'Synthetic demo data</span></div>' +
+      afClinicianCard(apps, needs, intro) +
       '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' demo trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t · demo applications</span></div></div>' +
-      '<div class="two"><div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>' +
-      '<div class="card"><h3>Where applicants are</h3><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
+      afInsights(apps, needsCard, intro) +
       '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>To rank</th><th>In screening</th><th>Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
       '<p class="note">All patients, sites and LT- trials are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
   }
@@ -3383,6 +3763,11 @@ a.cite:hover { background: rgba(168,199,250,.32); }
       event(pt.id, 'Gap Closer', 'You answered ' + QUESTIONS[key].short + '. ' + (changed.length ? changed.map(function (r) { return r.t.code + (r.tier === 'not' ? ' no longer fits' : ' is now a ' + r.tier + ' match'); }).join(', ') + '.' : 'Your trials are up to date.'), false);
       toast(changed.length ? changed.map(function (r) { return r.t.code + (r.tier === 'not' ? ' no longer fits' : ' is now a ' + r.tier + ' match'); }).join(', ') : 'Thanks. Your trials are up to date.');
     },
+    // agent-first home
+    'af-send': function () { var i = $('#af-in'); if (!i) return; var v = i.value; i.value = ''; afAskSend(v); },
+    'af-chip': function (el) { afAskSend(el.dataset.v); },
+    'af-tab': function (el) { S.afT = S.afT || {}; S.afT[el.dataset.v] = !S.afT[el.dataset.v]; render(); },
+    'af-step': function (el) { S.afStep = +el.dataset.i; render(); },
     auto: function (el) { var pt = clone(me()); pt.settings.auto = el.checked ? 'auto' : 'ask'; savePatient(pt); toast(el.checked ? 'Your agent will apply to strong matches for you.' : 'Your agent will ask you first.'); setTimeout(openActivity, 50); },
     pref: function (el) { var k = el.dataset.k, v = el.dataset.v; draft[k] = (k === 'maxTravel' && v !== 'any') || k === 'maxVisits' ? Number(v) : v; renderSettings(); },
     ptype: function (el) { var v = el.dataset.v, l = draft.types || []; draft.types = l.indexOf(v) >= 0 ? l.filter(function (x) { return x !== v; }) : l.concat([v]); renderSettings(); },
