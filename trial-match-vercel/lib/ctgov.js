@@ -25,9 +25,11 @@ function shape(study, country) {
   };
 }
 
-export async function searchTrials({ cond = 'non-small cell lung cancer', country = 'United Kingdom', phase = 'PHASE3', pageSize = 50 } = {}) {
+// `term` narrows the search with free words (a gene change, a drug), searched across the whole registry entry.
+export async function searchTrials({ cond = 'non-small cell lung cancer', country = 'United Kingdom', phase = 'PHASE3', pageSize = 50, term = '' } = {}) {
   const qs = new URLSearchParams({
     'query.cond': cond,
+    ...(term ? { 'query.term': term } : {}),
     'query.locn': country,
     'filter.overallStatus': 'RECRUITING',
     'filter.advanced': 'AREA[Phase]' + phase,
@@ -37,7 +39,7 @@ export async function searchTrials({ cond = 'non-small cell lung cancer', countr
   });
   const out = await fetchJson(BASE + '?' + qs, { headers: { Accept: 'application/json' } }, 20000);
   const trials = (out.studies || []).map((s) => shape(s, country)).filter((t) => t.nct && t.siteCount > 0);
-  return { total: out.totalCount || trials.length, trials, query: { cond, country, phase, status: 'RECRUITING' } };
+  return { total: out.totalCount || trials.length, trials, query: { cond, country, phase, status: 'RECRUITING', ...(term ? { term } : {}) } };
 }
 
 export async function getTrial(nct) {

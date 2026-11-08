@@ -4,7 +4,8 @@
  *   TMConnect.status()         -> { medgemma, store, fhir, registry } (each has .on)
  *   TMConnect.readLetter(text) -> MedGemma Records Reader, facts with quotes
  *   TMConnect.readFhir(id)     -> FHIR record, facts with source lines
- *   TMConnect.scout()          -> live trials from ClinicalTrials.gov
+ *   TMConnect.scout(term?)     -> live trials from ClinicalTrials.gov, optionally narrowed by a term
+ *   TMConnect.research(topic, terms) -> Research agent: papers from Europe PMC, with a cited summary when a model is on
  *   TMConnect.prescreen(nct, record, age, sex) -> MedGemma pre-check of a live trial
  * It also provides window.claude.use('db') (a shared store backed by /api/store) when the page is not running
  * inside a Claude artifact, so the app's existing shared-data code works unchanged.
@@ -42,7 +43,8 @@
     status: function () { return status; },
     readLetter: function (text) { return api('/api/agents/records-reader', { text: text }); },
     readFhir: function (patientId) { return api('/api/connectors/fhir', { patientId: patientId }); },
-    scout: function () { return api('/api/agents/trial-scout'); },
+    scout: function (term) { return api('/api/agents/trial-scout' + (term ? '?term=' + encodeURIComponent(term) : '')); },
+    research: function (topic, terms) { return api('/api/agents/research', { topic: topic, terms: terms || [] }); },
     prescreen: function (nct, record, age, sex) { return api('/api/agents/prescreen', { nct: nct, record: record, age: age, sex: sex }); }
   };
 
