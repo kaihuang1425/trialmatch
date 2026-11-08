@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
+    "demo": "node scripts/demo-medgemma.mjs",
     "mock:medgemma": "node scripts/mock-medgemma.mjs",
     "test": "node --test",
     "eval": "node scripts/eval.mjs"
