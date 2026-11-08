@@ -139,11 +139,6 @@ An animated relay. A light runs along a track, and each card plays its own short
 
 - Text: MedGemma reads. Code checks. Rules match. People decide.
 
-## Results (section link “Results”)
-
-- Heading (*word by word*): Every rejection costs both patients and researchers weeks in lost time.
-- Heading, second sentence (*grey*): So we measured that first.
-
 ## Agent team (no section link)
 
 An animated scene that plays while it is on screen and then starts again: a patient’s question types in, the Coordinator hands it on, three public words cross a privacy line to the Researcher, its sources light up and count, a cited brief comes back, and the Analyst types its answer. With reduced motion it shows the finished scene. It mirrors what the app’s chat does for drug questions.
@@ -184,6 +179,11 @@ An animated scene that plays while it is on screen and then starts again: a pati
 - Closing line (each phrase in its agent’s colour): Gemini researches. MedGemma reads your record, at home. Only public words cross. You see every hand-off.
 - Link: Ask the team in the demo →
 - Small print: The patient is synthetic. The sources are real: PubMed, FDA labels and ClinicalTrials.gov.
+
+## Results (section link “Results”)
+
+- Heading (*word by word*): Every rejection costs both patients and researchers weeks in lost time.
+- Heading, second sentence (*grey*): So we measured that first.
 
 Every number below comes from `npm run eval` (`eval/results.md`). Change them only by rerunning it.
 

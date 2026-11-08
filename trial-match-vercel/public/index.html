@@ -236,6 +236,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   .tm .hero-body{gap:22px}
   .tm .hero-chip{position:static;align-self:flex-start}
   .tm .hero-credit{left:20px;right:20px;text-align:right}
+}
 /* ---------- agent team scene: the Coordinator hands a question to Gemini online and MedGemma on the device, across a privacy line.
    The script below steps it through classes s1..s9 while it is on screen. Green means "stays here", blue means "online". ---------- */
 .tm .at{position:relative;display:flex;flex-direction:column;gap:22px;padding:24px;border-radius:32px;background:#161718;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
@@ -373,7 +374,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   .tm .at-outs{grid-template-columns:minmax(0,1fr)}
   .tm .at-step{font-size:11px}
   .tm .at-done{position:static;display:block;margin-top:10px;text-align:center;grid-column:1/-1}
-}
 }
 </style>
 </head>
@@ -534,6 +534,11 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
         </li>
       </ol>
     </div>
+
+    <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">MedGemma reads.</span> <span style="color: #6DD58C">Code checks.</span> <span style="color: #E3E3E3">Rules match.</span> <span class="grad">People decide.</span></p>
+  </div>
+</section>
+
 <!-- AGENT TEAM: one agent hands work to another, and the record never crosses the line. Every word is in LANDING-COPY.md, "Agent team". -->
 <section id="team" class="sect slide" style="padding: 140px 24px; background: #121314">
   <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
@@ -593,11 +598,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       <a class="more" href="/app/" style="color: #A8C7FA; text-decoration: none; font-weight: 500; font-size: 17px">Ask the team in the demo <span aria-hidden="true">→</span></a>
     </div>
     <p style="margin: -24px 0 0; font-size: 13px; color: #6F7378">The patient is synthetic. The sources are real: PubMed, FDA labels and ClinicalTrials.gov.</p>
-  </div>
-</section>
-
-
-    <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">MedGemma reads.</span> <span style="color: #6DD58C">Code checks.</span> <span style="color: #E3E3E3">Rules match.</span> <span class="grad">People decide.</span></p>
   </div>
 </section>
 
@@ -738,9 +738,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   });
   document.addEventListener('touchstart', function () {}, { passive: true });   // lets iOS show :active tap states
 })();
-</script>
-</body>
-</html>
 (function () {
   // Agent team scene: plays one hand-off while it is on screen, then starts again. Classes s1..s9 drive the CSS;
   // the script types the question and the answer, moves each agent's status and counts the sources up.
@@ -816,3 +813,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     es.forEach(function (e) { if (e.isIntersecting && !playing) play(); else if (!e.isIntersecting && playing) stop(); });
   }, { threshold: 0.3 }).observe(at);
 })();
+</script>
+</body>
+</html>
