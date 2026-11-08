@@ -8,7 +8,7 @@ The product is `trial-match-vercel/` (that's what Vercel deploys). This folder h
 | `copy/` | Every landing-page text as a spreadsheet, plus a Gemini prompt for humanising it | Done. Send edits back to apply |
 | `logo/` | 12 logo options (`options.html`) and their SVGs | Done. Pick one |
 | `evidence/` | Claim → source → status for every number; the target case; source snapshots | Done (95% claim needs replacing) |
-| `proposals/` | "More medical and certified" proposal | Done. Awaiting approval |
+| `proposals/` | "More medical and certified" proposal; MedGemma hosting and privacy plan (`MEDGEMMA-PRIVACY.md`) | Done. Awaiting approval |
 | `marketing/` | Posters, iPad loop, image guidance | Plan done; assets not made yet |
 | `business/` | Incentives, pricing, projection model | Next batch |
 | `team/` | Team photo brief | Next batch |
