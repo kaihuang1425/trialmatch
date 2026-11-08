@@ -47,7 +47,8 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @supports (animation-timeline: scroll()){.tm .bar{animation:tmBar linear both;animation-timeline:scroll(root)}}
 @keyframes tmBar{to{transform:scaleX(1)}}
 @media (max-width:900px){.tm .slide{min-height:0}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}.tm *{animation:none!important;transition:none!important}}
+/* reduced motion: the page still plays everything; reveals fade in place instead of sliding, rotating, zooming or blurring */
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}.tm.anim .mo.mo.mo:not(.in){transform:none!important;filter:none!important}}
 .tm-intro{position:fixed;inset:0;z-index:50;background:#0E0E0F;display:grid;place-items:center;pointer-events:none;animation:tmIntroOut .75s 1.1s cubic-bezier(.7,0,.2,1) forwards}
 .tm-intro .mk{position:relative;display:flex;align-items:center;gap:16px;font-family:'Google Sans Flex','Google Sans',Roboto,Arial,sans-serif;font-size:36px;font-weight:500;color:#E3E3E3;animation:tmMk 1.1s cubic-bezier(.2,.8,.2,1) both}
 .tm-intro .mk svg{width:56px;height:56px;animation:tmLogo 1s cubic-bezier(.2,1.4,.4,1) both}
@@ -144,14 +145,12 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   .tm .ag{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
   .tm .ag:active{transform:scale(.97)}
 }
-@media (prefers-reduced-motion:reduce){.tm .rl-node{background:#A8C7FA}}
 /* source icon beside each figure: opens the source; the tooltip names it */
 .tm .src{display:inline-grid;place-items:center;width:28px;height:28px;margin:6px 0 0 12px;vertical-align:top;border-radius:50%;color:#9AA0A6;background:rgba(255,255,255,.06);position:relative;transition:background .2s,color .2s,transform .2s;font-size:12px;letter-spacing:0;line-height:1}
 .tm .src svg{width:15px;height:15px}
 .tm .src:hover,.tm .src:focus-visible{background:rgba(168,199,250,.16);color:#A8C7FA;transform:translateY(-1px);outline:none}
 .tm .src::after{content:attr(data-tip);position:absolute;right:-4px;bottom:calc(100% + 8px);white-space:nowrap;font-size:12px;font-weight:400;padding:8px 10px;border-radius:8px;background:#2A2B2E;color:#E3E3E3;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .15s,transform .15s}
 .tm .src:hover::after,.tm .src:focus-visible::after{opacity:1;transform:none}
-@media (prefers-reduced-motion: reduce){.tm .src,.tm .src::after{transition:none}}
 /* cinematic hero: a full-bleed photo, the headline on a dark fade at the bottom, one frosted match notice */
 /* top bar: fixed, clear over the photo, frosted once scrolled; a flowing Gemini gradient line with the scroll progress on top */
 @property --tba{syntax:'<angle>';inherits:false;initial-value:0deg}
@@ -186,8 +185,8 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .topbar.is-scrolled .topbar-glow,.tm .topbar.is-scrolled .topbar-comet{opacity:0}
 .tm .topbar.is-scrolled .bar{opacity:1}
 @supports (animation-timeline: scroll()){.tm .topbar.is-scrolled .bar-head{opacity:1}}
+.tm .topbar.is-scrolled .bar-head.js-head{opacity:1}   /* browsers without scroll timelines: the script below moves it */
 @media (max-width:900px){.tm .topbar header.navIn{padding:14px 16px!important;gap:8px!important}.tm .isl-brand{font-size:16px;padding:0 14px}.tm .live-in{padding:0 15px;gap:8px}}
-@media (prefers-reduced-motion:reduce){.tm .under,.tm .live-cta .ring,.tm .live-dot,.tm .topbar-strip,.tm .topbar-glow,.tm .topbar-comet,.tm .bar-head{animation:none!important}.tm .topbar-comet{display:none}}
 @keyframes tmFlow{from{background-position:0% 0}to{background-position:200% 0}}
 /* hero motion: the photos take turns (the script below adds 4, 7, 13, 14, 16 and 17 after photo 1). Each one sweeps in on a
    soft edge with a faint Gemini light riding it, then pulls back slowly while it shows. Parallax on scroll, a flowing bottom line, nudging arrows. */
@@ -210,7 +209,9 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .hero-line{background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4)!important;background-size:200% 100%!important;animation:tmFlow 6s linear infinite}
 .tm a .arr{display:inline-block;margin-left:.3em;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
 .tm a:hover .arr{transform:translateX(4px)}
-@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media,.tm .hero-slide,.tm .hero-sheen,.tm .topbar-line,.tm .hero-line{animation:none!important}.tm .hero-sheen{display:none}}
+/* reduced motion: the photos still take turns, as a crossfade; no pull-back, drift, parallax or light sweep */
+@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media{animation:none!important}.tm .hero-sheen{display:none}.tm .hero-slide.is-in{-webkit-mask-image:none;mask-image:none;animation:heroFade 1.2s ease both}}
+@keyframes heroFade{from{opacity:0}}
 .tm header .nl{color:rgba(255,255,255,.82)!important}
 .tm .hero{position:relative;min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:flex-end;padding:120px 24px 72px;box-sizing:border-box;overflow:hidden;background:#0E0E0F}
 .tm .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% var(--y,30%)}
@@ -980,7 +981,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 </div>
 <script>
 (function () {
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Blocks reveal as they scroll in. With reduced motion they still reveal, as a plain fade (see the CSS).
   if (!('IntersectionObserver' in window)) return;
   var root = document.querySelector('.tm'); if (!root) return;
   var sel = 'h1 .w, h2 .w, section h3, section h4, section p, section li, section a.pill, section a.pri, section a.sec, section a.more, section b, .rv, .rv2, .rv3, .lift, .zoomIn, .tiltIn, .swipeIn, .slideL, .slideR, .pop, [data-count], footer p, footer span';
@@ -1013,11 +1014,11 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 (function () {
   // Hero photos take turns. Photo 1 is in the page; the other six are added once the loading screen leaves, so they
   // never slow it down. Every few seconds the next one sweeps in (heroSweep and heroSheen in the CSS, then heroIn's slow
-  // pull-back) and the credit follows. It waits while the hero is off screen or the tab is hidden, and with reduced
-  // motion it stays on photo 1.
+  // pull-back) and the credit follows. It waits while the hero is off screen or the tab is hidden. With reduced motion
+  // the photos still take turns, as a crossfade (see the CSS).
   var media = document.querySelector('.tm .hero-media'), sheen = media && media.querySelector('.hero-sheen');
   var credit = document.querySelector('.tm .hero-credit'), by = credit && credit.querySelector('.hero-by');
-  if (!media || !sheen || !by || !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!media || !sheen || !by) return;
   var HOLD = 6500, SWEEP = 2400;   // ms fully shown, ms for the sweep (match heroSweep and heroSheen)
   // [file in media/hero/, width, height, crop from the top (%), alt text, photographer on Unsplash]
   var MORE = [
@@ -1108,6 +1109,28 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   var top = document.getElementById('top'); if (top) new IntersectionObserver(function (es) { if (es[0].isIntersecting) setOn(null); }, { rootMargin: '-45% 0px -50% 0px' }).observe(top);
 })();
 (function () {
+  // Browsers without scroll-driven animations (Safari before 26, Firefox) get the same scroll progress bar, its glowing
+  // head and the hero parallax, moved from the scroll position instead. Reduced motion drops the parallax, as in the CSS.
+  if (window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()')) return;
+  var bar = document.querySelector('.tm .topbar .bar'), head = document.querySelector('.tm .bar-head');
+  var media = document.querySelector('.tm .hero-media');
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) media = null;
+  if (head) head.classList.add('js-head');
+  var queued = false;
+  function upd() {
+    queued = false;
+    var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    if (head) head.style.transform = 'translateX(' + (-4 + p * (window.innerWidth - 5)).toFixed(1) + 'px)';
+    if (media) media.style.transform = 'translateY(' + (16 * Math.min(1, y / window.innerHeight)).toFixed(2) + '%)';
+  }
+  function queue() { if (!queued) { queued = true; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  upd();
+})();
+(function () {
   // The agents relay loops only while it is on screen.
   var r = document.querySelector('.tm .relay'); if (!r) return;
   if (!('IntersectionObserver' in window)) { r.classList.add('play'); return; }
@@ -1117,12 +1140,12 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   // Phones only: the card row follows the running light, and a tap on the track jumps to that step.
   var row = document.querySelector('.tm .rl-row'), track = document.querySelector('.tm .rl-track');
   if (!row || !track || !window.matchMedia) return;
-  var small = window.matchMedia('(max-width: 900px)'), still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var small = window.matchMedia('(max-width: 900px)');
   var cards = Array.prototype.slice.call(row.children), hold = 0;
   function go(i, smooth) {
     if (!small.matches || !cards[i]) return;
     var c = cards[i];   // layout positions, so the section's reveal transform can't skew the maths
-    row.scrollTo({ left: c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2, behavior: smooth && !still.matches ? 'smooth' : 'auto' });
+    row.scrollTo({ left: c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2, behavior: smooth ? 'smooth' : 'auto' });
   }
   cards.forEach(function (c, i) {
     function follow(e) { if (e.target === c && e.animationName === 'rlCard' && Date.now() > hold) go(i, true); }
@@ -1140,9 +1163,8 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 (function () {
   // Agent team scene: plays one hand-off while it is on screen, then starts again. Classes s1..s9 drive the CSS;
   // the script types the question and the answer, moves each agent's status and counts the sources up.
-  // With reduced motion, or no IntersectionObserver, it shows the finished scene.
+  // It plays with reduced motion too; with no IntersectionObserver it shows the finished scene.
   var at = document.querySelector('.tm .at'); if (!at) return;
-  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var Q = 'How does sotorasib compare with docetaxel?';
   var qEl = at.querySelector('.at-typed'), ans = at.querySelectorAll('.at-ans'), steps = at.querySelectorAll('.at-step'), timers = [], playing = false;
   function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
@@ -1160,7 +1182,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     if (st.textContent !== label) { st.textContent = label; st.classList.remove('flip'); void st.offsetWidth; st.classList.add('flip'); }
   }
   function count(el, to) {
-    if (still) { el.textContent = to; return; }
     var t0 = null;
     (function f(ts) { if (ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / 700); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p >= 1) return; } requestAnimationFrame(f); })();
   }
@@ -1206,7 +1227,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     later(14200, function () { stage(9); agent('an', 'done', 'Done. Your record stayed on your computer'); });
     later(20500, play);
   }
-  if (still || !('IntersectionObserver' in window)) { finished(); return; }
+  if (!('IntersectionObserver' in window)) { finished(); return; }
   reset();
   // Starts once the scene's top is a quarter of the way up the screen, not when 30% of it shows: on a phone the scene is
   // taller than two screens, so a share of its height left it sitting empty under the heading.
@@ -1218,8 +1239,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   // Product scenes: the patient's phone (.ph) and the trial team's window (.cw). Each plays while it is on screen and then
   // starts again. Classes b1..b8 only move forward; ask, conf, toast, ev, acts and sent open and close things. Numbers tick
   // into place or count up, results pop, and the highlight in the step pill under each frame slides along with it.
-  // With reduced motion, or no IntersectionObserver, each shows its finished state.
-  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // They play with reduced motion too; with no IntersectionObserver each shows its finished state.
   function Scene(el) {
     var timers = [], s = { el: el, playing: false };
     var steps = document.querySelector('.tm .sc-steps[data-for="' + (el.classList.contains('ph') ? 'ph' : 'cw') + '"]');
@@ -1253,7 +1273,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     };
     s.count = function (node, to, ms) {   // counts from what it shows now to `to`, easing out
       var from = parseInt(node.textContent, 10) || 0, id = node._c = (node._c || 0) + 1, t0 = null;
-      if (still || from === to) { node.textContent = to; return; }
+      if (from === to) { node.textContent = to; return; }
       requestAnimationFrame(function f(ts) {
         if (node._c !== id) return;
         if (t0 === null) t0 = ts;
@@ -1269,7 +1289,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       r.classList.remove('g', 'y', 'r'); if (tone) r.classList.add(tone);
     };
     s.run = function (play, reset, finished) {
-      if (still || !('IntersectionObserver' in window)) { finished(); return; }
+      if (!('IntersectionObserver' in window)) { finished(); return; }
       reset();
       new IntersectionObserver(function (es) {
         es.forEach(function (e) {

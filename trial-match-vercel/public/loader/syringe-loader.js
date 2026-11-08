@@ -10,7 +10,6 @@
   var me = document.currentScript;
   var wait = (me && me.getAttribute('data-wait')) || 'load';
   var maxMs = Number((me && me.getAttribute('data-max')) || 8000);
-  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var html = document.documentElement;
   var leaveResolve;
   var api = { done: function () { ready = true; }, leaving: new Promise(function (r) { leaveResolve = r; }) };
@@ -59,7 +58,8 @@
     '@keyframes tmlPop{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.18)}100%{opacity:1;transform:scale(1)}}' +
     '@keyframes tmlShine{from{transform:translateX(-120px)}to{transform:translateX(420px)}}' +
     '@keyframes tmlDrop{0%{opacity:0;transform:translateX(0) scale(.2)}45%{opacity:1;transform:translateX(4px) scale(1)}100%{opacity:0;transform:translateX(24px) scale(.6)}}' +
-    '@media (prefers-reduced-motion:reduce){#tml *{animation:none!important;transition:none!important}#tml{transition:opacity .2s}#tml.is-out{transform:none;opacity:0}}';
+    // Reduced motion: everything inside still plays (fill, steps, ticks, spinner); only the full-screen slide becomes a fade.
+    '@media (prefers-reduced-motion:reduce){#tml{transition:opacity .45s ease}#tml.is-out{transform:none;opacity:0}}';
 
   var CHECK = '<svg class="tml-chk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#6DD58C"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#0A3818" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
   var SPIN = '<svg class="tml-spin" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="url(#tml-sp)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="20 60"></circle></svg>';
@@ -126,7 +126,7 @@
     if (steps[i + 1]) steps[i + 1].classList.add('is-active');
   }
 
-  var MIN = reduce ? 600 : 1500;
+  var MIN = 1500;
   var t0 = performance.now(), last = t0, p = 0, at = 0, phase = 'fill', pushAt = 0;
   function easeOut(x) { return 1 - Math.pow(1 - x, 3); }
   function frame(now) {
@@ -134,16 +134,16 @@
     var el = now - t0;
     if (phase === 'fill') {
       var target = ready && el >= MIN ? 1 : 0.86 * easeOut(Math.min(1, el / MIN));
-      p = reduce ? target : p + (target - p) * Math.min(1, dt / 110);
+      p = p + (target - p) * Math.min(1, dt / 110);
       if (target === 1 && p > 0.995) p = 1;
       show(p); pct.textContent = Math.round(p * 100) + '%';
       if (p >= 0.66) root.classList.add('is-full');
       while (at < 3 && p >= [0.33, 0.66, 1][at]) { finish(at); at++; }
-      if (at === 3) { phase = 'ready'; pushAt = now + (reduce ? 0 : 560); }
+      if (at === 3) { phase = 'ready'; pushAt = now + 560; }
     } else if (phase === 'ready' && now >= pushAt) {
       phase = 'push'; pushAt = now; root.classList.add('is-push');
     } else if (phase === 'push') {
-      var k = reduce ? 1 : Math.min(1, (now - pushAt) / 420);
+      var k = Math.min(1, (now - pushAt) / 420);
       show(1 - k * k);
       if (k >= 1) { leave(); return; }
     }
@@ -156,7 +156,7 @@
     root.classList.add('is-out');
     html.classList.remove('tm-loading'); html.classList.add('tm-ready');
     leaveResolve();
-    setTimeout(function () { if (root && root.parentNode) root.parentNode.removeChild(root); }, reduce ? 250 : 750);
+    setTimeout(function () { if (root && root.parentNode) root.parentNode.removeChild(root); }, 750);
   }
 
   if (wait === 'load') {
