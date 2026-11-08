@@ -7,7 +7,7 @@ The product is `trial-match-vercel/` (that's what Vercel deploys). This folder h
 | `RUBRIC-CHECK.md` | The project checked against the AgentVerse Biotech brief, rubric and judges | Done |
 | `copy/` | Every landing-page text as a spreadsheet, plus a Gemini prompt for humanising it | Done. Send edits back to apply |
 | `logo/` | 12 logo options (`options.html`) and their SVGs | Done. Pick one |
-| `evidence/` | Claim → source → status for every number; the target case; source snapshots | Done (95% claim needs replacing) |
+| `evidence/` | Claim → source → status for every number; the target case; source snapshots | Done (all four cited figures verified 8 Nov; Results numbers await the evaluation) |
 | `proposals/` | "More medical and certified" proposal; MedGemma hosting and privacy plan (`MEDGEMMA-PRIVACY.md`) | Done. Awaiting approval |
 | `marketing/` | Posters, iPad loop, image guidance | Plan done; assets not made yet |
 | `business/` | Incentives, pricing, projection model | Next batch |

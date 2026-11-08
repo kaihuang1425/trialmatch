@@ -30,11 +30,10 @@ Notes for editing:
 
 ## Hero
 
-- Pill: Phase III lung cancer trials in the UK
-- Pill link: See the data →
-- Heading (*word by word*): Most patients would join a trial.
-- Heading, second sentence (*gradient*): Most are never asked.
-- Intro: Trial Match gives every patient an AI agent that finds the trials they qualify for, and gives every trial team a shortlist of people ready to join.
+- Pill (not a link): Team Legacy
+- Heading (*word by word*): 95% of patients would consider a trial if eligible.
+- Heading, second sentence (*gradient*): Yet most never hear about one.
+- Intro: Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.
 - Main button: Try the demo →
 - Second button: See how it works
 
@@ -55,24 +54,24 @@ Notes for editing:
 
 ## The gap (section link “The gap”)
 
-- Heading (*word by word*): The UK opens trials faster than ever.
-- Heading, second sentence (*grey*): Then they sit half empty.
+- Heading (*word by word*): UK trials open faster than ever.
+- Heading, second sentence (*grey*): Yet many sit empty for weeks, waiting for patients.
 
 ### Left panel
 
 - Label: Patients
 - Number (*counts up from 0*): 95%
-- Text: would consider joining a trial
+- Text: would consider joining a trial if eligible
 - Number (*counts up from 0*, shown in red): 63%
 - Text: were never told about one
 
 ### Right panel
 
-- Label: Trials
+- Label: Time to open a trial
 - Number (*counts down from 169*): 122
-- Text: days to open a trial, down from 169
-- Number (*counts up from 0*, shown in red): 3 in 10
-- Text: still have no patient a month after opening
+- Text: days to first patient in industry trials, down from 169
+- Number (*counts up from 0*, shown in red): 4 in 10
+- Text: studies still had no patient a month after opening
 
 ### Closing line
 
@@ -150,7 +149,7 @@ An animated relay. A light runs along a track, and each card plays its own short
 - Left text: of “eligible” matches were wrong
 - Right label: Trial Match
 - Right number (*gradient*): 0%
-- Right text: wrong, with every real match still found
+- Right text: wrong on synthetic patients, with every real match still found
 
 ### Below the comparison
 
@@ -185,7 +184,7 @@ An animated relay. A light runs along a track, and each card plays its own short
 - Name: Trial Match
 - Line: Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.
 - Sources (each linked part is in square brackets, with its link after it):
-  Sources: 95% from [BMJ Open Respiratory Research](https://bmjopenrespres.bmj.com/content/13/1/e003702) (UK cancer patients). 63% from an [Institute of Cancer Research survey](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html) of 500+ patients, 2021. 122 and 169 days from the [Health Research Authority](https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/), 2026. 3 in 10 from [UK Clinical Research Delivery figures](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026), 2026 (industry trials).
+  Sources: 95% from [BMJ Open Respiratory Research](https://doi.org/10.1136/bmjresp-2025-003702), 2026, citing the Institute of Cancer Research’s 2021 report (UK cancer patients, if eligible). 63% from an [Institute of Cancer Research survey](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html) of 500+ patients, 2021. 122 and 169 days (median, industry drug trials) and 4 in 10 (all studies, 2025) from [UK Clinical Research Delivery KPIs](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026), 2026.
 
 ## Link targets (not visible text)
 

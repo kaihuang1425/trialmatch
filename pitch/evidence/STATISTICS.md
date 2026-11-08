@@ -1,6 +1,6 @@
 # Evidence for Trial Match: claims, sources and the target case
 
-Checked 7 November 2026. The rule we follow (it's also the judges' data rule): **only a number with a working source goes on the site or in the pitch, with its scope and date.** Our own synthetic results are always labelled as synthetic and never presented as real-world performance.
+Checked 7 November 2026; every source in section 1 rechecked 8 November 2026, and the landing page updated to match. The rule we follow (it's also the judges' data rule): **only a number with a working source goes on the site or in the pitch, with its scope and date.** Our own synthetic results are always labelled as synthetic and never presented as real-world performance.
 
 This folder sits outside the deployed app (`trial-match-vercel/`), so editing it never changes the product. When a number here is approved, it's copied onto the landing page together with its source line.
 
@@ -8,11 +8,11 @@ This folder sits outside the deployed app (`trial-match-vercel/`), so editing it
 
 | On the page | Status | What the source actually says | Change |
 |---|---|---|---|
-| **95%** "would consider joining a trial" (cited to BMJ Open Respiratory Research) | ❌ **Not verifiable.** Article e003702 can't be found in any index, and the link refuses automated reading. Judges may click it | — | Replace it, or remove it until a real source is found (open the link yourself first; if it does exist, note the exact sentence). Verified alternative from the same survey as the 63%: "only **11%** of cancer patients surveyed had taken part in a trial" ([ICR, Dec 2021](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html)) |
+| **95%** "would consider joining a trial if eligible" (cited to BMJ Open Respiratory Research) | ✅, secondhand. *Corrected 8 Nov: the 7 Nov check said this article couldn't be found. It can.* | Lond B, Dodd C, Davey Z, Williamson IR. "Supporting nurses to improve clinical trial discussions with patients with lung cancer using the Lung I-ACT tool: a mixed methods pilot study." *BMJ Open Respir Res*, June 2026, doi:10.1136/bmjresp-2025-003702 (PMID 42342292, open access as PMC13295780). Its background section says: "Around 95% of patients in the UK report being open to considering participation in cancer clinical trials if eligible", citing reference 5, the **Institute of Cancer Research's 2021 report** *Clinical Trials in Cancer: Barriers in Access to Clinical Trials*. That's the same survey as the 63%. The ICR press coverage gives only the 63% and 11%, so the BMJ paper is the source we can link | **Done 8 Nov:** added "if eligible", and the footer now credits the ICR 2021 report by way of the BMJ paper. Also from the same survey: only **11%** had taken part in a trial ([ICR, Dec 2021](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html)) |
 | **63%** "were never told about one" | ✅ | Institute of Cancer Research survey of 500+ cancer patients, published Dec 2021: 63% "did not hear about clinical trials" during treatment | Keep. Wording could be "never heard about one during treatment" |
-| **122 days** to open a trial, "down from 169" | ✅, but scoped | **Commercial interventional** trials only; average set-up time; published April 2026 ([HRA](https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/)) | Say "to open an **industry** trial". The footer already says the HRA |
-| **3 in 10** "still have no patient a month after opening" | ✅, small sample | February 2026: 70% of commercial contract studies recruited their first participant within 30 days (14 of 20), so 30% did not. Across all study types it was 67% (42 of 63), so about **1 in 3** did not ([DHSC KPIs to Aug 2026](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026)) | Prefer "**1 in 3 UK studies** have no patient a month after opening" (63 studies, so a sturdier base than 20) |
-| **77%** wrong vs **0%**, **12×** less to review, 0.6 vs 7.1, "1,080 synthetic pairs" | ❌ **Not reproducible from this repo** | Our own numbers, but no script or results file here produces them | Add an evaluation for the deployed matcher (see `../RUBRIC-CHECK.md`), then use its numbers with "on synthetic patients" in the headline |
+| **122 days** to first patient in industry trials, "down from 169" | ✅ | [DHSC KPIs to Aug 2026](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026), indicator 1: **median** days from application to first participant recruited, commercial contract interventional CTIMP (drug) studies. Applications April–September 2025: **122**; October 2024–March 2025: 157; April–September 2024: **169**. The [HRA's April 2026 news item](https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/) reports the same 169 → 122 but calls it the "average time to set up" | 8 Nov: the page now cites the KPI report and says "median, industry drug trials". Note the clock starts at the regulatory **application**, not at opening |
+| **4 in 10** studies "still had no patient a month after opening" (was "3 in 10") | ✅ | Same KPI report, indicator 4, table 4.3: in **2025, 56%** of studies (460 of 823) recruited their first participant within 30 days of opening, so **44%** did not. All study types. A further 192 studies that opened in 2025 hadn't recruited anyone, or hadn't recorded it, and aren't in the 823, so 44% is if anything an underestimate. The old "3 in 10" came from a single month (February 2026, commercial only, 14 of 20) | 8 Nov: switched to the full-year 2025 figure, a much sturdier base |
+| **77%** wrong vs **0%**, **12×** less to review, 0.6 vs 7.1, "1,080 synthetic pairs" | ❌ **Not reproducible from this repo** | Our own numbers, but no script or results file here produces them (`trialmatch/results/` is 205 trials × 30 patients with no baseline; `relay/eval/` is 45 pairs from a different app) | **Done 8 Nov:** the big line now says "wrong on synthetic patients". An evaluation for the deployed matcher is in progress; replace these numbers with its results |
 
 ## 2. Statistics for the target case (verified)
 
@@ -39,7 +39,7 @@ This folder sits outside the deployed app (`trial-match-vercel/`), so editing it
 
 **Needs a better source before use:**
 - EGFR mutation rate in UK NSCLC (16.6% in England and Wales, from a secondary summary, [GPnotebook](https://gpnotebook.com/en-GB/pages/oncology/egfr-tk-mutation-testing-and-lung-cancer)).
-- The national share of lung cancer patients in trials (no current audit figure found).
+- The national share of lung cancer patients in trials (no current audit figure found). Lead: the BMJ paper above says recruitment into lung cancer trials "is as low as 5%" and "5%–13%" globally, but it cites studies from 2000 (Thorax) and 2013 (J Cancer Educ), so find a current UK figure before using it.
 
 ## 3. The target case (one named user, one bottleneck)
 
@@ -64,7 +64,7 @@ pitch/evidence/
 ```
 
 Priorities:
-1. Replace or verify the 95% claim.
+1. ~~Replace or verify the 95% claim.~~ Verified 8 Nov (see section 1).
 2. A UK figure for how many lung cancer patients join trials.
 3. A real nurse workload number (ask a research nurse; one quote with permission beats any estimate).
 4. Recruitment KPIs for lung cancer trials specifically, if NIHR publishes them by cancer type.
