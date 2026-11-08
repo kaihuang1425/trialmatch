@@ -40,7 +40,7 @@ The splash is a syringe that fills while the page loads. Each step shows large, 
 
 ## Hero
 
-- Pill (not a link, with a gold trophy icon): Team Legacy · 1st place, AgentVerse 2026
+- Pill (not a link, with a gold trophy icon): 1st place, AgentVerse 2026
 - Heading (*word by word*): 95% of patients are willing to join trials.
 - Heading, second sentence (*gradient*): Yet few ever hear about them.
 - Intro: Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.
