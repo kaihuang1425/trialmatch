@@ -33,10 +33,10 @@
 
 <p align="center">
   <a href="https://trial-match-ebon.vercel.app/media/trial-match-agentverse.mp4">
-    <img src="docs/trial-match-preview.webp" width="400" alt="Trial Match in 16 seconds: Mei's agent checks trial LT-301's nine entry rules against her record, asks her the one it can't settle, and applies for her. Then the 3D view zooms from the body through the lungs and a cancer cell to the EGFR protein, with a drug bound in its pocket.">
+    <img src="docs/trial-match-video.webp" width="480" alt="The 55-second Trial Match video. Mei's agent checks trial LT-301's nine entry rules against her record, asks her the one it can't settle and applies for her. Each agent does one job. The privacy guard sends only public words online while the record stays on the device. The 3D view zooms from the body through the lungs and a cancer cell to the EGFR protein, with a drug bound in its pocket. The trial team gets a ranked shortlist, and people decide.">
   </a>
   <br>
-  <sub>▶ <a href="https://trial-match-ebon.vercel.app/media/trial-match-agentverse.mp4">Watch the full 55-second video, with sound</a></sub>
+  <sub>🔊 <a href="https://trial-match-ebon.vercel.app/media/trial-match-agentverse.mp4">Play it with sound</a></sub>
 </p>
 
 <p align="center">
