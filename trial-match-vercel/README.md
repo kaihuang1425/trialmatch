@@ -57,7 +57,7 @@ The status endpoint `GET /api/status` shows which connectors are live, and the a
 
 ## Live
 
-https://trial-match-ebon.vercel.app (demo at `/app/`). Vercel project `trial-match` uses this folder as its Root Directory and is connected to the GitHub repo `kaihuang1425/agentic-legacy`. Pushes to `main` deploy to production, and other branches get a preview link. To deploy by hand, run this from the repo root:
+https://trial-match-ebon.vercel.app (demo at `/app/`). Vercel project `trial-match` uses this folder as its Root Directory and is connected to the GitHub repo `kaihuang1425/trialmatch`. Pushes to `main` deploy to production, and other branches get a preview link. To deploy by hand, run this from the repo root:
 
 ```bash
 vercel deploy --prod
