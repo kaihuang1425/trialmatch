@@ -57,9 +57,7 @@
     '@keyframes tmlShim{0%{background-position:100% 0}100%{background-position:0% 0}}' +
     '@keyframes tmlPop{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.18)}100%{opacity:1;transform:scale(1)}}' +
     '@keyframes tmlShine{from{transform:translateX(-120px)}to{transform:translateX(420px)}}' +
-    '@keyframes tmlDrop{0%{opacity:0;transform:translateX(0) scale(.2)}45%{opacity:1;transform:translateX(4px) scale(1)}100%{opacity:0;transform:translateX(24px) scale(.6)}}' +
-    // Reduced motion: everything inside still plays (fill, steps, ticks, spinner); only the full-screen slide becomes a fade.
-    '@media (prefers-reduced-motion:reduce){#tml{transition:opacity .45s ease}#tml.is-out{transform:none;opacity:0}}';
+    '@keyframes tmlDrop{0%{opacity:0;transform:translateX(0) scale(.2)}45%{opacity:1;transform:translateX(4px) scale(1)}100%{opacity:0;transform:translateX(24px) scale(.6)}}';
 
   var CHECK = '<svg class="tml-chk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#6DD58C"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#0A3818" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
   var SPIN = '<svg class="tml-spin" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="url(#tml-sp)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="20 60"></circle></svg>';

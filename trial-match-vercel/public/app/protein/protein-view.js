@@ -500,7 +500,6 @@
     '.pv-x{top:0;right:6px}',
     '.pv-sheet .pv-stage{height:45vh;margin:0 8px}',
     '.pv-sheet .pv-ctl{padding:12px 20px 20px}.pv-sheet .pv-calm{padding:4px 20px}}'
-    // reduced motion keeps these transitions and fades; only the camera flights and zooms jump (see reduced() below)
   ].join('\n');
   var DARK = '--pv-ink:#e8edf3;--pv-muted:#9aa7b6;--pv-line:#2a3644;--pv-line2:#223040;--pv-bg:#0f1620;--pv-surface:#17212d;' +
     '--pv-staff:#3cc2b3;--pv-staff-ink:#5fd6c8;--pv-staff-soft:#12302d;--pv-change:#ff6b81;--pv-change-ink:#ff8a9b;--pv-change-soft:#3a1c24;' +
@@ -577,7 +576,6 @@
 
   var LIVE = { views: 0 };   // views holding a 3Dmol viewer; the last one out releases the WebGL context
 
-  function reduced() { return HAS_DOM && root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches; }
   function schemeDark() { return !!(root.matchMedia && root.matchMedia('(prefers-color-scheme: dark)').matches); }
   function now() { return (root.performance && root.performance.now) ? root.performance.now() : Date.now(); }
   function raf(fn) { return (root.requestAnimationFrame || function (f) { return setTimeout(function () { f(now()); }, 16); })(fn); }
@@ -814,7 +812,7 @@
     }
     function tweenTo(to, ms, done) {
       var id = ++V.tween;
-      if (ms <= 0 || reduced()) { V.viewer.setView(to); if (done) done(); return; }
+      if (ms <= 0) { V.viewer.setView(to); if (done) done(); return; }
       var from = V.viewer.getView().slice(0, 8), qa = from.slice(4, 8), qb = to.slice(4, 8), t0 = now();
       (function step() {
         if (id !== V.tween || !V.alive) return;
@@ -933,13 +931,11 @@
       v.resize();
       v.zoomTo();                                   // sets a permissive slab for the whole scene
       V.frames = frames();
-      var target = V.frames[V.mode], motion = !reduced();
-      v.setView(motion ? V.frames.overview : target);
-      if (!motion && V.mode === 'change' && V.models.hot) glowShapes(REST, 1);
+      var target = V.frames[V.mode];
+      v.setView(V.frames.overview);
       v.render();
       el.gl.classList.add('pv-on');                 // moment 1: fade in (CSS, 180 ms) ...
       ready('3d');
-      if (!motion) return;
       if (J && J.level !== 'protein') return;      // the zoom levels hand over to the 3D view when they reach it
       var id = V.tween;
       setTimeout(function () {                      // ... then fly to the fault and glow once
@@ -1029,7 +1025,7 @@
       }, { passive: true });
       var seen = false;
       try { seen = root.sessionStorage.getItem('pv-zoom-seen') === '1'; } catch (e) { /* storage blocked */ }
-      if (!seen && !reduced()) { jump('body'); ensure3D(); watchIntro(); } else syncLevel(false);
+      if (!seen) { jump('body'); ensure3D(); watchIntro(); } else syncLevel(false);
     }
     // The 3D body, lungs and cell (body3d.js, three.js) load only when someone zooms out of the protein.
     function ensure3D() {
@@ -1154,13 +1150,13 @@
       J.busy = false;
       placeHot();
       if (J.three) J.three.pause(J.level === 'protein');
-      if (J.level === 'protein' && V.viewer && V.frames && !reduced()) {
+      if (J.level === 'protein' && V.viewer && V.frames) {
         tweenTo(V.frames[V.mode], 720, function () { if (V.mode === 'change' && V.models && V.models.hot) pulse(); });
       }
       if (J.next) { var n = J.next; J.next = null; go(n, false); } else if (done) done();
     }
     function go3(from, target, done) {
-      var ms = reduced() ? 0 : (DUR3[from + '>' + target] || 2000), an = animator(ms > 0);
+      var ms = DUR3[from + '>' + target] || 2000, an = animator(ms > 0);
       var easeIn = 'cubic-bezier(.55,.05,.8,.35)', easeOut = 'cubic-bezier(.2,.8,.25,1)', world = [el.gl].concat(V.still ? [V.still] : []);
       J.level = target;
       el.zoom.hidden = false; J.w3.hidden = false;
@@ -1183,7 +1179,7 @@
       });
     }
     function goFlat(from, target, done) {
-      var inward = LEVELS.indexOf(target) > LEVELS.indexOf(from), dur = reduced() ? 0 : 720, an = animator(dur > 0);
+      var inward = LEVELS.indexOf(target) > LEVELS.indexOf(from), dur = 720, an = animator(dur > 0);
       var outEl = J.sc[from] || null, inEl = J.sc[target] || null;
       var easeIn = 'cubic-bezier(.55,.05,.8,.35)', easeOut = 'cubic-bezier(.2,.8,.25,1)';
       J.level = target;

@@ -7,7 +7,7 @@
 <style>[hidden]:not([hidden=until-found i]){display:none!important}img{max-width:100%}</style>
 </head>
 <body>
-<script src="/loader/syringe-loader.js" data-wait="app" data-max="12000"></script><!-- loading screen: always shows, finishes when the data is ready (shared store or this browser), at most 12 s -->
+<script src="/loader/syringe-loader.js" data-wait="app" data-max="12000"></script><script src="/touch-press.js" defer></script><!-- loading screen: always shows, finishes when the data is ready (shared store or this browser), at most 12 s -->
 <title>Trial Match</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -373,8 +373,7 @@ details summary { cursor: pointer; color: var(--accent); font-size: 14px; font-w
 details summary::-webkit-details-marker { display: none; }
 details[open] summary { margin-bottom: 10px; }
 .banner { background: var(--unk-soft); color: var(--unk); border-radius: var(--r); padding: 10px 14px; font-size: 13px; }
-/* reduced motion: the app still animates like everywhere else; only the two big moves soften (a swiped card fades
-   instead of flying off, and the intro spark fades in instead of spinning in). See .af below and fly() in the script. */
+/* motion is the same on every screen and every setting: phones, and phones with Reduce Motion on, play exactly what desktop plays */
 /* ---------- swipe cards (patients) ---------- */
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .disc { max-width: 560px; gap: 16px; }
@@ -905,13 +904,11 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
 .af-anim .af-row .bt i, .af-anim .af-tr .sk { animation: afGrowX .8s calc(.2s + var(--i) * 50ms) cubic-bezier(.2,.8,.2,1) both; }
 .af-anim .af-dot { animation: afPop .45s calc(.3s + var(--i) * 35ms) cubic-bezier(.2,1.4,.4,1) both; }
 .af-anim .af-units { animation: afGrowX .8s calc(.25s + var(--i) * 120ms) cubic-bezier(.2,.8,.2,1) both; }
-@keyframes afFade { from { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .af.intro .af-who .spark { animation-name: afFade; } }
 </style>
 <div id="app"></div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
 <script src="connectors.js"></script>
-<script src="protein/protein-view.js?v=1.4.0"></script><!-- bump ?v= when protein-view.js changes: /app/protein is cached for a week -->
+<script src="protein/protein-view.js?v=1.4.1"></script><!-- bump ?v= when protein-view.js changes: /app/protein is cached for a week -->
 <script>
 (function () {
   'use strict';
@@ -1186,7 +1183,6 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function dstr(t) { return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
   function rid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function plural(n, a, b) { return n + ' ' + (n === 1 ? a : (b || a + 's')); }
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var I = function (d, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
   var ICON = {
@@ -1642,7 +1638,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       '<div><h1><span class="grad-text">Find the trial that fits.</span></h1><p class="sub">Starting with lung cancer: phase III trials, matched by your own agent and decided by people.</p></div>' +
       '<div class="seg" role="group" aria-label="Account type" style="align-self:flex-start"><button data-act="login-role" data-v="patient" aria-pressed="' + (S.loginRole === 'patient') + '">I’m a patient</button><button data-act="login-role" data-v="clinician" aria-pressed="' + (S.loginRole === 'clinician') + '">I’m a clinician</button></div>' +
       '<div class="list">' + (list || '<div class="item muted">No accounts yet.</div>') + '</div>' + create +
-      '<p class="note">Prototype for AgentVerse 2026. Demo accounts, no passwords. Every patient and hospital here is synthetic, and so are trials LT-301 to LT-319. Trials with an NCT number are real, live from ClinicalTrials.gov, and AI checks on them are drafts. Please don’t enter real health information. ' + (Store.mode === 'db' ? 'Changes are shared with everyone who opens this page.' : 'Changes stay in this browser.') + connLine() + ' <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>' +
+      '<p class="note">Prototype that won 1st place at AgentVerse 2026, UCL AI Society’s flagship hackathon. Demo accounts, no passwords. Every patient and hospital here is synthetic, and so are trials LT-301 to LT-319. Trials with an NCT number are real, live from ClinicalTrials.gov, and AI checks on them are drafts. Please don’t enter real health information. ' + (Store.mode === 'db' ? 'Changes are shared with everyone who opens this page.' : 'Changes stay in this browser.') + connLine() + ' <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>' +
       '</div></div>';
   }
 
@@ -2314,7 +2310,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     CH.pastOpen = !CH.pastOpen;
     if (CH.pastOpen && CH.hostOpen) { CH.hostOpen = false; chatHostRender(); }
     chatPastRender();
-    var box = $('#chat-past'); if (CH.pastOpen && box) box.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    var box = $('#chat-past'); if (CH.pastOpen && box) box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
   function siteMG() { return !!(window.TMConnect && window.TMConnect.status().medgemma.on); }
   function siteAI() { var m = window.TMConnect && window.TMConnect.status().medgemma; return m && m.on && m.cloud ? 'Hospital server' : (m && m.on && m.family) || 'MedGemma'; }
@@ -3803,7 +3799,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     CH.hostOpen = !CH.hostOpen;
     if (CH.hostOpen && CH.pastOpen) { CH.pastOpen = false; chatPastRender(); }
     chatHostRender();
-    var box = $('#chat-setup'); if (CH.hostOpen && box) box.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    var box = $('#chat-setup'); if (CH.hostOpen && box) box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
   // Guided setup for MedGemma on this computer (Ollama). The page may only reach localhost:11434 (see vercel.json).
@@ -4277,7 +4273,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function fly(dir) {
     var card = $('#deck .top'); if (!card) return;
     var st = card.querySelector('.stamp.' + dir); if (st) st.style.opacity = 1;
-    if (!reduce) card.style.transform = 'translate(' + (dir === 'up' ? 640 : -640) + 'px, 30px) rotate(' + (dir === 'up' ? 22 : -22) + 'deg)';   // reduced motion: it fades where it is
+    card.style.transform = 'translate(' + (dir === 'up' ? 640 : -640) + 'px, 30px) rotate(' + (dir === 'up' ? 22 : -22) + 'deg)';
     card.style.opacity = 0;
     var kind = card.dataset.kind, id = card.dataset.id;
     setTimeout(function () {
