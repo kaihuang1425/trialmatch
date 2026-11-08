@@ -7,3 +7,6 @@ node_modules/
 .vercel
 .env*
 !.env.example
+
+# downloaded PDB files for tools/prepare_targets.py
+tools/.pdb-cache/

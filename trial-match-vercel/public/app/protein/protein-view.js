@@ -18,7 +18,7 @@
   var HAS_DOM = typeof document !== 'undefined';
   var SELF = HAS_DOM && document.currentScript ? document.currentScript.src : '';
   var BASE = SELF ? SELF.replace(/[^/]*$/, '') : 'protein/';
-  var PATHS = { lib: BASE + '../vendor/3Dmol-min.js', data: BASE + 'structures.js', still: BASE + 'fallback/', body3d: BASE + 'body3d.js?v=1.0.3' };
+  var PATHS = { lib: BASE + '../vendor/3Dmol-min.js', data: BASE + 'structures.js', still: BASE + 'fallback/', body3d: BASE + 'body3d.js?v=1.0.3', targets: BASE + 'targets.js?v=1.0.0' };
 
   // ------------------------------------------------------------------ knowledge tables
   // Biomarker keys as in trialmatch/patients.py. Order = which driver is shown when several are positive
@@ -82,6 +82,39 @@
     { name: 'Selpercatinib', re: /selpercatinib/i, bm: ['RET'], pdb: { RET: '7JU6' } },
     { name: 'Pralsetinib', re: /pralsetinib/i, bm: ['RET'] }
   ];
+
+  // Trials whose drug doesn't aim at a driver change still get a structure: the drug's own target (targets.js).
+  // Each is a real crystal structure of that kind of drug on its target, labelled as such.
+  var TARGETS = {
+    PDL1: { pdb: '5X8M', gene: 'PD-L1', drug: 'Durvalumab', mine: /durvalumab/i, membrane: true,
+      label: 'Durvalumab, a PD-L1 antibody: the kind of immunotherapy this trial uses',
+      site: '<span class="pv-k">PD-L1</span>, which the cancer uses to switch immune cells off. Coral is where an antibody grips it',
+      cell: '<span class="pv-k">PD-L1</span> sits on the cancer cell and switches immune cells off.', honest: 'The antibody is shown as its Fab arm.' },
+    VEGF: { pdb: '1BJ1', gene: 'VEGF', drug: 'An anti-VEGF antibody', mine: null, membrane: false,
+      label: 'An anti-VEGF antibody: the kind of blood-vessel blocker this trial adds',
+      site: '<span class="pv-k">VEGF</span>, the signal a tumour sends to grow blood vessels. Coral is where the antibody covers it',
+      cell: 'The tumour releases <span class="pv-k">VEGF</span> to grow new blood vessels.', honest: 'Two copies of VEGF, with one antibody Fab arm.' },
+    EGFR_ECD: { pdb: '1YY9', gene: 'EGFR', drug: 'Cetuximab', mine: /cetuximab/i, membrane: true,
+      label: 'Cetuximab, an antibody that grips EGFR\u2019s outer part, as this trial\u2019s antibody does',
+      site: '<span class="pv-k">EGFR\u2019s outer part</span>, outside the cell. Coral is where an antibody grips it so EGFR can\u2019t switch on',
+      cell: '<span class="pv-k">EGFR</span> sits in the cell\u2019s surface; this trial\u2019s antibody grips its outer part.', honest: 'Only EGFR\u2019s outer part is shown, with the antibody\u2019s Fab arm.' },
+    TOP1: { pdb: '1K4T', gene: 'Topoisomerase I', drug: 'Topotecan', mine: /topotecan/i, membrane: false,
+      label: 'Topotecan, from the same drug family as the payload this trial\u2019s antibody\u2013drug conjugate carries',
+      site: '<span class="pv-k">Topoisomerase I</span> on DNA. It nicks DNA so the cell can copy it; coral is where the payload wedges in',
+      cell: 'The payload works in the nucleus, on <span class="pv-k">topoisomerase I</span>.', honest: 'Shown on a 22-base-pair stretch of DNA.' }
+  };
+  var TARGET_DRUGS = [   // live registry trials: drug names -> target
+    { key: 'PDL1', re: /pembrolizumab|nivolumab|atezolizumab|durvalumab|cemiplimab|tislelizumab|toripalimab|sintilimab|camrelizumab|ivonescimab|dostarlimab|serplulimab|sugemalimab|benmelstobart|\bPD-?L?1\b/i },
+    { key: 'VEGF', re: /bevacizumab|ramucirumab|aflibercept|\bVEGF/i },
+    { key: 'TOP1', re: /deruxtecan|govitecan|\bDXd\b|topotecan|irinotecan|exatecan/i },
+    { key: 'EGFR_ECD', re: /amivantamab|cetuximab|necitumumab|panitumumab/i }
+  ];
+  function trialTarget(trial, drugs) {   // what the trial's drug aims at: a driver key (EGFR, KRAS_G12C...) or a TARGETS key
+    if (trial && trial.target) return trial.target;
+    if (drugs.length) return drugs[0].bm[0];
+    var hay = trialText(trial), hit = TARGET_DRUGS.filter(function (t) { return t.re.test(hay); })[0];
+    return hit ? hit.key : null;
+  }
 
   var AA = { A: ['Ala', 'alanine'], R: ['Arg', 'arginine'], N: ['Asn', 'asparagine'], D: ['Asp', 'aspartate'],
     C: ['Cys', 'cysteine'], E: ['Glu', 'glutamate'], Q: ['Gln', 'glutamine'], G: ['Gly', 'glycine'],
@@ -185,6 +218,9 @@
     var drugs = trialDrugs(trial);
     var base = { patient: record && record.id, trial: trial && (trial.nct || trial.nctId) || null,
       trialDrugs: drugs.map(function (d) { return d.name; }) };
+    var tkey = trialTarget(trial, drugs);
+    if (tkey && TARGETS[tkey]) return targetView(base, tkey, trial);
+    if (tkey && GENE[tkey] && positives.indexOf(tkey) < 0) return changeElsewhere(base, tkey, drugs);
     if (!positives.length) {
       return extend(base, { kind: 'nodriver', title: { gene: 'No driver change found', change: '' },
         chips: chipsFor(bm),
@@ -322,6 +358,38 @@
     return out;
   }
 
+  function targetView(base, key, trial) {   // the trial's drug on its target (immunotherapy, antibodies, ADC payloads)
+    var T = TARGETS[key], M = meta(T.pdb), rows = M ? M.hotspots.site.residues : [];
+    var mine = T.mine && T.mine.test(trialText(trial)), label = mine ? T.drug + ', this trial\u2019s drug' : T.label;
+    var siteText = T.site.replace(/<[^>]+>/g, '');
+    return extend(base, { kind: 'structure', target: key, biomarker: null, gene: T.gene, pdb: T.pdb, others: [],
+      title: { gene: T.gene, change: '' }, change: '',
+      focus: { key: 'site', residues: rows, domain: false },
+      captions: { change: { html: T.site, text: siteText }, drug: { html: '<b class="pv-d">' + esc(T.drug) + '</b>' + esc(label.slice(T.drug.length)), text: label } },
+      drug: { name: T.drug, ccd: M && M.ligand ? M.ligand.ccd : null, relation: mine ? 'trial' : 'class', trialDrug: null, label: label },
+      honesty: 'Crystal structure from the Protein Data Bank (' + T.pdb + (M ? ', ' + fmtRes(M.resolution) + ' \u00c5' : '') + '), not this patient\u2019s tumour. ' + T.honest,
+      resolution: M ? M.resolution : null,
+      aria: { change: T.gene + ' in 3D, crystal structure ' + T.pdb + '. Where the drug binds is highlighted in coral. ' + siteText + '.',
+        drug: T.gene + ' in 3D, crystal structure ' + T.pdb + ', with the drug shown in teal. ' + label + '.' },
+      segLabels: { change: 'The target', drug: 'The drug' }, cellCaption: T.cell, membrane: T.membrane, fallback: [] });
+  }
+  function changeElsewhere(base, key, drugs) {   // a trial for a driver change this patient's record doesn't show
+    var g = GENE[key], pick = chooseDrug(key, drugs, g), M = meta(pick.pdb);
+    var drugName = (M && M.drug) || (DRUGS.filter(function (d) { return d.pdb && d.pdb[key] === pick.pdb; })[0] || {}).name || 'The drug';
+    var hs = M ? M.hotspots : {}, f = g.focus && hs[g.focus] ? hs[g.focus] : (key === 'EGFR' && hs.L858R ? hs.L858R : null);
+    var focus = g.focus === 'domain' || !f ? { key: 'domain', residues: [], domain: true } : { key: g.focus || 'L858R', residues: f.residues || [], domain: false };
+    var label = pick.relation === 'trial' ? drugName + ', this trial\u2019s drug' : drugName + ', a drug for ' + LABEL[key] + ', not this trial\u2019s treatment';
+    var html = '<span class="pv-k">' + esc(LABEL[key]) + '</span>: the change this trial is for. This patient\u2019s record doesn\u2019t show it';
+    return extend(base, { kind: 'structure', target: key, biomarker: key, gene: g.gene, pdb: pick.pdb, others: [],
+      title: { gene: g.gene, change: '' }, change: '', focus: focus,
+      captions: { change: { html: html, text: html.replace(/<[^>]+>/g, '') }, drug: { html: '<b class="pv-d">' + esc(drugName) + '</b>' + esc(label.slice(drugName.length)), text: label } },
+      drug: { name: drugName, ccd: M ? M.ligand.ccd : null, relation: pick.relation, trialDrug: pick.trialDrug, label: label },
+      honesty: 'Crystal structure from the Protein Data Bank (' + pick.pdb + (M ? ', ' + fmtRes(M.resolution) + ' \u00c5' : '') + '), not this patient\u2019s tumour.' + (M && M.construct ? ' ' + M.construct + '.' : ''),
+      resolution: M ? M.resolution : null,
+      aria: { change: g.gene + ' protein in 3D, crystal structure ' + pick.pdb + '. ' + html.replace(/<[^>]+>/g, '') + '.', drug: g.gene + ' protein in 3D with ' + drugName + ' in teal. ' + label + '.' },
+      fallback: [pick.pdb + '-' + focus.key, pick.pdb + '-plain'] });
+  }
+
   function extend(a, b) { for (var k in b) if (Object.prototype.hasOwnProperty.call(b, k)) a[k] = b[k]; return a; }
 
   // ================================================================== UI (browser only below)
@@ -455,7 +523,7 @@
   var LEVEL_NAME = { body: 'Body', lung: 'Lung', cell: 'Cell', protein: 'Protein' };
   var UID = 0;
   var MEMBRANE = /^(EGFR|MET)$/;   // receptors that sit in the cell's surface; the rest work just inside it
-  function sceneSvg(level, gene, uid) {
+  function sceneSvg(level, gene, uid, membrane) {
     var g = 'pvz' + uid + level, line = 'fill:none;stroke:var(--pv-cartoon);stroke-linecap:round;stroke-linejoin:round;';
     var defs = '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/>' +
       '<stop offset=".55" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient>' +
@@ -484,7 +552,7 @@
         return '<path d="M' + b + 'L' + m + 'M' + m + 'L' + l + 'M' + m + 'L' + r + '" style="' + style + '"/>';
       };
       var others = [-150, -120, -90, -30, 0, 30, 60, 90, 120, 150, 180].map(function (a) { return y(a, 112, 14, line + 'stroke-opacity:.45;stroke-width:2.4'); }).join('');
-      var onSurface = MEMBRANE.test(gene), f = onSurface ? pt(-60, 136) : pt(-60, 92), lab = onSurface ? pt(-60, 160) : pt(-60, 66);
+      var onSurface = membrane != null ? membrane : MEMBRANE.test(gene), f = onSurface ? pt(-60, 136) : pt(-60, 92), lab = onSurface ? pt(-60, 160) : pt(-60, 66);
       o += '<circle cx="200" cy="150" r="112" fill="url(#' + g + ')" fill-opacity=".08" stroke="url(#' + g + ')" stroke-width="3"/>' +
         '<circle cx="200" cy="150" r="104" style="' + line + 'stroke-opacity:.22;stroke-width:1.4"/>' +
         '<circle cx="186" cy="162" r="40" style="fill:var(--pv-cartoon);fill-opacity:.1;stroke:var(--pv-cartoon);stroke-opacity:.4;stroke-width:1.4"/>' +
@@ -537,7 +605,9 @@
   function load() {
     if (!loadP) {
       loadP = Promise.all([
-        loadScript(PATHS.data, function () { return !!root.TM_STRUCTURES; }),
+        loadScript(PATHS.data, function () { return !!root.TM_STRUCTURES; }).then(function () {
+          return loadScript(PATHS.targets, function () { return !!(root.TM_STRUCTURES && root.TM_STRUCTURES['5X8M']); }).catch(function () { return null; });
+        }),
         loadScript(PATHS.lib, function () { return !!root.$3Dmol; }).then(function () { return true; }, function () { return false; })
       ]).then(function (r) { return { lib: r[1] }; });
       loadP.catch(function () { loadP = null; });
@@ -567,14 +637,16 @@
   }
 
   // ------------------------------------------------------------------ geometry helpers
-  function splitPdb(text, focusRows) {
-    var want = {};
+  function splitPdb(text, focusRows, drugChains) {
+    var want = {}, abs = {};
+    (drugChains || []).forEach(function (c) { abs[c] = 1; });
     focusRows.forEach(function (r) { want[r[0] + ':' + r[1]] = 1; });
     var prot = [], lig = [], hot = [], ss = [];
     text.split('\n').forEach(function (l) {
       var rec = l.substr(0, 6);
       if (rec === 'HELIX ' || rec === 'SHEET ') { ss.push(l); return; }
       if (rec === 'HETATM') { lig.push(l); return; }
+      if (rec === 'ATOM  ' && abs[l.charAt(21)]) { lig.push(l); return; }
       if (rec === 'ATOM  ') {
         prot.push(l);
         var nm = l.substr(12, 4);   // side chain + CA as sticks; the ribbon already shows the backbone
@@ -688,6 +760,8 @@
         el.pdb.title = 'rcsb.org/structure/' + c.pdb;
         setCaption(c.captions[V.mode].html, false);
         el.stage.setAttribute('aria-label', c.aria[V.mode]);
+        var labels = c.segLabels || { change: 'The change', drug: 'The drug' };
+        Array.prototype.forEach.call(el.seg.querySelectorAll('[data-pv-mode]'), function (b) { b.lastChild.textContent = labels[b.getAttribute('data-pv-mode')]; });
       } else {
         setCaption(esc(c.captions.change.text), false);
         el.calm.innerHTML = calmHtml(c);
@@ -778,6 +852,7 @@
       m.cov.forEach(function (s) { V.viewer.removeShape(s); });
       m.cov = [];
       if (op <= 0.001) { m.lig.setStyle({}, {}); return; }
+      if (V.meta.ligand && V.meta.ligand.antibody) { m.lig.setStyle({}, { cartoon: { color: V.colors.drug, opacity: op, style: 'oval', thickness: 0.3 } }); return; }
       m.lig.setStyle({}, { stick: { color: V.colors.drug, radius: 0.27, opacity: op } });
       m.cov = m.links.map(function (k) {
         return V.viewer.addCylinder({ start: k.a, end: k.b, radius: 0.24, color: V.colors.drug, opacity: op, fromCap: 2, toCap: 2 });
@@ -846,7 +921,7 @@
       var v = V.viewer;
       // opaque background in the sheet's own colour (looks transparent; translucent glows need an opaque backdrop)
       v.setBackgroundColor(V.colors.surface, 1);
-      var parts = splitPdb(D.pdb, c.focus.residues);
+      var parts = splitPdb(D.pdb, c.focus.residues, V.meta.ligand && V.meta.ligand.antibody ? V.meta.ligand.chains : null);
       var prot = v.addModel(parts.prot, 'pdb'), lig = v.addModel(parts.lig, 'pdb');
       var hot = c.focus.residues.length ? v.addModel(parts.hot, 'pdb') : null;
       V.models = { prot: prot, lig: lig, hot: hot, cov: [], links: [], ligOp: V.mode === 'drug' ? 1 : 0 };
@@ -934,7 +1009,7 @@
       J = { level: 'protein', busy: false, user: false, auto: 0, next: null, cool: 0, sc: {}, three: null, mode3: 'none', p3: null };
       ['body', 'lung', 'cell'].forEach(function (l) {   // flat drawings: shown while the 3D loads, and kept if it can't run
         var d = document.createElement('div');
-        d.className = 'pv-sc'; d.hidden = true; d.innerHTML = sceneSvg(l, gene(), uid);
+        d.className = 'pv-sc'; d.hidden = true; d.innerHTML = sceneSvg(l, gene(), uid, V.c.membrane);
         el.zoom.appendChild(d); J.sc[l] = d;
       });
       J.w3 = document.createElement('div');
@@ -966,7 +1041,7 @@
       var load3 = (root.WebGLRenderingContext ? loadScript(PATHS.body3d, function () { return !!root.TMBody3D; }) : Promise.reject(new Error('no webgl')))
         .then(function () {
           if (!V.alive || !root.TMBody3D.supported()) throw new Error('3D not supported');
-          var b = root.TMBody3D.create(J.w3, { gene: gene(), membrane: MEMBRANE.test(gene()), dark: isDark(), level: J.level, onFrame: onFrame3 });
+          var b = root.TMBody3D.create(J.w3, { gene: gene(), membrane: V.c.membrane != null ? V.c.membrane : MEMBRANE.test(gene()), dark: isDark(), level: J.level, onFrame: onFrame3 });
           return b.ready.then(function () { return b; });
         });
       J.p3 = Promise.race([load3, give]).then(function (b) {
@@ -1026,7 +1101,7 @@
       });
       el.honest.textContent = P ? V.c.honesty : 'Illustration, not this patient’s scan.';
       el.pdb.hidden = !P;
-      setCaption(P ? V.c.captions[V.mode].html : levelCaption(l, gene()), animate);
+      setCaption(P ? V.c.captions[V.mode].html : (l === 'cell' && V.c.cellCaption ? V.c.cellCaption : levelCaption(l, gene())), animate);
       el.stage.setAttribute('aria-label', P ? V.c.aria[V.mode] : LEVEL_ARIA[l]);
       placeHot();
       if (opts.onLevel) { try { opts.onLevel(l); } catch (e) { /* host error */ } }
@@ -1342,7 +1417,7 @@
   }
 
   root.TMProtein = {
-    version: '1.3.3',
+    version: '1.4.0',
     resolve: resolve,
     open: open,
     close: close,
