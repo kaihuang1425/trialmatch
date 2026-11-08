@@ -47,12 +47,17 @@ The splash is a syringe that fills while the page loads. Each step shows large, 
 - Main button: Try the demo →
 - Second button: See how it works
 
-### The photo
+### The photos
 
-- Photo description (read by screen readers): A smiling woman receives a vaccine from a nurse
-- Match notice: Matched to a trial in London
-- Match notice, second line: All 9 entry rules met
-- Photo credit: Photo: CDC on Unsplash. The match shown is illustrative.
+Seven photos take turns, about every 9 seconds. Each has its own description (read by screen readers) and credit.
+
+1. A nurse checks an older man’s blood pressure. Credit: Photo: Nappy on Unsplash
+2. A doctor gives a patient an injection on a ward. Credit: Photo: National Cancer Institute on Unsplash
+3. An older doctor listens to a man’s chest. Credit: Photo: National Cancer Institute on Unsplash
+4. An older woman gets a shot in the shoulder. Credit: Photo: CDC on Unsplash
+5. A smiling woman in a gown in a screening room. Credit: Photo: National Cancer Institute on Unsplash
+6. An older doctor goes over a chart with a patient. Credit: Photo: National Cancer Institute on Unsplash
+7. Clinicians review a scan on screen. Credit: Photo: Accuray on Unsplash
 
 ## The gap (section link “The gap”)
 

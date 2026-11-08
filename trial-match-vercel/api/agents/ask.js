@@ -1,4 +1,4 @@
-// POST /api/agents/ask { question, context }  ->  { text, model, steps?, sources?, actions? }
+// POST /api/agents/ask { question, context }  ->  { text, model, steps?, sources?, actions?, handoff? }
 // "Ask your agent" through the site's model. The browser sends the question plus the synthetic demo facts for the
 // trials in question; the instructions stay here, and the answer is checked for eligibility claims.
 // With Gemini it is a tool-using agent (lib/agent.js) that can look up live trials on ClinicalTrials.gov; MedGemma
@@ -29,6 +29,7 @@ export default route(['POST'], async (req, res) => {
   if (c && c.provider === 'gemini') {
     const a = await askAgent(prompt);
     out = { text: a.text, model: a.model, provider: 'gemini', family: 'Gemini', steps: a.steps, sources: a.sources, actions: a.actions };
+    if (a.handoff) out.handoff = a.handoff;   // the page runs that team and shows that Gemini sent the question there
   } else {
     const r = await chat({ system: SYSTEM, user: prompt, maxTokens: 1500 });
     if (!r.text) throw new HttpError(502, 'medgemma_empty', (r.family || 'The model') + ' ran out of room before answering.');

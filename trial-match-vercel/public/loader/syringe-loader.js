@@ -70,7 +70,7 @@
   for (var x = 184; x <= 448; x += 33) ticks += '<line x1="' + x + '" y1="' + ((x - 184) % 66 ? 114 : 106) + '" x2="' + x + '" y2="124"></line>';
   var markup = '' +
     '<div class="tml-halo" aria-hidden="true"></div>' +
-    '<div class="tml-brand" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32"><defs><linearGradient id="tml-lg" x1="0" y1="0" x2="1" y2="1">' + GRAD + '</linearGradient></defs><path d="M16 4v9" stroke="url(#tml-lg)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#tml-lg)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#tml-lg)" opacity=".6"></path></svg>Trial Match</div>' +
+    '<div class="tml-brand" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"></rect><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"></rect><rect x="11" y="11" width="10" height="10" fill="#B48BE9"></rect></svg>Trial Match</div>' +
     '<div class="tml-stage" aria-hidden="true">' +
       '<div class="tml-tag"><span class="tml-pct">0%</span><i></i></div>' +
       '<svg viewBox="0 0 680 180"><defs>' +

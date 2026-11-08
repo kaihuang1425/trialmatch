@@ -103,7 +103,7 @@ test('agent: looks up live trials, passes the thought signature back and names o
   assert.equal(fr.name, 'search_live_trials');
   assert.equal(fr.response.trials[0].nct, 'NCT07185997');
   assert.deepEqual(fr.response.trials[0].uk_cities, ['Manchester']);
-  assert.equal(second.tools[0].functionDeclarations.length, 3);   // two lookups and propose_action
+  assert.equal(second.tools[0].functionDeclarations.length, 4);   // two lookups, propose_action and hand_to_team
 
   assert.deepEqual(r.sources, [{ nct: 'NCT07185997', title: 'A KRAS G12C trial', url: 'https://clinicaltrials.gov/study/NCT07185997' }]);
   assert.match(r.text, /NCT01234567 wasn’t in what I looked up/);

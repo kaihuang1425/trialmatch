@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trial Match</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&amp;family=Roboto:wght@400;500&amp;display=swap">
 <style>
@@ -188,28 +189,31 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @media (max-width:900px){.tm .topbar header.navIn{padding:14px 16px!important;gap:8px!important}.tm .isl-brand{font-size:16px;padding:0 14px}.tm .live-in{padding:0 15px;gap:8px}}
 @media (prefers-reduced-motion:reduce){.tm .under,.tm .live-cta .ring,.tm .live-dot,.tm .topbar-strip,.tm .topbar-glow,.tm .topbar-comet,.tm .bar-head{animation:none!important}.tm .topbar-comet{display:none}}
 @keyframes tmFlow{from{background-position:0% 0}to{background-position:200% 0}}
-/* hero motion: slow push-in on the photo, parallax on scroll, a floating match notice with a pulse, a flowing bottom line, nudging arrows */
-.tm .hero-media{position:absolute;inset:0;overflow:hidden}
-.tm .hero-img{transform:scale(1.1);transform-origin:50% 30%}
-.tm-ready .tm .hero-img{animation:heroIn 9s cubic-bezier(.2,.6,.2,1) both}
-@keyframes heroIn{from{transform:scale(1.1)}to{transform:scale(1)}}
+/* hero motion: the photos take turns (the script below adds 4, 7, 13, 14, 16 and 17 after photo 1). Each one sweeps in on a
+   soft edge with a faint Gemini light riding it, then pulls back slowly while it shows. Parallax on scroll, a flowing bottom line, nudging arrows. */
+.tm .hero-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+.tm .hero-slide{position:absolute;inset:0;overflow:hidden;visibility:hidden}
+.tm .hero-slide.is-on{visibility:visible}
+.tm .hero-slide.is-top{z-index:1}
+.tm .hero-slide.is-in{-webkit-mask-image:linear-gradient(100deg,#000 35%,transparent 65%);mask-image:linear-gradient(100deg,#000 35%,transparent 65%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:heroSweep 2.4s cubic-bezier(.65,0,.35,1) both}
+@keyframes heroSweep{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+.tm .hero-sheen{position:absolute;top:0;bottom:0;left:0;z-index:2;width:50%;background:linear-gradient(100deg,transparent 10%,rgba(138,180,248,.16) 38%,rgba(197,138,249,.2) 52%,rgba(242,139,130,.12) 64%,transparent 90%);mix-blend-mode:screen;opacity:0;pointer-events:none}
+.tm .hero-sheen.is-run{animation:heroSheen 2.4s cubic-bezier(.65,0,.35,1) both}
+@keyframes heroSheen{0%{transform:translateX(-150%);opacity:0}25%,70%{opacity:1}100%{transform:translateX(250%);opacity:0}}
+.tm .hero-img{transform:scale(1.1);transform-origin:50% var(--y,30%)}
+.tm-ready .tm .hero-slide.is-on .hero-img{animation:heroIn 12s cubic-bezier(.2,.6,.2,1) both}
+@keyframes heroIn{from{transform:scale(1.1) translateX(var(--drift,0))}to{transform:scale(1) translateX(0)}}
 @supports (animation-timeline: scroll()){.tm .hero-media{animation:heroPar linear both;animation-timeline:scroll(root);animation-range:0 100vh}}
 @keyframes heroPar{to{transform:translateY(16%)}}
-.tm-ready .tm .hero-chip{animation:chipFloat 6s ease-in-out 1.4s infinite}
-@keyframes chipFloat{0%,100%{translate:0 0}50%{translate:0 -7px}}
-.tm .hero-chip-ic{position:relative}
-.tm .hero-chip-ic::after{content:"";position:absolute;inset:-5px;border-radius:50%;box-shadow:0 0 0 2px rgba(168,199,250,.55);opacity:0}
-.tm-ready .tm .hero-chip-ic::after{animation:icPulse 2.6s ease-out 1.2s infinite}
-@keyframes icPulse{0%{opacity:.9;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
-.tm-ready .tm .hero-chip-ic svg{animation:chkPop .5s cubic-bezier(.2,1.6,.4,1) .9s both}
-@keyframes chkPop{from{transform:scale(0)}}
+.tm .hero-credit{transition:opacity .45s ease}
+.tm .hero-credit.is-swap{opacity:0}
 .tm .hero-line{background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4)!important;background-size:200% 100%!important;animation:tmFlow 6s linear infinite}
 .tm a .arr{display:inline-block;margin-left:.3em;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
 .tm a:hover .arr{transform:translateX(4px)}
-@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media,.tm .hero-chip,.tm .hero-chip-ic::after,.tm .hero-chip-ic svg,.tm .topbar-line,.tm .hero-line{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media,.tm .hero-slide,.tm .hero-sheen,.tm .topbar-line,.tm .hero-line{animation:none!important}.tm .hero-sheen{display:none}}
 .tm header .nl{color:rgba(255,255,255,.82)!important}
 .tm .hero{position:relative;min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:flex-end;padding:120px 24px 72px;box-sizing:border-box;overflow:hidden;background:#0E0E0F}
-.tm .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.tm .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% var(--y,30%)}
 .tm .hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,15,.62) 0%,rgba(14,14,15,0) 16%,rgba(14,14,15,.08) 30%,rgba(14,14,15,.8) 54%,#0E0E0F 92%);pointer-events:none}
 .tm .hero-glow{position:absolute;left:-200px;bottom:-300px;width:1100px;height:600px;background:radial-gradient(closest-side,rgba(66,133,244,.28),rgba(155,114,203,.12) 55%,transparent);pointer-events:none}
 .tm .hero-body{position:relative;z-index:1;width:100%;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
@@ -218,9 +222,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px}
 .tm .hero-row p{margin:0;max-width:34em;font-size:clamp(17px,1.4vw,19px);line-height:1.5;color:rgba(255,255,255,.8)}
 .tm .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
-.tm .glass{background:rgba(30,31,34,.55);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 20px 50px rgba(0,0,0,.35)}
-.tm .hero-chip{position:absolute;right:18%;bottom:calc(100% + 140px);display:flex;align-items:center;gap:12px;padding:10px 18px 10px 10px;border-radius:28px;color:#fff}
-.tm .hero-chip-ic{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4285F4,#9B72CB 60%,#D96570)}
 .tm .hero .pill{align-self:flex-start;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:16px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);color:#fff;font-size:13px}
 .tm .hero a.sec{background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)!important;color:#fff!important}
 .tm .hero a.sec:hover{background:rgba(255,255,255,.16)}
@@ -228,13 +229,11 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .hero-credit{position:absolute;right:24px;bottom:14px;z-index:1;font-size:11px;color:rgba(255,255,255,.55)}
 @media (max-width:900px){
   .tm .hero{min-height:0;justify-content:flex-start;padding:calc(min(56svh,480px) - 44px) 20px 64px}
-  .tm .hero-img,.tm .hero-scrim{height:min(56svh,480px);bottom:auto}
-  .tm .hero-img{object-position:28% 30%}
+  .tm .hero-slide,.tm .hero-img,.tm .hero-scrim,.tm .hero-sheen{height:min(56svh,480px);bottom:auto}   /* the slide clips the pull-back so the photo ends where the fade does */
   .tm .hero-scrim{background:linear-gradient(180deg,rgba(14,14,15,.6) 0%,rgba(14,14,15,0) 22%,rgba(14,14,15,0) 58%,#0E0E0F 100%)}
   .tm .hero-glow{display:none}
   .tm .hero-h1{font-size:clamp(38px,10.4vw,56px)}
   .tm .hero-body{gap:22px}
-  .tm .hero-chip{position:static;align-self:flex-start}
   .tm .hero-credit{left:20px;right:20px;text-align:right}
 }
 /* ---------- agent team scene: the Coordinator hands a question to Gemini online and MedGemma on the device, across a privacy line.
@@ -385,7 +384,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 <!-- NAV -->
 <div class="topbar">
 <header class="navIn" style="position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; gap: 24px">
-  <a class="isl isl-brand" href="#top"><span class="under" aria-hidden="true"></span><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg1)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg1)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg1)" opacity=".6"></path></svg>Trial Match</a>
+  <a class="isl isl-brand" href="#top"><span class="under" aria-hidden="true"></span><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"></rect><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"></rect><rect x="11" y="11" width="10" height="10" fill="#B48BE9"></rect></svg>Trial Match</a>
   <span style="flex: 1"></span>
   <nav class="navlinks isl" aria-label="Sections"><span class="under" aria-hidden="true" style="animation-delay: -1.3s"></span>
     <a class="nl" href="#gap">The gap</a>
@@ -407,14 +406,10 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 
 <!-- HERO -->
 <section id="top" class="slide hero">
-  <div class="hero-media"><img class="hero-img" src="media/hero-vaccine.jpg" alt="A smiling woman receives a vaccine from a nurse" width="1800" height="1190" fetchpriority="high" decoding="async"></div>
+  <div class="hero-media"><div class="hero-slide is-on is-top" style="--y: 12%"><img class="hero-img" src="media/hero/01-blood-pressure.jpg" alt="A nurse checks an older man’s blood pressure" width="1800" height="1200" fetchpriority="high" decoding="async"></div><span class="hero-sheen" aria-hidden="true"></span></div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-body">
-    <div class="hero-chip glass rv2">
-      <span class="hero-chip-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
-      <span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-size: 15px; font-weight: 500">Matched to a trial in London</span><span style="font-size: 13px; color: rgba(255,255,255,.75)">All 9 entry rules met</span></span>
-    </div>
     <span class="pill">Team Legacy</span>
     <h1 class="hero-h1"><span class="w">95%</span> <span class="w">of</span> <span class="w">patients</span> <span class="w">are</span> <span class="w">willing</span> <span class="w">to</span> <span class="w">join</span> <span class="w">trials.</span> <span class="w grad-lt">Yet few ever hear about them.</span></h1>
     <div class="hero-row">
@@ -426,7 +421,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     </div>
   </div>
   <span class="hero-line" aria-hidden="true"></span>
-  <span class="hero-credit">Photo: CDC on Unsplash. The match shown is illustrative.</span>
+  <span class="hero-credit">Photo: <span class="hero-by">Nappy</span> on Unsplash</span>
 </section>
 
 <!-- THE GAP -->
@@ -689,6 +684,85 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
   function start() { els.forEach(function (el) { io.observe(el); }); }
   if (window.TMLoader && window.TMLoader.leaving) window.TMLoader.leaving.then(start); else start();
+})();
+(function () {
+  // Hero photos take turns. Photo 1 is in the page; the other six are added once the loading screen leaves, so they
+  // never slow it down. Every few seconds the next one sweeps in (heroSweep and heroSheen in the CSS, then heroIn's slow
+  // pull-back) and the credit follows. It waits while the hero is off screen or the tab is hidden, and with reduced
+  // motion it stays on photo 1.
+  var media = document.querySelector('.tm .hero-media'), sheen = media && media.querySelector('.hero-sheen');
+  var credit = document.querySelector('.tm .hero-credit'), by = credit && credit.querySelector('.hero-by');
+  if (!media || !sheen || !by || !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var HOLD = 6500, SWEEP = 2400;   // ms fully shown, ms for the sweep (match heroSweep and heroSheen)
+  // [file in media/hero/, width, height, crop from the top (%), alt text, photographer on Unsplash]
+  var MORE = [
+    ['04-doctor-injection-ward.jpg', 2000, 1620, 30, 'A doctor gives a patient an injection on a ward', 'National Cancer Institute'],
+    ['07-doctor-stethoscope-man.jpg', 2000, 1333, 26, 'An older doctor listens to a man’s chest', 'National Cancer Institute'],
+    ['13-older-woman-injection.jpg', 2000, 1322, 24, 'An older woman gets a shot in the shoulder', 'CDC'],
+    ['14-screening-room.jpg', 2000, 1333, 26, 'A smiling woman in a gown in a screening room', 'National Cancer Institute'],
+    ['16-doctor-chart-patient.jpg', 2000, 1333, 26, 'An older doctor goes over a chart with a patient', 'National Cancer Institute'],
+    ['17-scan-review.jpg', 2000, 1333, 30, 'Clinicians review a scan on screen', 'Accuray']];
+  var first = media.querySelector('.hero-slide');
+  var slides = [{ el: first, img: first.querySelector('img'), by: by.textContent }];
+  var cur = 0, timer = 0, started = false, onScreen = true;
+
+  function build() {
+    MORE.forEach(function (p, i) {
+      var el = document.createElement('div'), img = new Image();
+      el.className = 'hero-slide'; el.setAttribute('aria-hidden', 'true');
+      el.style.setProperty('--y', p[3] + '%');
+      el.style.setProperty('--drift', (i % 2 ? -2 : 2) + '%');   // the pull-back drifts left, then right
+      img.className = 'hero-img'; img.width = p[1]; img.height = p[2]; img.alt = p[4]; img.decoding = 'async';
+      img.src = 'media/hero/' + p[0];
+      el.appendChild(img); media.insertBefore(el, sheen);
+      slides.push({ el: el, img: img, by: p[5] });
+    });
+  }
+  function loaded(im) {
+    var ok = im.complete && im.naturalWidth ? Promise.resolve() : new Promise(function (res, rej) {
+      im.addEventListener('load', res, { once: true }); im.addEventListener('error', rej, { once: true });
+    });
+    return ok.then(function () { return im.decode ? im.decode().catch(function () {}) : null; });
+  }
+  function show(n) {
+    var prev = slides[cur], next = slides[n];
+    next.el.classList.add('is-on', 'is-top', 'is-in'); next.el.removeAttribute('aria-hidden');
+    prev.el.classList.remove('is-top'); prev.el.setAttribute('aria-hidden', 'true');
+    sheen.classList.remove('is-run'); void sheen.offsetWidth; sheen.classList.add('is-run');
+    credit.classList.add('is-swap');
+    setTimeout(function () { by.textContent = next.by; credit.classList.remove('is-swap'); }, SWEEP * 0.4);
+    setTimeout(function () { prev.el.classList.remove('is-on'); next.el.classList.remove('is-in'); }, SWEEP + 60);
+    cur = n;
+  }
+  function plan(ms) { clearTimeout(timer); timer = setTimeout(tick, ms); }
+  function stop() { clearTimeout(timer); timer = 0; }
+  function tick() {
+    timer = 0;
+    if (!onScreen || document.hidden || slides.length < 2) return;
+    var n = (cur + 1) % slides.length;
+    loaded(slides[n].img).then(function () {
+      if (!onScreen || document.hidden) return;
+      show(n); plan(SWEEP + HOLD);
+    }, function () {   // a photo that won't load leaves the rotation
+      if (n) { slides[n].el.remove(); slides.splice(n, 1); }
+      plan(1000);
+    });
+  }
+  function start() {
+    if (started) return;
+    started = true; build();
+    if (onScreen && !document.hidden) plan(HOLD + 1000);   // a little longer on photo 1 while the headline comes in
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stop(); else if (started && onScreen && !timer) plan(HOLD);
+  });
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    onScreen = es[0].isIntersecting;
+    if (!started) return;
+    if (!onScreen) stop(); else if (!timer && !document.hidden) plan(HOLD);
+  }, { threshold: 0.2 }).observe(media.closest('.hero') || media);
+  if (window.TMLoader && window.TMLoader.leaving) window.TMLoader.leaving.then(start);
+  else if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
 })();
 (function () {
   // The top bar turns frosted once the page scrolls.

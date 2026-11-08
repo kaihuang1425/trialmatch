@@ -2,6 +2,8 @@
 // and when a question goes beyond that context it looks things up in ClinicalTrials.gov (real, public registry data)
 // with two tools. The tools take search words and trial IDs only, never the patient's facts, and nothing they return
 // changes matching or eligibility: that stays in the app's deterministic rules and with the trial team.
+// It can also offer to act in the app (propose_action, which only shows a card to confirm) and hand a question to one of
+// the app's teams of agents (hand_to_team), which then runs on the page.
 import { HttpError } from './http.js';
 import { generate } from './gemini.js';
 import { getTrial, searchTrials } from './ctgov.js';
@@ -20,7 +22,13 @@ export const AGENT_SYSTEM =
   'or open Rank), call propose_action once. It only shows them a card to confirm. Never say it is done: tell them to tap to confirm. ' +
   'Use the "role" in the context: patients and trial teams have different actions. Do not propose actions they did not ask for. ' +
   'Before proposing to apply, check the context: if they are already on a trial, already applied to it, or its entry rules clearly do not fit their record, ' +
-  'do not propose it. Explain why instead, and offer to search for trials that fit.';
+  'do not propose it. Explain why instead, and offer to search for trials that fit.\n' +
+  'Some work belongs to the app\'s teams of agents, which do it on the page where the person can watch. Hand it over with hand_to_team instead of answering yourself:\n' +
+  '• team "research" for a question about a drug, treatment or gene change: what it is, how it works, side effects, the evidence, how it compares, brain spread, resistance. ' +
+  'Name the drug, treatment or gene in terms, or the trial it is about.\n' +
+  '• team "find_and_check" (patients only) when they ask you to find trials that fit them, or to check live trials against their record. ' +
+  'A question about which live trials exist is still yours, with search_live_trials.\n' +
+  'Call hand_to_team once and write nothing else: the team answers.';
 
 // The chat shows text as it is, so Markdown that slips through (bold, "*" bullets, headings) is turned into plain text.
 export function plainText(s) {
@@ -107,6 +115,49 @@ function proposal(args) {
   return { ok: out };
 }
 
+// Hand-offs: the chat agent passes a question to one of the app's teams, which run on the page where the person watches
+// each agent work. The page's privacy guard rebuilds what goes online from its own allow-lists, so the words chosen here
+// are a hint for that guard, never what is sent.
+export const TEAMS = ['research', 'find_and_check'];
+export const ASPECTS = ['overview', 'compare', 'side_effects', 'mechanism', 'evidence', 'brain', 'resistance'];
+AGENT_TOOLS.push({
+  name: 'hand_to_team',
+  description: 'Hand the question to one of the app\'s teams of agents instead of answering it yourself. The person watches the team work. ' +
+    'research: a drug, treatment or gene change. A Researcher reads PubMed, FDA labels and ClinicalTrials.gov online with public words only, ' +
+    'and an Analyst reads its brief against the record where the record is kept. ' +
+    'find_and_check (patients only): Trial Scout searches ClinicalTrials.gov from their record, the Matcher and the Pre-check check each trial\'s entry rules, ' +
+    'and it asks the person what would settle the rest.',
+  parameters: {
+    type: 'object',
+    properties: {
+      team: { type: 'string', enum: TEAMS },
+      aspect: { type: 'string', enum: ASPECTS, description: 'research only: what they want to know' },
+      terms: { type: 'array', items: { type: 'string' }, description: 'research only: the drug, treatment or gene names it is about, such as sotorasib, chemotherapy or KRAS G12C. Public names only, nothing about the person.' },
+      trial: { type: 'string', description: 'research only: the demo trial it is about, like LT-311' },
+      nct: { type: 'string', description: 'research only: the live trial it is about, like NCT01234567' }
+    },
+    required: ['team']
+  }
+});
+const HANDED = {
+  research: 'Handed it to the research team: the Researcher looks it up online, and the Analyst reads it against the record',
+  find_and_check: 'Handed it to Find and check: Trial Scout, the Matcher and the Pre-check'
+};
+function handoff(args) {
+  const team = String(args.team || '');
+  if (!TEAMS.includes(team)) return { error: 'Unknown team. Use one of: ' + TEAMS.join(', ') };
+  if (team === 'find_and_check') return { ok: { team } };
+  const out = { team, aspect: ASPECTS.includes(args.aspect) ? args.aspect : 'overview' };
+  const terms = uniq((Array.isArray(args.terms) ? args.terms : []).map((t) => words(t, 40))).slice(0, 4);
+  if (terms.length) out.terms = terms;
+  const lt = String(args.trial || '').toUpperCase().match(/LT[\s-]?(\d{3})/);
+  if (lt) out.trial = 'LT-' + lt[1];
+  const nct = String(args.nct || '').toUpperCase().match(/NCT\d{8}/);
+  if (nct) out.nct = nct[0];
+  if (!out.terms && !out.trial && !out.nct) return { error: 'Say what to research: a drug, treatment or gene name in terms, a demo trial code or an NCT ID.' };
+  return { ok: out };
+}
+
 const MAX_TURNS = 4;       // model calls, the last one always answers in words
 const MAX_LOOKUPS = 6;     // tool calls per question
 const BUDGET_MS = 50000;   // the function has 60 s on Vercel
@@ -118,6 +169,9 @@ const uniq = (a) => a.filter((x, i) => x && a.indexOf(x) === i);
 async function runTool(call, seen, proposals) {
   const args = call.args && typeof call.args === 'object' ? call.args : {};
   try {
+    if (call.name === 'hand_to_team') {   // only an incomplete hand-off reaches here; a good one ends the loop (see askAgent)
+      return { step: { tool: call.name, ok: false, label: 'Tried to hand it to a team, but didn’t say what to work on' }, result: { error: handoff(args).error || 'Hand over one question at a time.' } };
+    }
     if (call.name === 'propose_action') {
       const v = proposal(args);
       if (v.error) return { step: { tool: call.name, ok: false, label: 'Tried to offer an action it couldn’t' }, result: { error: v.error } };
@@ -164,7 +218,8 @@ async function runTool(call, seen, proposals) {
 }
 
 // prompt: the user turn (context JSON plus the question). Returns the answer, the steps it took and the live trials
-// it named that it really looked up.
+// it named that it really looked up. When the agent hands the question to a team, it returns { handoff } at once, with
+// no further model call: the team does the work on the page, and the person sees who sent it there.
 export async function askAgent(prompt, { now = Date.now } = {}) {
   const t0 = now();
   const contents = [{ role: 'user', parts: [{ text: prompt }] }];
@@ -176,6 +231,11 @@ export async function askAgent(prompt, { now = Date.now } = {}) {
     r = await generate({ system: AGENT_SYSTEM, contents, tools: AGENT_TOOLS, toolMode: last ? 'NONE' : 'AUTO', maxTokens: 4096,
       timeoutMs: Math.max(5000, Math.min(25000, left - 1000)) });
     if (last || !r.calls.length) break;
+    const handed = r.calls.filter((c) => c.name === 'hand_to_team').map((c) => handoff(c.args && typeof c.args === 'object' ? c.args : {})).find((v) => v.ok);
+    if (handed) {
+      steps.push({ tool: 'hand_to_team', ok: true, label: HANDED[handed.ok.team] });
+      return { text: plainText(r.text), model: r.model, steps, actions: [], sources: [], handoff: handed.ok };
+    }
     contents.push(r.content);   // unchanged: it carries the thought signature Gemini needs back
     const parts = [];
     for (const call of r.calls) {
