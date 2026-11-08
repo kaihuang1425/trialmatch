@@ -718,8 +718,12 @@ a.cite:hover { background: rgba(168,199,250,.32); }
 /* where your agent runs: a quiet link under the chat, and its choices when opened */
 .chat-foot { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; }
 .chat-foot .note { margin: 0; flex: 1; min-width: 180px; }
-/* phones: the note gets its own line, then where it runs and Clear share one row (after the rule above, so its flex: 1 doesn't win) */
-@media (max-width: 420px) { .chat-foot .note { flex-basis: 100%; } .chat-foot .btn.text { margin-left: auto; } }
+.chat-acts { display: inline-flex; gap: 2px; }
+/* phones: the note gets its own line, then where it runs and the chat buttons share one row (after the rule above, so its flex: 1 doesn't win) */
+@media (max-width: 420px) { .chat-foot .note { flex-basis: 100%; } .chat-acts { margin-left: auto; } }
+.host-o.past-o { min-height: 52px; padding-right: 10px; }
+.host-o.past-o b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.host-o.past-o > svg { width: 16px; height: 16px; flex: none; color: var(--faint); }
 .chat-host-b { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 6px 0 10px; border-radius: 14px; font-size: 12px; color: var(--faint); white-space: nowrap; }
 .chat-host-b:hover, .chat-host-b[aria-expanded="true"] { background: var(--surface-2); color: var(--muted); }
 .chat-host-b svg { width: 13px; height: 13px; } .chat-host-b svg:last-child { width: 12px; height: 12px; transition: transform .2s; } .chat-host-b[aria-expanded="true"] svg:last-child { transform: rotate(90deg); }
@@ -2246,16 +2250,73 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
      (on this computer through Ollama, or on this site's server). Ported from the local Trial Match app. ---------- */
   var CKEY = 'trialmatch-chat-v1';
   var CH = (function () {
-    var d = { threads: {}, src: null, ctx: {}, local: { url: 'http://localhost:11434', model: 'medgemma1.5:4b' } };
-    try { var s = JSON.parse(localStorage.getItem(CKEY) || 'null'); if (s) { d.threads = s.threads || {}; d.src = s.src || null; d.ctx = s.ctx || {}; if (s.local && s.local.url) d.local = s.local; } } catch (e) {}
+    var d = { threads: {}, past: {}, src: null, ctx: {}, local: { url: 'http://localhost:11434', model: 'medgemma1.5:4b' } };
+    try { var s = JSON.parse(localStorage.getItem(CKEY) || 'null'); if (s) { d.threads = s.threads || {}; d.past = s.past || {}; d.src = s.src || null; d.ctx = s.ctx || {}; if (s.local && s.local.url) d.local = s.local; } } catch (e) {}
     Object.keys(d.threads).forEach(function (k) { (d.threads[k] || []).forEach(function (m) { if (m.pending) { m.pending = false; if (!m.text) m.text = 'This run stopped when the page reloaded. Ask again to restart it.'; } }); });
     d.pending = false; d.localState = null; d.polls = 0; d.setup = null; return d;
   })();
   var IS_PHONE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-  function chatSave() { try { localStorage.setItem(CKEY, JSON.stringify({ threads: CH.threads, src: CH.src, ctx: CH.ctx, local: CH.local })); } catch (e) {} }
+  // if the browser runs out of room, the oldest past chats go first so the open one still saves
+  function chatSave() {
+    for (;;) {
+      try { localStorage.setItem(CKEY, JSON.stringify({ threads: CH.threads, past: CH.past, src: CH.src, ctx: CH.ctx, local: CH.local })); return; }
+      catch (e) { if (!e || !(/quota/i.test(e.name || '') || e.code === 22 || e.code === 1014)) return; }   // storage blocked, not full: keep them in memory
+      var big = null; Object.keys(CH.past).forEach(function (k) { if (CH.past[k].length && (!big || CH.past[k].length > CH.past[big].length)) big = k; });
+      if (!big) return; CH.past[big].pop();
+    }
+  }
   function chatKey() { return S.who.role === 'patient' ? S.who.id : 'team:' + S.who.id; }
   function chatThread() { var k = chatKey(); return (CH.threads[k] = CH.threads[k] || []); }
   function chatPush(m) { var th = chatThread(); th.push(m); if (th.length > 40) th.splice(0, th.length - 40); chatSave(); }
+
+  // Past chats: "New chat" puts the open conversation aside, newest first, and any of them can be opened again.
+  // They stay in this browser, one list per person, the last PAST_MAX of them.
+  var PAST_MAX = 10;
+  function chatPast() { var k = chatKey(); return (CH.past[k] = CH.past[k] || []); }
+  function chatTitle(th) {
+    var u = th.filter(function (m) { return m.who === 'user' && m.text; })[0] || th.filter(function (m) { return m.text; })[0];
+    var t = u ? String(u.text).replace(/\s+/g, ' ').trim() : 'Conversation';
+    return t.length > 70 ? t.slice(0, 68).trim() + '…' : t;
+  }
+  function chatStash() {
+    var k = chatKey(), th = CH.threads[k] || [];
+    if (th.length) { var p = chatPast(); p.unshift({ id: rid(), title: chatTitle(th), at: Date.now(), msgs: th, ctx: CH.ctx[k] || null }); if (p.length > PAST_MAX) p.length = PAST_MAX; }
+    CH.threads[k] = []; delete CH.ctx[k];
+  }
+  // a reply still on its way would land in whichever conversation is open, so both wait until it arrives
+  function chatNew() {
+    if (CH.pending || !chatThread().length) return;
+    chatStash(); CH.pastOpen = false; chatSave(); chatPastRender(); paintChat(true);
+    if (!IS_PHONE) { var i = $('#chat-in'); if (i) i.focus(); }
+  }
+  function chatOpenPast(id) {
+    if (CH.pending) return;
+    var k = chatKey(), p = chatPast(), at = -1;
+    p.forEach(function (x, i) { if (x.id === id) at = i; });
+    if (at < 0) return;
+    var it = p.splice(at, 1)[0];
+    chatStash(); CH.threads[k] = it.msgs || []; if (it.ctx) CH.ctx[k] = it.ctx;
+    CH.pastOpen = false; chatSave(); chatPastRender(); paintChat(true);
+  }
+  function chatPastHTML() {
+    var p = chatPast();
+    return '<div class="host-h"><b>Past chats</b><button type="button" class="iconbtn" data-act="chat-past" aria-label="Close">' + ICON.x + '</button></div>' +
+      (p.length ? '<div class="host-os">' + p.map(function (x) {
+        return '<button type="button" class="host-o past-o" data-act="chat-open" data-id="' + esc(x.id) + '"' + (CH.pending ? ' disabled' : '') + '><span class="grow"><b>' + esc(x.title) + '</b><small>' + esc(ago(x.at)) + ' · ' + plural((x.msgs || []).length, 'message') + '</small></span>' + ICON.chev + '</button>';
+      }).join('') + '</div>' : '<p class="muted sm" style="margin:0">No past chats yet. When you start a new chat, this one is kept here.</p>') +
+      '<p class="note" style="margin:0">Past chats stay in this browser. Up to ' + PAST_MAX + ' are kept.</p>';
+  }
+  function chatPastRender() {
+    var box = $('#chat-past'), b = $('#chat-past-b'); if (!box) return;
+    box.hidden = !CH.pastOpen; if (b) b.setAttribute('aria-expanded', CH.pastOpen ? 'true' : 'false');
+    box.innerHTML = CH.pastOpen ? chatPastHTML() : '';
+  }
+  function chatPastToggle() {
+    CH.pastOpen = !CH.pastOpen;
+    if (CH.pastOpen && CH.hostOpen) { CH.hostOpen = false; chatHostRender(); }
+    chatPastRender();
+    var box = $('#chat-past'); if (CH.pastOpen && box) box.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+  }
   function siteMG() { return !!(window.TMConnect && window.TMConnect.status().medgemma.on); }
   function siteAI() { var m = window.TMConnect && window.TMConnect.status().medgemma; return m && m.on && m.cloud ? 'Hospital server' : (m && m.on && m.family) || 'MedGemma'; }
   // Gemini on this site plays the part of an NHS hospital's own MedGemma server, and every label says it's simulated.
@@ -3687,17 +3748,22 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     $('#chat-sug').innerHTML = chatSuggestions().map(function (s) { var o = typeof s === 'string' ? { v: s } : s; return '<button type="button" data-act="chat-chip" data-v="' + esc(o.v) + '"' + (o.model ? ' data-model="1"' : '') + (o.team ? ' data-team="1"' : '') + (CH.pending ? ' disabled' : '') + '>' + (o.model ? ICON.spark : o.team ? ICON.globe : '') + esc(o.v) + '</button>'; }).join('');
     var hb = $('#chat-host-b'); if (hb) hb.innerHTML = chatHostLabel() + ICON.chev;
     var send = $('#chat-form .send'); if (send) send.disabled = CH.pending;
+    var nb = $('#chat-new'); if (nb) nb.disabled = CH.pending || !th.length;
+    var pb = $('#chat-past-b'); if (pb) { pb.hidden = !chatPast().length && !CH.pastOpen; pb.disabled = CH.pending; }
+    if (CH.pastOpen) $$('#chat-past .past-o').forEach(function (b) { b.disabled = CH.pending; });
     if (scroll) box.scrollTop = box.scrollHeight;
   }
   function openChat() {
     var team = S.who.role !== 'patient';
-    CH.hostOpen = false; if (CH.setup !== 'local' || CH.localState === 'ok') CH.setup = null;
+    CH.hostOpen = false; CH.pastOpen = false; if (CH.setup !== 'local' || CH.localState === 'ok') CH.setup = null;
     sheet('<div class="sheet-h"><h2>Ask your agent</h2><button class="iconbtn" data-act="close" aria-label="Close">' + ICON.x + '</button></div>' +
       '<div class="chat-thread" id="chat-thread" aria-live="polite"></div><div class="chat-sug" id="chat-sug"></div>' +
       '<form class="chat-ask" id="chat-form" autocomplete="off"><label class="sr" for="chat-in">Ask your agent</label><input id="chat-in" maxlength="500" enterkeyhint="send" placeholder="' + (team ? 'Ask about a trial, an applicant or the queue' : 'Ask about a trial or your matches') + '"><button class="send" type="submit" aria-label="Send">' + ICON.up + '</button></form>' +
       '<div class="chat-foot"><p class="note">The trial team always decides who can join.</p>' +
         '<button type="button" class="chat-host-b" id="chat-host-b" data-act="chat-host" aria-expanded="false" aria-controls="chat-setup" title="Where your agent runs"></button>' +
-        '<button class="btn text" data-act="chat-clear">Clear</button></div>' +
+        '<span class="chat-acts"><button type="button" class="btn text" id="chat-past-b" data-act="chat-past" aria-expanded="false" aria-controls="chat-past">Past chats</button>' +
+        '<button type="button" class="btn text" id="chat-new" data-act="chat-new">New chat</button></span></div>' +
+      '<div class="chat-host" id="chat-past" hidden></div>' +
       '<div class="chat-host" id="chat-setup" hidden></div>');
     $('#chat-form').addEventListener('submit', function (e) { e.preventDefault(); var i = $('#chat-in'), v = i.value; i.value = ''; chatSend(v, false); });
     // the suggestion row scrolls sideways once there's a conversation: let a mouse wheel move it too
@@ -3735,6 +3801,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   }
   function chatHostToggle() {
     CH.hostOpen = !CH.hostOpen;
+    if (CH.hostOpen && CH.pastOpen) { CH.pastOpen = false; chatPastRender(); }
     chatHostRender();
     var box = $('#chat-setup'); if (CH.hostOpen && box) box.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
   }
@@ -4254,7 +4321,9 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     'loop-more': function (el) { loopMore(el.dataset.id); },
     'chat-skip': function (el) { var c = chatCard(el.dataset.id); if (c && c.state === 'open') { c.state = 'skipped'; chatSave(); paintChat(false); } },
     paper: function (el) { if (/^https:\/\//.test(el.dataset.id || '')) window.open(el.dataset.id, '_blank', 'noopener'); },
-    'chat-clear': function () { CH.threads[chatKey()] = []; delete CH.ctx[chatKey()]; chatSave(); paintChat(true); },
+    'chat-new': function () { chatNew(); },
+    'chat-past': function () { chatPastToggle(); },
+    'chat-open': function (el) { chatOpenPast(el.dataset.id); },
     'chat-check': function () { CH.polls = 0; chatCheckLocal(true); },
     'chat-copy': function (el) { var c = $('#chat-cmd'); if (!c) return; var t = c.textContent; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { el.textContent = 'Copied'; setTimeout(function () { el.textContent = 'Copy'; }, 1800); }, function () { var r = document.createRange(); r.selectNodeContents(c); var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Selected. Press Ctrl+C (or Cmd+C) to copy.'); }); },
     'chat-apps': function (el) { S.atrial = el.dataset.id; S.ctab = 'apps'; saveSession(); closeSheet(); render(); window.scrollTo(0, 0); },
