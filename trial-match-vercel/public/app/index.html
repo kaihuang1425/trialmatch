@@ -62,6 +62,8 @@ svg { flex: none; width: 20px; height: 20px; }
 .avatar { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 500; color: #fff; background: linear-gradient(135deg, var(--g1), var(--g2)); }
 .avatar.clin { background: linear-gradient(135deg, #1E8E3E, #4285F4); }
 .syn { font-size: 12px; color: var(--faint); }
+/* tablet widths: the clinician bar has four tabs, so drop the extra labels before anything wraps */
+@media (min-width: 761px) and (max-width: 1100px) { .bar .syn, .me .who { display: none; } .logo { white-space: nowrap; } }
 
 /* bottom nav on phones */
 .bnav { display: none; }
@@ -266,6 +268,15 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .kpi .hint { font-size: 12px; color: var(--faint); }
 .two { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; align-items: start; }
 @media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+/* invitations: the trial team's "Find" counts, and the line on an invited trial card */
+.plist { display: flex; flex-direction: column; margin-top: 8px; }
+.prow { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.prow:first-child { border-top: 0; }
+.prow b { font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.seg button:disabled { opacity: .38; pointer-events: none; }
+.seg.fill button { flex: 1 1 auto; }
+.inv-line { display: flex; align-items: center; gap: 8px; align-self: flex-start; margin: 0; padding: 6px 12px 6px 10px; border-radius: 14px; background: var(--met-soft); color: var(--met); font-size: 13px; font-weight: 500; }
+.inv-line svg { width: 16px; height: 16px; flex: none; }
 .funnel { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
 .frow { display: grid; grid-template-columns: 110px 1fr 36px; gap: 12px; align-items: center; font-size: 14px; }
 .frow .track { height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
@@ -727,7 +738,9 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     letter: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
     lock: I('<rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
     back: I('<path d="M15 5l-7 7 7 7"/>', 2.4),
-    undo: I('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>')
+    undo: I('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>'),
+    people: I('<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5a3.1 3.1 0 0 1 0 6M17.6 19.5a5.6 5.6 0 0 0-2.4-4.6"/>'),
+    send: I('<path d="M4 11.5L20 4l-6.5 16-2.6-6.4z"/><path d="M10.9 13.6L20 4"/>')
   };
 
   /* ================= trials: extras ================= */
@@ -748,9 +761,9 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     egfr7: { type: 'Radiotherapy with a tablet', goal: 8, gives: {} },
     egfr8: { type: 'Targeted tablet', goal: 12, gives: { priorEGFR: true } },
     egfr9: { type: 'Chemo-immunotherapy', goal: 14, gives: { priorChemo: true, priorIO: true } },
-    egfr10: { type: 'Targeted tablet', goal: 8, gives: { priorEGFR: true } },
+    egfr10: { type: 'Targeted tablet', goal: 8, gives: { priorEGFR: true }, opened: 9 },
     egfr11: { type: 'Two-target antibody', goal: 12, gives: { priorChemo: true } },
-    egfr12: { type: 'Biopsy-guided treatment', goal: 10, gives: { priorChemo: true } }
+    egfr12: { type: 'Biopsy-guided treatment', goal: 10, gives: { priorChemo: true }, opened: 3 }   // opened: days since the trial started recruiting
   };
   TRIALS.forEach(function (t) { for (var k in EXTRA[t.id]) t[k] = EXTRA[t.id][k]; });
   var TYPES = []; TRIALS.forEach(function (t) { if (TYPES.indexOf(t.type) < 0) TYPES.push(t.type); });
@@ -792,7 +805,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var D = { patients: {}, apps: {}, events: {}, rankings: {} };
     function pt(id, name, age, sex, city, rec, x) {
       x = x || {};
-      var p = { id: id, name: name, age: age, sex: sex, city: city, account: !!x.account, rec: baseRec(rec), srcs: x.srcs || {}, labs: x.labs || {}, tx: x.tx || [], past: x.past || [], sources: x.sources || ['gp', 'hosp', 'gen'], settings: { auto: x.auto || 'ask', maxTravel: x.maxTravel || 50, maxVisits: 2, rand: 'yes', types: [], pass: [] }, told: [], created: d(x.since || 30) };
+      var p = { id: id, name: name, age: age, sex: sex, city: city, account: !!x.account, rec: baseRec(rec), srcs: x.srcs || {}, labs: x.labs || {}, tx: x.tx || [], past: x.past || [], sources: x.sources || ['gp', 'hosp', 'gen'], settings: { auto: x.auto || 'ask', maxTravel: x.maxTravel || 50, maxVisits: 2, rand: 'yes', types: [], pass: [], invites: x.invites || 'yes' }, told: [], created: d(x.since || 30) };
       ['anc', 'plt', 'crcl', 'bili'].forEach(function (k) { if (p.rec[k] != null && !p.labs[k]) p.labs[k] = [[d(9), p.rec[k]]]; });
       D.patients[id] = p; return p;
     }
@@ -855,6 +868,41 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     pt('P-0373', 'Ann Y.', 57, 'F', 'London', { kras: 'G12C', priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 5, anc: 1.1 }); app('P-0373', 'kras', 'screenfail', 18, { reason: 'Neutrophils 1.1 on pre-screening (needs 1.5 or more)' });
     pt('P-0374', 'Leo G.', 58, 'M', 'Cambridge', { stage: 'IIIA_res', pdl1: 40, ecog: 0 }); app('P-0374', 'periop', 'waitlist', 11);
 
+    // people whose agents are watching but who haven't applied anywhere: the pool trial teams can invite.
+    // Trial teams only ever see counts of these people, never who they are.
+    var GREW_ON = { priorEGFR: true, progressed: 'yes', lastTxWeeks: 4 };
+    function eg(o) { var b = clone(GREW_ON); for (var k in o) b[k] = o[k]; return b; }
+    pt('P-0430', 'Anita R.', 61, 'F', 'London', eg({ egfr: 'ex19del', ecog: 0, anc: 3.4, plt: 240, crcl: 80, bili: .5 }));
+    pt('P-0431', 'David W.', 67, 'M', 'London', eg({ egfr: 'L858R', ecog: 1, anc: 2.9, plt: 198, crcl: 70 }));
+    pt('P-0432', 'Hannah P.', 54, 'F', 'Cambridge', eg({ egfr: 'ex19del', ecog: 1, brain: 'treated_stable', anc: 3.0, plt: 210 }), { maxTravel: 100 });
+    pt('P-0433', 'Kwame A.', 63, 'M', 'London', eg({ egfr: 'L858R', ecog: 1, brain: 'unk', anc: 2.5, plt: 180 }));
+    pt('P-0434', 'Sarah N.', 58, 'F', 'Leeds', eg({ egfr: 'ex19del', ecog: 0, anc: 4.0, plt: 260 }));
+    pt('P-0435', 'Michael C.', 70, 'M', 'Leeds', eg({ egfr: 'L858R', ecog: 1, brain: 'unk' }));
+    pt('P-0436', 'Yusuf B.', 60, 'M', 'London', eg({ egfr: 'ex19del', ecog: 1, brain: 'untreated', anc: 3.0, plt: 200 }));
+    pt('P-0437', 'Rosa M.', 65, 'F', 'London', eg({ egfr: 'L858R', ecog: 2, brain: 'treated_stable' }));
+    pt('P-0438', 'Chloe F.', 52, 'F', 'Manchester', eg({ egfr: 'ex19del', ecog: 0, anc: 3.8, plt: 250 }));
+    pt('P-0439', 'Peter D.', 68, 'M', 'London', eg({ egfr: 'ex19del', ecog: 1 }));
+    pt('P-0440', 'Mina T.', 57, 'F', 'London', eg({ egfr: 'L858R', ecog: 0, anc: 3.1, plt: 205 }), { invites: 'no' });
+    pt('P-0441', 'Gareth L.', 62, 'M', 'Cardiff', eg({ egfr: 'ex19del', ecog: 1, anc: 3.0, plt: 220 }));
+    pt('P-0442', 'Joy E.', 66, 'F', 'London', eg({ egfr: 'egfr_unk', ecog: 1, brain: 'unk' }));
+    pt('P-0443', 'Ian S.', 59, 'M', 'Birmingham', eg({ egfr: 'ex19del', ecog: 0, anc: 3.6, plt: 230 }), { maxTravel: 'any' });
+    pt('P-0444', 'Laura G.', 60, 'F', 'London', eg({ egfr: 'ex19del', ecog: 1, progressed: 'unk', anc: 2.7, plt: 190 }));
+    pt('P-0445', 'Beth K.', 64, 'F', 'London', { pdl1: 60, ecog: 0, anc: 3.5, plt: 240, crcl: 85 });
+    pt('P-0446', 'Omar H.', 69, 'M', 'Manchester', { histology: 'squamous', pdl1: 20, ecog: 1 });
+    pt('P-0447', 'Nora J.', 71, 'F', 'Bristol', { pdl1: 5, ecog: 1, priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 6 });
+    pt('P-0448', 'Sean Q.', 56, 'M', 'Glasgow', { kras: 'G12C', priorChemo: true, priorIO: true, progressed: 'yes', lastTxWeeks: 5, ecog: 1 });
+    pt('P-0449', 'Tara V.', 62, 'F', 'Newcastle', { alk: 'pos', ecog: 0 });
+    pt('P-0450', 'Colin R.', 73, 'M', 'Norwich', { stage: 'III_unres', pdl1: 30, priorCRT: true, progressed: 'no', lastTxWeeks: 3, crtWeeks: 3, ecog: 1 });
+    pt('P-0451', 'Esther O.', 58, 'F', 'London', { pdl1: 80, ecog: 1, brain: 'unk' });
+
+    // LT-317 opened 9 days ago; its team invited everyone who could fit yesterday, and one person has applied since
+    var appsList = function () { return Object.keys(D.apps).map(function (k) { return D.apps[k]; }); };
+    Object.keys(D.patients).forEach(function (id) {
+      var p = D.patients[id], s = inviteState(p, TRIAL.egfr10, appsList().filter(function (a) { return a.pid === id; }));
+      if (s && s.r) inviteOne(p, TRIAL.egfr10, s.r, 'Dr Amira Rahman', d(1), function (eid, e) { D.events[eid] = e; });
+    });
+    app('P-0436', 'egfr10', 'applied', .4); D.apps['P-0436_egfr10'].invited = true; D.patients['P-0436'].invites.egfr10.status = 'applied';
+
     ev('P-0412', 'Records Reader', 'Read your GP record, hospital record and genomic report. Added 18 facts.', 21);
     ev('P-0412', 'Trial Scout', 'Found 19 recruiting phase III lung cancer trials in the UK.', 21);
     ev('P-0412', 'Matcher', 'Checked 137 rules. 11 trials could fit you, 4 of them strongly. A brain scan result would settle 7 of the others.', 2);
@@ -867,7 +915,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 
   /* ================= store: shared db when available, this browser otherwise ================= */
   var COLS = ['patients', 'apps', 'events', 'rankings'];
-  var LKEY = 'trialmatch-v1';
+  var LKEY = 'trialmatch-v2';   // v2: invitations and the wider patient pool, so older saved demo data starts fresh
   var Store = {
     mode: 'loading', data: { patients: {}, apps: {}, events: {}, rankings: {} }, db: null, q: {}, note: '',
     get: function (c, id) { return this.data[c][id]; },
@@ -966,9 +1014,46 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function event(pid, who, text, notice, id) { Store.put('events', id || rid(), { pid: pid, who: who, text: text, at: Date.now(), notice: !!notice, read: false }); }
 
   function createApp(pid, tid, by, r) {
-    var id = pid + '_' + tid, now = Date.now();
-    Store.put('apps', id, { id: id, pid: pid, trial: tid, stage: 'applied', by: by, at: now, upd: now, hist: [{ s: 'applied', at: now, by: by === 'agent' ? 'Patient’s agent' : 'Patient' }], score: r.score, tier: r.tier, reason: '', prescreen: null, outcome: null, arm: null });
+    var id = pid + '_' + tid, now = Date.now(), pt = Store.get('patients', pid), inv = pt && pt.invites && pt.invites[tid];
+    Store.put('apps', id, { id: id, pid: pid, trial: tid, stage: 'applied', by: by, at: now, upd: now, hist: [{ s: 'applied', at: now, by: by === 'agent' ? 'Patient’s agent' : 'Patient' }], score: r.score, tier: r.tier, reason: '', prescreen: null, outcome: null, arm: null, invited: !!inv });
+    if (inv && inv.status !== 'applied') { var c = clone(pt); c.invites[tid].status = 'applied'; Store.put('patients', pid, c); }
   }
+
+  /* ---------- invitations: a trial team asks people whose agents say they could fit to apply ----------
+     The team sees counts only. A person is counted when they allow invitations, could fit, are inside their own
+     search settings, haven't applied or passed, and aren't on a trial. Their name reaches the team only if they apply. */
+  function inviteState(p, t, papps) {
+    if (!p.rec || p.rec.empty) return null;
+    if (papps.some(function (a) { return a.stage === 'enrolled'; })) return null;      // on a trial: their agent is paused
+    if (papps.some(function (a) { return a.trial === t.id; })) return 'applied';
+    if ((p.past || []).some(function (x) { return x.trial === t.id; })) return null;
+    if (p.invites && p.invites[t.id]) return 'invited';
+    if ((p.settings || {}).invites !== 'yes') return null;
+    var r = evaluate(P_(p), t);
+    if (r.tier === 'not' || scopeReason(p, r)) return null;
+    return { r: r };
+  }
+  function inviteOne(p, t, r, by, at, putEvent) {
+    var site = nearestSite(P_(p), t);
+    p.invites = p.invites || {}; p.invites[t.id] = { at: at, by: by, site: site.name, status: 'new' };
+    putEvent(p.id + '-inv-' + t.id, { pid: p.id, who: 'Care team', text: 'The ' + t.code + ' team at ' + site.name + ' invited you to apply. Your agent thinks you could fit. They don’t know who you are unless you apply.', at: at, notice: true, read: false, inv: t.id });
+    putEvent(p.id + '-invag-' + t.id, { pid: p.id, who: 'Your agent', text: 'Checked the ' + t.code + ' invitation: you meet ' + r.met + ' of its ' + r.rows.length + ' rules' + (r.unk ? ', and the team would check ' + plural(r.unk, 'more') + ' at pre-screening' : '') + '. It’s first in Discover.', at: at + 6e4, notice: false, read: true });
+  }
+  function poolFor(tid) {
+    var t = TRIAL[tid], apps = Store.all('apps'), byP = {};
+    apps.forEach(function (a) { (byP[a.pid] = byP[a.pid] || []).push(a); });
+    var out = { fresh: [], invited: [], applied: apps.filter(function (a) { return a.trial === tid; }).length };
+    Store.all('patients').forEach(function (p) {
+      var s = inviteState(p, t, byP[p.id] || []);
+      if (s && s.r) out.fresh.push({ pt: p, r: s.r });
+      if (p.invites && p.invites[tid]) out.invited.push({ pt: p, inv: p.invites[tid], applied: (byP[p.id] || []).some(function (a) { return a.trial === tid; }) });
+    });
+    return out;
+  }
+  function invitesOf(pt) { var inv = pt.invites || {}; return Object.keys(inv).filter(function (tid) { return TRIAL[tid] && inv[tid].status === 'new' && !appFor(pt.id, tid); }).sort(function (a, b) { return inv[b].at - inv[a].at; }); }
+  // small counts could single someone out, so anything under 5 is shown as "fewer than 5"
+  function cnt(n, short) { return n === 0 ? '0' : (n < 5 ? (short ? '<5' : 'fewer than 5') : String(n)); }
+  function openedAt(t) { return Date.now() - t.opened * DAY; }
 
   // Runs the patient's agent: decides what to apply for or flag. Deterministic and safe to run from any viewer.
   function runAgent(pid) {
@@ -985,7 +1070,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
         event(pid, 'Your agent', r.t.code + ' is a strong match. Swipe right on it to apply.', true, pid + '-tell-' + r.t.id);
       }
     });
-    if (changed) { var c = clone(pt); c.told = told; Store.put('patients', pid, c); }
+    if (changed) { var c = clone(Store.get('patients', pid)); c.told = told; Store.put('patients', pid, c); }   // fresh copy: createApp may have updated an invitation
   }
 
   function savePatient(pt, why) { Store.put('patients', pt.id, pt); setTimeout(function () { runAgent(pt.id); }, 0); }
@@ -1102,9 +1187,12 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var head = '<div class="disc-h"><div><h1 class="hello" style="padding-top:12px"><span class="grad-text">Hello, ' + esc(first) + '</span></h1></div>' +
       '<button class="agent-pill" data-act="activity"><span class="spark sm' + (pt.settings.auto === 'auto' && !ot ? ' live' : '') + '">' + ICON.spark + '</span><span class="grow"><b>' + (ot ? 'Paused while you’re on ' + TRIAL[ot.trial].code : (pt.settings.auto === 'auto' ? 'Applying for you' : 'Watching ' + TRIALS.length + ' trials')) + '</b><small>' + (last ? esc(last.text) : 'Ready') + '</small></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>' +
       '<button class="iconbtn tune" data-act="settings" aria-label="Search settings">' + ICON.tune + '</button></div>';
-    var cards = [];
+    var cards = [], invIds = ot ? [] : invitesOf(pt);
+    // invitations from trial teams come first, then the agent's question, then the rest of the matches
+    invIds.forEach(function (tid) { var r = res.filter(function (x) { return x.t.id === tid; })[0]; if (r && r.tier !== 'not' && !r.done) cards.push({ kind: 't', r: r, inv: pt.invites[tid] }); });
+    var nInv = cards.length;
     if (q) cards.push({ kind: 'q', q: q });
-    deck.forEach(function (r) { cards.push({ kind: 't', r: r }); });
+    deck.forEach(function (r) { if (invIds.indexOf(r.t.id) < 0) cards.push({ kind: 't', r: r }); });
     var deckHTML;
     if (ot) deckHTML = '<div class="pcard empty-card"><span class="spark">' + ICON.spark + '</span><h3>You’re on ' + TRIAL[ot.trial].code + '</h3><p class="muted">Your agent is paused so nothing new gets in the way. When the trial ends, your results go into your record and it starts looking again.</p><button class="btn tonal" data-act="tab" data-v="mine">See your trial</button></div>';
     else if (!cards.length) deckHTML = '<div class="pcard empty-card"><span class="spark">' + ICON.spark + '</span><h3>You’re all caught up</h3><p class="muted">' + (strong + poss ? 'You’ve seen every trial that could fit. ' : 'No trial fits your record right now. ') + 'Your agent keeps watching and will tell you when something changes.</p><div class="row" style="justify-content:center"><button class="btn tonal" data-act="settings">' + ICON.tune + 'Widen your search</button><button class="btn text" data-act="add">Add data</button></div></div>';
@@ -1112,7 +1200,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var btns = (!ot && cards.length && cards[0].kind === 't') ? '<div class="swipe-btns"><button class="sbtn rej" data-act="swipe" data-v="down"><span>' + ICON.x + '</span>Pass</button><button class="sbtn" data-act="trial" data-id="' + cards[0].r.t.id + '"><span>' + ICON.info + '</span>Details</button><button class="sbtn up" data-act="swipe" data-v="up"><span>' + ICON.heart + '</span>Apply</button></div><p class="kbd">Swipe right to apply, left to pass. Or use ← →.</p>' : '';
     var count = cards.filter(function (c) { return c.kind === 't'; }).length;
     return '<div class="col disc">' + head +
-      '<div class="deck-meta"><span>' + (ot ? '' : (count ? plural(count, 'trial') + ' to look at' : '')) + '</span><span class="faint">' + plural(strong, 'strong match', 'strong matches') + ' · ' + poss + ' possible</span></div>' +
+      '<div class="deck-meta"><span>' + (ot ? '' : (count ? plural(count, 'trial') + ' to look at' + (nInv ? ' · ' + plural(nInv, 'invitation') : '') : '')) + '</span><span class="faint">' + plural(strong, 'strong match', 'strong matches') + ' · ' + poss + ' possible</span></div>' +
       '<div class="deck" id="deck">' + deckHTML + '</div>' + btns + '</div>';
   }
 
@@ -1126,6 +1214,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var r = c.r, t = r.t, why = r.rows.filter(function (x) { return x.s === OK && x.c.key; }).slice(0, 2), unk = unknownRules(r);
     return '<div class="' + cls + '" data-kind="t" data-id="' + t.id + '">' +
       '<div class="stamp up">APPLY</div><div class="stamp down">PASS</div>' +
+      (c.inv ? '<p class="inv-line">' + ICON.hosp + '<span>The ' + t.code + ' team invited you to apply · ' + ago(c.inv.at) + '</span></p>' : '') +
       '<div class="tc-head"><div><span class="chip ' + (r.tier === 'strong' ? 'met' : 'unk') + '">' + (r.tier === 'strong' ? 'Strong match' : 'Possible match') + '</span><p class="code">' + t.code + ' · Phase III · ' + esc(t.type) + '</p></div>' + ring(r.score, r.tier) + '</div>' +
       '<h2 class="tc-title">' + esc(t.name) + '</h2><p class="muted tc-plain">' + esc(t.plain) + '</p>' +
       '<div class="tc-facts"><span>' + ICON.pin + esc(r.site.city) + ', ' + (r.site.d < 5 ? 'in your city' : r.site.d + ' miles') + '</span><span>' + ICON.cal + VISIT[t.visits][1] + '</span><span>' + ICON.shuffle + 'Randomised</span></div>' +
@@ -1135,12 +1224,17 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   }
 
   function applyTo(pt, tid) {
-    var r = evaluate(P_(pt), TRIAL[tid]);
+    var r = evaluate(P_(pt), TRIAL[tid]), invited = (pt.invites || {})[tid];
     createApp(pt.id, tid, 'patient', r);
-    event(pt.id, 'Your agent', 'Filled in your application for ' + TRIAL[tid].code + ' from your record and sent it to the trial team.', true);
+    event(pt.id, 'Your agent', 'Filled in your application for ' + TRIAL[tid].code + ' from your record and sent it to the trial team' + (invited ? ' that invited you' : '') + '.', true);
     toast('Applied to ' + TRIAL[tid].code + '. You’ll hear back in your inbox.');
   }
-  function passOn(pt, tid) { var c = clone(pt); c.settings.pass = (c.settings.pass || []).concat([tid]); Store.put('patients', c.id, c); toast('Passed on ' + TRIAL[tid].code + '. You can bring it back in search settings.'); }
+  function passOn(pt, tid) {
+    var c = clone(pt), inv = c.invites && c.invites[tid] && c.invites[tid].status === 'new' ? c.invites[tid] : null;
+    c.settings.pass = (c.settings.pass || []).concat([tid]); if (inv) inv.status = 'declined';
+    Store.put('patients', c.id, c);
+    toast(inv ? 'Declined ' + TRIAL[tid].code + '. The team never learns who you are.' : 'Passed on ' + TRIAL[tid].code + '. You can bring it back in search settings.');
+  }
 
   function mineView(pt) {
     var apps = appsOf(pt.id).sort(function (a, b) { return b.upd - a.upd; });
@@ -1199,7 +1293,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function inboxView(pt) {
     var evs = Store.all('events').filter(function (e) { return e.pid === pt.id && e.notice; }).sort(function (a, b) { return b.at - a.at; });
     var html = '<div class="col"><div class="page-h"><div><h1>Inbox</h1><p>Updates from your agent and your care team.</p></div>' + (evs.some(function (e) { return !e.read; }) ? '<button class="btn text" data-act="readall">Mark all read</button>' : '') + '</div>';
-    html += evs.length ? '<div class="list">' + evs.map(function (e) { var hu = e.who === 'Care team'; return '<div class="item' + (e.read ? '' : ' unread') + '"><span class="ic-circle ' + (hu ? 'hu' : 'ag') + '">' + (hu ? ICON.hosp : ICON.spark) + '</span><span class="grow"><b>' + esc(e.who) + ' <span class="faint xs">' + ago(e.at) + '</span></b><small>' + esc(e.text) + '</small></span>' + (e.read ? '' : '<span class="dot"></span>') + '</div>'; }).join('') + '</div>' : '<div class="card empty"><h3>No messages yet</h3><p>You’ll hear here when a trial team replies.</p></div>';
+    html += evs.length ? '<div class="list">' + evs.map(function (e) { var hu = e.who === 'Care team'; return '<div class="item' + (e.read ? '' : ' unread') + '"><span class="ic-circle ' + (hu ? 'hu' : 'ag') + '">' + (hu ? ICON.hosp : ICON.spark) + '</span><span class="grow"><b>' + esc(e.who) + ' <span class="faint xs">' + ago(e.at) + '</span></b><small>' + esc(e.text) + '</small>' + (e.inv && invitesOf(pt).indexOf(e.inv) >= 0 ? '<button class="btn tonal" style="margin-top:10px;height:34px" data-act="trial" data-id="' + e.inv + '">See the invitation</button>' : '') + '</span>' + (e.read ? '' : '<span class="dot"></span>') + '</div>'; }).join('') + '</div>' : '<div class="card empty"><h3>No messages yet</h3><p>You’ll hear here when a trial team replies.</p></div>';
     return html + '</div>';
   }
 
@@ -1253,6 +1347,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
         (['applied', 'prescreen', 'screening'].indexOf(a.stage) >= 0 ? '<button class="btn danger" data-act="withdraw" data-id="' + a.id + '" style="align-self:flex-start">Withdraw application</button>' : '') + '</div>';
     } else if (done) action = '<div class="panel2"><b>You completed this trial.</b></div>';
     else if (r.tier === 'not') action = '<div class="panel2"><b>This trial doesn’t fit your record</b><p class="muted sm">' + esc(firstFail(r)) + '. If that’s wrong, update your record and your agent will check again.</p></div>';
+    else if (invitesOf(pt).indexOf(tid) >= 0) action = '<div class="panel2"><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><span class="ic-circle hu">' + ICON.hosp + '</span><span class="grow"><b style="font-weight:500">The ' + t.code + ' team invited you to apply</b><br><span class="muted sm">Sent ' + ago(pt.invites[tid].at) + ' from ' + esc(pt.invites[tid].site) + '. They don’t know who you are. Applying shares your record with them; saying no tells them nothing.</span></span></div><div class="row"><button class="btn pri" data-act="apply" data-id="' + tid + '">' + ICON.heart + 'Apply</button><button class="btn text" data-act="decline" data-id="' + tid + '">No thanks</button></div></div>';
     else action = '<div class="panel2"><p class="sm muted">Your agent fills in the application from your record. The trial team sees a pseudonym until you agree to meet them.</p><div class="row">' + '<button class="btn pri" data-act="apply" data-id="' + tid + '">' + ICON.heart + 'Apply</button>' + (r.scope === 'You passed on this one' ? '<button class="btn text" data-act="unpass" data-id="' + tid + '">Bring back to Discover</button>' : '') + '</div></div>';
     sheet(sheetHead(esc(t.name), t.code + ' · Phase III · ' + esc(t.type)) +
       '<p class="muted">' + esc(t.plain) + '</p>' +
@@ -1279,6 +1374,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var passed = (s.pass || []);
     sheet(sheetHead('Search settings', 'Your agent only shows and applies to trials inside these') +
       '<div class="field"><span>How your agent applies</span><div class="opts"><button class="opt' + (s.auto !== 'auto' ? ' on' : '') + '" data-act="pref" data-k="auto" data-v="ask">Ask me first. I’ll swipe to apply.</button><button class="opt' + (s.auto === 'auto' ? ' on' : '') + '" data-act="pref" data-k="auto" data-v="auto">Apply for me to strong matches</button></div></div>' +
+      '<div class="field"><span>Can trial teams invite you to apply?</span>' + seg('invites', [['yes', 'Yes'], ['no', 'No']]) + '<p class="muted sm" style="margin:2px 0 0">Teams see how many people could fit, never who. Your name reaches them only if you apply.</p></div>' +
       '<div class="field"><span>How far can you travel?</span>' + seg('maxTravel', [[25, '25 mi'], [50, '50 mi'], [100, '100 mi'], ['any', 'Anywhere']]) + '</div>' +
       '<div class="field"><span>How often can you visit?</span>' + seg('maxVisits', [[1, 'Monthly'], [2, 'Every 3 wks'], [3, 'Every 2 wks'], [4, 'Weekly']]) + '</div>' +
       '<div class="field"><span>Randomised trials (you get the new or the standard treatment)</span>' + seg('rand', [['yes', 'Fine'], ['unsure', 'Not sure'], ['no', 'Rather not']]) + '</div>' +
@@ -1824,8 +1920,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function clinicianView() {
     var c = CLINICIANS.filter(function (x) { return x.id === S.who.id; })[0] || CLINICIANS[0];
     var toRank = Store.all('apps').filter(function (a) { return a.stage === 'applied'; }).length;
-    var nav = [['overview', 'Overview', ICON.chart], ['rank', 'Rank', ICON.swap, toRank || ''], ['apps', 'Applications', ICON.folder]];
-    var body = { overview: overview, rank: rankView, apps: appsView }[S.ctab] || overview;
+    var nav = [['overview', 'Overview', ICON.chart], ['find', 'Find', ICON.people], ['rank', 'Rank', ICON.swap, toRank || ''], ['apps', 'Applications', ICON.folder]];
+    var body = { overview: overview, find: findView, rank: rankView, apps: appsView }[S.ctab] || overview;
     return bar(nav, S.ctab, c.name, 'clin') + '<main><div class="wide">' + body(c) + '</div></main>';
   }
   function trialSelect(id, cur, withAll) {
@@ -1850,6 +1946,10 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var ps = apps.filter(function (a) { return a.stage === 'prescreen'; }).length; if (ps) needs.push(['apps', 'prescreen', 'Enter pre-screening results for ' + plural(ps, 'patient'), ICON.doc]);
     var ap = apps.filter(function (a) { return a.stage === 'approval'; }).length; if (ap) needs.push(['apps', 'approval', 'Sign off ' + plural(ap, 'enrolment'), ICON.check]);
     var on = apps.filter(function (a) { return a.stage === 'enrolled'; }).length; if (on) needs.push(['apps', 'enrolled', plural(on, 'patient') + ' on a trial. Record results when they finish', ICON.pulse]);
+    // newly opened trials nobody has applied to yet: point the team at the people whose agents say they could fit
+    TRIALS.filter(function (t) { return t.opened && t.opened <= 14 && !apps.some(function (a) { return a.trial === t.id; }); }).forEach(function (t) {
+      var n = poolFor(t.id).fresh.length; if (n) needs.unshift(['find', t.id, t.code + ' opened ' + ago(openedAt(t)) + ' with no applicants. ' + cnt(n).replace(/^f/, 'F') + ' people could fit', ICON.people]);
+    });
     var rows = TRIALS.map(function (t) { var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length; return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(t.name) + '</span></td><td class="num">' + A.length + '</td><td class="num">' + (A.filter(function (a) { return a.stage === 'applied'; }).length || '–') + '</td><td class="num">' + (A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length || '–') + '</td><td><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>'; }).join('');
     return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div></div>' +
       '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t</span></div></div>' +
@@ -1857,6 +1957,45 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       '<div class="card"><h3>Where applicants are</h3><p class="muted sm">Everyone who reached each stage</p><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
       '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>To rank</th><th>In screening</th><th>Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
       '<p class="note">All patients, trials and sites are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
+  }
+
+  /* ---------- find: invite people whose agents say they could fit (counts only, never names) ---------- */
+  function kpi(l, v, h) { return '<div class="kpi"><span class="lbl">' + l + '</span><span class="val">' + esc(v) + '</span><span class="hint">' + h + '</span></div>'; }
+  function prow(l, v) { return '<div class="prow"><span>' + l + '</span><b>' + esc(v) + '</b></div>'; }
+  function findView() {
+    var tid = S.trial, t = TRIAL[tid], P = poolFor(tid), fresh = P.fresh;
+    var strong = fresh.filter(function (x) { return x.r.tier === 'strong'; });
+    var waiting = P.invited.filter(function (x) { return !x.applied; }), yes = P.invited.length - waiting.length;
+    var who = S.fwho === 'strong' && strong.length ? 'strong' : 'all', n = (who === 'strong' ? strong : fresh).length;
+    // across everyone who could fit and hasn't applied: what their agents can't confirm yet, and how far they are from a site
+    var all = fresh.map(function (x) { return x.r; }).concat(waiting.map(function (x) { return evaluate(P_(x.pt), t); }));
+    var gaps = {}; all.forEach(function (r) { unknownRules(r).forEach(function (u) { gaps[u] = (gaps[u] || 0) + 1; }); });
+    var near = [0, 0, 0]; all.forEach(function (r) { near[r.site.d <= 25 ? 0 : (r.site.d <= 50 ? 1 : 2)]++; });
+    var last = P.invited.slice().sort(function (a, b) { return b.inv.at - a.inv.at; })[0];
+    var head = '<div class="page-h"><div><h1>Invite people to apply</h1><p>Patients’ agents check ' + t.code + ' against everyone who allows invitations. You see how many could fit, never who.' + (t.opened ? ' ' + t.code + ' opened ' + ago(openedAt(t)) + '.' : '') + '</p></div>' + trialSelect('find-trial', tid) + '</div>';
+    var kpis = '<div class="kpis">' + kpi('Could fit, not invited yet', cnt(fresh.length, true), cnt(strong.length) + ' strong, ' + cnt(fresh.length - strong.length) + ' possible') +
+      kpi('Invited', cnt(P.invited.length, true), last ? 'Last sent ' + ago(last.inv.at) : 'None sent yet') +
+      kpi('Applied after an invitation', String(yes), 'They chose to share their record') +
+      kpi('All applicants', String(P.applied), 'From every route') + '</div>';
+    var left = '<div class="card"><h3>What their agents can’t confirm yet</h3><p class="muted sm">Across everyone who could fit and hasn’t applied. Pre-screening settles these.</p><div class="plist">' +
+      (Object.keys(gaps).length ? Object.keys(gaps).sort(function (a, b) { return gaps[b] - gaps[a]; }).map(function (k) { return prow(esc(k), cnt(gaps[k])); }).join('') : '<p class="muted sm" style="padding-top:12px">Nothing. Every rule is confirmed from their records.</p>') + '</div>' +
+      '<h3 style="margin-top:22px">Distance to the nearest site</h3><div class="plist">' + prow('Within 25 miles', cnt(near[0])) + prow('25 to 50 miles', cnt(near[1])) + prow('Further, and happy to travel', cnt(near[2])) + '</div></div>';
+    var msg = 'The ' + t.code + ' team at ' + t.sites[0][0] + ' invited you to apply. Your agent thinks you could fit. They don’t know who you are unless you apply.';
+    var right = '<div class="card" style="display:flex;flex-direction:column;gap:16px"><h3>Send an invitation</h3>' +
+      (fresh.length ? '<div class="seg fill" role="group" aria-label="Who to invite" style="align-self:flex-start"><button data-act="fwho" data-v="all" aria-pressed="' + (who === 'all') + '">Everyone who could fit (' + esc(cnt(fresh.length, true)) + ')</button><button data-act="fwho" data-v="strong" aria-pressed="' + (who === 'strong') + '"' + (strong.length ? '' : ' disabled') + '>Strong matches (' + esc(cnt(strong.length, true)) + ')</button></div>' +
+        '<div class="panel2"><span class="faint xs">What each person sees, through their agent</span><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><span class="ic-circle hu">' + ICON.hosp + '</span><p class="sm" style="margin:0">' + esc(msg) + '</p></div></div>' +
+        '<button class="btn pri big" data-act="send-invites">' + ICON.send + (n >= 5 ? 'Send ' + n + ' invitations' : 'Send the invitations') + '</button><p class="note" style="margin-top:-6px">Each person sees their nearest site. Saying no is private: you only see who applies.</p>'
+        : '<p class="muted">' + (P.invited.length ? 'Everyone who could fit has an invitation. When an agent finds someone new, they’ll be counted here.' : 'No one’s agent finds a fit for ' + t.code + ' yet. Agents check again whenever a record changes.') + '</p>') +
+      (P.invited.length ? '<div><h3 style="font-size:16px">Sent so far</h3><div class="plist">' + prow('Invited', cnt(P.invited.length)) + prow('Applied', String(yes)) + prow('Not applied yet', cnt(waiting.length)) + '</div><p class="faint xs" style="margin-top:8px">Last sent ' + ago(last.inv.at) + ' by ' + esc(last.inv.by) + '.' + (yes ? ' <button class="btn text" style="height:auto;padding:0;font-size:12px" data-act="go-rank" data-id="' + tid + '">Rank who applied</button>' : '') + '</p></div>' : '') + '</div>';
+    return head + kpis + '<div class="two">' + right + left + '</div>' +
+      '<p class="note">Only people who allow invitations are counted. People on another trial, or who passed on this one, are left out. Counts under 5 show as “fewer than 5” so no one can be singled out. Every patient here is synthetic.</p>';
+  }
+  function sendInvites() {
+    var tid = S.trial, t = TRIAL[tid], P = poolFor(tid), strong = P.fresh.filter(function (x) { return x.r.tier === 'strong'; });
+    var list = S.fwho === 'strong' && strong.length ? strong : P.fresh; if (!list.length) return;
+    var now = Date.now(), by = clinName();
+    list.forEach(function (x) { var c = clone(x.pt); inviteOne(c, t, x.r, by, now, function (id, e) { Store.put('events', id, e); }); Store.put('patients', c.id, c); });
+    toast((list.length >= 5 ? list.length + ' invitations' : 'Invitations') + ' sent for ' + t.code + '. Each reaches the person through their agent, and you’ll see who applies.');
   }
 
   /* ---------- rank: binary insertion, one swipe per comparison ---------- */
@@ -1904,7 +2043,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
         '<div><div class="rank-label">' + ICON.spark + 'New applicant</div><div class="deck" id="deck">' + profile(A, 'top', null) + (nextQ ? profile(nextQ, 'ghost', null) : '') + '</div>' +
         '<div class="swipe-btns"><button class="sbtn" data-act="swipe" data-v="down"><span>' + ICON.down + '</span>Below #' + (pair.pos + 1) + '</button><button class="sbtn rej" data-act="rank" data-v="reject"><span>' + ICON.x + '</span>Reject</button><button class="sbtn up" data-act="swipe" data-v="up"><span>' + ICON.up + '</span>Above #' + (pair.pos + 1) + '</button></div><p class="kbd">Swipe right if the new applicant fits better, left if not. Or use ← →.</p></div></div>';
     }
-    if (!r.ranked.length) return head + '<div class="card empty"><h3>No new applicants for ' + t.code + '</h3><p>New applications appear here as patients and their agents apply.</p></div>' + invitedNote(tid);
+    if (!r.ranked.length) { var fresh = poolFor(tid).fresh.length; return head + '<div class="card empty"><h3>No new applicants for ' + t.code + '</h3><p>New applications appear here as patients and their agents apply.</p>' + (fresh ? '<button class="btn tonal" style="margin-top:16px" data-act="go-find" data-id="' + tid + '">' + ICON.people + 'Invite people who could fit (' + cnt(fresh, true) + ')</button>' : '') + '</div>' + invitedNote(tid); }
     var n = Math.min(r.ranked.length, Number(S.topN) || Math.min(3, r.ranked.length));
     return head + '<div class="two"><div class="card"><div class="sect-h"><h3>Your ranking for ' + t.code + '</h3><button class="btn text" data-act="rank" data-v="reset">Rank again</button></div><div class="ladder" style="margin-top:12px">' + r.ranked.map(function (id, i) { var a = Store.get('apps', id), pt = pid(a), x = evaluate(P_(pt), t); return '<button class="item' + (i < n ? ' top' : '') + '" style="background:var(--surface-2)" data-act="app" data-id="' + id + '"><span class="pos">' + (i + 1) + '</span><span class="grow"><b>' + pt.id + '</b><small>' + pt.age + ' · ' + esc(pt.city) + ' · ✓' + x.met + ' ?' + x.unk + (x.not ? ' ✕' + x.not : '') + '</small></span>' + ring(x.score, x.tier) + '</button>'; }).join('') + '</div></div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:16px"><h3>Invite to pre-screening</h3><p class="muted sm">The top applicants get an invitation and agree to share their identity. The rest go on the waiting list and hear that straight away.</p><label class="field"><span>How many to invite</span><input class="input" id="topn" type="number" min="1" max="' + r.ranked.length + '" value="' + n + '" data-act="topn"></label><button class="btn pri big" data-act="invite">Invite the top ' + n + '</button></div></div>';
@@ -1938,7 +2077,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var base = Store.all('apps').filter(function (a) { return S.atrial === 'all' || a.trial === S.atrial; });
     var list = base.filter(function (a) { return inFilter(a, S.afilter); }).sort(function (a, b) { return b.upd - a.upd; });
     var chips = FILTERS.map(function (f) { var n = base.filter(function (a) { return inFilter(a, f[0]); }).length; return '<button class="fchip" data-act="afilter" data-v="' + f[0] + '" aria-pressed="' + (S.afilter === f[0]) + '">' + f[1] + ' <span class="n">' + n + '</span></button>'; }).join('');
-    var rows = list.map(function (a) { var pt = pid(a), t = TRIAL[a.trial], x = evaluate(P_(pt), t), named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return '<tr class="click" data-act="app" data-id="' + a.id + '"><td><b style="font-weight:500">' + (named ? esc(pt.name) : pt.id) + '</b><br><span class="faint xs">' + pt.id + ' · ' + pt.age + ' ' + pt.sex + ' · ' + esc(pt.city) + '</span></td><td>' + t.code + '</td><td>' + ring(x.score, x.tier) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint">' + (a.by === 'agent' ? 'Agent' : 'Patient') + '</td><td class="faint">' + ago(a.upd) + '</td></tr>'; }).join('');
+    var rows = list.map(function (a) { var pt = pid(a), t = TRIAL[a.trial], x = evaluate(P_(pt), t), named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return '<tr class="click" data-act="app" data-id="' + a.id + '"><td><b style="font-weight:500">' + (named ? esc(pt.name) : pt.id) + '</b><br><span class="faint xs">' + pt.id + ' · ' + pt.age + ' ' + pt.sex + ' · ' + esc(pt.city) + '</span></td><td>' + t.code + '</td><td>' + ring(x.score, x.tier) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint">' + (a.by === 'agent' ? 'Agent' : 'Patient') + (a.invited ? ', invited' : '') + '</td><td class="faint">' + ago(a.upd) + '</td></tr>'; }).join('');
     return '<div class="page-h"><div><h1>Applications</h1><p>Every applicant and the stage they’re at.</p></div>' + trialSelect('apps-trial', S.atrial, true) + '</div>' +
       '<div class="chips">' + chips + '</div>' +
       '<div class="card" style="padding:12px 8px"><div class="tbl-wrap">' + (rows ? '<table><thead><tr><th>Patient</th><th>Trial</th><th>Fit</th><th>Stage</th><th>Sent by</th><th>Updated</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty"><p>No applications here.</p></div>') + '</div></div>';
@@ -2031,7 +2170,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     'new-create': function () {
       var name = (val('np-name') || '').trim(); if (name.length < 2) { toast('Add a first name and initial.'); return; }
       var ids = Store.all('patients').map(function (p) { return +p.id.slice(2); }), id = 'P-0' + (Math.max.apply(null, ids.concat([500])) + 1);
-      var p = { id: id, name: name, age: Math.max(18, Math.min(100, Number(val('np-age')) || 60)), sex: '–', city: val('np-city') || 'London', account: true, rec: baseRec({ empty: true, histology: 'unk', stage: 'unk', egfr: 'unk', alk: 'unk', ros1: 'unk', kras: 'unk', ecog: null, brain: 'unk', progressed: 'unk' }), srcs: {}, labs: {}, tx: [], past: [], sources: [], settings: { auto: 'ask', maxTravel: 50, maxVisits: 2, rand: 'yes', types: [], pass: [] }, told: [], created: Date.now() };
+      var p = { id: id, name: name, age: Math.max(18, Math.min(100, Number(val('np-age')) || 60)), sex: '–', city: val('np-city') || 'London', account: true, rec: baseRec({ empty: true, histology: 'unk', stage: 'unk', egfr: 'unk', alk: 'unk', ros1: 'unk', kras: 'unk', ecog: null, brain: 'unk', progressed: 'unk' }), srcs: {}, labs: {}, tx: [], past: [], sources: [], settings: { auto: 'ask', maxTravel: 50, maxVisits: 2, rand: 'yes', types: [], pass: [], invites: 'no' }, told: [], created: Date.now() };
       Store.put('patients', id, p); S.creating = false; S.who = { role: 'patient', id: id }; S.tab = 'discover'; saveSession(); render();
     },
     reset: function () { Store.reset().then(function () { toast('Demo data reset.'); }); S.creating = false; },
@@ -2059,6 +2198,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     close: function () { closeSheet(); }, 'close-go': function (el) { closeSheet(); S.tab = el.dataset.v; saveSession(); render(); },
     trial: function (el) { openTrial(el.dataset.id); },
     apply: function (el) { applyTo(me(), el.dataset.id); closeSheet(); },
+    decline: function (el) { passOn(me(), el.dataset.id); closeSheet(); },
     unpass: function (el) { var pt = clone(me()); pt.settings.pass = (pt.settings.pass || []).filter(function (x) { return x !== el.dataset.id; }); savePatient(pt); closeSheet(); toast(TRIAL[el.dataset.id].code + ' is back in Discover.'); },
     withdraw: function (el) { var a = Store.get('apps', el.dataset.id); setStage(a, 'withdrawn', 'Patient', { reason: 'Withdrawn by the patient' }); closeSheet(); toast('Application withdrawn.'); },
     swipe: function (el) { fly(el.dataset.v); },
@@ -2079,7 +2219,11 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     'save-settings': function () { var pt = clone(me()); pt.settings = clone(draft); savePatient(pt); event(pt.id, 'Your agent', 'Updated your search settings. Re-checked every trial.', false); closeSheet(); toast('Saved. Your agent re-checked every trial.'); },
     readall: markRead,
     // clinician
-    need: function (el) { if (el.dataset.v === 'rank') { S.ctab = 'rank'; S.trial = el.dataset.id; } else { S.ctab = 'apps'; S.afilter = el.dataset.id; S.atrial = 'all'; } saveSession(); render(); window.scrollTo(0, 0); },
+    fwho: function (el) { S.fwho = el.dataset.v; render(); },
+    'send-invites': sendInvites,
+    'go-find': function (el) { S.ctab = 'find'; S.trial = el.dataset.id; saveSession(); render(); window.scrollTo(0, 0); },
+    'go-rank': function (el) { S.ctab = 'rank'; S.trial = el.dataset.id; saveSession(); render(); window.scrollTo(0, 0); },
+    need: function (el) { if (el.dataset.v === 'rank' || el.dataset.v === 'find') { S.ctab = el.dataset.v; S.trial = el.dataset.id; } else { S.ctab = 'apps'; S.afilter = el.dataset.id; S.atrial = 'all'; } saveSession(); render(); window.scrollTo(0, 0); },
     'goto-trial': function (el) { S.ctab = 'apps'; S.atrial = el.dataset.id; S.afilter = 'all'; saveSession(); render(); window.scrollTo(0, 0); },
     rank: function (el) { rankDecide(el.dataset.v); },
     invite: invite,
@@ -2100,7 +2244,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   });
   document.addEventListener('change', function (e) {
     var el = e.target;
-    if (el.id === 'rank-trial') { S.trial = el.value; S.topN = null; saveSession(); render(); }
+    if (el.id === 'rank-trial' || el.id === 'find-trial') { S.trial = el.value; S.topN = null; S.fwho = null; saveSession(); render(); }
     else if (el.id === 'apps-trial') { S.atrial = el.value; render(); }
     else if (el.id === 'auto-sw') ACT.auto(el);
     else if (el.id === 'topn') { S.topN = Number(el.value); render(); }
