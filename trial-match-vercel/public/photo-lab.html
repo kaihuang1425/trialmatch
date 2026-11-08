@@ -10,8 +10,9 @@
   Lets the team try stock photos in the landing page's hero: add photos, set the desktop and phone crop,
   compare them side by side, then download a web-ready JPEG and copy the code for public/index.html.
   It loads the live landing page (/) into frames and swaps the hero photo there. It changes nothing on the
-  landing page itself, nothing links here and nothing depends on it: removing it means deleting this one file.
-  Photos stay in the browser that added them (IndexedDB); nothing is uploaded.
+  landing page itself, nothing links here and nothing depends on it. To remove it, delete this file and the
+  public/media/photo-lab/ folder (the 18 photo options from the design board, ready to try).
+  Photos people add stay in the browser that added them (IndexedDB); nothing is uploaded.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&amp;display=swap">
@@ -137,6 +138,8 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
 .full-bar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:41;display:flex;align-items:center;gap:6px;padding:6px;border-radius:24px;background:rgba(30,31,34,.82);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px var(--line2),0 16px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
 .full-bar .nm{padding:0 10px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
 .full-bar .btn{height:32px}
+.full-bar{opacity:.4;transition:opacity .2s}
+.full-bar:hover,.full-bar:focus-within{opacity:1}
 .toast{position:fixed;left:50%;bottom:24px;z-index:60;transform:translate(-50%,20px);padding:10px 16px;border-radius:12px;background:#2A2B2E;color:var(--text);font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .toast.is-on{opacity:1;transform:translate(-50%,0)}
 
@@ -144,6 +147,7 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
   .lab{grid-template-columns:minmax(0,1fr);height:auto}
   .side{overflow:visible;border-right:0;border-bottom:1px solid var(--line)}
   .stage{min-height:70vh}
+  .stage.is-edit{flex-direction:column;align-items:center}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -304,9 +308,33 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
     if (pos[1]) { BASE.mx = +pos[1][1]; BASE.my = +pos[1][2]; }
   }
 
+  // The 18 hero photo options from the design board (free under the Unsplash License), numbered as on the board.
+  // 1 to 3 were the team's first picks. The files live in public/media/photo-lab/ and go when this lab goes.
+  // [file, width, height, desktop crop y (%), description, photographer]
+  const OPTIONS = [
+    ['01-blood-pressure.jpg', 1800, 1200, 12, 'Nurse checking an older man’s blood pressure', 'Nappy'],
+    ['02-doctor-bedside.jpg', 2000, 1333, 30, 'Doctor going over notes at the bedside', 'National Cancer Institute'],
+    ['03-doctor-bedside-smile.jpg', 2000, 1409, 26, 'Doctor with a smiling patient in bed', 'National Cancer Institute'],
+    ['04-doctor-injection-ward.jpg', 2000, 1620, 30, 'Doctor giving a patient an injection on a ward', 'National Cancer Institute'],
+    ['05-nurse-bedside-exam.jpg', 2000, 1333, 30, 'Nurse examining a man in a hospital bed', 'Bagoes Ilhamy'],
+    ['06-stethoscope-woman.jpg', 2000, 1330, 26, 'Doctor listening to a smiling older woman', 'CDC'],
+    ['07-doctor-stethoscope-man.jpg', 2000, 1333, 26, 'Older doctor listening to a man’s chest', 'National Cancer Institute'],
+    ['08-nurse-attending.jpg', 2000, 1333, 30, 'Nurse attending to a patient in bed', 'Maria Luísa Queiroz'],
+    ['09-doctor-consult-woman.jpg', 2000, 1521, 24, 'Doctor talking with a woman patient', 'National Cancer Institute'],
+    ['10-doctor-shoulder-team.jpg', 2000, 1327, 24, 'Doctor and nurses checking a man’s shoulder', 'CDC'],
+    ['11-nurse-home-care.jpg', 2000, 1333, 30, 'Nurse caring for a patient at home', 'Iwaria'],
+    ['12-nurse-smiling-patient.jpg', 2000, 1125, 28, 'Nurse smiling with a patient', 'TopSphere Media'],
+    ['13-older-woman-injection.jpg', 2000, 1322, 24, 'Older woman getting a shot in the shoulder', 'CDC'],
+    ['14-screening-room.jpg', 2000, 1333, 26, 'Smiling woman in a gown in a screening room', 'National Cancer Institute'],
+    ['15-nurse-ward-talk.jpg', 2000, 1334, 30, 'Nurse talking with a patient in a hospital bed', 'Navy Medicine'],
+    ['16-doctor-chart-patient.jpg', 2000, 1333, 26, 'Older doctor going over a chart with a patient', 'National Cancer Institute'],
+    ['17-scan-review.jpg', 2000, 1333, 30, 'Clinicians reviewing a scan on screen', 'Accuray'],
+    ['18-ward-bedside-team.jpg', 2000, 1371, 30, 'Doctors discussing a patient at the bedside', 'Navy Medicine']];
+
   function defaults(p) {
     const s = { fit: 'cover', zoom: 100, flip: false, bri: 100, con: 100, sat: 100, scrim: 100, chip: true, text: true };
     if (p.builtin) return Object.assign(s, { dx: BASE.dx, dy: BASE.dy, mx: BASE.mx, my: BASE.my, alt: BASE.alt, credit: BASE.credit });
+    if (p.option) return Object.assign(s, { dx: 50, dy: p.option.y, mx: 50, my: p.option.y, alt: p.option.alt, credit: 'Photo: ' + p.option.by + ' on Unsplash. The match shown is illustrative.' });
     return Object.assign(s, { dx: 50, dy: 25, mx: 50, my: 30, alt: '', credit: guessCredit(p.name) });
   }
   function titleCase(s) {
@@ -401,7 +429,7 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
 
   const saveTimers = {};
   function save(p) {
-    const rec = p.builtin ? { id: p.id, builtin: true, s: p.s, fav: p.fav }
+    const rec = (p.builtin || p.option) ? { id: p.id, builtin: true, s: p.s, fav: p.fav }
       : { id: p.id, name: p.name, type: p.type, size: p.size, w: p.w, h: p.h, blob: p.blob, s: p.s, fav: p.fav, added: p.added };
     DB.put(rec).catch(saveFailed);
   }
@@ -427,7 +455,7 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
   }
   function removePhoto(id) {
     const i = photos.findIndex((p) => p.id === id);
-    if (i < 0 || photos[i].builtin) return;
+    if (i < 0 || photos[i].builtin || photos[i].option) return;
     const [p] = photos.splice(i, 1);
     DB.del(id).catch(() => {});
     if (prefs.sel === id) prefs.sel = (photos[i] || photos[i - 1] || photos[0]).id;
@@ -443,10 +471,10 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
     photos.forEach((p) => {
       const li = document.createElement('li');
       li.className = 'th' + (p.id === prefs.sel ? ' is-on' : '');
-      li.innerHTML = `<button class="th-pick" type="button" aria-label="Select ${esc(p.name)}"><img alt="" src="${esc(p.url)}"></button>` +
-        (p.builtin ? '<span class="th-tag">On the page now</span>' : '') +
+      li.innerHTML = `<button class="th-pick" type="button" aria-label="Select ${esc(p.name)}"><img alt="" loading="lazy" src="${esc(p.url)}"></button>` +
+        (p.builtin ? '<span class="th-tag">On the page now</span>' : p.option ? `<span class="th-tag">${p.option.n}${p.option.n <= 3 ? ' · your pick' : ''}</span>` : '') +
         `<button class="th-btn th-star${p.fav ? ' is-fav' : ''}" type="button" aria-pressed="${p.fav}" aria-label="Star ${esc(p.name)}">★</button>` +
-        (p.builtin ? '' : `<button class="th-btn th-del" type="button" aria-label="Remove ${esc(p.name)} from the lab">×</button>`) +
+        (p.builtin || p.option ? '' : `<button class="th-btn th-del" type="button" aria-label="Remove ${esc(p.name)} from the lab">×</button>`) +
         `<span class="th-name" title="${esc(p.name)}">${esc(p.name)}</span>`;
       li.querySelector('.th-pick').addEventListener('click', () => select(p.id));
       li.querySelector('.th-star').addEventListener('click', () => toggleFav(p));
@@ -454,8 +482,9 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
       if (del) del.addEventListener('click', () => removePhoto(p.id));
       tray.appendChild(li);
     });
-    $('#trayHint').textContent = photos.length < 2 ? 'Add photos to see them in the hero and compare them with the current one.'
-      : photos.length + ' photos. Star the ones you like, then use Compare all.';
+    const own = photos.filter((p) => !p.builtin && !p.option).length, stars = photos.filter((p) => p.fav).length;
+    $('#trayHint').textContent = 'The current photo, the ' + OPTIONS.length + ' options from the design board (numbered as on the board)' +
+      (own ? ' and ' + own + ' of your own' : '') + '. ' + (stars ? stars + ' starred: Compare all shows just those.' : 'Star the ones you like, then use Compare all.');
   }
   function warnings(p) {
     const w = [];
@@ -480,7 +509,8 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
     prefs.sel = p.id; savePrefs();
     $$('#tray .th').forEach((li, i) => li.classList.toggle('is-on', photos[i] && photos[i].id === p.id));
     $('#selName').textContent = p.name;
-    $('#selMeta').textContent = p.w + ' × ' + p.h + ' px' + (p.size ? ' · ' + kb(p.size) : '') + (p.builtin ? ' · the photo on the page now' : '');
+    $('#selMeta').textContent = p.w + ' × ' + p.h + ' px' + (p.size ? ' · ' + kb(p.size) : '') +
+      (p.builtin ? ' · the photo on the page now' : p.option ? ' · option ' + p.option.n + ' on the design board · ' + p.option.by + ' on Unsplash' : '');
     $('#selWarn').innerHTML = warnings(p).map((t) => '<li>' + esc(t) + '</li>').join('');
     $('#mapImg').src = p.url;
     $('#dlStatus').textContent = '';
@@ -568,6 +598,7 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
   // ---------- code for public/index.html ----------
   function fileName(p) {
     if (p.builtin) return BASE.src.split('/').pop();
+    if (p.option) return 'hero-' + p.option.file.replace(/^\d+-/, '');
     const slug = p.name.replace(/\.[^.]+$/, '').toLowerCase().replace(/-?unsplash$/, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40).replace(/-+$/, '');
     return 'hero-' + (slug || 'photo') + '.jpg';
   }
@@ -629,7 +660,7 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
   // ---------- stage ----------
   function capCompare(f) {
     const p = f.photo;
-    f.cap.innerHTML = `<span class="nm" title="${esc(p.name)}">${esc(p.name)}</span>` + (p.builtin ? '<span class="sm">on the page now</span>' : '') +
+    f.cap.innerHTML = `<span class="nm" title="${esc(p.name)}">${esc(p.name)}</span>` + (p.builtin ? '<span class="sm">on the page now</span>' : p.option && p.option.n <= 3 ? '<span class="sm">your pick</span>' : '') +
       `<button type="button" class="${p.fav ? 'is-fav' : ''}" aria-pressed="${p.fav}" aria-label="Star ${esc(p.name)}">★</button><button type="button">Edit</button>`;
     const [star, edit] = f.cap.querySelectorAll('button');
     star.addEventListener('click', () => toggleFav(p));
@@ -648,7 +679,14 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
     } else {
       stage.className = 'stage is-compare' + (prefs.cmp === 'phone' ? ' on-phone' : '');
       const d = prefs.cmp === 'phone' ? P : D;
-      photos.forEach((p) => {
+      const starred = photos.filter((p) => p.fav);
+      const list = starred.length ? photos.filter((p) => p.fav || p.builtin) : photos;   // starred ones (plus the current photo) once anything is starred
+      const note = document.createElement('p');
+      note.className = 'hint'; note.style.gridColumn = '1 / -1'; note.style.margin = '0';
+      note.textContent = starred.length ? 'Showing the ' + starred.length + ' starred photo' + (starred.length > 1 ? 's' : '') + ' and the current one. Unstar them all to see every photo.'
+        : 'Showing all ' + photos.length + ' photos. Star some to compare just those.';
+      stage.appendChild(note);
+      list.forEach((p) => {
         const f = Frame({ w: d.w, h: d.h, phone: prefs.cmp === 'phone', photo: p, still: true, fluid: true, title: 'Landing page with ' + p.name, onReady: updateMap });
         const open = document.createElement('button');
         open.type = 'button'; open.className = 'open'; open.setAttribute('aria-label', 'Edit ' + p.name);
@@ -658,9 +696,14 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
         frames.push(f);
       });
     }
-    frames.forEach((f) => { stage.appendChild(f.wrap); f.load(); });
+    if (lazy) lazy.disconnect();
+    lazy = prefs.view === 'compare' && 'IntersectionObserver' in window
+      ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { lazy.unobserve(e.target); e.target._frame.load(); } }), { root: stage, rootMargin: '300px' })
+      : null;
+    frames.forEach((f) => { stage.appendChild(f.wrap); if (lazy) { f.wrap._frame = f; lazy.observe(f.wrap); } else f.load(); });   // compare frames load as they scroll into view
     captions(); layout();
   }
+  let lazy = null;
   function captions() {
     if (prefs.view !== 'edit') return;
     frames.forEach((f) => {
@@ -670,7 +713,11 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
   }
   function layout() {
     if (!frames.length) return;
-    if (prefs.view === 'edit') {
+    if (prefs.view === 'edit' && narrow.matches) {   // small screens: frames stacked, each as wide as the stage
+      const cs = getComputedStyle(stage), S = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 14;
+      frames.forEach((f) => f.scale(Math.min(S / f.w, f.phone ? 600 / f.h : 1)));
+      captions();
+    } else if (prefs.view === 'edit') {
       const cs = getComputedStyle(stage);
       const S = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - (frames.length - 1) * 28 - (frames.some((f) => f.phone) ? 14 : 0);
       const Hs = stage.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - 34;
@@ -680,6 +727,7 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
       captions();
     } else frames.forEach((f) => f.scale(f.vp.clientWidth / f.w));
   }
+  const narrow = window.matchMedia('(max-width:1000px)');
   new ResizeObserver(() => layout()).observe(stage);
 
   function setView(v) { prefs.view = v; savePrefs(); syncBar(); render(); }
@@ -755,10 +803,16 @@ pre.code{margin:8px 0 0;padding:12px;border-radius:10px;background:#0A0A0B;box-s
     const builtin = { id: 'current', builtin: true, name: BASE.src.split('/').pop(), url: new URL(BASE.src, location.origin + '/').href, w: BASE.w, h: BASE.h, size: 0, fav: false, added: 0 };
     builtin.s = defaults(builtin);
     photos.push(builtin);
+    OPTIONS.forEach((o, i) => {
+      const p = { id: 'option-' + (i + 1), option: { n: i + 1, file: o[0], y: o[3], alt: o[4], by: o[5] }, name: (i + 1) + ' · ' + o[4],
+        url: new URL('media/photo-lab/' + o[0], location.origin + '/').href, w: o[1], h: o[2], size: 0, fav: false, added: 0 };
+      p.s = defaults(p);
+      photos.push(p);
+    });
     try {
       const recs = await DB.all();
       recs.sort((a, b) => (a.added || 0) - (b.added || 0)).forEach((r) => {
-        if (r.builtin) { Object.assign(builtin.s, r.s); builtin.fav = !!r.fav; return; }
+        if (r.builtin) { const fixed = photos.find((x) => x.id === r.id); if (fixed) { Object.assign(fixed.s, r.s); fixed.fav = !!r.fav; } return; }
         if (!r.blob) return;
         const p = Object.assign({}, r, { url: URL.createObjectURL(r.blob) });
         p.s = Object.assign(defaults(p), r.s);
