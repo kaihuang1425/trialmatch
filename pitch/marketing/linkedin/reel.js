@@ -2,7 +2,7 @@
 // element) and a caption overlay in the page's own type. Nothing here ships with the site.
 window.REEL = (function () {
   var W = 1080, H = 1350;
-  var tm = document.querySelector('.tm');
+  var tm = document.querySelector('.tm') || document.body;   // the landing page's root; the app has none, and isn't zoomed
   var st = document.createElement('style');
   st.textContent = [
     'html.reel-z,html.reel-z body{overflow:hidden!important;scroll-behavior:auto!important}',
@@ -17,7 +17,10 @@ window.REEL = (function () {
     '#reel-cap .c.off{opacity:0;transform:translateY(-14px);transition-duration:.3s}',
     '#reel-cap .k{font-size:24px;font-weight:500;letter-spacing:.01em}',
     '#reel-cap .t{font-size:54px;line-height:1.08;font-weight:400;letter-spacing:-.02em;color:#E3E3E3}',
-    '#reel-cap .t i{font-style:normal;color:#8A8F95}'
+    '#reel-cap .t i{font-style:normal;color:#8A8F95}',
+    '#reel-cur{position:fixed;left:0;top:0;z-index:10000;width:34px;height:34px;pointer-events:none;opacity:0;transform-origin:4px 3px;',
+    '  transition:opacity .25s,transform .75s cubic-bezier(.45,0,.2,1);filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}',
+    '#reel-cur.on{opacity:1}#reel-cur svg{width:100%;height:100%;transition:transform .12s}#reel-cur.dn svg{transform:scale(.82)}'
   ].join('\n');
   document.head.appendChild(st);
   var shade = document.createElement('div'); shade.id = 'reel-shade';
@@ -82,5 +85,53 @@ window.REEL = (function () {
   // Extra page CSS for one scene, e.g. hiding a section's own heading while a caption says it instead.
   var extra = document.createElement('style'); document.head.appendChild(extra);
   function css(text) { extra.textContent = text || ''; }
-  return { box: box, union: union, cam: cam, say: say, matte: matte, css: css, zoomMode: zoomMode };
+  // Sound cues. The page's own motion is watched, and every typed character ('key') and every press ('tap') is logged
+  // with its wall-clock time, so record.py can lay the sound effects exactly where they happen in the video.
+  var log = [];
+  function hit(k) {
+    var t = performance.timeOrigin + performance.now();
+    if (k === 'tap' && log.some(function (e) { return e.k === 'tap' && t - e.t < 120; })) return;   // one press, one sound
+    log.push({ k: k, t: t });
+  }
+  new MutationObserver(function (ms) {
+    ms.forEach(function (m) {
+      if (m.type === 'attributes') {
+        var was = ' ' + (m.oldValue || '') + ' ', now = m.target.classList;
+        if (now.contains('tap') && was.indexOf(' tap ') < 0) hit('tap');                          // scene buttons pressed (s.tap)
+        if (now.contains('dn') && was.indexOf(' dn ') < 0 && now.contains('cw-cur')) hit('tap');   // the trial team's cursor clicks
+        return;
+      }
+      var el = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+      el = el && el.closest('.at-typed, .at-ans');                                                // the agent team's typing
+      if (!el) return;
+      var n = el.textContent.length;
+      if (n > (el._reelN || 0)) hit('key');
+      el._reelN = n;
+    });
+  }).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class'], attributeOldValue: true });
+  ['animationstart', 'animationiteration'].forEach(function (ev) {   // the relay's Care team presses Invite, in CSS only
+    document.addEventListener(ev, function (e) { if (e.animationName === 'rlPress') setTimeout(function () { hit('tap'); }, 450); }, true);
+  });
+  function take() { var out = log; log = []; return out; }
+
+  // A pointer for scenes that have none of their own: glides to an element, then presses it (with a 'tap' cue).
+  var cur = document.createElement('div'); cur.id = 'reel-cur';
+  cur.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 3l14 8.2-6.2 1.4 3.6 6.6-2.6 1.4-3.6-6.6L5 18.6z" fill="#fff" stroke="#131314" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(cur);
+  function find(sel, text) {
+    return Array.prototype.filter.call(document.querySelectorAll(sel), function (e) { return !text || e.textContent.trim() === text; })[0];
+  }
+  function point(x, y, ms) {
+    cur.style.transition = ms === 0 ? 'opacity .25s' : '';
+    cur.style.transform = 'translate(' + (x - 4) + 'px,' + (y - 3) + 'px)';
+    cur.classList.add('on');
+  }
+  function aim(sel, text) { var r = find(sel, text).getBoundingClientRect(); point(r.left + r.width * 0.42, r.top + r.height * 0.55); }
+  function press(sel, text) {
+    var el = find(sel, text);
+    cur.classList.add('dn'); hit('tap'); el.click();
+    setTimeout(function () { cur.classList.remove('dn'); }, 160);
+    setTimeout(function () { cur.classList.remove('on'); }, 1400);
+  }
+  return { box: box, union: union, cam: cam, say: say, matte: matte, css: css, zoomMode: zoomMode, take: take, point: point, aim: aim, press: press };
 })();
