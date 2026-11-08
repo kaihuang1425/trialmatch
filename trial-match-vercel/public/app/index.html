@@ -383,6 +383,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 }
 /* ---------- 3D protein view in the applicant sheet ---------- */
 .pvbox { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.06); }
+.pvcard > .pvbox { border-top: 0; padding-top: 0; }
 .pvbox-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--faint); }
 .pvbox-h small { font-size: 12px; }
 .pvbox .pv-root.pv-embed { --pv-ink: #E3E3E3; --pv-muted: #8E918F; --pv-line: #444746; --pv-link: #A8C7FA; --pv-unk: #FDD663; --pv-unk-ink: #FDD663; --pv-unk-soft: rgba(253,214,99,.13); --pv-neg-ink: #C4C7C5; --pv-neg-soft: #333537; --pv-display: var(--sans); --pv-body: var(--sans); --pv-mono: var(--sans); min-height: 0; height: auto; background: transparent; font-size: 14px; }
@@ -400,6 +401,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 .fab .spark { width: 36px; height: 36px; }
 /* phones: the chat opens from an "Ask" tab in the bottom bar, so nothing floats over the cards */
 @media (max-width: 760px) { .fab { display: none; } .bnav .bn-ask .ic { color: var(--on-soft); } .bnav .bn-ask .ic svg { width: 22px; height: 22px; }
+  /* long trial chips wrap instead of pushing the sheet sideways */
+  .sheet .chips .chip { white-space: normal; height: auto; min-height: 26px; padding-top: 4px; padding-bottom: 4px; }
   /* .sheet prefix: these come before the general chat rules below, so they need the extra weight to win */
   .sheet .chat-sug { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px; flex: none; } .sheet .chat-sug::-webkit-scrollbar { display: none; } .sheet .chat-sug button { flex: none; white-space: nowrap; } .sheet .chat-thread { max-height: 46vh; } }
 .chat-src { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -1225,11 +1228,14 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     return { id: pt.id, biomarkers: bm };
   }
   function pvSlot() { return window.TMProtein ? '<div class="pvbox"><div class="pvbox-h"><span>In 3D</span><small id="pv-hint">Drag to turn · scroll to zoom</small></div><div id="pv-host"></div></div>' : ''; }
-  function mountPv(pt, p, t) {
+  // The 3D view as its own card, for sheets that don't have a patient profile card to sit in.
+  function pvCard() { return window.TMProtein ? '<div class="pcard pvcard" style="background:var(--surface-2);padding:18px">' + pvSlot() + '</div>' : ''; }
+  function mountPv(pt, p, t, liveTrial) {
     var host = $('#pv-host'); if (!host) return;
     try {
-      // Only the trial's name is passed: the plain summary mentions earlier treatments, which must not be read as this trial's drug.
-      pvView = window.TMProtein.mount(host, { record: pvRecord(pt, p), trial: { title: t.name, nct: t.code }, theme: 'dark', surface: '#1E1F20',
+      // Demo trials pass only their name: the plain summary mentions earlier treatments, which must not be read as this trial's drug.
+      // Live registry trials pass their listed interventions, so a named drug can be shown as "this trial's drug".
+      pvView = window.TMProtein.mount(host, { record: pvRecord(pt, p), trial: liveTrial || { title: t.name, nct: t.code }, theme: 'dark', surface: '#1E1F20',
         onResolved: function (c) { var h = $('#pv-hint'); if (h) h.hidden = c.kind !== 'structure'; } });
     } catch (e) { pvView = null; var b = host.closest('.pvbox'); if (b) b.remove(); }
   }
@@ -1251,8 +1257,9 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     sheet(sheetHead(esc(t.name), t.code + ' · Phase III · ' + esc(t.type)) +
       '<p class="muted">' + esc(t.plain) + '</p>' +
       '<div class="chips"><span class="chip ' + (r.tier === 'strong' ? 'met' : r.tier === 'possible' ? 'unk' : 'not') + '">' + { strong: 'Strong match', possible: 'Possible match', not: 'Not a match' }[r.tier] + ' · ' + r.score + '</span><span class="chip">' + esc(r.site.name) + ', ' + esc(r.site.city) + ' · ' + r.site.d + ' mi</span><span class="chip">' + VISIT[t.visits][1] + '</span><span class="chip">' + esc(t.design) + '</span></div>' +
-      action + '<div class="sect-h"><h2 style="font-size:16px">Every rule, checked</h2><span class="faint xs">' + r.met + ' met · ' + r.not + ' not met · ' + r.unk + ' to check</span></div>' + ruleList(r) +
+      action + pvCard() + '<div class="sect-h"><h2 style="font-size:16px">Every rule, checked</h2><span class="faint xs">' + r.met + ' met · ' + r.not + ' not met · ' + r.unk + ' to check</span></div>' + ruleList(r) +
       '<p class="note">Fit score adds up the rules, your tumour, timing and practicalities. It is not a prediction of how well a treatment will work. ' + esc(t.evidenceText) + '</p>');
+    mountPv(pt, p, t);
   }
   function openActivity() {
     var pt = me(), evs = Store.all('events').filter(function (e) { return e.pid === pt.id; }).sort(function (a, b) { return b.at - a.at; });
@@ -1480,11 +1487,12 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     sheet(sheetHead(esc(t.title), esc(t.nct + ' · ' + (t.phase || 'Phase 3') + (t.sponsor ? ' · ' + t.sponsor : ''))) +
       (t.summary ? '<p class="muted">' + esc(t.summary) + '</p>' : '') +
       (t.interventions.length ? '<div class="chips">' + t.interventions.slice(0, 5).map(function (i) { return '<span class="chip">' + esc(i.name) + '</span>'; }).join('') + '</div>' : '') +
-      '<div class="panel2"><b style="font-weight:500">UK hospitals recruiting</b><p class="sm muted">' + esc(t.sites.slice(0, 8).map(function (s) { return s.facility + (s.city ? ', ' + s.city : ''); }).join(' · ')) + (t.siteCount > 8 ? ' and ' + (t.siteCount - 8) + ' more' : '') + '</p></div>' +
+      '<div class="panel2"><b style="font-weight:500">UK hospitals recruiting</b><p class="sm muted">' + esc(t.sites.slice(0, 8).map(function (s) { return s.facility + (s.city ? ', ' + s.city : ''); }).join(' · ')) + (t.siteCount > 8 ? ' and ' + (t.siteCount - 8) + ' more' : '') + '</p></div>' + pvCard() +
       '<div id="live-check">' + (mg
         ? '<div class="panel2"><b style="font-weight:500">Check it against your record</b><p class="muted sm">MedGemma reads this trial’s full entry rules and compares them with your record. It’s a pre-check: a research nurse confirms every rule with you.</p><button class="btn pri" data-act="live-check" data-id="' + esc(t.nct) + '" style="align-self:flex-start">' + ICON.spark + 'Pre-check with MedGemma</button></div>'
         : '<p class="note">Pre-checks need MedGemma, which isn’t connected on this site yet.</p>') + '</div>' +
       '<a class="btn tonal" href="' + esc(t.url) + '" target="_blank" rel="noopener noreferrer" style="align-self:flex-start;text-decoration:none">View on ClinicalTrials.gov</a>', true);
+    var pt = me(); mountPv(pt, P_(pt), null, { title: t.title, interventions: t.interventions, nct: t.nct });
   }
   function runLiveCheck(nct) {
     var pt = me(), box = $('#live-check'); if (!box) return;
