@@ -178,7 +178,12 @@ trialmatch/
   llm.py        # optional Gemini pass
 fetch_trials.py · run.py · build_app.py
 app/ · docs/ · tests/
+trial-match-vercel/   # the live web app: landing page, demo app and agents
 ```
+
+## Credits
+
+**Google Gemini** wrote first drafts of some of this project's content, which the team pasted in and edited. In the product, Gemini runs the Researcher agent, the chat agent and the simulated hospital server (see [How we use Gemini](#how-we-use-gemini)).
 
 ---
 
