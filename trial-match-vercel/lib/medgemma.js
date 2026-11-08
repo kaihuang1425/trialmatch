@@ -86,7 +86,7 @@ export async function chat({ system, user, maxTokens = 1500, schema }) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(auth ? { Authorization: 'Bearer ' + auth } : {}) },
     body: JSON.stringify({ model: c.model, messages, max_tokens: maxTokens, temperature: 0 })
-  }, 55000);
+  }, Number(process.env.MEDGEMMA_TIMEOUT_MS) || 55000);   // under Vercel's 60 s; npm run demo, on a laptop, allows longer
   const msg = out && out.choices && out.choices[0] && out.choices[0].message;
   let content = msg && msg.content;
   if (Array.isArray(content)) content = content.map((p) => (typeof p === 'string' ? p : p.text || '')).join('');

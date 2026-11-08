@@ -50,6 +50,9 @@ process.env.MEDGEMMA_VERTEX_BASE_URL = '';
 // MedGemma always wins over Gemini for anything that reads patient text (lib/medgemma.js). A Gemini key stays only for
 // the Researcher, which gets public words, never the record.
 if (process.env.DEMO_OFFLINE === '1') process.env.GEMINI_API_KEY = '';
+// On the laptop there's no 60 s function limit, so the trial pre-check gets room to think: a small model often needs it
+process.env.MEDGEMMA_TIMEOUT_MS ||= '90000';
+process.env.PRECHECK_MAX_TOKENS ||= '4500';
 process.env.FHIR_BASE_URL ||= 'https://r4.smarthealthit.org';   // public test server of synthetic patients
 process.env.FHIR_DEMO_PATIENT_ID ||= '1a96f2e7-7ce0-4164-b3f6-4fdffeca00fb';
 process.argv.push('--port', port);

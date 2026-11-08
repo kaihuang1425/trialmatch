@@ -236,6 +236,144 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   .tm .hero-body{gap:22px}
   .tm .hero-chip{position:static;align-self:flex-start}
   .tm .hero-credit{left:20px;right:20px;text-align:right}
+/* ---------- agent team scene: the Coordinator hands a question to Gemini online and MedGemma on the device, across a privacy line.
+   The script below steps it through classes s1..s9 while it is on screen. Green means "stays here", blue means "online". ---------- */
+.tm .at{position:relative;display:flex;flex-direction:column;gap:22px;padding:24px;border-radius:32px;background:#161718;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.tm .at svg{flex:none}
+.tm .at-ask{align-self:flex-end;display:flex;align-items:flex-end;gap:10px;max-width:100%}
+.tm .at-q{min-height:46px;padding:12px 18px;border-radius:22px 22px 6px 22px;background:#26282B;color:#E3E3E3;font-size:16px;line-height:1.4}
+.tm .at-you{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#4A4458;color:#fff;font-size:13px;font-weight:500;flex:none;order:2}
+.tm .at-typed:empty::before{content:"\200b"}
+.tm .typing::after{content:"";display:inline-block;width:2px;height:1.05em;margin-left:2px;vertical-align:-3px;background:currentColor;animation:atCaret 1s steps(2) infinite}
+.tm .at-co{display:flex;gap:12px;align-items:flex-start;opacity:.28;transition:opacity .5s}
+.tm .at.s2 .at-co{opacity:1}
+.tm .at-co strong{font-weight:500;color:#E3E3E3}
+.tm .at-co em{font-style:normal;color:#8E918F;font-size:13px;margin-left:6px}
+.tm .at-co-say{display:block;color:#C4C7C5;font-size:15px;line-height:1.45}
+.tm .at-av{position:relative;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.tm .at-av svg{width:20px;height:20px}
+.tm .at-av.c{background:#26282B;color:#A8C7FA}
+.tm .at-av.g{background:linear-gradient(135deg,#4285F4,#9B72CB)}
+.tm .at-av.m{background:linear-gradient(135deg,#188038,#12807A)}
+.tm .at-av::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent}
+.tm .at.s2:not(.s3) .at-av.c::after{border-color:#A8C7FA;animation:atRing 1.4s ease-out infinite}
+.tm .at-agent[data-state="run"] .at-av.g::after{border-color:#A8C7FA;animation:atRing 1.4s ease-out infinite}
+.tm .at-agent[data-state="run"] .at-av.m::after{border-color:#6DD58C;animation:atRing 1.4s ease-out infinite}
+.tm .at-agent[data-state="wait"] .at-av{filter:saturate(.3) brightness(.7)}
+.tm .at-ok{position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:50%;background:#6DD58C;color:#053d1c;font-size:11px;font-weight:700;display:grid;place-items:center;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1);box-shadow:0 0 0 3px #1A1B1D}
+.tm .at-agent[data-state="done"] .at-ok{transform:scale(1)}
+.tm .at-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 230px minmax(0,1fr)}
+.tm .at-lane{border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0;transition:box-shadow .5s}
+.tm .at-lane.loc{background:linear-gradient(160deg,rgba(109,213,140,.12),rgba(109,213,140,.02) 70%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(109,213,140,.22)}
+.tm .at-lane.net{background:linear-gradient(200deg,rgba(66,133,244,.18),rgba(155,114,203,.06) 70%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(168,199,250,.22)}
+.tm .at.s4:not(.s6) .at-lane.net{box-shadow:inset 0 0 0 1px rgba(168,199,250,.6),0 0 44px -10px rgba(66,133,244,.65)}
+.tm .at.s7:not(.s9) .at-lane.loc{box-shadow:inset 0 0 0 1px rgba(109,213,140,.6),0 0 44px -10px rgba(109,213,140,.55)}
+.tm .at-lh{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.tm .at-lh svg{width:14px;height:14px}
+.tm .at-lane.loc .at-lh{color:#9BE0AE}
+.tm .at-lane.net .at-lh{color:#A8C7FA}
+.tm .at-agent{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;align-items:center}
+.tm .at-nm{font-size:17px;font-weight:500;line-height:1.25;color:#E3E3E3}
+.tm .at-nm small{display:block;font-size:13px;font-weight:400;color:#8E918F}
+.tm .at-st{grid-column:1/-1;min-height:2.9em;font-size:14px;line-height:1.4;color:#C4C7C5}
+.tm .at-agent[data-state="run"] .at-st{background:linear-gradient(90deg,#C4C7C5 30%,#fff 50%,#C4C7C5 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:atShim 1.8s linear infinite}
+.tm .at-st.flip{animation:atFlip .35s ease-out}
+.tm .at-agent[data-state="run"] .at-st.flip{animation:atFlip .35s ease-out,atShim 1.8s linear infinite}
+.tm .at-vault{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(0,0,0,.28);font-size:14px;color:#C4C7C5}
+.tm .at-rec{display:flex;align-items:center;gap:10px}
+.tm .at-rec svg{width:18px;height:18px;color:#6DD58C}
+.tm .at-rec strong{color:#E3E3E3;font-weight:500}
+.tm .at-rec small{display:block;color:#9BE0AE;font-size:12px}
+.tm .at-lines{display:flex;flex-direction:column;gap:6px}
+.tm .at-lines i{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.08)}
+.tm .at-lines i:nth-child(1){width:86%}.tm .at-lines i:nth-child(2){width:62%}.tm .at-lines i:nth-child(3){width:74%}
+.tm .at.s7:not(.s9) .at-vault::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;background:linear-gradient(90deg,transparent,rgba(109,213,140,.3),transparent);animation:atScan 1.5s ease-in-out infinite}
+.tm .at-srcs{display:flex;flex-wrap:wrap;gap:8px}
+.tm .at-src{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;font-size:13px;color:#8E918F;background:rgba(0,0,0,.28);transition:color .3s,background .3s,box-shadow .3s}
+.tm .at-src .at-n{font-weight:500;color:#A8C7FA;font-variant-numeric:tabular-nums}
+.tm .at-src:not([data-state="ok"]) .at-n{display:none}
+.tm .at-src[data-state="run"]{color:#C2E7FF;box-shadow:inset 0 0 0 1px rgba(168,199,250,.6);animation:atBlink 1s ease-in-out infinite}
+.tm .at-src[data-state="ok"]{color:#E3E3E3;background:rgba(66,133,244,.22);animation:atPop .45s cubic-bezier(.3,1.6,.5,1)}
+.tm .at-wall{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 16px}
+.tm .at-wall::before{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:2px dashed rgba(196,199,197,.25)}
+.tm .at-gate{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;background:#161718;box-shadow:inset 0 0 0 2px rgba(109,213,140,.65);display:grid;place-items:center;color:#6DD58C}
+.tm .at-gate svg{width:22px;height:22px}
+.tm .at.s4:not(.s5) .at-gate{animation:atGate 1.1s ease-out}
+.tm .at.s6:not(.s7) .at-gate{animation:atGate2 1.1s ease-out}
+.tm .at-guard{position:relative;z-index:1;width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:9px;padding:12px;border-radius:16px;background:#161718;box-shadow:inset 0 0 0 1px rgba(109,213,140,.25);opacity:.28;transform:translateY(6px);transition:opacity .5s,transform .5s}
+.tm .at.s3 .at-guard{opacity:1;transform:none}
+.tm .at-gl{font-size:12px;font-weight:500;color:#9BE0AE;text-transform:uppercase;letter-spacing:.06em}
+.tm .at-gs{font-size:11px;color:#8E918F;text-transform:uppercase;letter-spacing:.06em}
+.tm .at-words{display:flex;flex-wrap:wrap;gap:6px}
+.tm .at-words i{font-style:normal;height:26px;display:inline-flex;align-items:center;padding:0 10px;border-radius:13px;background:#26282B;font-size:13px;color:#E3E3E3;opacity:0;transform:translateY(8px) scale(.9);transition:opacity .35s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+.tm .at-words i.k{background:rgba(66,133,244,.24);color:#C2E7FF}
+.tm .at.s3 .at-words i{opacity:1;transform:none}
+.tm .at.s3 .at-words i:nth-child(2){transition-delay:.14s}.tm .at.s3 .at-words i:nth-child(3){transition-delay:.28s}
+.tm .at-kept{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;line-height:1.4;color:#8E918F}
+.tm .at-kept svg{width:13px;height:13px;color:#6DD58C;margin-top:2px}
+.tm .at-pk{position:absolute;z-index:3;top:50%;left:24%;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:16px;font-size:13px;font-weight:500;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.tm .at-pk svg{width:14px;height:14px}
+.tm .at-pk.out{background:#6DD58C;color:#053d1c}
+.tm .at-pk.in{background:#A8C7FA;color:#062E6F}
+.tm .at.s4 .at-pk.out{animation:atOut 1.5s cubic-bezier(.55,0,.3,1) forwards}
+.tm .at.s6 .at-pk.in{animation:atIn 1.5s cubic-bezier(.55,0,.3,1) forwards}
+.tm .at-outs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tm .at-out{border-radius:24px;padding:20px;background:#1A1B1D;display:flex;flex-direction:column;gap:12px;opacity:.22;transform:translateY(14px);transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.tm .at-out.res{box-shadow:inset 0 0 0 1px rgba(168,199,250,.18)}
+.tm .at-out.mine{background:linear-gradient(160deg,rgba(109,213,140,.1),transparent 65%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(109,213,140,.22)}
+.tm .at.s6 .at-out.res,.tm .at.s8 .at-out.mine{opacity:1;transform:none}
+.tm .at-oh{display:flex;align-items:center;gap:12px}
+.tm .at-oh .at-av{width:32px;height:32px}.tm .at-oh .at-av svg{width:16px;height:16px}
+.tm .at-oh strong{display:block;font-size:16px;font-weight:500;color:#E3E3E3}
+.tm .at-oh small{display:block;font-size:13px;color:#8E918F}
+.tm .at-txt{font-size:15.5px;line-height:1.55;color:#E3E3E3}
+.tm .at-cite{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-left:4px;border-radius:10px;background:rgba(168,199,250,.16);color:#A8C7FA;font-size:11.5px;font-weight:500;vertical-align:2px;line-height:1}
+.tm .at-refs{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#8E918F}
+.tm .at-refs .at-cite{margin:0 6px 0 0}
+.tm .at-k{display:block;margin-top:10px;font-size:12.5px;font-weight:500;color:#9BE0AE}
+.tm .at-k:first-child{margin-top:0}
+.tm .at-chk{display:flex;gap:10px;align-items:flex-start;padding-top:12px;border-top:1px solid rgba(109,213,140,.16);font-size:14px;line-height:1.45;color:#C4C7C5;opacity:0;transform:translateX(-8px);transition:opacity .45s,transform .45s}
+.tm .at.s9 .at-chk{opacity:1;transform:none}
+.tm .at-chk .x{width:20px;height:20px;border-radius:50%;background:rgba(242,184,181,.14);color:#F2B8B5;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.tm .at-chk small{display:block;font-size:11.5px;color:#8E918F;text-transform:uppercase;letter-spacing:.06em}
+.tm .at-steps{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding-top:20px}
+.tm .at-steps::before,.tm .at-steps::after{content:"";position:absolute;top:5px;left:calc(100% / 12);height:2px;border-radius:1px}
+.tm .at-steps::before{right:calc(100% / 12);background:#2C2E31}
+.tm .at-steps::after{width:calc((100% - 100% / 6) * var(--p, 0));background:linear-gradient(90deg,#6DD58C,#A8C7FA 40%,#9B72CB 70%,#6DD58C);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.tm .at-step{position:relative;text-align:center;font-size:12.5px;color:#6F7378;transition:color .4s}
+.tm .at-step::before{content:"";position:absolute;top:-20px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#2C2E31;box-shadow:0 0 0 4px #161718;z-index:1;transition:background .4s}
+.tm .at-step.on{color:#E3E3E3}
+.tm .at-step.on::before{background:#A8C7FA}
+.tm .at-step.now::before{animation:atNow 1.2s ease-out infinite}
+.tm .at-done{position:absolute;right:0;top:-6px;font-size:12px;color:#9BE0AE;opacity:0;transition:opacity .5s}
+.tm .at.s9 .at-done{opacity:1}
+@keyframes atCaret{50%{opacity:0}}
+@keyframes atRing{0%{transform:scale(.92);opacity:.95}100%{transform:scale(1.4);opacity:0}}
+@keyframes atShim{from{background-position:120% 0}to{background-position:-120% 0}}
+@keyframes atFlip{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes atScan{to{left:100%}}
+@keyframes atBlink{50%{box-shadow:inset 0 0 0 1px rgba(168,199,250,.15)}}
+@keyframes atPop{0%{transform:scale(.82)}100%{transform:scale(1)}}
+@keyframes atGate{0%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 0 rgba(109,213,140,.6)}100%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 18px rgba(109,213,140,0)}}
+@keyframes atGate2{0%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 0 rgba(168,199,250,.6)}100%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 18px rgba(168,199,250,0)}}
+@keyframes atOut{0%{left:24%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{left:76%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atIn{0%{left:76%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{left:24%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atOutV{0%{top:15%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{top:82%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atInV{0%{top:82%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{top:15%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atNow{0%{box-shadow:0 0 0 4px #161718,0 0 0 4px rgba(168,199,250,.5)}100%{box-shadow:0 0 0 4px #161718,0 0 0 12px rgba(168,199,250,0)}}
+@media (max-width:860px){
+  .tm .at{padding:16px;gap:18px;border-radius:24px}
+  .tm .at-stage{grid-template-columns:minmax(0,1fr)}
+  .tm .at-wall{padding:16px 0}
+  .tm .at-wall::before{top:38px;bottom:auto;left:0;right:0;border-left:0;border-top:2px dashed rgba(196,199,197,.25)}
+  .tm .at-guard{max-width:340px}
+  .tm .at-pk{left:50%;top:15%}
+  .tm .at.s4 .at-pk.out{animation-name:atOutV}
+  .tm .at.s6 .at-pk.in{animation-name:atInV}
+  .tm .at-outs{grid-template-columns:minmax(0,1fr)}
+  .tm .at-step{font-size:11px}
+  .tm .at-done{position:static;display:block;margin-top:10px;text-align:center;grid-column:1/-1}
+}
 }
 </style>
 </head>
@@ -396,6 +534,68 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
         </li>
       </ol>
     </div>
+<!-- AGENT TEAM: one agent hands work to another, and the record never crosses the line. Every word is in LANDING-COPY.md, "Agent team". -->
+<section id="team" class="sect slide" style="padding: 140px 24px; background: #121314">
+  <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">Watch them work</span>
+      <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Agents</span> <span class="w">hand</span> <span class="w">work</span> <span class="w">to</span> <span class="w">each</span> <span class="w">other.</span> <span class="w" style="color: #6F7378; display: inline-block">Your record never crosses the line.</span></h2>
+      <p style="margin: 0; max-width: 62ch; font-size: 19px; line-height: 1.55; color: #C4C7C5">Ask about a drug and a small team gets to work. Gemini researches it online, with public words only. MedGemma reads what it finds against your record, on your own computer. You see every hand-off as it happens.</p>
+    </div>
+
+    <div class="at zoomIn" role="img" aria-label="Animation: a patient asks how sotorasib compares with docetaxel. The Coordinator hands the question to the Researcher, Gemini, online, which receives three public words and reads PubMed, the FDA label and ClinicalTrials.gov. It sends a cited brief back across the privacy line to the Analyst, MedGemma, on the patient's own computer, which reads it against the record and finds the research is about KRAS G12C while the record shows EGFR.">
+      <div class="at-ask"><span class="at-you">M</span><span class="at-q"><span class="at-typed"></span></span></div>
+
+      <div class="at-co"><span class="at-av c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.5 5.5H15a3.5 3.5 0 0 1 0 7H9a3.5 3.5 0 0 0 0 7h6.5"/></svg></span>
+        <span><strong>Coordinator</strong><em>on this device</em><span class="at-co-say">This needs outside evidence. I’ll hand it to the Researcher online, and the Analyst reads what comes back here.</span></span></div>
+
+      <div class="at-stage">
+        <div class="at-lane loc">
+          <span class="at-lh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>On this device</span>
+          <div class="at-agent" data-a="an" data-state="wait"><span class="at-av m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5M10.5 3v6.2L5.2 18.4A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.6L13.5 9.2V3"/><path d="M7.6 15h8.8"/></svg><span class="at-ok">✓</span></span><span class="at-nm">Analyst<small>MedGemma · your computer</small></span><span class="at-st">Waiting for the brief</span></div>
+          <div class="at-vault"><span class="at-rec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><span><strong>Your record</strong> · 19 facts<small>stays here</small></span></span><span class="at-lines"><i></i><i></i><i></i></span></div>
+        </div>
+
+        <div class="at-wall">
+          <span class="at-gate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <div class="at-guard"><span class="at-gl">Privacy guard</span><span class="at-gs">Going online</span><span class="at-words"><i class="k">compare</i><i>sotorasib</i><i>vs docetaxel</i></span>
+            <span class="at-kept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Kept here: what you typed, your name, age and ID, and your record</span></div>
+        </div>
+
+        <div class="at-lane net">
+          <span class="at-lh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Online</span>
+          <div class="at-agent" data-a="re" data-state="wait"><span class="at-av g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="at-ok">✓</span></span><span class="at-nm">Researcher<small>Gemini · online</small></span><span class="at-st">Waiting for the request</span></div>
+          <div class="at-srcs"><span class="at-src" data-src="pm">PubMed <span class="at-n" data-to="214">214</span></span><span class="at-src" data-src="fda">FDA label <span class="at-n" data-to="1">1</span></span><span class="at-src" data-src="ct">ClinicalTrials.gov <span class="at-n" data-to="6">6</span></span></div>
+        </div>
+
+        <span class="at-pk out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/></svg>3 public words</span>
+        <span class="at-pk in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5"/></svg>brief · 2 sources</span>
+      </div>
+
+      <div class="at-outs">
+        <div class="at-out res">
+          <div class="at-oh"><span class="at-av g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span><span><strong>What the research says</strong><small>Researcher · Gemini · public sources only</small></span></div>
+          <div class="at-txt">Sotorasib blocks KRAS G12C, a gene change in some lung cancers.<span class="at-cite">1</span> In a phase III trial it held the cancer back longer than docetaxel chemotherapy: 5.6 against 4.5 months.<span class="at-cite">2</span> Its common side effects include diarrhoea, tiredness and liver changes.<span class="at-cite">1</span></div>
+          <div class="at-refs"><span><span class="at-cite">1</span>FDA label: Lumakras (sotorasib)</span><span><span class="at-cite">2</span>CodeBreaK 200 · The Lancet · 2023</span></div>
+        </div>
+        <div class="at-out mine">
+          <div class="at-oh"><span class="at-av m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5M10.5 3v6.2L5.2 18.4A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.6L13.5 9.2V3"/><path d="M7.6 15h8.8"/></svg></span><span><strong>What it means for you</strong><small>Analyst · MedGemma · your record never left your computer</small></span></div>
+          <div class="at-txt"><span class="at-k">Who was studied</span><span class="at-ans" data-text="Adults whose KRAS G12C lung cancer grew after earlier treatment."></span><span class="at-k">What fits</span><span class="at-ans" data-text="Your record shows EGFR, not KRAS G12C, so this research isn’t about your cancer’s change."></span><span class="at-k">Worth asking</span><span class="at-ans" data-text="Your care team which EGFR trials are open near you."></span></div>
+          <div class="at-chk"><span class="x">✕</span><span><small>Checked by rules on this device</small>The research is in people with KRAS G12C, but your record shows EGFR.</span></div>
+        </div>
+      </div>
+
+      <div class="at-steps"><span class="at-step" data-k="2">Route</span><span class="at-step" data-k="3">Guard</span><span class="at-step" data-k="4">Research</span><span class="at-step" data-k="6">Hand back</span><span class="at-step" data-k="7">Analyse</span><span class="at-step" data-k="9">Answer</span><span class="at-done">Nothing about you went online</span></div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: baseline; justify-content: space-between">
+      <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">Gemini researches.</span> <span style="color: #6DD58C">MedGemma reads your record, at home.</span> <span style="color: #E3E3E3">Only public words cross.</span> <span class="grad">You see every hand-off.</span></p>
+      <a class="more" href="/app/" style="color: #A8C7FA; text-decoration: none; font-weight: 500; font-size: 17px">Ask the team in the demo <span aria-hidden="true">→</span></a>
+    </div>
+    <p style="margin: -24px 0 0; font-size: 13px; color: #6F7378">The patient is synthetic. The sources are real: PubMed, FDA labels and ClinicalTrials.gov.</p>
+  </div>
+</section>
+
 
     <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">MedGemma reads.</span> <span style="color: #6DD58C">Code checks.</span> <span style="color: #E3E3E3">Rules match.</span> <span class="grad">People decide.</span></p>
   </div>
@@ -541,3 +741,78 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 </script>
 </body>
 </html>
+(function () {
+  // Agent team scene: plays one hand-off while it is on screen, then starts again. Classes s1..s9 drive the CSS;
+  // the script types the question and the answer, moves each agent's status and counts the sources up.
+  // With reduced motion, or no IntersectionObserver, it shows the finished scene.
+  var at = document.querySelector('.tm .at'); if (!at) return;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var Q = 'How does sotorasib compare with docetaxel?';
+  var qEl = at.querySelector('.at-typed'), ans = at.querySelectorAll('.at-ans'), steps = at.querySelectorAll('.at-step'), timers = [], playing = false;
+  function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
+  function stop() { timers.forEach(clearTimeout); timers = []; playing = false; }
+  function stage(n) {
+    for (var i = 1; i <= 9; i++) at.classList.toggle('s' + i, i <= n);
+    var cur = -1;
+    Array.prototype.forEach.call(steps, function (s, j) { var on = +s.getAttribute('data-k') <= n; s.classList.toggle('on', on); if (on) cur = j; });
+    Array.prototype.forEach.call(steps, function (s, j) { s.classList.toggle('now', j === cur && n < 9); });
+    at.style.setProperty('--p', Math.max(0, cur) / (steps.length - 1));
+  }
+  function agent(a, state, label) {
+    var el = at.querySelector('[data-a="' + a + '"]'), st = el.querySelector('.at-st');
+    el.setAttribute('data-state', state);
+    if (st.textContent !== label) { st.textContent = label; st.classList.remove('flip'); void st.offsetWidth; st.classList.add('flip'); }
+  }
+  function count(el, to) {
+    if (still) { el.textContent = to; return; }
+    var t0 = null;
+    (function f(ts) { if (ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / 700); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p >= 1) return; } requestAnimationFrame(f); })();
+  }
+  function src(k, state) {
+    var el = at.querySelector('[data-src="' + k + '"]'), n = el.querySelector('.at-n');
+    if (state) el.setAttribute('data-state', state); else el.removeAttribute('data-state');
+    if (state === 'ok') count(n, +n.getAttribute('data-to'));
+  }
+  function type(el, text, ms, then) {
+    var i = 0, gap = Math.max(14, ms / text.length);
+    el.classList.add('typing');
+    (function next() { el.textContent = text.slice(0, ++i); if (i < text.length) later(gap, next); else { el.classList.remove('typing'); if (then) then(); } })();
+  }
+  function reset() {
+    stage(0); qEl.textContent = ''; qEl.classList.remove('typing');
+    Array.prototype.forEach.call(ans, function (a) { a.textContent = ''; a.classList.remove('typing'); });
+    agent('re', 'wait', 'Waiting for the request'); agent('an', 'wait', 'Waiting for the brief');
+    ['pm', 'fda', 'ct'].forEach(function (k) { src(k, null); });
+  }
+  function finished() {
+    stage(9); qEl.textContent = Q;
+    Array.prototype.forEach.call(ans, function (a) { a.textContent = a.getAttribute('data-text'); });
+    agent('re', 'done', 'Brief ready: 3 sentences, each citing a source it read');
+    agent('an', 'done', 'Done. Your record stayed on your computer');
+    ['pm', 'fda', 'ct'].forEach(function (k) { src(k, 'ok'); });
+  }
+  function play() {
+    stop(); playing = true; reset();
+    later(300, function () { type(qEl, Q, 1100); });
+    later(1700, function () { stage(2); });
+    later(2700, function () { stage(3); });
+    later(3800, function () { stage(4); agent('re', 'run', 'Got 3 public words. Planning what to look up'); });
+    later(4700, function () { stage(5); src('pm', 'run'); agent('re', 'run', 'Searching PubMed for “sotorasib docetaxel”'); });
+    later(5700, function () { src('pm', 'ok'); src('fda', 'run'); agent('re', 'run', 'Reading the FDA label for Lumakras'); });
+    later(6500, function () { src('fda', 'ok'); src('ct', 'run'); agent('re', 'run', 'Checking ClinicalTrials.gov'); });
+    later(7300, function () { src('ct', 'ok'); agent('re', 'run', 'Writing the brief, citing every sentence'); });
+    later(8400, function () { stage(6); agent('re', 'done', 'Brief ready: 3 sentences, each citing a source it read'); });
+    later(9500, function () { stage(7); agent('an', 'run', 'Reading the brief against your record'); });
+    later(10500, function () {
+      stage(8); var j = 0;
+      (function nextLine() { var a = ans[j++]; if (a) type(a, a.getAttribute('data-text'), 1000, nextLine); })();
+    });
+    later(14200, function () { stage(9); agent('an', 'done', 'Done. Your record stayed on your computer'); });
+    later(20500, play);
+  }
+  if (still || !('IntersectionObserver' in window)) { finished(); return; }
+  reset();
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting && !playing) play(); else if (!e.isIntersecting && playing) stop(); });
+  }, { threshold: 0.3 }).observe(at);
+})();

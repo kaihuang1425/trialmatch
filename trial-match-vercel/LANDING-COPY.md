@@ -144,6 +144,47 @@ An animated relay. A light runs along a track, and each card plays its own short
 - Heading (*word by word*): Every rejection costs both patients and researchers weeks in lost time.
 - Heading, second sentence (*grey*): So we measured that first.
 
+## Agent team (no section link)
+
+An animated scene that plays while it is on screen and then starts again: a patient’s question types in, the Coordinator hands it on, three public words cross a privacy line to the Researcher, its sources light up and count, a cited brief comes back, and the Analyst types its answer. With reduced motion it shows the finished scene. It mirrors what the app’s chat does for drug questions.
+
+- Label: Watch them work
+- Heading (*word by word*): Agents hand work to each other.
+- Heading, second sentence (*grey*): Your record never crosses the line.
+- Intro: Ask about a drug and a small team gets to work. Gemini researches it online, with public words only. MedGemma reads what it finds against your record, on your own computer. You see every hand-off as it happens.
+
+### The scene
+
+- Question (types in): How does sotorasib compare with docetaxel?
+- Coordinator: Coordinator · on this device · This needs outside evidence. I’ll hand it to the Researcher online, and the Analyst reads what comes back here.
+- Left lane: On this device
+  - Analyst · MedGemma · your computer
+  - Status, in turn: Waiting for the brief → Reading the brief against your record → Done. Your record stayed on your computer
+  - Your record · 19 facts · stays here
+- Middle (the privacy line): Privacy guard · Going online: compare, sotorasib, vs docetaxel · Kept here: what you typed, your name, age and ID, and your record
+- Right lane: Online
+  - Researcher · Gemini · online
+  - Status, in turn: Waiting for the request → Got 3 public words. Planning what to look up → Searching PubMed for “sotorasib docetaxel” → Reading the FDA label for Lumakras → Checking ClinicalTrials.gov → Writing the brief, citing every sentence → Brief ready: 3 sentences, each citing a source it read
+  - Sources (count up): PubMed 214 · FDA label 1 · ClinicalTrials.gov 6
+- Moving across the line: 3 public words (out) · brief · 2 sources (back)
+- Card 1: What the research says · Researcher · Gemini · public sources only
+  - Sotorasib blocks KRAS G12C, a gene change in some lung cancers. [1] In a phase III trial it held the cancer back longer than docetaxel chemotherapy: 5.6 against 4.5 months. [2] Its common side effects include diarrhoea, tiredness and liver changes. [1]
+  - Sources: [1] FDA label: Lumakras (sotorasib) · [2] CodeBreaK 200 · The Lancet · 2023
+- Card 2 (types in): What it means for you · Analyst · MedGemma · your record never left your computer
+  - Who was studied: Adults whose KRAS G12C lung cancer grew after earlier treatment.
+  - What fits: Your record shows EGFR, not KRAS G12C, so this research isn’t about your cancer’s change.
+  - Worth asking: Your care team which EGFR trials are open near you.
+  - Checked by rules on this device: ✕ The research is in people with KRAS G12C, but your record shows EGFR.
+- Steps along the bottom: Route · Guard · Research · Hand back · Analyse · Answer
+- When it finishes: Nothing about you went online
+- Scene description (read by screen readers): Animation: a patient asks how sotorasib compares with docetaxel. The Coordinator hands the question to the Researcher, Gemini, online, which receives three public words and reads PubMed, the FDA label and ClinicalTrials.gov. It sends a cited brief back across the privacy line to the Analyst, MedGemma, on the patient’s own computer, which reads it against the record and finds the research is about KRAS G12C while the record shows EGFR.
+
+### Below the scene
+
+- Closing line (each phrase in its agent’s colour): Gemini researches. MedGemma reads your record, at home. Only public words cross. You see every hand-off.
+- Link: Ask the team in the demo →
+- Small print: The patient is synthetic. The sources are real: PubMed, FDA labels and ClinicalTrials.gov.
+
 Every number below comes from `npm run eval` (`eval/results.md`). Change them only by rerunning it.
 
 ### Comparison

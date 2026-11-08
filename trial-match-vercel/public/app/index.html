@@ -640,6 +640,25 @@ a.cite:hover { background: rgba(168,199,250,.32); }
 .sheet:has(.tm[data-live]) .chat-thread { flex-shrink: 0; min-height: min(56vh, 460px); max-height: min(64vh, 560px); }
 .tm-k { display: block; font-weight: 500; color: #9BE0AE; font-size: 12.5px; margin-top: 8px; } .tm-k:first-child { margin-top: 0; }
 .tm-setup { align-self: flex-start; height: auto; padding: 0; gap: 6px; font-size: 13px; } .tm-setup svg { width: 14px; height: 14px; }
+/* the live-trial search as a team: Trial Scout (online tool, no AI), the Matcher (rules), the Pre-check, the Coordinator */
+.tm-av.o { background: linear-gradient(135deg, #1A73E8, #0B57D0); }
+.tm-ag[data-state="run"] .tm-av.o::after { border-color: var(--accent); animation: tmRing 1.4s ease-out infinite; }
+.tm-ag[data-state="run"] .tm-av.c::after { border-color: var(--muted); animation: tmRing 1.4s ease-out infinite; }
+.tm-st.clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.tm-phase { display: inline-block; margin: 0 6px 0 4px; padding: 0 7px; height: 17px; line-height: 17px; border-radius: 9px; font-size: 10.5px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; background: var(--surface-3); color: var(--muted); vertical-align: 1px; }
+.tm-mini { display: flex; flex-wrap: wrap; gap: 6px; }
+.tm[data-live] .tm-mini { position: sticky; top: -4px; z-index: 3; background: var(--surface); padding: 4px 0 8px; }
+.tm-mag { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px 0 4px; border-radius: 14px; background: var(--surface-2); font-size: 12px; color: var(--muted); transition: color .3s; }
+.tm-mag .tm-av { width: 20px; height: 20px; } .tm-mag .tm-av svg { width: 11px; height: 11px; }
+.tm-mag .tm-av::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px solid transparent; }
+.tm-mag[data-state="run"] { color: var(--ink); } .tm-mag[data-state="run"] .tm-av::after { border-color: var(--accent); animation: tmRing 1.4s ease-out infinite; }
+.tm-mag[data-state="run"] .tm-av.m::after { border-color: var(--met); }
+.tm-mag[data-state="wait"] .tm-av { filter: saturate(.3) brightness(.75); }
+.tm-hint { margin: 0; font-size: 12px; color: var(--faint); }
+.tm-warn { display: flex; gap: 8px; align-items: flex-start; margin: 0; padding: 8px 10px; border-radius: 12px; background: var(--unk-soft); color: var(--unk); font-size: 12.5px; line-height: 1.4; }
+.tm-warn svg { width: 15px; height: 15px; flex: none; margin-top: 1px; }
+.tm-pk.out.warn { background: var(--unk); color: #3d2e00; }
+.tm-say { margin: 0; font-size: 15px; }
 .tm-checks { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid rgba(109,213,140,.16); }
 .tm-chk { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; font-size: 13px; line-height: 1.4; color: var(--muted); }
 .tm-chk svg { width: 18px; height: 18px; padding: 4px; border-radius: 50%; }
@@ -2869,12 +2888,12 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   }
   function teamMineBody(T) {
     var M = T.mine || {}, a = T.analyst;
-    if (M.text) return '<p' + (M.streaming ? ' class="tm-caret"' : '') + '>' + teamCites(M.text, T).replace(/(^|\n)(Who was studied|What fits|Worth asking|What it means for your applicants|Worth checking):\s*/g, '$1<b class="tm-k">$2</b>') + '</p>';
+    if (M.text) return '<p' + (M.streaming ? ' class="tm-caret"' : '') + '>' + teamCites(M.text, T).replace(/(^|\n)(?:[•*-]\s*)?(Who was studied|What fits|Worth asking|What it means for your applicants|Worth checking):\s*/g, '$1<b class="tm-k">$2</b>') + '</p>';
     return '<p class="tm-think"><span class="tm-bounce" aria-hidden="true"><i></i><i></i><i></i></span>' + esc(M.thinking ? 'Reasoning it through on this computer' + (M.toks ? ' · ' + M.toks + ' tokens' : '') : a.where === 'rules' ? 'Setting the brief beside ' + (T.role === 'team' ? 'the trial' : 'your record') : 'Reading the brief against ' + (T.role === 'team' ? 'the trial' : 'your record')) + '</p>';
   }
   function teamMineHTML(T, anim) {
     var a = T.analyst, M = T.mine || {}, patient = T.role !== 'team', done = T.stage === 'done';
-    var where = a.where === 'rules' ? 'Analyst · built-in rules on this device' : 'Analyst · ' + teamWhereLabel(a.where) + (a.where === 'local' || onLocalhost() ? ' · your record never left it' : ' · never a cloud model');
+    var where = a.where === 'rules' ? 'Analyst · built-in rules on this device' : 'Analyst · ' + teamWhereLabel(a.where) + (a.where === 'local' || onLocalhost() ? (patient ? ' · your record never left it' : ' · applicants’ records never left it') : ' · never a cloud model');
     return '<div class="tm-out mine' + (anim ? '' : ' static') + '"><div class="tm-oh"><span class="tm-av m">' + ICON.flask + '</span><span><b>' + esc(patient ? 'What it means for you' : 'What it means for ' + (T.tid ? TRIAL[T.tid].code : 'your trial')) + '</b><small>' + esc(where) + '</small></span></div>' +
       '<div class="tm-body">' + teamMineBody(T) + '</div>' + (M.note ? '<p class="note">' + esc(M.note) + '</p>' : '') +
       (a.where !== 'rules' && T.facts && T.facts.length ? '<div class="tm-checks"><span class="tm-lbl">Checked by rules on this device</span>' + T.facts.map(function (f) {
@@ -3008,8 +3027,9 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function loopOpts(Q) { return Q.opts.concat([['I’m not sure. My team can check.', null]]); }
   function loopRec(pt) { var o = {}; Object.keys(pt.rec).forEach(function (k) { var v = pt.rec[k]; if (v != null && v !== 'unk' && v !== '' && v !== false && v !== 'na') o[k] = v; }); return o; }
   function loopSaid(pt) { var o = {}; Object.keys(pt.said || {}).forEach(function (k) { o[k] = pt.said[k].v; }); return o; }
-  function loopStep(msg) { return function (label, ok) { msg.steps.push({ ok: ok !== false, label: label }); chatSave(); paintChat(true); return msg.steps.length - 1; }; }
-  function loopBusy(msg, on) { msg.pending = on; CH.pending = on; CH.quiet = on; chatSave(); paintChat(true); }
+  function loopStep(msg) { return function (label, ok) { msg.steps.push({ ok: ok !== false, label: label, at: Date.now() }); chatSave(); paintChat(true); return msg.steps.length - 1; }; }
+  function loopDone(old, s) { s.at = old && old.at; s.fin = Date.now(); return s; }   // a step that was running finishes: keep when it began
+  function loopBusy(msg, on) { msg.pending = on; CH.pending = on; CH.quiet = on; chatSave(); paintChat(true); loopTicking(on); }
   function loopCounts(r) { return r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check'; }
   function loopWhy(notes) {   // the Matcher's notes as one sentence: "it aims at your EGFR change, and has a hospital in London"
     return notes.length ? ': it ' + notes.map(function (n) { return n.replace(/^for /, 'is for ').replace(/^a hospital/, 'has a hospital'); }).join(', and ') : '';
@@ -3019,25 +3039,47 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     L.calls++;
     return window.TMConnect.prescreen(x.nct, loopRec(pt), pt.age, pt.sex, loopSaid(pt)).then(function (r) {
       x.r = { counts: r.counts, rules: (r.rules || []).map(function (y) { return { rule: y.rule, status: y.status, needs: y.needs || 'other' }; }) };
-      x.out = r.counts.not > 0; L.family = r.family || L.family; return null;
-    }, function (e) { if (!x.r) x.err = e.message; return e.message; });
+      x.out = r.counts.not > 0; x.partial = !!r.partial; L.family = r.family || L.family; return null;
+    }, function (e) { if (!x.r) x.err = e.message; x.retryable = /^medgemma_(bad_json|empty)$/.test(e.code || ''); return e.message; });
   }
-  function loopCheckNext(msg, L) {   // pre-check the closest trials not checked yet, two at a time
+  // MedGemma on this computer or this site's server answers one request at a time, so a second check sent alongside waits
+  // behind the first and runs out of time. There the checks go one after another, each its own step; a cloud model takes both.
+  function loopOneByOne() { return !siteCloud(); }
+  function loopChain(list, fn) { return list.reduce(function (p, x, j) { return p.then(function (acc) { return fn(x, j).then(function (v) { acc.push(v); return acc; }); }); }, Promise.resolve([])); }
+  function loopCheckNext(msg, L) {   // pre-check the closest trials not checked yet, two per round
     var pt = me(), room = L.maxCalls - L.calls;
     var next = L.trials.filter(function (x) { return !x.r && !x.err && x.score > 0; }).sort(function (a, b) { return b.score - a.score; }).slice(0, Math.min(LOOP.perRound, room));
     if (!next.length) return Promise.resolve();
+    function said(x) { return x.r ? 'Pre-checked ' + x.nct + ' with ' + (L.family || siteAI()) + ': ' + loopCounts(x.r) + (x.partial ? ' (from the rules it finished before running out of room)' : '') : 'Couldn’t pre-check ' + x.nct + ' (' + x.err + ')'; }
+    if (loopOneByOne()) return loopChain(next, function (x) {
+      var i = loopStep(msg)('Test: pre-checking ' + x.nct + ' against the full entry rules with ' + siteAI() + '…');
+      // a small local model sometimes thinks itself out of room on one try and answers on the next: one retry, shown as such
+      function attempt() {
+        return loopCheck(L, pt, x).then(function (err) {
+          if (err && x.retryable && !x.retried && L.calls < L.maxCalls) {
+            x.retried = true; delete x.err;
+            msg.steps[i] = { ok: true, at: Date.now(), label: 'Test: ' + x.nct + ': ' + err.replace(/\.$/, '') + ', so pre-checking it once more…' };
+            chatSave(); paintChat(true); return attempt();
+          }
+          msg.steps[i] = loopDone(msg.steps[i], { ok: !!x.r, label: said(x) + (x.retried && x.r ? ', on the second try' : '') }); chatSave(); paintChat(true);
+        });
+      }
+      return attempt();
+    });
     var i = loopStep(msg)('Test: pre-checking ' + next.map(function (x) { return x.nct; }).join(' and ') + ' against the full entry rules with ' + siteAI() + '…');
     return Promise.all(next.map(function (x) { return loopCheck(L, pt, x); })).then(function () {
-      msg.steps[i] = { ok: next.some(function (x) { return x.r; }), label: next.map(function (x) { return x.r ? 'Pre-checked ' + x.nct + ' with ' + (L.family || siteAI()) + ': ' + loopCounts(x.r) : 'Couldn’t pre-check ' + x.nct + ' (' + x.err + ')'; }).join('. ') };
+      msg.steps[i] = loopDone(msg.steps[i], { ok: next.some(function (x) { return x.r; }), label: next.map(said).join('. ') });
       chatSave(); paintChat(true);
     });
   }
   function loopSearch(msg, L, term) {   // Build and test: search, rank with fixed rules, pre-check the closest
     var pt = me(), step = loopStep(msg);
+    var at = step('Build: Trial Scout is searching ClinicalTrials.gov' + (term ? ' for ' + term : ' for all lung cancer trials') + '…');
     return window.TMConnect.scout(term).then(function (d) {
       if (!SCOUT.data) SCOUT.data = { trials: [] };
       d.trials.forEach(function (x) { if (!SCOUT.data.trials.some(function (y) { return y.nct === x.nct; })) SCOUT.data.trials.push(x); });
-      step('Build: Trial Scout searched ClinicalTrials.gov' + (term ? ' for ' + term : ' for all lung cancer trials') + ': ' + plural(d.trials.length, 'recruiting phase III trial') + ' with UK hospitals');
+      msg.steps[at] = loopDone(msg.steps[at], { ok: true, label: 'Build: Trial Scout searched ClinicalTrials.gov' + (term ? ' for ' + term : ' for all lung cancer trials') + ': ' + plural(d.trials.length, 'recruiting phase III trial') + ' with UK hospitals' });
+      chatSave(); paintChat(true);
       var have = L.trials.map(function (x) { return x.nct; });
       var ranked = d.trials.filter(function (t) { return have.indexOf(t.nct) < 0; }).map(function (t) { return { t: t, q: quickFit(t, pt) }; })
         .sort(function (a, b) { return (b.q.score - a.q.score) || (b.t.siteCount - a.t.siteCount); });
@@ -3131,7 +3173,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if (!o) return;
     asked.ask.state = 'done'; asked.ask.picked = o[0]; L.asked.push(key);
     chatPush({ who: 'user', text: o[0] });
-    var msg = { who: 'agent', text: '', steps: [], items: [] }, step = loopStep(msg);
+    var msg = { who: 'agent', text: '', steps: [], items: [], lid: L.id }, step = loopStep(msg);
     chatPush(msg); loopBusy(msg, true);
     if (o[1] == null) { step('Learn: you’re not sure about ' + Q.short + ', so your care team will check it'); loopAfter(msg, L); return; }
     var pt = clone(me()), now = Date.now();
@@ -3145,13 +3187,21 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     var again = L.trials.filter(function (x) { return x.r && !x.out && x.r.rules.some(function (y) { return y.status === 'unknown' && y.needs === key; }); }).slice(0, Math.min(LOOP.perRound, L.maxCalls - L.calls));
     if (!again.length) { loopAfter(msg, L); return; }
     var before = again.map(function (x) { return x.r.counts.unknown; });
+    function result(x, j, err) {
+      if (err) return 'Couldn’t check ' + x.nct + ' again (' + err + ')';
+      var settled = before[j] - x.r.counts.unknown;
+      return 'Checked ' + x.nct + ' again: ' + (x.out ? 'your answer rules it out' : (settled > 0 ? plural(settled, 'rule') + ' settled' : 'nothing new settled') + ', ' + x.r.counts.unknown + ' left to check');
+    }
+    if (loopOneByOne()) {   // one at a time, each its own step (see loopOneByOne)
+      loopChain(again, function (x, j) {
+        var k = step('Test: checking ' + x.nct + ' again with ' + siteAI() + '…');
+        return loopCheck(L, me(), x).then(function (err) { msg.steps[k] = loopDone(msg.steps[k], { ok: !err, label: result(x, j, err) }); chatSave(); paintChat(true); });
+      }).then(function () { loopAfter(msg, L); });
+      return;
+    }
     var at = step('Test: checking ' + again.map(function (x) { return x.nct; }).join(' and ') + ' again with ' + siteAI() + '…');
     Promise.all(again.map(function (x) { return loopCheck(L, me(), x); })).then(function (errs) {
-      msg.steps[at] = { ok: errs.some(function (e) { return !e; }), label: again.map(function (x, j) {
-        if (errs[j]) return 'Couldn’t check ' + x.nct + ' again (' + errs[j] + ')';
-        var settled = before[j] - x.r.counts.unknown;
-        return 'Checked ' + x.nct + ' again: ' + (x.out ? 'your answer rules it out' : (settled > 0 ? plural(settled, 'rule') + ' settled' : 'nothing new settled') + ', ' + x.r.counts.unknown + ' left to check');
-      }).join('. ') };
+      msg.steps[at] = loopDone(msg.steps[at], { ok: errs.some(function (e) { return !e; }), label: again.map(function (x, j) { return result(x, j, errs[j]); }).join('. ') });
       chatSave(); loopAfter(msg, L);
     });
   }
@@ -3162,7 +3212,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     th.forEach(function (m) { if (m.actions) m.actions = m.actions.filter(function (a) { return !(a.act === 'loop-more' && a.id === lid); }); });
     var L = run.loop; L.maxRounds = L.round + LOOP.rounds - 1; L.maxCalls = L.calls + LOOP.calls;
     chatPush({ who: 'user', text: 'Keep checking' });
-    var msg = { who: 'agent', text: '', steps: [], items: [] };
+    var msg = { who: 'agent', text: '', steps: [], items: [], lid: lid };
     chatPush(msg); loopBusy(msg, true);
     loopStep(msg)('More budget: up to ' + plural(LOOP.rounds - 1, 'more round') + ' and ' + LOOP.calls + ' more checks');
     loopAfter(msg, L);
@@ -3174,6 +3224,117 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     return '<div class="act-card"><div class="act-h"><span class="spark sm">' + ICON.spark + '</span><span class="grow"><b>' + esc(Q.ask) + '</b><small>It settles a rule in ' + plural(a.n, 'trial') + ' I checked</small></span></div>' +
       '<div class="opts loop-opts">' + loopOpts(Q).map(function (o, i) { return '<button class="opt" data-act="loop-ans" data-id="' + esc(a.lid) + '" data-v="' + i + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>' +
       '<p class="sm muted">Source: you, in this chat. It goes into your record as yours, and your care team confirms it at pre-screening.</p></div>';
+  }
+
+  /* ---------- the live-trial search, drawn as a team ----------
+     Trial Scout (online: ClinicalTrials.gov, no AI), the Matcher (fixed rules on this device), the Pre-check (the site's
+     model reading a trial's entry rules) and the Coordinator, who plans each round and asks you when one answer would settle
+     a rule. Steps keep their words, so older chats still show; who did each step is read from them. A run repaints the
+     thread on each step, so a step's entrance and a packet crossing the privacy line play only while that step is new. */
+  var LOOP_AG = { coordinator: 'Coordinator', scout: 'Trial Scout', matcher: 'Matcher', precheck: 'Pre-check' };
+  function loopAgentOf(label) {
+    var l = String(label || '');
+    if (/Trial Scout/i.test(l)) return 'scout';
+    if (/\bMatcher\b/i.test(l)) return 'matcher';
+    if (/pre-?check|check(ed|ing)? NCT|No AI model/i.test(l)) return 'precheck';
+    return 'coordinator';
+  }
+  function loopPhase(label) {   // "Round 2, test: …" -> a small tag for the round and the step of the loop
+    var l = String(label || ''), m = l.match(/^(?:Round (\d+), )?(design|build|test|learn):\s*/i);
+    var rest = m ? l.slice(m[0].length) : l;
+    return { round: m && m[1] || null, phase: m ? m[2].toLowerCase() : null, rest: rest.charAt(0).toUpperCase() + rest.slice(1) };
+  }
+  // Where the pre-check runs decides which side of the privacy line it sits on
+  function loopWhere() {
+    if (!siteMG()) return { where: 'off', lane: 'loc', cls: 'm', icon: ICON.flask, label: 'No model on this site' };
+    if (siteCloud()) return { where: 'cloud', lane: 'net', cls: 'g', icon: ICON.spark, label: siteAI() + ' · Google’s cloud' };
+    return { where: onLocalhost() ? 'local' : 'server', lane: 'loc', cls: 'm', icon: ICON.flask, label: 'MedGemma · ' + (onLocalhost() ? 'this computer' : 'this site’s own server') };
+  }
+  function loopAgentsFrom(pairs) {
+    var A = { scout: { state: 'wait', label: 'Waiting for the plan' }, matcher: { state: 'wait', label: 'Waiting for trials to rank' }, precheck: { state: 'wait', label: 'Waiting for the closest trials' } };
+    pairs.forEach(function (p) {
+      var a = loopAgentOf(p.s.label); if (!A[a]) return;
+      var run = /…$/.test(p.s.label);
+      A[a].state = run ? (p.live ? 'run' : 'fail') : p.s.ok ? 'done' : 'fail';
+      A[a].label = run && !p.live ? 'Stopped' : loopPhase(p.s.label).rest.replace(/…$/, '');
+    });
+    return A;
+  }
+  function loopLiHTML(s, live, W, now) {
+    var a = loopAgentOf(s.label), p = loopPhase(s.label), run = /…$/.test(s.label), st = run ? (live ? 'run' : 'fail') : s.ok ? 'ok' : 'fail';
+    var dot = a === 'scout' ? 'researcher' : a === 'precheck' ? (W.where === 'cloud' ? 'researcher' : 'analyst') : 'coordinator';
+    var cls = (s.at && now - s.at < 700 ? 'in' : '') + (s.fin && now - s.fin < 700 ? ' pop' : '');
+    var dur = s.fin && s.at && s.fin - s.at >= 100 ? ((s.fin - s.at) / 1000).toFixed(1) + ' s' : '';
+    return '<li data-agent="' + dot + '" data-state="' + st + '"' + (run && live && s.at ? ' data-at="' + s.at + '"' : '') + (cls.trim() ? ' class="' + cls.trim() + '"' : '') + '>' +
+      '<span class="tm-dot">' + (st === 'ok' ? ICON.check : st === 'fail' ? ICON.x : '') + '</span><span><b>' + LOOP_AG[a] + '</b>' +
+      (p.phase ? '<span class="tm-phase">' + (p.round ? 'Round ' + p.round + ' · ' : '') + p.phase + '</span>' : '') + esc(p.rest.replace(/…$/, '')) + '</span>' +
+      '<span class="tm-t">' + dur + '</span></li>';
+  }
+  function loopTeamHTML(m) {
+    var th = chatThread(), run = m.loop ? m : th.filter(function (x) { return x.lid === m.lid && x.loop; })[0], L = run ? run.loop : {};
+    var live = !!m.pending, first = !!m.loop, patient = S.who.role === 'patient', W = loopWhere(), now = Date.now();
+    var pairs = [], past = false;   // every step of this search up to this message, so the agents carry their state across rounds
+    th.forEach(function (x) { if (past) return; if (x.lid === m.lid && x.steps) x.steps.forEach(function (s) { pairs.push({ s: s, live: !!x.pending }); }); if (x === m) past = true; });
+    var A = loopAgentsFrom(pairs), running = live ? m.steps.filter(function (s) { return /…$/.test(s.label); }).map(function (s) { return loopAgentOf(s.label); }) : [];
+    var stage = running.indexOf('scout') >= 0 || (running.indexOf('precheck') >= 0 && W.where === 'cloud') ? 'research' : running.indexOf('precheck') >= 0 ? 'analyse' : 'done';
+    var nf = patient ? Object.keys(loopRec(me())).length + 3 : 0;
+    function card(key, cls, icon, sub) {
+      var s = A[key];
+      return '<div class="tm-ag" data-state="' + s.state + '"><span class="tm-av ' + cls + '">' + icon + '<span class="tm-ok">' + ICON.check + '</span></span>' +
+        '<span class="tm-nm">' + LOOP_AG[key] + '<small>' + esc(sub) + '</small></span><span class="tm-st clamp' + (s.state === 'run' ? ' run' : '') + '">' + esc(s.label) + '</span></div>';
+    }
+    // a packet crosses the privacy line while its step is new: search words out, trials back; record facts out to a cloud pre-check
+    var packet = '';
+    m.steps.forEach(function (s) {
+      var a = loopAgentOf(s.label), fresh = function (t) { return t && now - t < 1400; };
+      if (a === 'scout' && /…$/.test(s.label) && fresh(s.at)) packet = '<span class="tm-pk out">' + ICON.shield + esc(L.term || 'lung cancer') + '</span>';
+      if (a === 'scout' && fresh(s.fin)) { var n = (s.label.match(/:\s*(\d+) recruiting/) || [])[1]; packet = '<span class="tm-pk in">' + ICON.list + plural(+n || 0, 'trial') + '</span>'; }
+      if (a === 'precheck' && W.where === 'cloud' && /…$/.test(s.label) && fresh(s.at)) packet = '<span class="tm-pk out warn">' + ICON.doc + nf + ' facts</span>';
+    });
+    var found = null;
+    pairs.forEach(function (p) { var mm = /:\s*(\d+) recruiting/.exec(p.s.label); if (mm && loopAgentOf(p.s.label) === 'scout') found = +mm[1]; });
+    var pre = card('precheck', W.cls, W.icon, W.label), head;
+    if (first) {
+      head = '<div class="tm-board"><div class="tm-lane loc"><span class="tm-lh">' + ICON.lock + 'On this device</span>' + card('matcher', 'c', ICON.tune, 'Fixed rules, no AI') + (W.lane === 'loc' ? pre : '') +
+          '<div class="tm-vault">' + ICON.doc + '<span><b>Your record</b> · ' + nf + ' facts<small>' + (W.where === 'cloud' ? 'facts go to the pre-check' : W.where === 'server' ? 'facts go to this site’s MedGemma' : 'stays here') + '</small></span></div></div>' +
+        '<div class="tm-wall" aria-hidden="true"><span class="tm-gate">' + ICON.shield + '</span></div>' +
+        '<div class="tm-lane net"><span class="tm-lh">' + ICON.globe + 'Online</span>' + card('scout', 'o', ICON.scan, 'ClinicalTrials.gov · no AI') + (W.lane === 'net' ? pre : '') +
+          '<div class="tm-srcs"><span class="tm-src" data-state="' + (A.scout.state === 'run' ? 'run' : found != null ? 'ok' : '') + '">ClinicalTrials.gov<i>' + (found || '') + '</i></span></div></div>' + packet + '</div>';
+    } else {
+      head = '<div class="tm-mini">' + [['scout', 'o', ICON.scan], ['matcher', 'c', ICON.tune], ['precheck', W.cls, W.icon]].map(function (k) {
+        return '<span class="tm-mag" data-state="' + A[k[0]].state + '"><i class="tm-av ' + k[1] + '">' + k[2] + '</i>' + LOOP_AG[k[0]] + '</span>'; }).join('') + '</div>';
+    }
+    var asking = m.ask && m.ask.state === 'open';
+    var coText = asking ? 'Waiting for you: one answer settles a rule in ' + plural(m.ask.n, 'trial') + '. It goes into your record, marked as yours.'
+      : live ? (first ? 'Finding live trials for you. Trial Scout searches the registry online; the Matcher and the Pre-check read what it finds against your record' +
+          (W.where === 'cloud' ? ' (the Pre-check in ' + siteAI() + '’s cloud)' : W.where === 'off' ? '' : ' here') + '. I’ll ask you when one answer would settle a rule.' : 'Checking the trials again with your answer.')
+      : 'Done: ' + plural(L.round || 1, 'round') + ', ' + plural(L.calls || 0, 'model check') + (L.answers && L.answers.length ? ', ' + plural(L.answers.length, 'answer') + ' from you' : '') + '.';
+    var co = '<div class="tm-co"><span class="tm-av c">' + ICON.route + '</span><p><b>Coordinator</b> <span class="faint">' + (first && L.by ? esc(L.by) + ', the chat agent, chose this team' : 'on this device') + '</span><br>' + esc(coText) + '</p></div>';
+    var guard = '';
+    if (first) {
+      var kept = ['your name and ID'].concat(W.where === 'cloud' || W.where === 'server' ? [] : ['your age', nf + ' facts from your record', 'your answers in this chat']);
+      guard = '<div class="tm-guard"><div class="tm-gh">' + ICON.shield + '<b>Privacy guard</b><span class="faint">on this device</span></div>' +
+        '<div class="tm-row"><span class="tm-lbl">To the registry</span>' + (L.term ? '<span class="tm-word k">' + esc(L.term) + '</span>' : '') + (L.wide ? '<span class="tm-word">all lung cancer</span>' : '') +
+          '<span class="tm-word c">lung cancer · UK · phase III · recruiting</span></div>' +
+        (L.term ? '<p class="tm-hint">' + esc(L.term) + ' comes from your record, with nothing that says who you are.</p>' : '') +
+        (W.where === 'cloud' ? '<p class="tm-warn">' + ICON.info + '<span>For the pre-check, ' + nf + ' facts from your record, your age and your answers go to ' + esc(siteAI()) + ' in Google’s cloud. That’s only for this synthetic demo: MedGemma on this computer keeps them here.</span></p>' : '') +
+        (W.where === 'server' ? '<p class="tm-hint">For the pre-check, your record’s facts, age and answers go to this site’s own MedGemma server, never to a cloud chatbot.</p>' : '') +
+        '<div class="tm-row"><span class="tm-lbl">Kept here</span>' + kept.map(function (k) { return '<span class="tm-keep">' + ICON.lock + esc(k) + '</span>'; }).join('') + '</div></div>';
+    }
+    var trace = '<div class="tm-log"><ol class="tm-trace">' + m.steps.map(function (s) { return loopLiHTML(s, live, W, now); }).join('') + '</ol></div>';
+    var tail = (m.text ? '<p class="tm-say">' + esc(m.text) + '</p>' : '') +
+      (m.items && m.items.length ? '<div class="list">' + m.items.map(function (it) { return '<button class="item" data-act="' + it.act + '" data-id="' + esc(it.id || '') + '" data-v="' + esc(it.v || '') + '"><span class="grow"><b>' + esc(it.label) + '</b>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') + '</div>' : '') +
+      (m.actions && m.actions.length ? '<div class="row">' + m.actions.map(function (a, i) { return '<button class="btn ' + (i ? 'text' : 'tonal') + '" data-act="' + a.act + '" data-id="' + esc(a.id || '') + '" data-v="' + esc(a.v || '') + '">' + esc(a.label) + '</button>'; }).join('') + '</div>' : '') +
+      (m.ask ? loopAskHTML(m.ask) : '') + (m.note ? '<p class="note">' + esc(m.note) + '</p>' : '') +
+      (first && !live && W.where === 'cloud' && !IS_PHONE ? '<button type="button" class="btn text tm-setup" data-act="chat-src" data-v="local">' + ICON.lock + 'Set up MedGemma on this computer to keep your record here</button>' : '');
+    return '<div class="msg agent tm" data-stage="' + stage + '"' + (live ? ' data-live="1"' : '') + '>' + co + head + guard + trace + tail + '</div>';
+  }
+  var loopTick = null;   // running steps count their seconds between repaints
+  function loopTicking(on) {
+    clearInterval(loopTick); loopTick = null;
+    if (on) loopTick = setInterval(function () {
+      document.querySelectorAll('.tm[data-live] .tm-trace li[data-at]').forEach(function (li) { var t = li.querySelector('.tm-t'); if (t) t.textContent = ((Date.now() - +li.getAttribute('data-at')) / 1000).toFixed(1) + ' s'; });
+    }, 250);
   }
 
   function chatSend(text, fromChip) {
@@ -3210,6 +3371,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function chatMsgHTML(m) {
     if (m.who === 'user') return '<div class="msg user">' + esc(m.text) + '</div>';
     if (m.team) return teamHTML(m);
+    if (m.lid && m.steps) return loopTeamHTML(m);   // the live-trial search, as a team
     var sp = '<span class="spark sm">' + ICON.spark + '</span>';
     // Just the model's name: where it runs is in the chat's header line. The details stay in the tooltip.
     var by = m.pending ? sp + (CH.src === 'local' ? 'MedGemma' : siteAI()) : m.model ? sp + esc(m.family || 'MedGemma') : sp + 'Your agent';
