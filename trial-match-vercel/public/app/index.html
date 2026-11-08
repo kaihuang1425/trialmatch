@@ -9,7 +9,6 @@
 <body>
 <script src="/loader/syringe-loader.js" data-wait="app" data-max="12000"></script><!-- loading screen: always shows, finishes when the data is ready (shared store or this browser), at most 12 s -->
 <title>Trial Match</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap">
@@ -1410,10 +1409,10 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     all: function (c) { var m = this.data[c]; return Object.keys(m).map(function (k) { return m[k]; }); },
     init: function () {
       var self = this;
-      var use = window.claude && window.claude.use;
+      var use = window.tmRuntime && window.tmRuntime.use;
       if (!use) { self.local(); return; }
       var timer = setTimeout(function () { if (self.mode === 'loading') { self.note = 'Couldn’t reach the shared data, so this is a copy in your browser.'; self.local(); } }, 10000);
-      window.claude.use('db').then(function (db) {
+      window.tmRuntime.use('db').then(function (db) {
         if (!db) { clearTimeout(timer); if (self.mode === 'loading') self.local(); return; }
         self.db = db; var got = {};
         COLS.forEach(function (c) {
@@ -2148,8 +2147,8 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       }, function (e) { toast(siteAI() + ' couldn’t read it (' + e.message + '), so this device did.'); local(); });
       return;
     }
-    if (!(window.claude && window.claude.use)) { local(); return; }
-    window.claude.use('sample').then(function (sample) {
+    if (!(window.tmRuntime && window.tmRuntime.use)) { local(); return; }
+    window.tmRuntime.use('sample').then(function (sample) {
       if (!sample) { local(); return; }
       var schema = '{"histology":"adeno|squamous|sclc","stage":"IV|III_unres|IIIA_res|early|es","egfr":"neg|ex19del|L858R|ex20ins|other","alk":"neg|pos","ros1":"neg|pos","kras":"neg|G12C","pdl1":number,"ecog":number,"priorEGFR":true,"priorChemo":true,"priorIO":true,"progressed":"yes|no","lastTxWeeks":number,"brain":"none|treated_stable|untreated","anc":number,"plt":number,"crcl":number,"bili":number}';
       return sample.json('You read clinic letters about lung cancer for a clinical-trial matching app. Extract only facts the letter states explicitly. Leave a key out when the letter does not state it. Never guess. Reply with one JSON object using only these keys and values: ' + schema + '\n\nLetter:\n"""\n' + txt.slice(0, 6000) + '\n"""', { modelTier: 'quick' }).then(function (o) { done(o, 'read by Claude'); });

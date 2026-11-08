@@ -51,7 +51,7 @@ The site already supports any OpenAI-compatible server, so this is configuration
    - `MEDGEMMA_MODEL`: `google/medgemma-1.5-4b-it`
 5. **On pitch day:** turn scale-to-zero off an hour before, so the judges never wait for a cold start. Pause the endpoint afterwards.
 
-Once it's up, Claude tests it end to end on the live site, including a check that the model's private reasoning (MedGemma 1.5 "thinks" before answering) doesn't leak into the replies. It hid correctly through Ollama; a different server may format it differently.
+Once it's up, we test it end to end on the live site, including a check that the model's private reasoning (MedGemma 1.5 "thinks" before answering) doesn't leak into the replies. It hid correctly through Ollama; a different server may format it differently.
 
 ## Lines we can use, and lines we can't
 

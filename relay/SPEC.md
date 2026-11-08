@@ -137,7 +137,7 @@ One orchestrating agent with explicit tools. The tools hold the invariants; the 
 | `find_alternatives(patientId, reason)` | Other sites/studies after a failed option, filtered by preferences | Preferences filter, never override eligibility |
 | `explain_for_patient(assessment)` | Plain-language explanation for the patient view | Must cite the same facts; no outcome predictions |
 
-Two run modes producing the **same event stream** (the UI animates events): `live` (Claude tool use; model ids in one config file) and `replay` (deterministic policy calling the same tools, no network) so the demo never depends on Wi-Fi.
+Two run modes producing the **same event stream** (the UI animates events): `live` (Gemini tool use; model ids in one config file) and `replay` (deterministic policy calling the same tools, no network) so the demo never depends on Wi-Fi.
 
 ## Live demo script (4-minute pitch, 2 minutes for judges)
 
@@ -176,5 +176,5 @@ Criteria are encoded by hand from the snapshot text, reviewed, and every encoded
 
 - Next.js (App Router) + TypeScript; engine is plain TS under `src/engine` with no framework imports, tested with Vitest.
 - Motion: CSS transitions/keyframes + the Web Animations API; Motion (motion.dev) for layout/FLIP in the real app.
-- LLM: Claude via the Anthropic SDK behind an `LlmProvider` interface (a Gemini adapter can drop in). Construct the client with an explicit `baseURL: "https://api.anthropic.com"` (this machine sets `ANTHROPIC_BASE_URL` for Claude Code).
+- LLM: Gemini via `@google/genai` behind an `LlmProvider` interface, with model ids in one config file.
 - Deploy: Vercel, `replay` mode by default so judges can test without keys.

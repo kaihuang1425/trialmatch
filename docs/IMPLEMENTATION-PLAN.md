@@ -469,7 +469,7 @@ If the rehearsal at 12.5 fails, both stretches are dropped and the time goes to 
 | `coordinator.js` lines ~13–270 (own `TRIALS`, `C()` criteria, `assess`, regex `extract`, `TODAY`) | **Drop**; replaced by engine data, `DEMO_AS_OF` and an `Assessment` → board-row adapter |
 | Board self-tests (`?selftest=1`), `patient.html` | **Port**; self-tests stay the UI acceptance check |
 | Owner's Python matching rules, FastAPI core, Cloud Storage | **Drop**; documents are small text in the action log |
-| SPEC "Stack" (Claude via Anthropic SDK) | **Update** to Gemini; `config.ts` already says Gemini |
+| SPEC "Stack" (LLM provider) | **Update** to Gemini; `config.ts` already says Gemini |
 | `config.ts`, `package.json` | **Change**: `vertexLocation` `europe-west2` → `global`; `DEFAULT_MODEL` per D2; exact `@google/genai` pin; `"engines": {"node": ">=22"}`; `maxAgentTurns` 12 → 6 |
 | Owner's nine tool names | **Keep** as model-facing names, plus `find_alternatives` and `explain_for_patient` (§3.2) |
 | Clinical encodings (engine session, in progress per the lead session [R-35]): PD-L1 local vs central, HER2 assay-specific negatives, organ-function conjunctions, treatment episodes, full allele lists, three-valued AND/OR | **Depend on**: the gate's alias tables, the judge grid and the at-screening rows (central PD-L1 confirmation) follow these encodings; re-run gold labels and safety tests when they land |

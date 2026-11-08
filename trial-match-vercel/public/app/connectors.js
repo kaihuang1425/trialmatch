@@ -9,8 +9,8 @@
  *   TMConnect.researchLive(req, onEvent) -> the team's Researcher (Gemini, online, public words only), streaming each lookup
  *   TMConnect.analyst(body)    -> the team's Analyst on this site's own MedGemma server (refused on a cloud model)
  *   TMConnect.prescreen(nct, record, age, sex, said) -> MedGemma pre-check of a live trial (said: the patient's chat answers)
- * It also provides window.claude.use('db') (a shared store backed by /api/store) when the page is not running
- * inside a Claude artifact, so the app's existing shared-data code works unchanged.
+ * It also provides window.tmRuntime.use('db') (a shared store backed by /api/store), so the app's existing
+ * shared-data code works unchanged.
  */
 (function () {
   'use strict';
@@ -149,8 +149,8 @@
     };
   }
 
-  if (!window.claude && hasApi) {
-    window.claude = {
+  if (!window.tmRuntime && hasApi) {
+    window.tmRuntime = {
       use: function (name) {
         if (name !== 'db') return Promise.resolve(null);
         return ready.then(function (s) {

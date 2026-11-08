@@ -1,4 +1,4 @@
-// LLM extractor (Claude structured output through the LlmProvider interface). It only proposes:
+// LLM extractor (structured output through the LlmProvider interface). It only proposes:
 // every candidate still goes through verifyCandidates(), which drops any quote not found verbatim.
 
 import { LLM_CONFIG } from '../config';
