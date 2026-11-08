@@ -2151,7 +2151,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     window.tmRuntime.use('sample').then(function (sample) {
       if (!sample) { local(); return; }
       var schema = '{"histology":"adeno|squamous|sclc","stage":"IV|III_unres|IIIA_res|early|es","egfr":"neg|ex19del|L858R|ex20ins|other","alk":"neg|pos","ros1":"neg|pos","kras":"neg|G12C","pdl1":number,"ecog":number,"priorEGFR":true,"priorChemo":true,"priorIO":true,"progressed":"yes|no","lastTxWeeks":number,"brain":"none|treated_stable|untreated","anc":number,"plt":number,"crcl":number,"bili":number}';
-      return sample.json('You read clinic letters about lung cancer for a clinical-trial matching app. Extract only facts the letter states explicitly. Leave a key out when the letter does not state it. Never guess. Reply with one JSON object using only these keys and values: ' + schema + '\n\nLetter:\n"""\n' + txt.slice(0, 6000) + '\n"""', { modelTier: 'quick' }).then(function (o) { done(o, 'read by Claude'); });
+      return sample.json('You read clinic letters about lung cancer for a clinical-trial matching app. Extract only facts the letter states explicitly. Leave a key out when the letter does not state it. Never guess. Reply with one JSON object using only these keys and values: ' + schema + '\n\nLetter:\n"""\n' + txt.slice(0, 6000) + '\n"""', { modelTier: 'quick' }).then(function (o) { done(o, 'read by the model'); });
     }).catch(function () { local(); });
   }
   function saveLetter() {
