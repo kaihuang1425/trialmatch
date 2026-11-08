@@ -46,3 +46,12 @@ test('parseJson reads fenced JSON with prose around it', () => {
   assert.deepEqual(parseJson('Here you go:\n```json\n{"facts":[]}\n```'), { facts: [] });
   assert.throws(() => parseJson('no json here'));
 });
+
+test('a quote that says the cancer has grown backs "progressed: yes"; a negated one does not', () => {
+  const text = 'Her latest CT shows the cancer has grown. The liver lesion has not grown since March. There is no progression in the bones.';
+  const g = ground([{ key: 'progressed', value: 'yes', quote: 'the cancer has grown' }], text);
+  assert.deepEqual(g.facts, { progressed: 'yes' });
+  const n = ground([{ key: 'progressed', value: 'yes', quote: 'The liver lesion has not grown since March' }], text);
+  assert.equal(n.rejected[0].reason, 'quote does not state this value');
+  assert.deepEqual(ground([{ key: 'progressed', value: 'no', quote: 'no progression in the bones' }], text).facts, { progressed: 'no' });
+});

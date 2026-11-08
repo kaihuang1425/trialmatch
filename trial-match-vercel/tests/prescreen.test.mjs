@@ -65,3 +65,13 @@ test('a rule settled by a fact that isn\'t there becomes unknown; a mislabelled 
   assert.equal(tidyRules(list, {}, rec)[1].why, 'Histology: adenocarcinoma.');
   assert.equal(tidyRules(list, { kras: 'G12C' }, rec)[0].status, 'met');   // the patient really said it in the chat: kept
 });
+
+test('an unknown rule never asks for a fact the record or the chat already has', () => {
+  const rec = { egfr: 'ex19del', priorEGFR: true };
+  const list = [
+    { rule: 'Progressed on osimertinib specifically', type: 'inc', status: 'unknown', why: 'Which EGFR tablet is not recorded', needs: 'priorEGFR' },
+    { rule: 'No untreated brain metastases', type: 'exc', status: 'unknown', why: 'Brain scan not recorded', needs: 'brain' },
+    { rule: 'ECOG 0-1', type: 'inc', status: 'unknown', why: 'ECOG not recorded', needs: 'ecog' }
+  ];
+  assert.deepEqual(tidyRules(list, { ecog: 1 }, rec).map((r) => r.needs), ['other', 'brain', 'other']);
+});

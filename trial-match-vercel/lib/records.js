@@ -40,7 +40,9 @@ const MUST = {
   alk: { neg: /neg|not detected|no /i, pos: /pos|rearrang|fusion|detected/i },
   ros1: { neg: /neg|not detected|no /i, pos: /pos|rearrang|fusion|detected/i },
   kras: { neg: /neg|wild|not detected|no /i, G12C: /G12C/i },
-  progressed: { yes: /progress|grew|growth|worse|increase/i, no: /stable|response|no progression|not progress/i },
+  // "has grown" states growth; "has not grown" or "no growth" doesn't, so a negated quote can't back "yes"
+  progressed: { yes: /^(?!.*\b(no|not|without)\b.{0,25}(progress|grow|grew)|.*n't (progress|grow)).*(progress|grow|grew|worse|increase|enlarg|bigger)/i,
+    no: /stable|respon|shrunk|shrank|smaller|no (sign of |evidence of )?(progression|growth)|not (progress|grow)|n't (progress|grow)/i },
   brain: { none: /no .{0,30}(brain|intracranial|cerebral)|(brain|intracranial|mri).{0,40}(clear|normal|negative|no )/i, treated_stable: /treat|stable/i, untreated: /metasta|lesion|deposit/i }
 };
 

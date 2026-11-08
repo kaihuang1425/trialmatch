@@ -5,6 +5,7 @@ import { test, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { checkBrief, looksPersonal, research, researchRequest } from '../lib/researcher.js';
 import { analystClean, analystPrompt, analystSystem } from '../lib/analyst.js';
+import { drugLabel } from '../lib/literature.js';
 import analyst from '../api/agents/analyst.js';
 
 const realFetch = globalThis.fetch;
@@ -138,4 +139,17 @@ test('the Analyst endpoint refuses to send a record to a cloud model', async () 
   assert.equal(res.statusCode, 409);
   assert.equal(JSON.parse(res.body).error, 'record_stays_local');
   assert.equal(calls.length, 0);
+});
+
+test('a drug label with no openfda names is still found from the product listing', async () => {
+  stub([[(u) => isFda(u) && /spl_product_data_elements/.test(decodeURIComponent(u)), () => ({ results: [{
+    openfda: {}, spl_product_data_elements: ['TAGRISSO osimertinib OSIMERTINIB MESYLATE'], effective_time: '20240925',
+    indications_and_usage: ['1 INDICATIONS AND USAGE TAGRISSO is a kinase inhibitor indicated for EGFR mutation-positive NSCLC.'],
+    adverse_reactions: ['The most common adverse reactions (≥20%) were diarrhea, rash, dry skin, nail toxicity and fatigue.']
+  }] })], [(u) => isFda(u), () => ({ error: { code: 'NOT_FOUND' } })]]);
+  const l = await drugLabel('osimertinib');
+  assert.equal(l.brand, 'TAGRISSO');
+  assert.equal(l.generic, 'osimertinib');
+  assert.match(l.common_side_effects, /fatigue/);
+  assert.equal(calls.length, 4);   // generic, brand, wildcard, then the product listing
 });

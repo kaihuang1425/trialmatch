@@ -2103,7 +2103,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if ((m = txt.match(/PD-?L1[^0-9]{0,12}(\d{1,3})\s*%/i))) o.pdl1 = +m[1];
     if ((m = txt.match(/ECOG[^0-9]{0,24}([0-4])/i))) o.ecog = +m[1];
     if (/osimertinib/i.test(txt)) o.priorEGFR = true; if (/(carboplatin|cisplatin|chemotherapy|docetaxel)/i.test(txt)) o.priorChemo = true; if (/(pembrolizumab|nivolumab|atezolizumab|immunotherapy)/i.test(txt)) o.priorIO = true;
-    if (/progress/i.test(txt)) o.progressed = 'yes';
+    if (/progress|\bgr[oe]wn?\b|\bgrowth\b/i.test(txt) && !/\b(no|not|without)\b.{0,25}(progress|grow|grew)|n't (progress|grow)/i.test(txt)) o.progressed = 'yes';
     if ((m = txt.match(/last dose (\d+) weeks?/i))) o.lastTxWeeks = +m[1];
     if (/no (intracranial|brain) metastases/i.test(txt)) o.brain = 'none'; else if (/brain metastases/i.test(txt)) o.brain = 'untreated';
     if ((m = txt.match(/neutrophils\s*([\d.]+)/i))) o.anc = +m[1]; if ((m = txt.match(/platelets\s*([\d.]+)/i))) o.plt = +m[1]; if ((m = txt.match(/creatinine clearance\s*([\d.]+)/i))) o.crcl = +m[1]; if ((m = txt.match(/bilirubin\s*([\d.]+)/i))) o.bili = +m[1];
@@ -2758,7 +2758,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function teamAspect(text) {
     var q = ' ' + text.toLowerCase().replace(/[’']/g, "'") + ' ';
     if (/\b(compar\w*|versus|vs\.?|better than|instead of|against)\b/.test(q)) return 'compare';
-    if (/\bside[- ]?effects?\b|\btoxicit|\bsafe(ty)?\b|\brisks?\b/.test(q)) return 'side_effects';
+    if (/\bside[- ]?effects?\b|\btoxicit|\bsafe(ty)?\b|\brisks?\b|\b(tired(ness)?|fatigue|exhaust\w*|nause\w*|sick|vomit\w*|rash(es)?|diarrh\w*|hair loss|appetite)\b|\bmake (me|you|people|them|him|her) (feel )?(ill|unwell)\b/.test(q)) return 'side_effects';
     if (/\bhow (does|do|would) \S+( \S+)? work\b|\bmechanism\b|\bwhat does (it|the drug) (do|target)\b/.test(q)) return 'mechanism';
     if (/\bbrain\b/.test(q)) return 'brain';
     if (/\bresist\w*|\bstop(s|ped)? working\b/.test(q)) return 'resistance';
@@ -3421,7 +3421,8 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     });
   }
   function loopNext(L, pt) {   // Learn: the question that settles rules in the most trials still in play
-    var n = {}, skip = L.asked.concat(Object.keys(pt.said || {}));
+    // never ask what the record or the chat already says (a pre-check can still name such a fact as the one it needs)
+    var n = {}, skip = L.asked.concat(Object.keys(pt.said || {}), Object.keys(loopRec(pt)));
     L.trials.forEach(function (x) {
       if (!x.r || x.out) return;
       uniqIds(x.r.rules.filter(function (y) { return y.status === 'unknown' && LOOP_Q[y.needs] && skip.indexOf(y.needs) < 0; }).map(function (y) { return y.needs; }))
