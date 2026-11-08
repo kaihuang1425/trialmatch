@@ -6,6 +6,7 @@
 <style>[hidden]:not([hidden=until-found i]){display:none!important}img{max-width:100%}</style>
 </head>
 <body>
+<script src="/loader/syringe-loader.js" data-wait="app" data-max="12000"></script><!-- loading screen: always shows, finishes when the data is ready (shared store or this browser), at most 12 s -->
 <title>Trial Match</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -404,7 +405,8 @@ details[open] summary { margin-bottom: 10px; }
 .ring.possible { --c: var(--unk); }
 .ring.not { --c: var(--not); }
 .ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--c) var(--deg), var(--surface-3) 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); }
-.ring span { font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.ring span { font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; display: flex; flex-direction: column; align-items: center; line-height: 1.05; }
+.ring span small { font-size: 9.5px; font-weight: 500; color: var(--faint); letter-spacing: .04em; text-transform: uppercase; }
 .ic-circle.ag { background: var(--grad-soft); color: var(--on-soft); }
 .ic-circle.hu { background: var(--met-soft); color: var(--met); }
 .item.unread b { color: var(--ink); }
@@ -744,6 +746,32 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 
 
   /* ================= helpers ================= */
+  // How clinicians name the demo trials: population and line of therapy, then intervention vs comparator. Drug classes
+  // only: the trials are synthetic, so there are no real drug names or NCT numbers to give. Patients keep t.name.
+  // Kept outside the matcher (npm run eval reads only the code above), and written from each trial's own rules.
+  var CLIN = {
+    'LT-301': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI', 'Novel EGFR TKI vs platinum chemotherapy'],
+    'LT-302': ['ALK+ · 1L advanced', 'Next-generation ALK TKI vs standard ALK TKI'],
+    'LT-303': ['KRAS G12C · after platinum chemo and IO', 'G12C inhibitor + antibody vs docetaxel (2:1)'],
+    'LT-304': ['No driver, PD-L1 ≥50% · 1L', 'IO combination vs pembrolizumab'],
+    'LT-305': ['No driver, PD-L1 <50% · 1L', 'Chemo-IO ± novel antibody (placebo-controlled)'],
+    'LT-306': ['Stage III unresectable · consolidation after CRT', 'IO combination vs standard consolidation'],
+    'LT-307': ['Stage II–IIIA resectable, EGFR/ALK negative · treatment-naive', 'Perioperative chemo-IO vs neoadjuvant chemo'],
+    'LT-308': ['ES-SCLC · 1L', 'Chemo-IO ± novel targeted antibody'],
+    'LT-309': ['Stage IV NSCLC · 2L+', 'Novel ADC vs docetaxel'],
+    'LT-310': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI', 'Bispecific antibody + chemo vs chemo'],
+    'LT-311': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI', 'HER3-directed ADC vs platinum chemotherapy'],
+    'LT-312': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI', 'Continue TKI + TROP2 ADC vs chemotherapy'],
+    'LT-313': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI, chemo-naive', 'Continue TKI + platinum chemo vs chemo'],
+    'LT-314': ['EGFR ex19del/L858R · oligoprogression on 3rd-gen TKI', 'Radiotherapy to progressing sites + continue TKI vs switch'],
+    'LT-315': ['EGFR ex19del/L858R · resistance to 3rd-gen TKI', 'Next-generation EGFR TKI vs chemotherapy'],
+    'LT-316': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI, IO-naive', 'IO + anti-angiogenic + chemo vs chemo'],
+    'LT-317': ['EGFR ex19del/L858R · brain metastases, after 3rd-gen TKI', 'CNS-penetrant EGFR TKI vs standard care + RT'],
+    'LT-318': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI', 'Subcutaneous vs IV bispecific, both with chemo'],
+    'LT-319': ['EGFR ex19del/L858R · after 3rd-gen EGFR TKI', 'Rebiopsy-guided targeted therapy vs chemotherapy']
+  };
+  function clinWho(t) { return (CLIN[t.code] || [t.name])[0]; }
+  function clinWhat(t) { return (CLIN[t.code] || [, t.design])[1]; }
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -1155,6 +1183,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   var pending = false;
   function soon() { if (pending) return; pending = true; setTimeout(function () { pending = false; render(); }, 0); }
   function onReady() {
+    if (window.TMLoader) window.TMLoader.done();   // let the loading screen finish, whether the shared data connected or not
     if (Store.mode === 'db' && !Store.all('patients').length) Store.reset();   // first visit to a new shared store: load the demo data
     if (S.who && S.who.role === 'patient' && !Store.get('patients', S.who.id)) S.who = null;
     if (S.who && S.who.role === 'patient') runAgent(S.who.id);
@@ -1197,10 +1226,10 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       : '<button class="btn out" data-act="new-open">' + ICON.plus + 'Create a patient account</button>') : '';
     return '<div class="login"><div class="login-box">' +
       '<div class="logo">' + ICON.logo + ' Trial Match</div>' +
-      '<div><h1><span class="grad-text">Find the trial that fits.</span></h1><p class="sub">Phase III lung cancer trials, matched by your own agent and decided by people.</p></div>' +
+      '<div><h1><span class="grad-text">Find the trial that fits.</span></h1><p class="sub">Starting with lung cancer: phase III trials, matched by your own agent and decided by people.</p></div>' +
       '<div class="seg" role="group" aria-label="Account type" style="align-self:flex-start"><button data-act="login-role" data-v="patient" aria-pressed="' + (S.loginRole === 'patient') + '">I’m a patient</button><button data-act="login-role" data-v="clinician" aria-pressed="' + (S.loginRole === 'clinician') + '">I’m a clinician</button></div>' +
       '<div class="list">' + (list || '<div class="item muted">No accounts yet.</div>') + '</div>' + create +
-      '<p class="note">Prototype for AgentVerse 2026. Demo accounts, no passwords. Every patient, trial and hospital here is synthetic, so please don’t enter real health information. ' + (Store.mode === 'db' ? 'Changes are shared with everyone who opens this page.' : 'Changes stay in this browser.') + connLine() + ' <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>' +
+      '<p class="note">Prototype for AgentVerse 2026. Demo accounts, no passwords. Every patient and hospital here is synthetic, and so are trials LT-301 to LT-319. Trials with an NCT number are real, live from ClinicalTrials.gov, and AI checks on them are drafts. Please don’t enter real health information. ' + (Store.mode === 'db' ? 'Changes are shared with everyone who opens this page.' : 'Changes stay in this browser.') + connLine() + ' <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>' +
       '</div></div>';
   }
 
@@ -1256,7 +1285,15 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       '<div class="deck" id="deck">' + deckHTML + '</div>' + btns + '</div>';
   }
 
-  function ring(score, tier) { var deg = Math.round(score * 3.6); return '<div class="ring ' + tier + '" style="--deg:' + deg + 'deg"><span>' + score + '</span></div>'; }
+  // Clinicians: the ranking number, called "fit". It orders applicants and never decides eligibility.
+  var FIT_TIP = 'Fit ranks applicants: gene match, timing, travel and visits, trial evidence and how much is known. It doesn’t decide eligibility.';
+  function ring(score, tier) { var deg = Math.round(score * 3.6); return '<div class="ring ' + tier + '" style="--deg:' + deg + 'deg" title="' + FIT_TIP + '"><span>' + score + '<small>fit</small></span></div>'; }
+  // Patients: how many entry rules their record settles, so the ring and the label always agree.
+  function matchText(r) { return r.tier === 'strong' ? 'Strong match · all rules met' : r.tier === 'possible' ? 'Possible match · ' + r.unk + ' to check' : 'Not a match · ' + r.not + ' not met'; }
+  function pring(r) {
+    var n = r.met + r.unk + r.not, deg = n ? Math.round(360 * r.met / n) : 0, tip = r.met + ' of ' + n + ' entry rules met from your record';
+    return '<div class="ring ' + r.tier + '" style="--deg:' + deg + 'deg" title="' + tip + '" role="img" aria-label="' + tip + '"><span>' + r.met + '<small>/' + n + '</small></span></div>';
+  }
   function cardHTML(c, top, pt) {
     var cls = 'pcard tcard ' + (top ? 'top' : 'ghost');
     if (c.kind === 'q') {
@@ -1267,7 +1304,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     return '<div class="' + cls + '" data-kind="t" data-id="' + t.id + '">' +
       '<div class="stamp up">APPLY</div><div class="stamp down">PASS</div>' +
       (c.inv ? '<p class="inv-line">' + ICON.hosp + '<span>The ' + t.code + ' team invited you to apply · ' + ago(c.inv.at) + '</span></p>' : '') +
-      '<div class="tc-head"><div><span class="chip ' + (r.tier === 'strong' ? 'met' : 'unk') + '">' + (r.tier === 'strong' ? 'Strong match' : 'Possible match') + '</span><p class="code">' + t.code + ' · Phase III · ' + esc(t.type) + '</p></div>' + ring(r.score, r.tier) + '</div>' +
+      '<div class="tc-head"><div><span class="chip ' + (r.tier === 'strong' ? 'met' : 'unk') + '">' + matchText(r) + '</span><p class="code">' + t.code + ' · Phase III · ' + esc(t.type) + '</p></div>' + pring(r) + '</div>' +
       '<h2 class="tc-title">' + esc(t.name) + '</h2><p class="muted tc-plain">' + esc(t.plain) + '</p>' +
       '<div class="tc-facts"><span>' + ICON.pin + esc(r.site.city) + ', ' + (r.site.d < 5 ? 'in your city' : r.site.d + ' miles') + '</span><span>' + ICON.cal + VISIT[t.visits][1] + '</span><span>' + ICON.shuffle + 'Randomised</span></div>' +
       (why.length ? '<ul class="why">' + why.map(function (x) { return '<li>' + ICON.check + esc(x.c.text) + '</li>'; }).join('') + '</ul>' : '') +
@@ -1297,12 +1334,12 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     if (S.mtab === 'matches') {
       var hidden = res.filter(function (r) { return r.tier === 'not' || r.scope; });
       var ot = onTrial(pt.id);
-      body = (poss.length ? '<div class="list">' + poss.map(function (r) { return trow(r.t, r.score, r.tier, (r.scope ? r.scope : (r.tier === 'strong' ? 'Strong match' : 'Possible match')) + ' · ' + r.site.city, null); }).join('') + '</div>'
+      body = (poss.length ? '<div class="list">' + poss.map(function (r) { return trow(r.t, r, (r.scope ? r.scope : matchText(r)) + ' · ' + r.site.city, null); }).join('') + '</div>'
         : ot ? '<div class="card empty"><span class="spark" style="margin:0 auto 14px">' + ICON.spark + '</span><h3>Paused while you\u2019re on ' + TRIAL[ot.trial].code + '</h3><p>Your agent stops looking so nothing gets in the way. When the trial ends, your results go into your record and it starts again.</p></div>'
         : '<div class="card empty"><h3>No open matches</h3><p>Your agent will tell you when one appears.</p></div>') +
         '<details class="card"><summary>' + plural(hidden.length, 'other trial') + ' you’re not seeing, and why</summary><div class="list">' + hidden.map(function (r) { return '<button class="item" data-act="trial" data-id="' + r.t.id + '"><span class="grow"><b>' + r.t.code + ' · ' + esc(r.t.name) + '</b><small>' + esc(r.tier === 'not' ? 'Doesn’t fit: ' + firstFail(r) : r.scope) + '</small></span></button>'; }).join('') + '</div></details>' + liveHtml(ot);
     } else {
-      body = list.length ? '<div class="list">' + list.map(function (a) { var t = TRIAL[a.trial]; return trow(t, null, null, STAGE_P[a.stage] + ' · updated ' + ago(a.upd), a); }).join('') + '</div>'
+      body = list.length ? '<div class="list">' + list.map(function (a) { var t = TRIAL[a.trial]; return trow(t, null, STAGE_P[a.stage] + ' · updated ' + ago(a.upd), a); }).join('') + '</div>'
         : '<div class="card empty"><h3>' + (S.mtab === 'active' ? 'No applications yet' : 'Nothing here yet') + '</h3><p>' + (S.mtab === 'active' ? 'Swipe right on a trial in Discover to apply.' : 'Finished and closed applications appear here.') + '</p>' + (S.mtab === 'active' ? '<button class="btn tonal" data-act="tab" data-v="discover">Go to Discover</button>' : '') + '</div>';
     }
     return '<div class="col"><div class="page-h"><div><h1>My trials</h1></div></div>' +
@@ -1314,8 +1351,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     if (idx < 0) { var reached = 0; a.hist.forEach(function (h) { var i = FLOW.indexOf(h.s); if (i > reached) reached = i; }); idx = reached; }
     return '<div class="steps">' + FLOW.map(function (s, i) { return '<i class="' + (i < idx ? 'done' : (i === idx ? (bad ? 'bad' : (a.stage === 'completed' ? 'done' : 'now')) : '')) + '"></i>'; }).join('') + '</div>';
   }
-  function trow(t, score, tier, meta, a) {
-    return '<button class="trow" data-act="trial" data-id="' + t.id + '"><span class="grow"><h3>' + esc(t.name) + '</h3><span class="meta"><span>' + t.code + '</span><span>' + esc(meta) + '</span></span>' + stepsBar(a) + '</span>' + (score != null ? '<span class="scorebox">' + ring(score, tier) + '</span>' : ICON.chev.replace('<svg', '<svg class="chev"')) + '</button>';
+  function trow(t, r, meta, a) {   // r: the patient's match result, shown as rules met (or a chevron when null)
+    return '<button class="trow" data-act="trial" data-id="' + t.id + '"><span class="grow"><h3>' + esc(t.name) + '</h3><span class="meta"><span>' + t.code + '</span><span>' + esc(meta) + '</span></span>' + stepsBar(a) + '</span>' + (r ? '<span class="scorebox">' + pring(r) + '</span>' : ICON.chev.replace('<svg', '<svg class="chev"')) + '</button>';
   }
 
   function spark(pts) {
@@ -1412,7 +1449,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     else action = '<div class="panel2"><p class="sm muted">Your agent fills in the application from your record. The trial team sees a pseudonym until you agree to meet them.</p><div class="row">' + '<button class="btn pri" data-act="apply" data-id="' + tid + '">' + ICON.heart + 'Apply</button>' + (r.scope === 'You passed on this one' ? '<button class="btn text" data-act="unpass" data-id="' + tid + '">Bring back to Discover</button>' : '') + '</div></div>';
     sheet(sheetHead(esc(t.name), t.code + ' · Phase III · ' + esc(t.type)) +
       '<p class="muted">' + esc(t.plain) + '</p>' +
-      '<div class="chips"><span class="chip ' + (r.tier === 'strong' ? 'met' : r.tier === 'possible' ? 'unk' : 'not') + '">' + { strong: 'Strong match', possible: 'Possible match', not: 'Not a match' }[r.tier] + ' · ' + r.score + '</span><span class="chip">' + esc(r.site.name) + ', ' + esc(r.site.city) + ' · ' + r.site.d + ' mi</span><span class="chip">' + VISIT[t.visits][1] + '</span><span class="chip">' + esc(t.design) + '</span></div>' +
+      '<div class="chips"><span class="chip ' + (r.tier === 'strong' ? 'met' : r.tier === 'possible' ? 'unk' : 'not') + '">' + matchText(r) + '</span><span class="chip">' + esc(r.site.name) + ', ' + esc(r.site.city) + ' · ' + r.site.d + ' mi</span><span class="chip">' + VISIT[t.visits][1] + '</span><span class="chip">' + esc(t.design) + '</span></div>' +
       action + pvCard() + '<div class="sect-h"><h2 style="font-size:16px">Every rule, checked</h2><span class="faint xs">' + r.met + ' met · ' + r.not + ' not met · ' + r.unk + ' to check</span></div>' + ruleList(r) +
       '<p class="note">Fit score adds up the rules, your tumour, timing and practicalities. It is not a prediction of how well a treatment will work. ' + esc(t.evidenceText) + '</p>');
     mountPv(pt, p, t);
@@ -1790,12 +1827,12 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       if (/recommend|best|top|which trial|suggest|options|what trials|show me|any trials|list|matches|fits me/.test(q) && !t) {
         if (ot) return { text: 'You’re on ' + TRIAL[ot.trial].code + ', so your agent has paused looking. When it ends, your results go into your record and it starts again.' };
         var top = deck.slice(0, 3);
-        return top.length ? { text: 'These fit your record best right now:', items: top.map(function (x) { return { act: 'trial', id: x.t.id, label: x.t.code + ' · ' + x.t.name, sub: (x.tier === 'strong' ? 'Strong match' : 'Possible match') + ' · ' + x.score + ' · ' + x.site.city }; }) }
+        return top.length ? { text: 'These fit your record best right now:', items: top.map(function (x) { return { act: 'trial', id: x.t.id, label: x.t.code + ' · ' + x.t.name, sub: matchText(x) + ' · ' + x.site.city }; }) }
           : { text: 'You’ve looked at every trial that fits. Your agent will tell you when something new appears.' };
       }
       if (t) {
         var can = !ot && !appFor(pt.id, t.id) && r.tier !== 'not';
-        return { text: t.code + ' · ' + t.name, lines: [t.plain, 'Design: ' + t.design + '.', 'Nearest site: ' + r.site.name + ', ' + r.site.city + '.', 'For you: ' + ({ strong: 'strong match', possible: 'possible match', not: 'not a match' })[r.tier] + ' (' + r.score + '), ' + r.met + ' rules met, ' + r.unk + ' to check' + (r.not ? ', ' + r.not + ' not met' : '') + '.'], actions: [{ act: 'trial', id: t.id, label: 'Full details' }].concat(can ? [{ act: 'apply', id: t.id, label: 'Apply' }] : []) };
+        return { text: t.code + ' · ' + t.name, lines: [t.plain, 'Design: ' + t.design + '.', 'Nearest site: ' + r.site.name + ', ' + r.site.city + '.', 'For you: ' + ({ strong: 'strong match', possible: 'possible match', not: 'not a match' })[r.tier] + ', ' + r.met + ' rules met, ' + r.unk + ' to check' + (r.not ? ', ' + r.not + ' not met' : '') + '.'], actions: [{ act: 'trial', id: t.id, label: 'Full details' }].concat(can ? [{ act: 'apply', id: t.id, label: 'Apply' }] : []) };
       }
       return { text: 'I can recommend trials, explain one (what it tests, where it runs, what it involves, what it could offer you), say what’s still unknown about you, or apply when you’re ready.', lines: ['Refer to a trial by its place in your list (“the second one”), its code (LT-310) or a word from its name (“the biopsy trial”).'] };
     })();
@@ -1812,7 +1849,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     if (tid) { CH.ctx[k] = tid; chatSave(); }
     var t = tid ? TRIAL[tid] : null, tq = t || busy[0].t;
     function judge(a) { var pt = pid(a); return { a: a, pt: pt, r: evaluate(P_(pt), TRIAL[a.trial]) }; }
-    function item(j, i) { return { act: 'app', id: j.a.id, label: (i != null ? (i + 1) + '. ' : '') + j.pt.id + ' · ' + j.pt.age + ' ' + j.pt.sex + ' · ' + TRIAL[j.a.trial].code, sub: STAGE_C[j.a.stage] + ' · score ' + j.r.score + ' · ' + j.r.met + ' met, ' + j.r.unk + ' to check' + (j.r.not ? ', ' + j.r.not + ' not met' : '') + ' · ' + ago(j.a.at) }; }
+    function item(j, i) { return { act: 'app', id: j.a.id, label: (i != null ? (i + 1) + '. ' : '') + j.pt.id + ' · ' + j.pt.age + ' ' + j.pt.sex + ' · ' + TRIAL[j.a.trial].code, sub: STAGE_C[j.a.stage] + ' · fit ' + j.r.score + ' · ' + j.r.met + ' met, ' + j.r.unk + ' to check' + (j.r.not ? ', ' + j.r.not + ' not met' : '') + ' · ' + ago(j.a.at) }; }
     var out = (function () {
       if (who && !t) {
         var mine = A.filter(function (a) { return a.pid === who.id; });
@@ -1853,7 +1890,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       if (!ids.length) ids = deckFor(pt).slice(0, 2).map(function (r) { return r.t.id; });
       return { data: 'synthetic demo', role: 'patient', all_trials: TRIALS.map(function (t) { return t.code + ' ' + t.name; }), patient: { id: pt.id, age: pt.age, sex: pt.sex, city: pt.city, tumour: HIST[p.histology] + ', ' + STAGE[p.stage], tests: bioText(p).join('; '), treatment: txText(p), ecog: p.ecog, brain_scan: p.brain },
         applications: appsOf(pt.id).map(function (a) { return { trial: TRIAL[a.trial].code, stage: STAGE_P[a.stage] }; }),
-        trials: ids.slice(0, 3).map(function (id) { var t = TRIAL[id], r = by[id]; return { code: t.code, name: t.name, summary: t.plain, design: t.design, type: t.type, visits: VISIT[t.visits][1], sites: t.sites.map(function (s) { return s[0] + ', ' + s[1]; }), nearest_site_miles: r.site.d, match: r.tier, score: r.score, rules: r.rows.map(function (x) { return x.c.text + ': ' + ({ met: 'met', not: 'not met', unk: 'unknown' })[x.s]; }) }; }),
+        trials: ids.slice(0, 3).map(function (id) { var t = TRIAL[id], r = by[id]; return { code: t.code, name: t.name, summary: t.plain, design: t.design, type: t.type, visits: VISIT[t.visits][1], sites: t.sites.map(function (s) { return s[0] + ', ' + s[1]; }), nearest_site_miles: r.site.d, match: r.tier, rules: r.rows.map(function (x) { return x.c.text + ': ' + ({ met: 'met', not: 'not met', unk: 'unknown' })[x.s]; }) }; }),
         agent_summary: built.text + ' ' + (built.lines || []).join(' ') };
     }
     if (!ids.length && built.items) ids = uniqIds(built.items.map(function (x) { var a = Store.get('apps', x.id); return a ? a.trial : null; }));
@@ -2428,7 +2465,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   }
   function trialSelect(id, cur, withAll) {
     var apps = Store.all('apps');
-    return '<label class="trialpick"><span class="sr">Trial</span><select class="input" id="' + id + '" data-fresh="1" data-act="' + id + '">' + (withAll ? '<option value="all"' + (cur === 'all' ? ' selected' : '') + '>All trials</option>' : '') + TRIALS.map(function (t) { var n = apps.filter(function (a) { return a.trial === t.id && a.stage === 'applied'; }).length; return '<option value="' + t.id + '"' + (cur === t.id ? ' selected' : '') + '>' + t.code + ' · ' + esc(t.name) + (n && !withAll ? ' (' + n + ' new)' : '') + '</option>'; }).join('') + '</select></label>';
+    return '<label class="trialpick"><span class="sr">Trial</span><select class="input" id="' + id + '" data-fresh="1" data-act="' + id + '">' + (withAll ? '<option value="all"' + (cur === 'all' ? ' selected' : '') + '>All trials</option>' : '') + TRIALS.map(function (t) { var n = apps.filter(function (a) { return a.trial === t.id && a.stage === 'applied'; }).length; return '<option value="' + t.id + '"' + (cur === t.id ? ' selected' : '') + '>' + t.code + ' · ' + esc(clinWho(t) + ' · ' + clinWhat(t)) + (n && !withAll ? ' (' + n + ' new)' : '') + '</option>'; }).join('') + '</select></label>';
   }
   function reached(a, s) { return a.stage === s || a.hist.some(function (h) { return h.s === s; }); }
   function overview(c) {
@@ -2452,13 +2489,15 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     TRIALS.filter(function (t) { return t.opened && t.opened <= 14 && !apps.some(function (a) { return a.trial === t.id; }); }).forEach(function (t) {
       var n = poolFor(t.id).fresh.length; if (n) needs.unshift(['find', t.id, t.code + ' opened ' + ago(openedAt(t)) + ' with no applicants. ' + cnt(n).replace(/^f/, 'F') + ' people could fit', ICON.people]);
     });
-    var rows = TRIALS.map(function (t) { var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length; return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(t.name) + '</span></td><td class="num">' + A.length + '</td><td class="num">' + (A.filter(function (a) { return a.stage === 'applied'; }).length || '–') + '</td><td class="num">' + (A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length || '–') + '</td><td><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>'; }).join('');
-    return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div></div>' +
-      '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t</span></div></div>' +
+    var rows = TRIALS.map(function (t) { var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length; return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(clinWho(t)) + '</span><br><span class="faint xs">' + esc(clinWhat(t)) + '</span></td><td class="num">' + A.length + '</td><td class="num">' + (A.filter(function (a) { return a.stage === 'applied'; }).length || '–') + '</td><td class="num">' + (A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length || '–') + '</td><td><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>'; }).join('');
+    return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div>' +
+      // the figures below come from synthetic demo applications, so say so before anyone reads them as results
+      '<span class="chip unk" title="Every patient, application and LT- trial on this page is synthetic. These counts show how the workflow looks, not results.">' + ICON.info + 'Synthetic demo data</span></div>' +
+      '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' demo trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t · demo applications</span></div></div>' +
       '<div class="two"><div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>' +
       '<div class="card"><h3>Where applicants are</h3><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
       '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>To rank</th><th>In screening</th><th>Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
-      '<p class="note">All patients, trials and sites are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
+      '<p class="note">All patients, sites and LT- trials are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
   }
 
   /* ---------- find: invite people whose agents say they could fit (counts only, never names) ---------- */
@@ -2608,7 +2647,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     else if (a.stage === 'enrolled') act = '<div class="panel2"><b style="font-weight:500">Record trial results</b><p class="muted sm">When the patient finishes, their results go into their record and their agent starts looking for what could come next.</p><div class="grid2"><label class="field"><span>Best response</span><select class="input" id="rs-br"><option value="pd">Cancer grew</option><option value="sd">Stable disease</option><option value="pr">Partial response</option><option value="cr">Complete response</option></select></label>' + n('rs-months', 'Months on the trial', 4, 1) + '<label class="field"><span>Serious side effects</span><select class="input" id="rs-sae"><option value="no">None</option><option value="yes">Yes, grade 3 or more</option></select></label>' + n('rs-weeks', 'Weeks since last dose', 4, 1) + '</div><label class="field"><span>Notes</span><input class="input" id="rs-note" maxlength="140" placeholder="Optional"></label><div class="row"><button class="btn pri" data-act="complete" data-id="' + id + '">Mark completed</button></div></div>';
     else if (a.stage === 'completed' && a.outcome) act = '<div class="panel2"><b style="font-weight:500">Completed</b><p class="sm">' + BR[a.outcome.br] + ' · ' + a.outcome.months + ' months · serious side effects: ' + (a.outcome.sae === 'yes' ? 'yes' : 'none') + '</p></div>';
     else if (a.reason) act = '<div class="panel2"><b style="font-weight:500">' + STAGE_C[a.stage] + '</b><p class="sm muted">' + esc(a.reason) + '</p></div>';
-    sheet(sheetHead((named ? esc(pt.name) + ' · ' : '') + pt.id, t.code + ' · ' + esc(t.name)) + stepper +
+    sheet(sheetHead((named ? esc(pt.name) + ' · ' : '') + pt.id, t.code + ' · ' + esc(clinWho(t)) + ' · ' + esc(clinWhat(t))) + stepper +
       '<div class="pcard" style="background:var(--surface-2);padding:18px">' + profileInner(a, pt, p, r) + pvSlot() + '</div>' + act +
       '<details><summary>All ' + t.crit.length + ' rules</summary>' + ruleList(r) + '</details>' +
       '<details><summary>History</summary><div class="feed">' + a.hist.slice().reverse().map(function (h) { return '<div class="ev"><span class="av">' + (/agent/i.test(h.by) ? ICON.spark : ICON.hosp) + '</span><div><b>' + STAGE_C[h.s] + '</b><time>' + dstr(h.at) + ' · ' + esc(h.by) + '</time>' + (h.note ? '<p class="muted">' + esc(h.note) + '</p>' : '') + '</div></div>'; }).join('') + '</div></details>', true);
