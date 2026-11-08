@@ -1,0 +1,21 @@
+patient,nct,kind,field,value,note
+# SYNTHETIC DEMO ROWS written by hand to show the loop working. Not real prescreening results; never report them as performance.,,,,,
+TCGA-53-7624,,answer,prior_lines,0,No treatment yet for metastatic disease
+TCGA-53-7624,,answer,brain_mets,none,Brain MRI clear
+TCGA-53-7624,,answer,ROS1,negative,Tested at local lab
+TCGA-53-7624,NCT04465968,rule,stage,early;stage3_unresectable,Superior sulcus tumour trial: resectable or locally advanced only; reader had tagged it metastatic
+TCGA-53-7624,NCT06712316,criterion,prior_lines,met,
+TCGA-53-7624,NCT06712316,outcome,enrolment,enrolled,
+TCGA-99-8033,,answer,prior_lines,1,
+TCGA-99-8033,,answer,brain_mets,treated_stable,
+TCGA-99-8033,NCT06712316,criterion,prior_lines,not_met,Trial is first-line only
+TCGA-99-8033,NCT06712316,outcome,enrolment,screen_failed,
+TCGA-78-7160,,answer,prior_lines,0,
+TCGA-78-7160,NCT06754644,criterion,prior_lines,met,
+TCGA-78-7160,NCT06754644,criterion,brain_mets,met,
+TCGA-78-7160,NCT06754644,outcome,enrolment,declined,Did not want a placebo-free chemotherapy arm
+P-0010636,,answer,stage,IV,
+P-0010636,,answer,ecog,1,
+P-0010636,NCT07242274,criterion,stage,met,
+P-0010636,NCT07242274,criterion,ecog,met,
+P-0010636,NCT07242274,outcome,enrolment,enrolled,
