@@ -25,8 +25,7 @@
   <a href="#how-we-use-gemini">How we use Gemini</a> •
   <a href="#results">Results</a> •
   <a href="#safeguards">Safeguards</a> •
-  <a href="docs/TrialMatch_write-up.pdf">Write-up</a> •
-  <a href="docs/Trial_Match_Pitch.pdf">Pitch deck</a>
+  <a href="One-page%20report.pdf">One-page report</a>
 </p>
 
 <p align="center">
@@ -34,7 +33,7 @@ Trial Match is a multi-agent system that finds eligible patients for recruiting 
 </p>
 
 <p align="center">
-  <img src="docs/clinician.gif" alt="Ranking applicants for a trial" width="640">
+  <img src="docs/clinician-rank.png" alt="A clinician ranking two applicants for trial LT-305 in the live demo" width="720">
 </p>
 
 > [!IMPORTANT]
@@ -179,6 +178,7 @@ trialmatch/
 fetch_trials.py · run.py · build_app.py
 app/ · docs/ · tests/
 trial-match-vercel/   # the live web app: landing page, demo app and agents
+One-page report.pdf   # the submission write-up
 ```
 
 ## Credits
