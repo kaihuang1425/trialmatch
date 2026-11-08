@@ -22,6 +22,7 @@
   <a href="https://trial-match-ebon.vercel.app/app/"><b>Live demo</b></a> •
   <a href="#quick-start">Quick start</a> •
   <a href="#how-it-works">How it works</a> •
+  <a href="#how-we-use-gemini">How we use Gemini</a> •
   <a href="#results">Results</a> •
   <a href="#safeguards">Safeguards</a> •
   <a href="docs/TrialMatch_write-up.pdf">Write-up</a> •
@@ -118,6 +119,21 @@ flowchart LR
     F --> G[Research nurse]
     G -- pre-screen results --> F
 ```
+
+---
+
+## How we use Gemini
+
+Gemini does four jobs, each with a narrow brief and a hard limit on what it sees. The web app calls it natively (`generateContent`) through [`trial-match-vercel/lib/gemini.js`](trial-match-vercel/lib/gemini.js), with the model set by `GEMINI_MODEL` (default `gemini-3.8-flash`) and thinking set to low.
+
+| Job | Code | What Gemini does | What it sees |
+|---|---|---|---|
+| **Researcher agent** | [`lib/researcher.js`](trial-match-vercel/lib/researcher.js) | A tool-using agent with four tools: `search_pubmed` (Europe PMC), `get_drug_label` (openFDA), and `search_live_trials` and `get_live_trial` (ClinicalTrials.gov). It does up to two rounds of lookups, then writes a brief in a JSON Schema. Every sentence must cite a source it read, and uncited sentences are dropped. Each lookup streams to the page as it happens. | Public search words only, such as drug and gene names. Never the record. |
+| **Chat agent** | [`lib/agent.js`](trial-match-vercel/lib/agent.js) | Function calling with four tools. `search_live_trials` and `get_live_trial` look up live trials. `propose_action` offers an action as a card the person must tap. `hand_to_team` passes the question to the research team or the find-and-check team. It makes at most 4 model calls and 6 tool calls per question, and the last call must answer in words. | The facts needed to answer, from synthetic demo records. |
+| **Hospital server (simulated)** | [`lib/medgemma.js`](trial-match-vercel/lib/medgemma.js) | Until a MedGemma server is connected, Gemini stands in for an NHS hospital's own MedGemma server. It reads clinic letters (Records Reader) and pre-checks live trials against a record. It uses structured output (`responseJsonSchema`), so every reply parses, and the Skeptic still checks every quote word for word. | Synthetic demo records only. The app labels it "Hospital server (simulated)". |
+| **Criteria pass** (Python engine) | [`trialmatch/llm.py`](trialmatch/llm.py) | An optional pass, through the Gemini API or Vertex AI, over the entry rules the parser doesn't model (labs, other conditions, other drugs). It runs on each patient's top trials. | Each patient's de-identified research record and the trial text. |
+
+Gemini never decides eligibility: matching stays in fixed rules, and a research nurse confirms every match. The Analyst, which reads research against a patient's record, runs only on MedGemma, on the device or the hospital's own server. It refuses a cloud model.
 
 ---
 
