@@ -139,7 +139,6 @@ button.item:hover, .item.click:hover { background: var(--surface-2); }
 .lv-chips .chip { height: 24px; font-size: 12px; }
 .lv-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--met); margin-right: 10px; vertical-align: 2px; box-shadow: 0 0 0 0 rgba(109,213,140,.5); animation: lvDot 2s ease-out infinite; }
 @keyframes lvDot { 0% { box-shadow: 0 0 0 0 rgba(109,213,140,.5); } 100% { box-shadow: 0 0 0 8px rgba(109,213,140,0); } }
-@media (prefers-reduced-motion: reduce) { .lv-dot { animation: none; } }
 .chip.byagent { background: var(--grad-soft); color: var(--ink); }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g1); display: inline-block; flex: none; }
 .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
@@ -369,13 +368,13 @@ tr.click:hover td { background: var(--surface-2); }
 .pg.wait { color: var(--unk); }
 .pg.wait i { background: var(--unk); box-shadow: 0 0 0 5px var(--unk-soft); }
 @keyframes pgNow { 0%, 100% { box-shadow: 0 0 0 5px rgba(168,199,250,.18); } 50% { box-shadow: 0 0 0 9px rgba(168,199,250,.05); } }
-@media (prefers-reduced-motion: reduce) { .pg.now i { animation: none; } }
 .panel2 { background: var(--surface-2); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
 details summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; list-style: none; }
 details summary::-webkit-details-marker { display: none; }
 details[open] summary { margin-bottom: 10px; }
 .banner { background: var(--unk-soft); color: var(--unk); border-radius: var(--r); padding: 10px 14px; font-size: 13px; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+/* reduced motion: the app still animates like everywhere else; only the two big moves soften (a swiped card fades
+   instead of flying off, and the intro spark fades in instead of spinning in). See .af below and fly() in the script. */
 /* ---------- swipe cards (patients) ---------- */
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .disc { max-width: 560px; gap: 16px; }
@@ -714,7 +713,6 @@ a.cite:hover { background: rgba(168,199,250,.32); }
 .cr-ri small { display: block; font-size: 10.5px; color: var(--faint); }
 .msg .by .by-m { font-weight: 400; color: var(--faint); margin-left: -2px; } .msg .by .by-m::before { content: "·"; margin-right: 6px; }
 @media (max-width: 420px) { .cr-stage { padding: 0 4px 6px; } .cr-top { margin: 0 -4px; padding: 8px 4px 0; } .cr-node .cr-nm { font-size: 11.5px; } .cr-node small { font-size: 10px; } .cr-caps { font-size: 9.5px; letter-spacing: .04em; } .cr-caps svg { display: none; } .cr-panel { padding: 12px; } }
-@media (prefers-reduced-motion: reduce) { .cr-shim, .cr-beam.on, .cr-node[data-state="run"] .cr-ring::before, .cr-node.lead .cr-spark { animation: none !important; } .cr-node[data-state="run"] .cr-ring::before { background: var(--g2); } }
 /* where your agent runs: a quiet link under the chat, and its choices when opened */
 .chat-foot { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; }
 .chat-foot .note { margin: 0; flex: 1; min-width: 180px; }
@@ -907,7 +905,8 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
 .af-anim .af-row .bt i, .af-anim .af-tr .sk { animation: afGrowX .8s calc(.2s + var(--i) * 50ms) cubic-bezier(.2,.8,.2,1) both; }
 .af-anim .af-dot { animation: afPop .45s calc(.3s + var(--i) * 35ms) cubic-bezier(.2,1.4,.4,1) both; }
 .af-anim .af-units { animation: afGrowX .8s calc(.25s + var(--i) * 120ms) cubic-bezier(.2,.8,.2,1) both; }
-@media (prefers-reduced-motion: reduce) { .af *, .af-anim * { animation: none !important; } }
+@keyframes afFade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .af.intro .af-who .spark { animation-name: afFade; } }
 </style>
 <div id="app"></div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
@@ -1678,7 +1677,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
      The intro plays once per visit (render() redraws the whole view on every change). The charts beside it are
      computed from this browser's data: the patient's own results, and every application's dates and stages. */
   var AF = { seen: {} };
-  function afIntro(key) { if (AF.seen[key]) return false; AF.seen[key] = 1; return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  function afIntro(key) { if (AF.seen[key]) return false; AF.seen[key] = 1; return true; }
   function afMedian(l) { if (!l.length) return null; l = l.slice().sort(function (a, b) { return a - b; }); var m = l.length >> 1; return l.length % 2 ? l[m] : (l[m - 1] + l[m]) / 2; }
   function afWords(text, gradN) { return text.split(' ').map(function (w, i) { return '<span class="w' + (i < (gradN || 0) ? ' grad-text' : '') + '" style="--i:' + i + '">' + esc(w) + '</span>'; }).join(' '); }
   function afSw(k) { return '<span class="sw ' + k + '" aria-hidden="true"></span>'; }
@@ -2049,7 +2048,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
         event(pt.id, 'Matcher', 'Re-checked every rule of ' + TRIALS.length + ' trials with your new record.', false);
         sheet(sheetHead('Connected') + '<div class="panel2"><div class="row" style="gap:10px"><span class="chip met">' + ICON.check + s.name + '</span></div><p class="muted">Your agent added ' + plural(Math.max(n, 3), 'fact') + ' and checked every trial again.' + (fresh ? '' : ' Connecting your other records helps it settle more rules.') + '</p><div class="row"><button class="btn pri" data-act="close-go" data-v="discover">See your matches</button>' + (fresh ? '' : '<button class="btn text" data-act="connect">Connect another</button>') + '</div></div>');
       }
-    }, reduce ? 50 : 650);
+    }, 650);
   }
 
   var ADD = [
@@ -2906,7 +2905,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if (!x) { T.trace.push({ id: s.id, agent: s.agent, state: s.state, label: s.label, tool: s.tool || null, at: now, dur: s.state === 'run' ? null : 0 }); return; }
     x.state = s.state; x.label = s.label; if (s.state !== 'run') x.dur = now - x.at;
   }
-  function teamWait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? Math.min(ms, 120) : ms); }); }
+  function teamWait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
   function teamSource(T, n) { return T.sources.filter(function (s) { return s.n === n; })[0] || null; }
   function teamCitedCount(T) { var c = {}; (T.brief ? T.brief.sentences : []).forEach(function (s) { s.sources.forEach(function (n) { c[n] = 1; }); }); return Object.keys(c).length; }
 
@@ -3203,9 +3202,9 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if (c.live) crewTicking();
   }
   // An agent changes state. Waking up: its task flies to it first, and it starts once the task lands. Finishing: its
-  // result flies back to your agent. Runs drawn from history, and reduced motion, just show the state.
+  // result flies back to your agent. Runs drawn from history just show the state.
   function crewMove(el, n, a, c) {
-    var prev = el._st[a.k], want = a.state, anim = !reduce && (c.live || el._wasLive);
+    var prev = el._st[a.k], want = a.state, anim = c.live || el._wasLive;
     el._want[a.k] = want;
     if (prev === want) { if (!el._fly[a.k]) crewAttr(n, 'data-state', want); return; }
     el._st[a.k] = want;
@@ -4278,12 +4277,13 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function fly(dir) {
     var card = $('#deck .top'); if (!card) return;
     var st = card.querySelector('.stamp.' + dir); if (st) st.style.opacity = 1;
-    card.style.transform = 'translate(' + (dir === 'up' ? 640 : -640) + 'px, 30px) rotate(' + (dir === 'up' ? 22 : -22) + 'deg)'; card.style.opacity = 0;
+    if (!reduce) card.style.transform = 'translate(' + (dir === 'up' ? 640 : -640) + 'px, 30px) rotate(' + (dir === 'up' ? 22 : -22) + 'deg)';   // reduced motion: it fades where it is
+    card.style.opacity = 0;
     var kind = card.dataset.kind, id = card.dataset.id;
     setTimeout(function () {
       if (kind === 'a') rankDecide(dir);
       else if (kind === 't') { var pt = me(); if (dir === 'up') applyTo(pt, id); else passOn(pt, id); }
-    }, reduce ? 0 : 230);
+    }, 230);
   }
 
   /* ================= events ================= */
