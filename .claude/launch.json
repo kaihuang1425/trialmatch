@@ -36,14 +36,14 @@
       "port": 8768
     },
     {
-      "name": "photo-lab",
+      "name": "landing-scenes",
       "runtimeExecutable": "node",
       "runtimeArgs": [
         "trial-match-vercel/scripts/dev.mjs",
         "--port",
-        "8771"
+        "8776"
       ],
-      "port": 8771
+      "port": 8776
     }
   ]
 }
