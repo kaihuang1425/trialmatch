@@ -5,6 +5,7 @@ The product is `trial-match-vercel/` (that's what Vercel deploys). This folder h
 | Folder | What's in it | Status |
 |---|---|---|
 | `RUBRIC-CHECK.md` | The project checked against the AgentVerse Biotech brief, rubric and judges | Done |
+| `DEMO-SCRIPT.md` | The 5-minute live demo: what to say and click, timed, with a setup list, backup moves and inputs for the judges | Done (timed 8 Nov) |
 | `copy/` | Every landing-page text as a spreadsheet, plus a Gemini prompt for humanising it | Done. Send edits back to apply |
 | `logo/` | 12 logo options (`options.html`) and their SVGs | Done. Pick one |
 | `evidence/` | Claim → source → status for every number; the target case; source snapshots | Done (all four cited figures verified 8 Nov; Results numbers from `npm run eval`) |
