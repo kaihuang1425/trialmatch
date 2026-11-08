@@ -1,0 +1,12 @@
+node_modules/
+.vercel/
+.env
+.env*.local
+.DS_Store
+
+.vercel
+.env*
+!.env.example
+
+# downloaded PDB files for tools/prepare_targets.py
+tools/.pdb-cache/

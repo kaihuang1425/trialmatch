@@ -64,6 +64,26 @@ python build_app.py                                         # rebuild the web ap
 
 > **Note:** set `GEMINI_API_KEY` to turn on the Gemini agents. Everything else runs without it.
 
+**Run the live demo's web app:** its code is in [`trial-match-vercel/`](trial-match-vercel/), with the landing page, the demo app and its agents. It needs Node.js 22:
+
+```bash
+cd trial-match-vercel
+cp .env.example .env.local   # add GEMINI_API_KEY; every connector is optional
+npm run dev                  # http://localhost:3000
+npm test                     # tests, with a stubbed network
+npm run eval                 # the offline evaluation behind the Results numbers
+```
+
+### Set up MedGemma
+
+Running MedGemma on your own computer simulates how NHS hospitals could, in future, run the model on their own local servers, so patient records never leave the hospital.
+
+1. Install [Ollama](https://ollama.com/download) and download the model: `ollama pull medgemma1.5:4b` (about 3.3 GB).
+2. Let the live site reach it: set `OLLAMA_ORIGINS` to `https://trial-match-ebon.vercel.app`, then restart Ollama. In the demo's chat, **Where your agent runs → MedGemma on this computer** shows the exact command for Windows, Mac or Linux.
+3. Choose **MedGemma on this computer** in the chat. Questions and records then stay on the computer.
+
+Until a MedGemma server is set up, the site's Gemini key plays the hospital's server, and the app labels it **Hospital server (simulated)**. The full options, including pointing the site at your own MedGemma server, are in [`trial-match-vercel/README.md`](trial-match-vercel/README.md#set-up-medgemma).
+
 ---
 
 ### 🔎 Key features

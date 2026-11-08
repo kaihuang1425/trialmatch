@@ -1,0 +1,1437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trial Match</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&amp;family=Roboto:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#0E0E0F}
+a{color:#A8C7FA}a:hover{color:#D3E3FD}
+.tm h1,.tm h2,.tm h3{text-wrap:balance}
+.tm .grad{background:linear-gradient(90deg,#4285F4 0%,#9B72CB 55%,#D96570 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tm .row3{display:grid;grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr);align-items:center}
+.tm .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.tm .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.tm a.pri:hover{filter:brightness(1.1)}
+.tm a.sec:hover{background:rgba(255,255,255,.06)}
+.tm a.nl:hover{color:#E3E3E3}
+.tm .spin{animation:tmSpin 8s linear infinite}
+@keyframes tmSpin{to{transform:rotate(360deg)}}
+@media (max-width:900px){.tm .row3{grid-template-columns:minmax(0,1fr)}.tm .row3 .link{height:150px}.tm .row3 .link>span:first-child{left:50%;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,rgba(66,133,244,0),rgba(66,133,244,.8) 30%,rgba(155,114,203,.8) 70%,rgba(217,101,112,0))}.tm .g2{grid-template-columns:minmax(0,1fr)}.tm .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.tm .navlinks{display:none}}
+@media (max-width:560px){.tm .g4{grid-template-columns:minmax(0,1fr)}.tm .sect{padding-top:80px!important;padding-bottom:80px!important}}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+.tm .slide{min-height:min(100vh,980px);box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start}
+.tm .lift{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.tm .lift:hover{transform:translateY(-4px)}
+.tm a.pri,.tm a.sec{transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s,background .2s}
+.tm a.pri:hover,.tm a.sec:hover{transform:translateY(-2px)}
+.tm a.pill .arr{display:inline-block;transition:transform .2s}
+.tm a.pill:hover .arr{transform:translateX(4px)}
+.tm a.more{display:inline-flex;gap:6px;transition:gap .2s}
+.tm a.more:hover{gap:12px}
+.tm .bar{position:fixed;left:0;right:0;top:0;height:3px;z-index:20;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570);pointer-events:none}
+.tm .w{display:inline-block}
+.tm.anim .mo{transition:opacity .45s cubic-bezier(.2,.8,.2,1),transform .5s cubic-bezier(.2,.8,.2,1),filter .45s ease}
+.tm.anim .mo:not(.in){opacity:0!important;transform:translateY(40px)!important;filter:blur(10px)}
+.tm.anim .w.mo:not(.in){transform:translateY(.6em) rotate(4deg)!important;filter:blur(12px)}
+.tm.anim .zoomIn.mo:not(.in){transform:scale(.88)!important}
+.tm.anim .tiltIn.mo:not(.in){transform:translateY(160px) rotate(10deg) scale(.9)!important}
+.tm.anim .swipeIn.mo:not(.in){transform:translateX(240px) rotate(24deg)!important}
+.tm.anim .slideL.mo:not(.in){transform:translateX(-160px) rotate(-5deg)!important}
+.tm.anim .slideR.mo:not(.in){transform:translateX(160px) rotate(5deg)!important}
+.tm.anim .pop.mo:not(.in){transform:scale(.3) rotate(-120deg)!important}
+.tm.anim .pop.mo{transition-duration:.45s,.6s,.45s;transition-timing-function:ease,cubic-bezier(.2,1.5,.4,1),ease}
+@supports (animation-timeline: scroll()){.tm .bar{animation:tmBar linear both;animation-timeline:scroll(root)}}
+@keyframes tmBar{to{transform:scaleX(1)}}
+@media (max-width:900px){.tm .slide{min-height:0}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}.tm *{animation:none!important;transition:none!important}}
+.tm-intro{position:fixed;inset:0;z-index:50;background:#0E0E0F;display:grid;place-items:center;pointer-events:none;animation:tmIntroOut .75s 1.1s cubic-bezier(.7,0,.2,1) forwards}
+.tm-intro .mk{position:relative;display:flex;align-items:center;gap:16px;font-family:'Google Sans Flex','Google Sans',Roboto,Arial,sans-serif;font-size:36px;font-weight:500;color:#E3E3E3;animation:tmMk 1.1s cubic-bezier(.2,.8,.2,1) both}
+.tm-intro .mk svg{width:56px;height:56px;animation:tmLogo 1s cubic-bezier(.2,1.4,.4,1) both}
+.tm-intro .ln{position:absolute;left:50%;top:calc(50% + 50px);width:240px;height:2px;margin-left:-120px;border-radius:1px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570);transform-origin:0 50%;animation:tmLn .8s .2s cubic-bezier(.6,0,.2,1) both}
+.tm-intro .halo{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(66,133,244,.28),rgba(155,114,203,.12) 60%,transparent);animation:tmHalo 1.6s ease-out both}
+@keyframes tmIntroOut{0%{transform:none}100%{transform:translateY(-100%);visibility:hidden}}
+@keyframes tmMk{0%{opacity:0;letter-spacing:.35em;filter:blur(10px)}55%{opacity:1;filter:none}100%{letter-spacing:0}}
+@keyframes tmLogo{from{transform:scale(.2) rotate(-120deg)}}
+@keyframes tmLn{from{transform:scaleX(0)}}
+@keyframes tmHalo{from{transform:scale(.3);opacity:0}to{transform:scale(1.4);opacity:1}}
+.tm .glowIn{animation:tmGlow 1.8s 1.15s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tmGlow{from{opacity:0;transform:translateX(-50%) scale(.5)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.tm-loading .tm header.navIn{opacity:0}
+.tm-ready .tm header.navIn{animation:tmNav .7s .1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tmNav{from{opacity:0;transform:translateY(-28px)}}
+@media (prefers-reduced-motion:reduce){.tm-intro{display:none}}
+.tm .livedot{width:8px;height:8px;border-radius:50%;background:#F28B82;box-shadow:0 0 0 0 rgba(242,139,130,.6);animation:tmLive 1.6s ease-out infinite}
+@keyframes tmLive{0%{box-shadow:0 0 0 0 rgba(242,139,130,.55)}100%{box-shadow:0 0 0 10px rgba(242,139,130,0)}}
+/* ---------- agents relay: a pulse runs along the track; each card plays when it arrives (10s loop, card i at 2i s) ---------- */
+.tm .g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.tm .relay{position:relative;display:flex;flex-direction:column;gap:20px}
+.tm .relay:not(.play) *,.tm .relay:not(.play){animation-play-state:paused!important}
+.tm .rl-track{position:relative;height:28px}
+.tm .rl-line{position:absolute;left:calc(10% - 6.4px);right:calc(10% - 6.4px);top:13px;height:2px;border-radius:1px;background:linear-gradient(90deg,rgba(66,133,244,.8),rgba(155,114,203,.8) 60%,rgba(217,101,112,.8))}
+.tm .rl-nodes{position:absolute;inset:0;gap:16px;align-items:center;justify-items:center}
+.tm .rl-node{width:12px;height:12px;border-radius:50%;background:#3C4043;box-shadow:0 0 0 4px #0E0E0F;animation:rlNode 10s var(--d) infinite}
+.tm .rl-pulse{position:absolute;top:14px;left:calc(10% - 6.4px);width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 12px 3px rgba(168,199,250,.9),0 0 32px 10px rgba(155,114,203,.4);opacity:0;animation:rlRun 10s linear infinite}
+.tm .rl-row{gap:16px;list-style:none;margin:0;padding:0}
+.tm .ag{position:relative;border-radius:24px;background:#1A1B1D;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);padding:12px 12px 18px;display:flex;flex-direction:column;gap:14px;animation:rlCard 10s var(--d) infinite}
+.tm .ag-art{position:relative;height:132px;border-radius:16px;background:#131314;overflow:hidden}
+.tm .ag-txt{padding:0 6px}
+.tm .ag-txt b{display:block;font-weight:500;font-size:17px}
+.tm .ag-tag{display:inline-flex;align-items:center;height:24px;margin-top:8px;padding:0 10px;border-radius:12px;font-size:12px;background:#26282B;color:#C4C7C5;white-space:nowrap}
+.tm .t-blue{background:rgba(168,199,250,.14);color:#A8C7FA}.tm .t-green{background:rgba(109,213,140,.14);color:#6DD58C}.tm .t-violet{background:rgba(155,114,203,.18);color:#CDB4F0}
+.tm .v-chip{position:absolute;left:14px;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:8px;background:#26282B;color:#C4C7C5;font-size:12px;white-space:nowrap}
+.tm .v-chip em,.tm .v-rules em,.tm .v-person em{font-style:normal;font-weight:700}
+/* 1 Records Reader */
+.tm .v-doc{position:absolute;left:14px;right:14px;top:16px;display:flex;flex-direction:column;gap:9px}
+.tm .v-doc i{display:block;height:6px;border-radius:3px;background:#2A2C2F;position:relative;overflow:hidden}
+.tm .v-doc i.hl::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#A8C7FA,#9B72CB);transform-origin:0 50%;animation:rlSweep 10s var(--d) infinite backwards}
+.tm .c-read{bottom:14px;background:rgba(168,199,250,.14);color:#A8C7FA;animation:rlPop 10s var(--d) infinite backwards}
+/* 2 Skeptic */
+.tm .c-ok{top:22px;background:rgba(109,213,140,.14);color:#6DD58C;animation:rlInL 10s var(--d) infinite backwards,rlOk 10s var(--d) infinite backwards}
+.tm .c-ok em,.tm .c-bad em{display:inline-block;animation:rlTick 10s calc(var(--d) + .7s) infinite backwards}
+.tm .c-bad{top:62px;background:rgba(242,184,181,.14);color:#F2B8B5;opacity:.4;transform:translateY(12px);animation:rlBad 10s var(--d) infinite backwards}
+.tm .c-bad::after{content:"";position:absolute;left:8px;right:8px;top:50%;height:1.5px;background:#F2B8B5;transform-origin:0 50%;animation:rlStrike 10s var(--d) infinite backwards}
+/* 3 Trial Scout */
+.tm .v-live{position:absolute;left:14px;top:13px;display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.08em;color:#9AA0A6}
+.tm .v-trials{position:absolute;left:14px;right:14px;top:40px;display:flex;flex-direction:column;gap:8px}
+.tm .v-trials i{display:block;height:20px;border-radius:7px;background:#26282B;position:relative;animation:rlInR 10s calc(var(--d) + var(--k)) infinite backwards}
+.tm .v-trials i::before{content:"";position:absolute;left:9px;top:7px;width:58%;height:6px;border-radius:3px;background:#3C4043}
+.tm .v-trials i::after{content:"";position:absolute;right:9px;top:6px;width:8px;height:8px;border-radius:50%;background:#B79CE8}
+/* 4 Matcher */
+.tm .v-rules{position:absolute;left:14px;right:14px;top:15px;display:flex;flex-direction:column;gap:8px}
+.tm .v-rules span{display:flex;align-items:center;gap:9px}
+.tm .v-rules span::after{content:"";flex:1;height:6px;border-radius:3px;background:#2A2C2F}
+.tm .v-rules em{flex:none;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:rgba(109,213,140,.14);color:#6DD58C;animation:rlTick 10s calc(var(--d) + var(--k)) infinite backwards}
+.tm .v-rules em.q{background:rgba(253,214,99,.13);color:#FDD663}
+/* 5 Care team */
+.tm .v-person{position:absolute;left:50%;top:16px;width:52px;height:52px;margin-left:-26px;border-radius:50%;background:linear-gradient(135deg,#1E8E3E,#4285F4);display:grid;place-items:center}
+.tm .v-person em{position:absolute;right:-5px;bottom:-5px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:#6DD58C;color:#0E0E0F;box-shadow:0 0 0 3px #131314;animation:rlTick 10s calc(var(--d) + .75s) infinite backwards}
+.tm .v-btn{position:absolute;left:50%;bottom:14px;height:30px;padding:0 16px;border-radius:15px;background:#A8C7FA;color:#062E6F;font-size:12px;font-weight:500;display:inline-flex;align-items:center;white-space:nowrap;transform:translateX(-50%);animation:rlPress 10s calc(var(--d) + .3s) infinite backwards}
+@keyframes rlRun{0%{left:calc(10% - 6.4px);opacity:0}2%{opacity:1}80%{left:calc(90% + 6.4px);opacity:1}88%,100%{left:calc(90% + 6.4px);opacity:0}}
+@keyframes rlNode{0%{background:#fff;box-shadow:0 0 0 4px #0E0E0F,0 0 0 9px rgba(168,199,250,.3)}10%,88%{background:#A8C7FA;box-shadow:0 0 0 4px #0E0E0F}100%{background:#3C4043;box-shadow:0 0 0 4px #0E0E0F}}
+@keyframes rlCard{0%{box-shadow:inset 0 0 0 1px rgba(168,199,250,.6),0 18px 50px rgba(66,133,244,.18)}24%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 50px rgba(66,133,244,0)}}
+@keyframes rlSweep{0%{transform:scaleX(0)}7%,92%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes rlPop{0%,7%{opacity:0;transform:translateY(8px) scale(.9)}12%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateY(8px) scale(.9)}}
+@keyframes rlInL{0%{opacity:0;transform:translateX(-22px)}7%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateX(-22px)}}
+@keyframes rlOk{0%,8%{background:#26282B;color:#C4C7C5}13%,92%{background:rgba(109,213,140,.14);color:#6DD58C}100%{background:#26282B;color:#C4C7C5}}
+@keyframes rlBad{0%{opacity:0;transform:translateX(-22px);background:#26282B;color:#C4C7C5}7%,9%{opacity:1;transform:none;background:#26282B;color:#C4C7C5}14%,22%{opacity:1;transform:none;background:rgba(242,184,181,.14);color:#F2B8B5}32%,92%{opacity:.4;transform:translateY(12px)}100%{opacity:0;transform:translateY(12px)}}
+@keyframes rlStrike{0%,15%{transform:scaleX(0)}21%,92%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes rlTick{0%{transform:scale(0)}4%{transform:scale(1.25)}6%,92%{transform:scale(1)}100%{transform:scale(0)}}
+@keyframes rlInR{0%{opacity:0;transform:translateX(28px)}6%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateX(28px)}}
+@keyframes rlPress{0%,3%{transform:translateX(-50%) scale(1)}6%{transform:translateX(-50%) scale(.88)}10%,100%{transform:translateX(-50%) scale(1)}}
+/* phones and small tablets: the same relay (track, running light, glowing cards); the cards sit in a swipeable row that follows the light */
+@media (max-width:900px){
+  .tm .navlinks{display:none!important}   /* the nav's inline display:flex was beating the existing mobile rule and pushing "Try the demo" off screen */
+  .tm header.navIn{gap:16px!important}
+  .tm a.pill{height:auto!important;min-height:34px;padding:6px 6px 6px 14px!important;box-sizing:border-box;max-width:100%;text-align:left}
+  .tm a.pill>span{flex:none;white-space:nowrap}
+  .tm .rl-track{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .tm .rl-row{position:relative;display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -24px;padding:6px calc((100vw - min(78vw,340px)) / 2) 20px}
+  .tm .rl-row::-webkit-scrollbar{display:none}
+  .tm .rl-row>li{box-sizing:border-box;flex:0 0 min(78vw,340px);scroll-snap-align:center}
+}
+/* touch screens: tap feedback in place of the hover effects */
+@media (max-width:900px) and (hover:none){
+  .tm a{-webkit-tap-highlight-color:transparent}
+  .tm a.pri:active{transform:scale(.96);filter:brightness(1.1)}
+  .tm a.sec:active{transform:scale(.96);background:rgba(255,255,255,.06)}
+  .tm a.pill:active .arr{transform:translateX(4px)}
+  .tm a.more:active{gap:12px}
+  .tm .lift:active{transform:translateY(-4px)}
+  .tm .ag{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+  .tm .ag:active{transform:scale(.97)}
+}
+@media (prefers-reduced-motion:reduce){.tm .rl-node{background:#A8C7FA}}
+/* source icon beside each figure: opens the source; the tooltip names it */
+.tm .src{display:inline-grid;place-items:center;width:28px;height:28px;margin:6px 0 0 12px;vertical-align:top;border-radius:50%;color:#9AA0A6;background:rgba(255,255,255,.06);position:relative;transition:background .2s,color .2s,transform .2s;font-size:12px;letter-spacing:0;line-height:1}
+.tm .src svg{width:15px;height:15px}
+.tm .src:hover,.tm .src:focus-visible{background:rgba(168,199,250,.16);color:#A8C7FA;transform:translateY(-1px);outline:none}
+.tm .src::after{content:attr(data-tip);position:absolute;right:-4px;bottom:calc(100% + 8px);white-space:nowrap;font-size:12px;font-weight:400;padding:8px 10px;border-radius:8px;background:#2A2B2E;color:#E3E3E3;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .15s,transform .15s}
+.tm .src:hover::after,.tm .src:focus-visible::after{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.tm .src,.tm .src::after{transition:none}}
+/* cinematic hero: a full-bleed photo, the headline on a dark fade at the bottom, one frosted match notice */
+/* top bar: fixed, clear over the photo, frosted once scrolled; a flowing Gemini gradient line with the scroll progress on top */
+@property --tba{syntax:'<angle>';inherits:false;initial-value:0deg}
+.tm .topbar{position:fixed;top:0;left:0;right:0;z-index:30}
+.tm .isl{position:relative;isolation:isolate;height:46px;border-radius:23px;display:inline-flex;align-items:center;background:rgba(24,25,28,.5);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);transition:background .35s,box-shadow .35s}
+.tm .isl-brand{padding:0 18px;gap:10px;color:#fff;font-size:17px;font-weight:500;text-decoration:none;white-space:nowrap}
+.tm .navlinks.isl{padding:0 6px;font-size:14px}
+.tm header .navlinks .nl{position:relative;padding:0 15px;line-height:46px;text-decoration:none;color:rgba(255,255,255,.82)!important;transition:color .2s}
+.tm header .navlinks .nl:hover,.tm header .navlinks .nl.is-on{color:#fff!important}
+.tm .nav-dot{position:absolute;left:0;bottom:6px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#D96570);box-shadow:0 0 8px rgba(155,114,203,.9);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none}
+.tm .under{position:absolute;left:8%;right:8%;top:30%;bottom:-40%;z-index:-1;border-radius:50%;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570);filter:blur(18px);opacity:.45;pointer-events:none;animation:tmBreathe 4s ease-in-out infinite}
+.tm .topbar.is-scrolled .isl{background:rgba(24,25,28,.92)}
+.tm .topbar.is-scrolled .under{animation-name:tmBreatheLow}
+@keyframes tmBreathe{0%,100%{opacity:.32;transform:scale(.94)}50%{opacity:.62;transform:scale(1.06)}}
+@keyframes tmBreatheLow{0%,100%{opacity:.14;transform:scale(.94)}50%{opacity:.28;transform:scale(1.04)}}
+.tm .live-cta{position:relative;isolation:isolate;height:46px;border-radius:23px;display:inline-flex;text-decoration:none;white-space:nowrap;box-shadow:0 0 26px rgba(155,114,203,.5)}
+.tm .live-cta .ring-wrap{position:absolute;inset:0;border-radius:23px;overflow:hidden}
+.tm .live-cta .ring{position:absolute;inset:-2px;background:conic-gradient(from var(--tba),#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);animation:tmSpinA 3s linear infinite}
+.tm .live-in{position:relative;margin:2px;padding:0 20px;border-radius:21px;background:#131314;color:#fff;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:10px}
+.tm .live-dot{width:7px;height:7px;border-radius:50%;background:#6DD58C;animation:tmLivePulse 1.8s ease-out infinite}
+@keyframes tmSpinA{to{--tba:360deg}}
+@keyframes tmLivePulse{0%{box-shadow:0 0 0 0 rgba(109,213,140,.6)}100%{box-shadow:0 0 0 8px rgba(109,213,140,0)}}
+.tm .topbar-strip{position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);background-size:200% 100%;animation:tmFlow 6s linear infinite;transition:opacity .35s}
+.tm .topbar-glow{position:absolute;left:0;right:0;top:0;height:26px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);background-size:200% 100%;filter:blur(16px);opacity:.45;pointer-events:none;animation:tmFlow 6s linear infinite;transition:opacity .35s}
+.tm .topbar-comet{position:absolute;top:-3px;left:-12%;width:140px;height:9px;border-radius:5px;background:radial-gradient(closest-side,#fff,rgba(255,255,255,0));pointer-events:none;animation:tmComet 3.6s cubic-bezier(.45,0,.2,1) infinite;transition:opacity .35s}
+@keyframes tmComet{0%{left:-12%}100%{left:104%}}
+.tm .topbar .bar{position:absolute;top:0;bottom:auto;height:3px;z-index:1;opacity:0;box-shadow:0 0 14px rgba(155,114,203,.9);transition:opacity .35s}
+.tm .bar-head{position:absolute;top:-3px;left:0;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 12px 3px rgba(242,139,130,.9);opacity:0;pointer-events:none;transition:opacity .35s}
+@supports (animation-timeline: scroll()){.tm .bar-head{animation:tmHead linear both;animation-timeline:scroll(root)}}
+@keyframes tmHead{from{transform:translateX(-4px)}to{transform:translateX(calc(100vw - 9px))}}
+.tm .topbar.is-scrolled .topbar-strip{opacity:.16}
+.tm .topbar.is-scrolled .topbar-glow,.tm .topbar.is-scrolled .topbar-comet{opacity:0}
+.tm .topbar.is-scrolled .bar{opacity:1}
+@supports (animation-timeline: scroll()){.tm .topbar.is-scrolled .bar-head{opacity:1}}
+@media (max-width:900px){.tm .topbar header.navIn{padding:14px 16px!important;gap:8px!important}.tm .isl-brand{font-size:16px;padding:0 14px}.tm .live-in{padding:0 15px;gap:8px}}
+@media (prefers-reduced-motion:reduce){.tm .under,.tm .live-cta .ring,.tm .live-dot,.tm .topbar-strip,.tm .topbar-glow,.tm .topbar-comet,.tm .bar-head{animation:none!important}.tm .topbar-comet{display:none}}
+@keyframes tmFlow{from{background-position:0% 0}to{background-position:200% 0}}
+/* hero motion: the photos take turns (the script below adds 4, 7, 13, 14, 16 and 17 after photo 1). Each one sweeps in on a
+   soft edge with a faint Gemini light riding it, then pulls back slowly while it shows. Parallax on scroll, a flowing bottom line, nudging arrows. */
+.tm .hero-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+.tm .hero-slide{position:absolute;inset:0;overflow:hidden;visibility:hidden}
+.tm .hero-slide.is-on{visibility:visible}
+.tm .hero-slide.is-top{z-index:1}
+.tm .hero-slide.is-in{-webkit-mask-image:linear-gradient(100deg,#000 35%,transparent 65%);mask-image:linear-gradient(100deg,#000 35%,transparent 65%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:heroSweep 2.4s cubic-bezier(.65,0,.35,1) both}
+@keyframes heroSweep{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+.tm .hero-sheen{position:absolute;top:0;bottom:0;left:0;z-index:2;width:50%;background:linear-gradient(100deg,transparent 10%,rgba(138,180,248,.16) 38%,rgba(197,138,249,.2) 52%,rgba(242,139,130,.12) 64%,transparent 90%);mix-blend-mode:screen;opacity:0;pointer-events:none}
+.tm .hero-sheen.is-run{animation:heroSheen 2.4s cubic-bezier(.65,0,.35,1) both}
+@keyframes heroSheen{0%{transform:translateX(-150%);opacity:0}25%,70%{opacity:1}100%{transform:translateX(250%);opacity:0}}
+.tm .hero-img{transform:scale(1.1);transform-origin:50% var(--y,30%)}
+.tm-ready .tm .hero-slide.is-on .hero-img{animation:heroIn 12s cubic-bezier(.2,.6,.2,1) both}
+@keyframes heroIn{from{transform:scale(1.1) translateX(var(--drift,0))}to{transform:scale(1) translateX(0)}}
+@supports (animation-timeline: scroll()){.tm .hero-media{animation:heroPar linear both;animation-timeline:scroll(root);animation-range:0 100vh}}
+@keyframes heroPar{to{transform:translateY(16%)}}
+.tm .hero-credit{transition:opacity .45s ease}
+.tm .hero-credit.is-swap{opacity:0}
+.tm .hero-line{background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4)!important;background-size:200% 100%!important;animation:tmFlow 6s linear infinite}
+.tm a .arr{display:inline-block;margin-left:.3em;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.tm a:hover .arr{transform:translateX(4px)}
+@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media,.tm .hero-slide,.tm .hero-sheen,.tm .topbar-line,.tm .hero-line{animation:none!important}.tm .hero-sheen{display:none}}
+.tm header .nl{color:rgba(255,255,255,.82)!important}
+.tm .hero{position:relative;min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:flex-end;padding:120px 24px 72px;box-sizing:border-box;overflow:hidden;background:#0E0E0F}
+.tm .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% var(--y,30%)}
+.tm .hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,15,.62) 0%,rgba(14,14,15,0) 16%,rgba(14,14,15,.08) 30%,rgba(14,14,15,.8) 54%,#0E0E0F 92%);pointer-events:none}
+.tm .hero-glow{position:absolute;left:-200px;bottom:-300px;width:1100px;height:600px;background:radial-gradient(closest-side,rgba(66,133,244,.28),rgba(155,114,203,.12) 55%,transparent);pointer-events:none}
+.tm .hero-body{position:relative;z-index:1;width:100%;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.tm .hero-h1{margin:0;max-width:17ch;font-size:clamp(42px,5.6vw,96px);line-height:1.0;font-weight:400;letter-spacing:-.04em;color:#fff}
+.tm .grad-lt{background:linear-gradient(90deg,#8AB4F8 0%,#C58AF9 55%,#F28B82 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tm .hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px}
+.tm .hero-row p{margin:0;max-width:34em;font-size:clamp(17px,1.4vw,19px);line-height:1.5;color:rgba(255,255,255,.8)}
+.tm .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.tm .hero .pill{align-self:flex-start;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:16px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);color:#fff;font-size:13px}
+.tm .hero a.sec{background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)!important;color:#fff!important}
+.tm .hero a.sec:hover{background:rgba(255,255,255,.16)}
+.tm .hero-line{position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#4285F4,#9B72CB 55%,#D96570)}
+.tm .hero-credit{position:absolute;right:24px;bottom:14px;z-index:1;font-size:11px;color:rgba(255,255,255,.55)}
+@media (max-width:900px){
+  .tm .hero{min-height:0;justify-content:flex-start;padding:calc(min(56svh,480px) - 44px) 20px 64px}
+  .tm .hero-slide,.tm .hero-img,.tm .hero-scrim,.tm .hero-sheen{height:min(56svh,480px);bottom:auto}   /* the slide clips the pull-back so the photo ends where the fade does */
+  .tm .hero-scrim{background:linear-gradient(180deg,rgba(14,14,15,.6) 0%,rgba(14,14,15,0) 22%,rgba(14,14,15,0) 58%,#0E0E0F 100%)}
+  .tm .hero-glow{display:none}
+  .tm .hero-h1{font-size:clamp(38px,10.4vw,56px)}
+  .tm .hero-body{gap:22px}
+  .tm .hero-credit{left:20px;right:20px;text-align:right}
+}
+/* ---------- agent team scene: the Coordinator hands a question to Gemini online and MedGemma on the device, across a privacy line.
+   The script below steps it through classes s1..s9 while it is on screen. Green means "stays here", blue means "online". ---------- */
+.tm .at{position:relative;display:flex;flex-direction:column;gap:22px;padding:24px;border-radius:32px;background:#161718;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.tm .at svg{flex:none}
+.tm .at-ask{align-self:flex-end;display:flex;align-items:flex-end;gap:10px;max-width:100%}
+.tm .at-q{min-height:46px;padding:12px 18px;border-radius:22px 22px 6px 22px;background:#26282B;color:#E3E3E3;font-size:16px;line-height:1.4}
+.tm .at-you{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#4A4458;color:#fff;font-size:13px;font-weight:500;flex:none;order:2}
+.tm .at-typed:empty::before{content:"\200b"}
+.tm .typing::after{content:"";display:inline-block;width:2px;height:1.05em;margin-left:2px;vertical-align:-3px;background:currentColor;animation:atCaret 1s steps(2) infinite}
+.tm .at-co{display:flex;gap:12px;align-items:flex-start;opacity:.28;transition:opacity .5s}
+.tm .at.s2 .at-co{opacity:1}
+.tm .at-co strong{font-weight:500;color:#E3E3E3}
+.tm .at-co em{font-style:normal;color:#8E918F;font-size:13px;margin-left:6px}
+.tm .at-co-say{display:block;color:#C4C7C5;font-size:15px;line-height:1.45}
+.tm .at-av{position:relative;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.tm .at-av svg{width:20px;height:20px}
+.tm .at-av.c{background:#26282B;color:#A8C7FA}
+.tm .at-av.g{background:linear-gradient(135deg,#4285F4,#9B72CB)}
+.tm .at-av.m{background:linear-gradient(135deg,#188038,#12807A)}
+.tm .at-av::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent}
+.tm .at.s2:not(.s3) .at-av.c::after{border-color:#A8C7FA;animation:atRing 1.4s ease-out infinite}
+.tm .at-agent[data-state="run"] .at-av.g::after{border-color:#A8C7FA;animation:atRing 1.4s ease-out infinite}
+.tm .at-agent[data-state="run"] .at-av.m::after{border-color:#6DD58C;animation:atRing 1.4s ease-out infinite}
+.tm .at-agent[data-state="wait"] .at-av{filter:saturate(.3) brightness(.7)}
+.tm .at-ok{position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:50%;background:#6DD58C;color:#053d1c;font-size:11px;font-weight:700;display:grid;place-items:center;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1);box-shadow:0 0 0 3px #1A1B1D}
+.tm .at-agent[data-state="done"] .at-ok{transform:scale(1)}
+.tm .at-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 230px minmax(0,1fr)}
+.tm .at-lane{border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0;transition:box-shadow .5s}
+.tm .at-lane.loc{background:linear-gradient(160deg,rgba(109,213,140,.12),rgba(109,213,140,.02) 70%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(109,213,140,.22)}
+.tm .at-lane.net{background:linear-gradient(200deg,rgba(66,133,244,.18),rgba(155,114,203,.06) 70%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(168,199,250,.22)}
+.tm .at.s4:not(.s6) .at-lane.net{box-shadow:inset 0 0 0 1px rgba(168,199,250,.6),0 0 44px -10px rgba(66,133,244,.65)}
+.tm .at.s7:not(.s9) .at-lane.loc{box-shadow:inset 0 0 0 1px rgba(109,213,140,.6),0 0 44px -10px rgba(109,213,140,.55)}
+.tm .at-lh{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.tm .at-lh svg{width:14px;height:14px}
+.tm .at-lane.loc .at-lh{color:#9BE0AE}
+.tm .at-lane.net .at-lh{color:#A8C7FA}
+.tm .at-agent{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;align-items:center}
+.tm .at-nm{font-size:17px;font-weight:500;line-height:1.25;color:#E3E3E3}
+.tm .at-nm small{display:block;font-size:13px;font-weight:400;color:#8E918F}
+.tm .at-st{grid-column:1/-1;min-height:2.9em;font-size:14px;line-height:1.4;color:#C4C7C5}
+.tm .at-agent[data-state="run"] .at-st{background:linear-gradient(90deg,#C4C7C5 30%,#fff 50%,#C4C7C5 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:atShim 1.8s linear infinite}
+.tm .at-st.flip{animation:atFlip .35s ease-out}
+.tm .at-agent[data-state="run"] .at-st.flip{animation:atFlip .35s ease-out,atShim 1.8s linear infinite}
+.tm .at-vault{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(0,0,0,.28);font-size:14px;color:#C4C7C5}
+.tm .at-rec{display:flex;align-items:center;gap:10px}
+.tm .at-rec svg{width:18px;height:18px;color:#6DD58C}
+.tm .at-rec strong{color:#E3E3E3;font-weight:500}
+.tm .at-rec small{display:block;color:#9BE0AE;font-size:12px}
+.tm .at-lines{display:flex;flex-direction:column;gap:6px}
+.tm .at-lines i{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.08)}
+.tm .at-lines i:nth-child(1){width:86%}.tm .at-lines i:nth-child(2){width:62%}.tm .at-lines i:nth-child(3){width:74%}
+.tm .at.s7:not(.s9) .at-vault::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;background:linear-gradient(90deg,transparent,rgba(109,213,140,.3),transparent);animation:atScan 1.5s ease-in-out infinite}
+.tm .at-srcs{display:flex;flex-wrap:wrap;gap:8px}
+.tm .at-src{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;font-size:13px;color:#8E918F;background:rgba(0,0,0,.28);transition:color .3s,background .3s,box-shadow .3s}
+.tm .at-src .at-n{font-weight:500;color:#A8C7FA;font-variant-numeric:tabular-nums}
+.tm .at-src:not([data-state="ok"]) .at-n{display:none}
+.tm .at-src[data-state="run"]{color:#C2E7FF;box-shadow:inset 0 0 0 1px rgba(168,199,250,.6);animation:atBlink 1s ease-in-out infinite}
+.tm .at-src[data-state="ok"]{color:#E3E3E3;background:rgba(66,133,244,.22);animation:atPop .45s cubic-bezier(.3,1.6,.5,1)}
+.tm .at-wall{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 16px}
+.tm .at-wall::before{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:2px dashed rgba(196,199,197,.25)}
+.tm .at-gate{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;background:#161718;box-shadow:inset 0 0 0 2px rgba(109,213,140,.65);display:grid;place-items:center;color:#6DD58C}
+.tm .at-gate svg{width:22px;height:22px}
+.tm .at.s4:not(.s5) .at-gate{animation:atGate 1.1s ease-out}
+.tm .at.s6:not(.s7) .at-gate{animation:atGate2 1.1s ease-out}
+.tm .at-guard{position:relative;z-index:1;width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:9px;padding:12px;border-radius:16px;background:#161718;box-shadow:inset 0 0 0 1px rgba(109,213,140,.25);opacity:.28;transform:translateY(6px);transition:opacity .5s,transform .5s}
+.tm .at.s3 .at-guard{opacity:1;transform:none}
+.tm .at-gl{font-size:12px;font-weight:500;color:#9BE0AE;text-transform:uppercase;letter-spacing:.06em}
+.tm .at-gs{font-size:11px;color:#8E918F;text-transform:uppercase;letter-spacing:.06em}
+.tm .at-words{display:flex;flex-wrap:wrap;gap:6px}
+.tm .at-words i{font-style:normal;height:26px;display:inline-flex;align-items:center;padding:0 10px;border-radius:13px;background:#26282B;font-size:13px;color:#E3E3E3;opacity:0;transform:translateY(8px) scale(.9);transition:opacity .35s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+.tm .at-words i.k{background:rgba(66,133,244,.24);color:#C2E7FF}
+.tm .at.s3 .at-words i{opacity:1;transform:none}
+.tm .at.s3 .at-words i:nth-child(2){transition-delay:.14s}.tm .at.s3 .at-words i:nth-child(3){transition-delay:.28s}
+.tm .at-kept{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;line-height:1.4;color:#8E918F}
+.tm .at-kept svg{width:13px;height:13px;color:#6DD58C;margin-top:2px}
+.tm .at-pk{position:absolute;z-index:3;top:50%;left:24%;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:16px;font-size:13px;font-weight:500;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.tm .at-pk svg{width:14px;height:14px}
+.tm .at-pk.out{background:#6DD58C;color:#053d1c}
+.tm .at-pk.in{background:#A8C7FA;color:#062E6F}
+.tm .at.s4 .at-pk.out{animation:atOut 1.5s cubic-bezier(.55,0,.3,1) forwards}
+.tm .at.s6 .at-pk.in{animation:atIn 1.5s cubic-bezier(.55,0,.3,1) forwards}
+.tm .at-outs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tm .at-out{border-radius:24px;padding:20px;background:#1A1B1D;display:flex;flex-direction:column;gap:12px;opacity:.22;transform:translateY(14px);transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.tm .at-out.res{box-shadow:inset 0 0 0 1px rgba(168,199,250,.18)}
+.tm .at-out.mine{background:linear-gradient(160deg,rgba(109,213,140,.1),transparent 65%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(109,213,140,.22)}
+.tm .at.s6 .at-out.res,.tm .at.s8 .at-out.mine{opacity:1;transform:none}
+.tm .at-oh{display:flex;align-items:center;gap:12px}
+.tm .at-oh .at-av{width:32px;height:32px}.tm .at-oh .at-av svg{width:16px;height:16px}
+.tm .at-oh strong{display:block;font-size:16px;font-weight:500;color:#E3E3E3}
+.tm .at-oh small{display:block;font-size:13px;color:#8E918F}
+.tm .at-txt{font-size:15.5px;line-height:1.55;color:#E3E3E3}
+.tm .at-cite{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-left:4px;border-radius:10px;background:rgba(168,199,250,.16);color:#A8C7FA;font-size:11.5px;font-weight:500;vertical-align:2px;line-height:1}
+.tm .at-refs{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#8E918F}
+.tm .at-refs .at-cite{margin:0 6px 0 0}
+.tm .at-k{display:block;margin-top:10px;font-size:12.5px;font-weight:500;color:#9BE0AE}
+.tm .at-k:first-child{margin-top:0}
+.tm .at-chk{display:flex;gap:10px;align-items:flex-start;padding-top:12px;border-top:1px solid rgba(109,213,140,.16);font-size:14px;line-height:1.45;color:#C4C7C5;opacity:0;transform:translateX(-8px);transition:opacity .45s,transform .45s}
+.tm .at.s9 .at-chk{opacity:1;transform:none}
+.tm .at-chk .x{width:20px;height:20px;border-radius:50%;background:rgba(242,184,181,.14);color:#F2B8B5;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.tm .at-chk small{display:block;font-size:11.5px;color:#8E918F;text-transform:uppercase;letter-spacing:.06em}
+.tm .at-steps{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding-top:20px}
+.tm .at-steps::before,.tm .at-steps::after{content:"";position:absolute;top:5px;left:calc(100% / 12);height:2px;border-radius:1px}
+.tm .at-steps::before{right:calc(100% / 12);background:#2C2E31}
+.tm .at-steps::after{width:calc((100% - 100% / 6) * var(--p, 0));background:linear-gradient(90deg,#6DD58C,#A8C7FA 40%,#9B72CB 70%,#6DD58C);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.tm .at-step{position:relative;text-align:center;font-size:12.5px;color:#6F7378;transition:color .4s}
+.tm .at-step::before{content:"";position:absolute;top:-20px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#2C2E31;box-shadow:0 0 0 4px #161718;z-index:1;transition:background .4s}
+.tm .at-step.on{color:#E3E3E3}
+.tm .at-step.on::before{background:#A8C7FA}
+.tm .at-step.now::before{animation:atNow 1.2s ease-out infinite}
+.tm .at-done{position:absolute;right:0;top:-6px;font-size:12px;color:#9BE0AE;opacity:0;transition:opacity .5s}
+.tm .at.s9 .at-done{opacity:1}
+@keyframes atCaret{50%{opacity:0}}
+@keyframes atRing{0%{transform:scale(.92);opacity:.95}100%{transform:scale(1.4);opacity:0}}
+@keyframes atShim{from{background-position:120% 0}to{background-position:-120% 0}}
+@keyframes atFlip{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes atScan{to{left:100%}}
+@keyframes atBlink{50%{box-shadow:inset 0 0 0 1px rgba(168,199,250,.15)}}
+@keyframes atPop{0%{transform:scale(.82)}100%{transform:scale(1)}}
+@keyframes atGate{0%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 0 rgba(109,213,140,.6)}100%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 18px rgba(109,213,140,0)}}
+@keyframes atGate2{0%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 0 rgba(168,199,250,.6)}100%{box-shadow:inset 0 0 0 2px rgba(109,213,140,.65),0 0 0 18px rgba(168,199,250,0)}}
+@keyframes atOut{0%{left:24%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{left:76%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atIn{0%{left:76%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{left:24%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atOutV{0%{top:15%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{top:82%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atInV{0%{top:82%;opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{top:15%;opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes atNow{0%{box-shadow:0 0 0 4px #161718,0 0 0 4px rgba(168,199,250,.5)}100%{box-shadow:0 0 0 4px #161718,0 0 0 12px rgba(168,199,250,0)}}
+@media (max-width:860px){
+  .tm .at{padding:16px;gap:18px;border-radius:24px}
+  .tm .at-stage{grid-template-columns:minmax(0,1fr)}
+  .tm .at-wall{padding:16px 0}
+  .tm .at-wall::before{top:38px;bottom:auto;left:0;right:0;border-left:0;border-top:2px dashed rgba(196,199,197,.25)}
+  .tm .at-guard{max-width:340px}
+  .tm .at-pk{left:50%;top:15%}
+  .tm .at.s4 .at-pk.out{animation-name:atOutV}
+  .tm .at.s6 .at-pk.in{animation-name:atInV}
+  .tm .at-outs{grid-template-columns:minmax(0,1fr)}
+  .tm .at-step{font-size:11px}
+  .tm .at-done{position:static;display:block;margin-top:10px;text-align:center;grid-column:1/-1}
+}
+.tm .at-ask{opacity:0;transform:translateY(8px);transition:opacity .4s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.tm .at.s1 .at-ask{opacity:1;transform:none}
+/* ---------- product scenes: the patient's phone and the trial team's window, drawn in code. No swiping: the agent checks,
+   asks, and the person taps to act. The script below plays each one while it is on screen, then starts again; classes b1..b8
+   only move forward, and ask, conf, toast, ev, acts and sent open and close things. Inside, everything is in em, and 1em
+   follows the screen's width, so a scene scales with its frame. ---------- */
+.tm .sc-col{display:flex;flex-direction:column;align-items:center;gap:18px;width:100%}
+.tm .sc-rs,.tm .sc-rs *{transition:none!important;animation:none!important}
+.tm .sc-steps{display:flex;gap:4px;list-style:none;margin:0;padding:4px;border-radius:17px;background:rgba(255,255,255,.05)}
+.tm .sc-steps li{display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 12px;border-radius:13px;font-size:12px;color:#8E918F;transition:color .4s,background .4s}
+.tm .sc-steps li::before{content:"";width:6px;height:6px;border-radius:50%;background:#3C4043;transition:background .4s,box-shadow .4s}
+.tm .sc-steps li.on{color:#C4C7C5}
+.tm .sc-steps li.on::before{background:#A8C7FA}
+.tm .sc-steps li.now{background:rgba(168,199,250,.12);color:#E3E3E3}
+.tm .sc-steps li.now::before{box-shadow:0 0 0 3px rgba(168,199,250,.25)}
+.tm .sc-spark{flex:none;width:2.6em;height:2.6em;border-radius:50%;display:grid;place-items:center;background:#131314;box-shadow:inset 0 0 0 .14em rgba(197,138,249,.7)}
+.tm .sc-spark svg{width:1.3em;height:1.3em}
+.tm .sc-say{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#C4C7C5}
+.tm .sc-say.run{background:linear-gradient(90deg,#C4C7C5 30%,#fff 50%,#C4C7C5 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:atShim 1.8s linear infinite}
+.tm .sc-say.flip{animation:atFlip .35s ease-out}
+.tm .sc-say.run.flip{animation:atFlip .35s ease-out,atShim 1.8s linear infinite}
+.tm .sc-ring{position:relative;flex:none}
+.tm .sc-ring svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+.tm .sc-ring circle{fill:none;stroke-width:3.4}
+.tm .sc-ring .tr{stroke:#2C2E31}
+.tm .sc-ring .fg{stroke:#A8C7FA;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset .5s cubic-bezier(.2,.8,.2,1),stroke .4s}
+.tm .sc-ring.g .fg{stroke:#6DD58C}.tm .sc-ring.y .fg{stroke:#FDD663}.tm .sc-ring.r .fg{stroke:#F2B8B5}
+.tm .sc-ring>span{position:absolute;inset:0;display:grid;place-items:center;font-weight:500;font-variant-numeric:tabular-nums}
+.tm .sc-tp{position:relative;overflow:hidden;transition:transform .2s cubic-bezier(.2,.8,.2,1),background .35s,color .35s,box-shadow .35s}
+.tm .sc-tp::after{content:"";position:absolute;left:50%;top:50%;width:3em;height:3em;margin:-1.5em 0 0 -1.5em;border-radius:50%;background:currentColor;opacity:0;pointer-events:none}
+.tm .sc-tp.tap{transform:scale(.96)}
+.tm .sc-tp.tap::after{animation:scTap .65s ease-out}
+@keyframes scTap{0%{opacity:.3;transform:scale(.2)}100%{opacity:0;transform:scale(7)}}
+/* the patient's phone */
+.tm .ph{position:relative;border-radius:36px;overflow:hidden;background:#131314;aspect-ratio:390/844;container-type:inline-size;isolation:isolate}
+.tm .ph-in{position:absolute;inset:0;font-size:8.75px;font-size:calc(100cqw / 32);line-height:1.35;color:#E3E3E3;transition:opacity .6s}
+.tm .ph.out .ph-in{opacity:0}
+.tm .ph-in svg{flex:none}
+.tm .ph-bar{display:flex;justify-content:space-between;align-items:center;height:3em;padding:0 2.6em 0 2.9em}
+.tm .ph-bar b{font-size:1.15em;font-weight:500}
+.tm .ph-sys{display:flex;gap:.45em;align-items:center}
+.tm .ph-sys svg{height:1.1em;width:auto}
+.tm .ph-app{display:flex;align-items:center;gap:.7em;padding:.4em 1.6em}
+.tm .ph-app>svg{width:1.9em;height:1.9em}
+.tm .ph-app b{font-size:1.45em;font-weight:500}
+.tm .ph-role{font-size:.95em;color:#9AA0A6;padding:.1em .55em;border-radius:.5em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tm .ph-me{margin-left:auto;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4285F4,#9B72CB);font-size:1.15em;font-weight:500;color:#fff}
+.tm .ph-hi{width:max-content;margin:.2em 0 .25em .64em;font-size:2.5em;line-height:1.2;letter-spacing:-.01em;background:linear-gradient(90deg,#8AB4F8,#C58AF9 60%,#F28B82);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tm .ph-agent{display:flex;gap:.9em;align-items:center;margin:0 1.2em;padding:.95em 1.1em;border-radius:1.7em;background:linear-gradient(135deg,rgba(66,133,244,.16),rgba(155,114,203,.1) 60%,rgba(217,101,112,.06)),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(168,199,250,.16)}
+.tm .ph-at{min-width:0;flex:1}
+.tm .ph-at b{display:block;font-size:1.1em;font-weight:500}
+.tm .ph-say{font-size:1.1em}
+.tm .ph-trial{position:relative;margin:1em 1.2em 0;padding:1.1em 1.3em 1.2em;border-radius:1.8em;background:#1E1F21;opacity:0;transform:translateY(1.5em);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.tm .ph.b1 .ph-trial{opacity:1;transform:none}
+.tm .ph-top{position:relative;height:2.3em;margin-right:4.4em}
+.tm .ph-meta,.tm .ph-match{position:absolute;left:0;top:50%;white-space:nowrap;transition:opacity .4s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+.tm .ph-meta{font-size:1em;color:#9AA0A6;transform:translateY(-50%)}
+.tm .ph-match{font-size:1em;padding:.3em .7em;border-radius:.6em;background:rgba(109,213,140,.14);color:#6DD58C;opacity:0;transform:translateY(-50%) scale(.85);transform-origin:0 50%}
+.tm .ph.b5 .ph-meta{opacity:0}
+.tm .ph.b5 .ph-match{opacity:1;transform:translateY(-50%)}
+.tm .ph-ring{position:absolute;right:1.1em;top:.8em;width:3.6em;height:3.6em}
+.tm .ph-ring>span b{font-size:1.25em}
+.tm .ph-ring>span small{font-size:.8em;color:#9AA0A6;font-weight:400}
+.tm .ph-tt{display:block;margin:.35em 0 .45em;font-size:1.5em;line-height:1.25}
+.tm .ph-site{display:flex;align-items:center;gap:.4em;font-size:1em;color:#9AA0A6}
+.tm .ph-site svg{width:1.15em;height:1.15em}
+.tm .ph-rh{display:flex;justify-content:space-between;align-items:baseline;margin:1.15em 1.75em .4em;font-size:1.05em}
+.tm .ph-rh span:first-child{color:#C4C7C5;font-weight:500}
+.tm .ph-cnt{color:#9AA0A6;font-variant-numeric:tabular-nums}
+.tm .ph-rules{list-style:none;margin:0 1.2em;padding:0}
+.tm .ph-rules li{display:flex;align-items:center;gap:.75em;height:2.6em;padding:0 .55em;border-radius:.9em;transition:background .3s}
+.tm .ph-rules li.now{background:rgba(168,199,250,.07)}
+.tm .ph-rules i{flex:none;width:1.75em;height:1.75em;border-radius:50%;box-shadow:inset 0 0 0 .12em #3C4043;display:grid;place-items:center;font-style:normal;font-weight:700;transition:background .3s,box-shadow .3s,color .3s}
+.tm .ph-rules i::after{content:"";transform:scale(0);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.tm .ph-rules li.now i{animation:phPing 1s ease-out infinite}
+.tm .ph-rules li.ok i{background:rgba(109,213,140,.16);box-shadow:none;color:#6DD58C}
+.tm .ph-rules li.ok i::after{content:"✓";transform:scale(1)}
+.tm .ph-rules li.q i{background:rgba(253,214,99,.15);box-shadow:none;color:#FDD663}
+.tm .ph-rules li.q i::after{content:"?";transform:scale(1)}
+.tm .ph-rules span{flex:1;min-width:0;font-size:1.15em;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .3s}
+.tm .ph-rules li.ok span,.tm .ph-rules li.q span,.tm .ph-rules li.now span{color:#E3E3E3}
+.tm .ph-rules em{flex:none;font-style:normal;font-size:.92em;padding:.2em .6em;border-radius:.7em;background:#26282B;color:#9AA0A6;opacity:0;transform:translateX(.6em);transition:opacity .35s,transform .35s,background .35s,color .35s}
+.tm .ph-rules li.ok em,.tm .ph-rules li.q em{opacity:1;transform:none}
+.tm .ph-rules li.q em{background:rgba(253,214,99,.12);color:#FDD663}
+.tm .ph-rules li.ans em{background:rgba(168,199,250,.14);color:#A8C7FA}
+@keyframes phPing{0%{box-shadow:inset 0 0 0 .12em #A8C7FA,0 0 0 0 rgba(168,199,250,.5)}100%{box-shadow:inset 0 0 0 .12em #A8C7FA,0 0 0 .55em rgba(168,199,250,0)}}
+.tm .ph-cta{position:absolute;left:1.2em;right:1.2em;bottom:6.5em;height:4.2em;border-radius:2.1em;display:flex;align-items:center;justify-content:center;gap:.5em;background:#26282B;color:#8E918F}
+.tm .ph-cta span{font-size:1.3em;font-weight:500}
+.tm .ph-cta svg{display:none;width:1.5em;height:1.5em}
+.tm .ph.b5 .ph-cta{background:#A8C7FA;color:#062E6F;box-shadow:0 .6em 2em rgba(66,133,244,.35)}
+.tm .ph.b8 .ph-cta{background:rgba(109,213,140,.16);color:#6DD58C;box-shadow:none}
+.tm .ph.b8 .ph-cta svg{display:block}
+.tm .ph-nav{position:absolute;left:0;right:0;bottom:0;height:5.8em;display:flex;justify-content:space-around;padding-top:.75em;background:#1A1B1D}
+.tm .ph-nav>span{position:relative;display:flex;flex-direction:column;align-items:center;gap:.25em;width:6.4em;color:#9AA0A6}
+.tm .ph-nav svg{width:4em;height:2.3em;padding:.35em 0;border-radius:1.15em;box-sizing:border-box}
+.tm .ph-nav small{font-size:.92em}
+.tm .ph-nav .on{color:#E3E3E3}
+.tm .ph-nav .on svg{background:#004A77;color:#C2E7FF}
+.tm .ph-nav b{position:absolute;top:-.25em;right:1em;min-width:1.6em;height:1.6em;border-radius:.8em;display:grid;place-items:center;background:#F2B8B5;color:#601410;font-size:.9em;font-weight:500;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.tm .ph.b8 .ph-nav b{transform:scale(1)}
+.tm .ph-scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .4s;pointer-events:none}
+.tm .ph.ask .ph-scrim,.tm .ph.conf .ph-scrim{opacity:1}
+.tm .ph-sheet{position:absolute;left:0;right:0;bottom:0;padding:.8em 1.6em 2.6em;border-radius:2.4em 2.4em 0 0;background:#1E1F21;box-shadow:0 -1em 3em rgba(0,0,0,.4);transform:translateY(105%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tm .ph.ask .ph-ask,.tm .ph.conf .ph-conf{transform:none}
+.tm .ph-grab{display:block;width:3.6em;height:.4em;margin:0 auto 1.3em;border-radius:.2em;background:#444746}
+.tm .ph-turn{display:inline-block;font-size:.95em;padding:.25em .7em;border-radius:.6em;background:rgba(253,214,99,.14);color:#FDD663}
+.tm .ph-sub{display:block;margin-top:.8em;font-size:1.05em;color:#9AA0A6}
+.tm .ph-qq{display:block;margin:.2em 0 .7em;font-size:1.65em;line-height:1.25}
+.tm .ph-opt{display:block;margin-top:.55em;padding:.85em 1.1em;border-radius:1.3em;background:#26282B;font-size:1.15em;line-height:1.3;color:#E3E3E3}
+.tm .ph-opt.sel{background:rgba(168,199,250,.16);box-shadow:inset 0 0 0 .1em #A8C7FA}
+.tm .ph-ct{display:block;font-size:1.65em;line-height:1.25}
+.tm .ph-cb{display:block;margin:.55em 0 .8em;font-size:1.15em;line-height:1.45;color:#C4C7C5}
+.tm .ph-cl{display:flex;align-items:center;gap:.6em;margin-top:.45em;font-size:1.1em;color:#C4C7C5}
+.tm .ph-cl svg{width:1.2em;height:1.2em;color:#6DD58C}
+.tm .ph-btns{display:flex;align-items:center;gap:1.6em;margin-top:1.5em}
+.tm .ph-go{height:3.6em;padding:0 2em;border-radius:1.8em;display:inline-flex;align-items:center;background:#A8C7FA;color:#062E6F}
+.tm .ph-go span,.tm .ph-no{font-size:1.2em;font-weight:500}
+.tm .ph-no{color:#A8C7FA}
+.tm .ph-toast{position:absolute;left:1.2em;right:1.2em;top:3.4em;padding:1em 1.2em;border-radius:1.2em;background:#E3E3E3;color:#1F1F1F;box-shadow:0 .8em 2em rgba(0,0,0,.45);opacity:0;transform:translateY(-160%);transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.tm .ph-toast span{font-size:1.1em;line-height:1.35}
+.tm .ph.toast .ph-toast{opacity:1;transform:none}
+/* the trial team's window */
+.tm .cw{position:relative;container-type:inline-size}
+.tm .cw-scr{position:relative;aspect-ratio:1000/680;overflow:hidden;background:#131314;isolation:isolate}
+.tm .cw-in{position:absolute;inset:0;font-size:10px;font-size:calc(100cqw / 58);line-height:1.35;color:#E3E3E3;transition:opacity .6s}
+.tm .cw.out .cw-in{opacity:0}
+.tm .cw-in svg{flex:none}
+.tm .cw-app{display:flex;align-items:center;gap:.8em;height:4.4em;padding:0 2em;border-bottom:1px solid rgba(255,255,255,.06)}
+.tm .cw-app>svg{width:1.7em;height:1.7em}
+.tm .cw-app>b{font-size:1.3em;font-weight:500;white-space:nowrap}
+.tm .cw-role{font-size:.9em;color:#9AA0A6;padding:.1em .55em;border-radius:.5em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tm .cw-tabs{display:flex;gap:.3em;margin-left:1.4em}
+.tm .cw-tabs span{font-size:1.1em;color:#C4C7C5;padding:.4em .9em;border-radius:1.2em;white-space:nowrap}
+.tm .cw-tabs .on{background:#004A77;color:#C2E7FF}
+.tm .cw-me{margin-left:auto;width:2.5em;height:2.5em;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#188038,#12807A);font-size:1.05em;font-weight:500;color:#fff}
+.tm .cw-head{padding:1.4em 2em .9em}
+.tm .cw-meta{display:block;font-size:1.05em;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm .cw-h{display:block;margin-top:.1em;font-size:2.1em;line-height:1.2;letter-spacing:-.01em}
+.tm .cw-agent{display:flex;align-items:center;gap:.9em;margin:0 2em;padding:.75em 1.1em;border-radius:1.4em;background:linear-gradient(135deg,rgba(66,133,244,.14),rgba(155,114,203,.08) 60%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(168,199,250,.14)}
+.tm .cw-agent .sc-spark{width:2.4em;height:2.4em}
+.tm .cw-say{flex:1;min-width:0;font-size:1.15em}
+.tm .cw-cols,.tm .cw-row{display:grid;grid-template-columns:1.6em minmax(0,1fr) 12em 3.4em;gap:0 1.1em;align-items:center;padding:0 1.1em}
+.tm .cw-cols{margin:1.1em 2em .45em}
+.tm .cw-cols span{font-size:.95em;color:#8E918F}
+.tm .cw-list{position:relative;margin:0 2em;height:20.5em}
+.tm .cw-row{position:absolute;left:0;right:0;top:calc(var(--pos, 4) * 4.1em);height:3.7em;border-radius:1.2em;background:#1A1B1D;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);opacity:0;transform:translateY(1.4em);transition:top .6s cubic-bezier(.2,.8,.2,1),opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s}
+.tm .cw-row.in{opacity:1;transform:none}
+.tm .cw-row.in.x{opacity:.55}
+.tm .cw-row.hl{background:#202124;box-shadow:inset 0 0 0 1px rgba(168,199,250,.55)}
+.tm .cw-box{width:1.6em;height:1.6em;border-radius:.4em;box-shadow:inset 0 0 0 .13em #5F6368;display:grid;place-items:center;color:#062E6F;transition:background .25s,box-shadow .25s}
+.tm .cw-box svg{width:1.15em;height:1.15em;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.tm .cw-row.sel .cw-box{background:#A8C7FA;box-shadow:none}
+.tm .cw-row.sel .cw-box svg{transform:scale(1)}
+.tm .cw-who{min-width:0;line-height:1.3}
+.tm .cw-who b{display:block;font-size:1.2em;font-weight:500}
+.tm .cw-who small{display:block;font-size:1em;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm .cw-chip{justify-self:start;display:inline-flex;align-items:center;height:2.3em;padding:0 .85em;border-radius:1.15em;font-size:1em;white-space:nowrap;background:#26282B;color:#9AA0A6;transition:background .3s,color .3s}
+.tm .cw-chip.ok{background:rgba(109,213,140,.14);color:#6DD58C}
+.tm .cw-chip.q{background:rgba(253,214,99,.13);color:#FDD663}
+.tm .cw-chip.x{background:rgba(242,184,181,.14);color:#F2B8B5}
+.tm .cw-chip.inv{background:rgba(168,199,250,.16);color:#A8C7FA}
+.tm .cw-ring{width:3.4em;height:3.4em}
+.tm .cw-ring>span b{font-size:1.1em}
+.tm .cw-ev{position:absolute;top:4.9em;right:1.2em;bottom:1.2em;width:27em;padding:1.3em 1.5em;border-radius:1.8em;background:#1E1F21;box-shadow:0 1.6em 4em rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08);display:flex;flex-direction:column;gap:1em;transform:translateX(115%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tm .cw.ev .cw-ev{transform:none}
+.tm .cw-evh{display:flex;align-items:flex-start;gap:1em}
+.tm .cw-evh b{display:block;font-size:1.4em;font-weight:500}
+.tm .cw-evh small{display:block;font-size:1em;color:#9AA0A6}
+.tm .cw-x{margin-left:auto;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;color:#C4C7C5;background:#26282B}
+.tm .cw-x svg{width:1.2em;height:1.2em}
+.tm .cw-evl{font-size:.95em;font-weight:500;color:#9BE0AE;text-transform:uppercase;letter-spacing:.06em}
+.tm .cw-q{display:flex;flex-direction:column;gap:.3em;opacity:0;transform:translateY(.8em);transition:opacity .4s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.tm .cw-q.in{opacity:1;transform:none}
+.tm .cw-q>b{display:flex;align-items:center;gap:.55em;font-size:1.1em;font-weight:500}
+.tm .cw-q>b i{width:1.45em;height:1.45em;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.8em;background:rgba(109,213,140,.16);color:#6DD58C}
+.tm .cw-q q{display:block;margin-left:1.4em;padding-left:.8em;border-left:.18em solid rgba(109,213,140,.5);font-size:1.1em;line-height:1.4;color:#E3E3E3}
+.tm .cw-q small{margin-left:2.4em;font-size:.95em;color:#8E918F}
+.tm .cw-evf{margin-top:auto;font-size:.95em;line-height:1.4;color:#8E918F}
+.tm .cw-bar{position:absolute;left:50%;bottom:1.4em;display:flex;align-items:center;gap:1.2em;height:4.6em;padding:0 .6em 0 1.6em;border-radius:2.3em;background:#2A2B2E;box-shadow:0 1.2em 3em rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.1);white-space:nowrap;transform:translate(-50%,180%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tm .cw.acts .cw-bar{transform:translate(-50%,0)}
+.tm .cw-n{font-size:1.15em;color:#C4C7C5}
+.tm .cw-go{height:3.4em;padding:0 1.5em;border-radius:1.7em;display:inline-flex;align-items:center;gap:.5em;background:#A8C7FA;color:#062E6F}
+.tm .cw-go svg{width:1.4em;height:1.4em}
+.tm .cw-go span{font-size:1.15em;font-weight:500}
+.tm .cw.sent .cw-go{background:rgba(109,213,140,.16);color:#6DD58C}
+.tm .cw-cur{position:absolute;left:0;top:0;z-index:5;width:2.2em;height:2.2em;opacity:0;pointer-events:none;transform-origin:20% 12%;transition:left .75s cubic-bezier(.45,0,.2,1),top .75s cubic-bezier(.45,0,.2,1),opacity .3s,transform .15s;filter:drop-shadow(0 .2em .4em rgba(0,0,0,.5))}
+.tm .cw-cur.on{opacity:1}
+.tm .cw-cur.dn{transform:scale(.8)}
+.tm .cw-cur svg{display:block;width:100%;height:100%}
+@container (max-width:460px){
+  .tm .cw-scr{aspect-ratio:4/5}
+  .tm .cw-in{font-size:calc(100cqw / 36)}
+  .tm .cw-role,.tm .cw-tabs span:not(.on){display:none}
+  .tm .cw-tabs{margin-left:.4em}
+  .tm .cw-app,.tm .cw-head{padding-left:1.4em;padding-right:1.4em}
+  .tm .cw-agent,.tm .cw-list,.tm .cw-cols{margin-left:1.4em;margin-right:1.4em}
+  .tm .cw-agent{align-items:flex-start}
+  .tm .cw-say{white-space:normal;min-height:2.7em}
+  .tm .cw-cols,.tm .cw-row{grid-template-columns:1.6em minmax(0,1fr) auto 3.2em;gap:0 .8em;padding:0 .9em}
+  .tm .cw-ring{width:3.2em;height:3.2em}
+  .tm .cw-ev{left:1em;right:1em;width:auto}
+}
+/* micro-motion in the scenes: numbers tick or count up, results pop, a light sweeps what was just confirmed, a spinner
+   while something sends, a check that draws itself, hover under the pointer, and a highlight that slides along the steps.
+   The page's reduced-motion rule turns all of it off and the scenes show their finished state. */
+.tm .sc-n{display:inline-block;font-variant-numeric:tabular-nums}
+.tm .sc-say .sc-n{color:#E3E3E3;font-weight:500}   /* the shimmer's text clip doesn't reach an inline-block, so it keeps its own colour */
+.tm .sc-n.tick{animation:scTick .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes scTick{0%{transform:translateY(.5em);opacity:.15}100%{transform:none;opacity:1}}
+.tm .sc-pop{animation:scPop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes scPop{0%{transform:scale(.7);opacity:.3}100%{transform:none;opacity:1}}
+.tm .sc-ring::after{content:"";position:absolute;inset:0;border-radius:50%;opacity:0;pointer-events:none}
+.tm .sc-ring.done::after{animation:scDone 1s ease-out}
+@keyframes scDone{0%{opacity:1;box-shadow:0 0 0 0 rgba(109,213,140,.6)}100%{opacity:0;box-shadow:0 0 0 1em rgba(109,213,140,0)}}
+.tm .cw-ring .fg{transition-duration:.85s}
+.tm .run-ag .sc-spark svg{animation:scSpark 1.6s ease-in-out infinite}
+.tm .run-ag .sc-spark{animation:scHalo 1.6s ease-in-out infinite}
+@keyframes scSpark{0%,100%{transform:none}50%{transform:scale(.78) rotate(45deg)}}
+@keyframes scHalo{0%,100%{box-shadow:inset 0 0 0 .14em rgba(197,138,249,.7)}50%{box-shadow:inset 0 0 0 .14em rgba(168,199,250,1),0 0 1.1em rgba(155,114,203,.55)}}
+.tm .sc-spin{display:none;width:1.15em;height:1.15em;box-sizing:border-box;border-radius:50%;border:.16em solid currentColor;border-right-color:transparent;animation:tmSpin .7s linear infinite}
+.tm .busy .sc-spin{display:block}
+.tm .busy>svg{display:none}
+.tm .sc-draw path{stroke-dasharray:22;animation:scDraw .45s .1s cubic-bezier(.4,0,.2,1) backwards}
+@keyframes scDraw{from{stroke-dashoffset:22}to{stroke-dashoffset:0}}
+.tm .sc-steps{position:relative}
+.tm .sc-steps::after{content:"";position:absolute;top:4px;bottom:4px;left:var(--x,4px);width:var(--w,0);border-radius:13px;background:rgba(168,199,250,.13);opacity:var(--o,0);transition:left .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.tm .sc-steps li{position:relative;z-index:1}
+.tm .sc-steps li.now{background:none}
+/* phone */
+.tm .ph-cnt b{font-weight:500;color:#E3E3E3}
+.tm .ph-tc{display:none;margin-left:.35em;color:#FDD663}
+.tm .ph-cnt.tc .ph-tc{display:inline-block;animation:scPop .5s cubic-bezier(.3,1.6,.5,1)}
+.tm .ph-rules li{position:relative;overflow:hidden}
+.tm .ph-rules li::before{content:"";position:absolute;top:0;bottom:0;left:0;width:60%;background:linear-gradient(90deg,transparent,rgba(109,213,140,.16),transparent);transform:translateX(-100%);pointer-events:none}
+.tm .ph-rules li.ok::before{animation:scSweep .75s ease-out}
+@keyframes scSweep{to{transform:translateX(180%)}}
+.tm .ph-rules li.q i{animation:phAmber 1.4s ease-out infinite}
+@keyframes phAmber{0%{box-shadow:0 0 0 0 rgba(253,214,99,.45)}100%{box-shadow:0 0 0 .6em rgba(253,214,99,0)}}
+.tm .ph-rules li.ans i{animation:scFlip .55s cubic-bezier(.3,1.4,.5,1)}
+@keyframes scFlip{0%{transform:rotateY(90deg) scale(.8)}100%{transform:none}}
+.tm .ph-opt{position:relative}
+.tm .ph-tick{position:absolute;right:1em;top:50%;width:1.3em;height:1.3em;margin-top:-.65em;color:#A8C7FA;opacity:0;transition:opacity .2s}
+.tm .ph-tick path{stroke-dasharray:22;stroke-dashoffset:22;transition:stroke-dashoffset .4s .1s cubic-bezier(.4,0,.2,1)}
+.tm .ph-opt.sel .ph-tick{opacity:1}
+.tm .ph-opt.sel .ph-tick path{stroke-dashoffset:0}
+.tm .ph-cta::before{content:"";position:absolute;top:0;bottom:0;left:-45%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);pointer-events:none;opacity:0}
+.tm .ph.b5:not(.b8) .ph-cta::before{animation:scShine 1.1s .3s ease-out}
+@keyframes scShine{0%{left:-45%;opacity:1}100%{left:110%;opacity:1}}
+.tm .ph-go{gap:.55em}
+.tm .ph.b8 .ph-nav>span:last-child svg{animation:scWiggle .6s .25s ease-in-out}
+@keyframes scWiggle{25%{transform:rotate(-12deg)}50%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}}
+/* window */
+.tm .cw-chip:not(.ok):not(.q):not(.x):not(.inv)::before{content:"";width:.85em;height:.85em;margin-right:.5em;box-sizing:border-box;border-radius:50%;border:.14em solid currentColor;border-right-color:transparent;animation:tmSpin .8s linear infinite}
+.tm .cw-row.new{box-shadow:inset 0 0 0 1px rgba(168,199,250,.5),0 0 1.4em -.3em rgba(66,133,244,.45)}
+.tm .cw-row.hv{background:#202124}
+.tm .cw-go.hv,.tm .cw-x.hv{filter:brightness(1.15)}
+.tm .cw-q q span{padding:0 .15em;border-radius:.25em;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(rgba(109,213,140,.18),rgba(109,213,140,.18)) no-repeat 0 0/0% 100%;transition:background-size .8s .3s cubic-bezier(.2,.8,.2,1)}
+.tm .cw-q.in q span{background-size:100% 100%}
+.tm .cw-n b{font-weight:500;color:#E3E3E3}
+.tm .cw-go .cw-ok,.tm .cw.sent .cw-go .cw-send{display:none}
+.tm .cw.sent .cw-go .cw-ok{display:block}
+</style>
+</head>
+<body>
+
+<script src="/loader/syringe-loader.js" data-wait="load" data-max="6000"></script><!-- loading screen: the syringe fills while the page loads, then slides up -->
+<div class="tm" style="background: #0E0E0F; color: #E3E3E3; font-family: 'Google Sans Flex', 'Google Sans', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow: hidden">
+
+<!-- NAV -->
+<div class="topbar">
+<header class="navIn" style="position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; gap: 24px">
+  <a class="isl isl-brand" href="#top"><span class="under" aria-hidden="true"></span><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"></rect><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"></rect><rect x="11" y="11" width="10" height="10" fill="#B48BE9"></rect></svg>Trial Match</a>
+  <span style="flex: 1"></span>
+  <nav class="navlinks isl" aria-label="Sections"><span class="under" aria-hidden="true" style="animation-delay: -1.3s"></span>
+    <a class="nl" href="#gap">The gap</a>
+    <a class="nl" href="#product">Product</a>
+    <a class="nl" href="#agents">Agents</a>
+    <a class="nl" href="#results">Results</a>
+    <a class="nl" href="#trust">Trust</a>
+    <span class="nav-dot" aria-hidden="true"></span>
+  </nav>
+  <span style="flex: 1"></span>
+  <a class="pri live-cta" href="/app/"><span class="under" aria-hidden="true" style="animation-delay: -2.6s"></span><span class="ring-wrap" aria-hidden="true"><span class="ring"></span></span><span class="live-in"><span class="live-dot" aria-hidden="true"></span>Try the demo <span class="arr">→</span></span></a>
+</header>
+<span class="topbar-glow" aria-hidden="true"></span>
+<span class="topbar-strip" aria-hidden="true"></span>
+<span class="topbar-comet" aria-hidden="true"></span>
+<div class="bar" aria-hidden="true"></div>
+<span class="bar-head" aria-hidden="true"></span>
+</div>
+
+<!-- HERO -->
+<section id="top" class="slide hero">
+  <div class="hero-media"><div class="hero-slide is-on is-top" style="--y: 12%"><img class="hero-img" src="media/hero/01-blood-pressure.jpg" alt="A nurse checks an older man’s blood pressure" width="1800" height="1200" fetchpriority="high" decoding="async"></div><span class="hero-sheen" aria-hidden="true"></span></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-body">
+    <span class="pill">Team Legacy</span>
+    <h1 class="hero-h1"><span class="w">95%</span> <span class="w">of</span> <span class="w">patients</span> <span class="w">are</span> <span class="w">willing</span> <span class="w">to</span> <span class="w">join</span> <span class="w">trials.</span> <span class="w grad-lt">Yet few ever hear about them.</span></h1>
+    <div class="hero-row">
+      <p>Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.</p>
+      <div class="hero-ctas">
+        <a class="pri" href="/app/" style="height: 56px; padding: 0 30px; border-radius: 28px; background: #A8C7FA; color: #062E6F; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo <span class="arr">→</span></a>
+        <a class="sec" href="#product" style="height: 56px; padding: 0 30px; border-radius: 28px; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">See how it works</a>
+      </div>
+    </div>
+  </div>
+  <span class="hero-line" aria-hidden="true"></span>
+  <span class="hero-credit">Photo: <span class="hero-by">Nappy</span> on Unsplash</span>
+</section>
+
+<!-- THE GAP -->
+<section id="gap" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px">
+    <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Trial</span> <span class="w">teams</span> <span class="w">in</span> <span class="w">the</span> <span class="w">UK</span> <span class="w">open</span> <span class="w">faster</span> <span class="w">than</span> <span class="w">ever.</span> <span class="w" style="color: #6F7378; display: inline-block">Yet spend weeks empty waiting for patients.</span></h2>
+    <div class="g2 zoomIn" style="gap: 2px; border-radius: 28px; overflow: hidden">
+      <div style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 14px; color: #9AA0A6">Patients</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c95" data-from="0" data-to="95">95</span>%<a class="src" href="https://doi.org/10.1136/bmjresp-2025-003702" target="_blank" rel="noopener" data-tip="BMJ Open Respiratory Research, 2026" aria-label="Source: BMJ Open Respiratory Research, 2026"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
+        <span style="font-size: 19px">would consider joining a trial</span>
+        <span style="height: 1px; background: rgba(255,255,255,.08); margin: 10px 0"></span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c63" data-from="0" data-to="63">63</span>%<a class="src" href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html" target="_blank" rel="noopener" data-tip="Institute of Cancer Research survey, 2021" aria-label="Source: Institute of Cancer Research survey, 2021"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
+        <span style="font-size: 19px">were never told about one</span>
+      </div>
+      <div style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 14px; color: #9AA0A6">Administrative Time Taken to Open Trials</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c122" data-from="169" data-to="122">122</span><a class="src" href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026" target="_blank" rel="noopener" data-tip="UK Clinical Research Delivery KPIs, 2026" aria-label="Source: UK Clinical Research Delivery KPIs, 2026"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
+        <span style="font-size: 19px">days to recruit first patient, down from 169</span>
+        <span style="height: 1px; background: rgba(255,255,255,.08); margin: 10px 0"></span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c3" data-from="0" data-to="4">4</span> in 10<a class="src" href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026" target="_blank" rel="noopener" data-tip="UK Clinical Research Delivery KPIs, 2026" aria-label="Source: UK Clinical Research Delivery KPIs, 2026"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
+        <span style="font-size: 19px">trials still had no patient a month after opening</span>
+      </div>
+    </div>
+    <p class="rv2" style="margin: 0; max-width: 40em; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #C4C7C5">Patients are willing, and trials are open. What’s missing is the connection. Today that depends on a busy doctor remembering which trials exist and checking each one’s rules by hand.</p>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product" class="sect slide" style="padding: 140px 24px; background: #121314">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 120px">
+    <h2 style="margin: 0; max-width: 18ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Trial</span> <span class="w">Match</span> <span class="w">makes</span> <span class="w">the</span> <span class="w">connection.</span> <span class="w grad">On both sides.</span></h2>
+
+    <!-- patients -->
+    <div class="g2" style="gap: 80px; align-items: center">
+      <div class="rv" style="display: flex; flex-direction: column; gap: 20px">
+        <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">For patients</span>
+        <h3 style="margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">An agent that finds every trial you qualify for.</h3>
+        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Connect your record once. Your agent checks every open trial, asks for required information when something is missing, and shows only the trials that fit. Apply when you’re ready, or let it apply for you.</p>
+        <a class="more" href="/app/" style="font-size: 16px; font-weight: 500; text-decoration: none">Try it as a patient <span>→</span></a>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <div class="sc-col"><div class="tiltIn" style="width: 300px; max-width: 100%; border-radius: 44px; padding: 10px; background: #26282B; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08)">
+          <!-- patient scene: Mei's agent checks LT-301's 9 entry rules against her record, asks the one it can't settle, and she applies with a tap. Same data as the demo app. -->
+          <div class="ph" role="img" aria-label="Animation of the patient app. Mei’s agent checks trial LT-301’s 9 entry rules against her record and finds 8 met. It asks her the one thing the record doesn’t say: has a scan checked her brain? She answers, all 9 rules are met, and she applies with one tap. Her name stays hidden from the trial team until she says yes."><div class="ph-in">
+            <div class="ph-bar"><b>9:41</b><span class="ph-sys"><svg viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1.5 4.5a9.5 9.5 0 0 1 13 0M4 7.3a6 6 0 0 1 8 0"/><circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/></svg><svg viewBox="0 0 26 12"><rect x=".75" y=".75" width="21.5" height="10.5" rx="3" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.5"/><rect x="2.5" y="2.5" width="15" height="7" rx="1.6" fill="currentColor"/><rect x="23.5" y="4" width="2" height="4" rx="1" fill="currentColor" fill-opacity=".45"/></svg></span></div>
+            <div class="ph-app"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"/><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"/><rect x="11" y="11" width="10" height="10" fill="#B48BE9"/></svg><b>Trial Match</b><span class="ph-role">Patient</span><span class="ph-me">M</span></div>
+            <div class="ph-hi">Hello, Mei</div>
+            <div class="ph-agent"><span class="sc-spark"><svg viewBox="0 0 24 24"><path d="M12 2c.6 5 3.4 8.6 10 10-6.6 1.4-9.4 5-10 10-.6-5-3.4-8.6-10-10 6.6-1.4 9.4-5 10-10z" fill="#fff"/></svg></span><span class="ph-at"><b>Your agent</b><span class="ph-say sc-say">Checking LT-301 against your record</span></span></div>
+            <div class="ph-trial">
+              <div class="ph-top"><span class="ph-meta">LT-301 · Phase III · Targeted tablet</span><span class="ph-match">Strong match · all rules met</span></div>
+              <span class="sc-ring ph-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><span><b class="sc-n">0</b><small>/9</small></span></span></span>
+              <span class="ph-tt">A new targeted tablet after EGFR treatment stops working</span>
+              <span class="ph-site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Thames Chest Centre, London</span>
+            </div>
+            <div class="ph-rh"><span>Entry rules</span><span class="ph-cnt"><b class="sc-n">0</b><span> of 9 met</span><span class="ph-tc">· 1 to check</span></span></div>
+            <ul class="ph-rules">
+              <li><i></i><span>Lung cancer, stage IV</span><em>GP record</em></li>
+              <li><i></i><span>EGFR exon 19 deletion</span><em>Genomic lab</em></li>
+              <li><i></i><span>Grew on osimertinib</span><em>Hospital</em></li>
+              <li><i></i><span>Last treatment 2+ weeks ago</span><em>Hospital</em></li>
+              <li><i></i><span>Fitness (ECOG) 0–1</span><em>Hospital</em></li>
+              <li><i></i><span>No untreated brain spread</span><em>Not in record</em></li>
+              <li><i></i><span>No lung inflammation</span><em>Hospital</em></li>
+              <li><i></i><span>Blood counts in range</span><em>Blood test</em></li>
+              <li><i></i><span>Kidney function in range</span><em>Blood test</em></li>
+            </ul>
+            <div class="ph-cta sc-tp"><svg class="sc-draw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Apply to LT-301</span></div>
+            <div class="ph-nav">
+              <span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="7" y="3" width="10" height="16" rx="2"/><path d="M4 6v12M20 6v12" stroke-linecap="round"/></svg><small>Discover</small></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><small>My trials</small></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg><small>My health</small></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13l2.5-8h11L20 13v6H4z"/><path d="M4 13h5l1 2h4l1-2h5"/></svg><small>Inbox</small><b>1</b></span>
+            </div>
+            <div class="ph-scrim"></div>
+            <div class="ph-sheet ph-ask"><span class="ph-grab"></span><span class="ph-turn">Your turn</span><span class="ph-sub">One answer settles the last rule</span><span class="ph-qq">Has a scan checked your brain?</span>
+              <span class="ph-opt sc-tp">Yes, and there was no spread<svg class="ph-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="ph-opt">Spread was found, treated, and is stable</span><span class="ph-opt">Spread was found and isn’t treated yet</span><span class="ph-opt">I’m not sure. My team can check.</span></div>
+            <div class="ph-sheet ph-conf"><span class="ph-grab"></span><span class="ph-ct">Apply to LT-301?</span><span class="ph-cb">Your agent fills in the application from your record and sends it under your ID, P-0412.</span>
+              <span class="ph-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You meet all 9 entry rules</span>
+              <span class="ph-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Your name stays hidden until you say yes</span>
+              <span class="ph-btns"><span class="ph-go sc-tp"><span class="sc-spin"></span><span>Apply</span></span><span class="ph-no">Not now</span></span></div>
+            <div class="ph-toast"><span>Applied to LT-301. You’ll hear back in your inbox.</span></div>
+          </div></div>
+        </div><ol class="sc-steps" data-for="ph" aria-hidden="true"><li>Check</li><li>Ask</li><li>Apply</li></ol></div>
+      </div>
+    </div>
+
+    <!-- trial teams -->
+    <div class="g2" style="gap: 80px; align-items: center">
+      <div style="display: flex; justify-content: center">
+        <div class="sc-col"><div class="zoomIn" style="width: 100%; max-width: 580px; border-radius: 24px; background: #1A1B1D; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.06)"><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="margin-left: 10px; font-size: 12px; color: #9AA0A6">Trial Match · Applicants</span></div>
+          <!-- trial team scene: applicants for LT-301 arrive already checked against the 9 rules and sort by fit; the clinician reads the quoted evidence and invites the top three. -->
+          <div class="cw" role="img" aria-label="Animation of the trial team’s view. Five applicants for LT-301 arrive already checked against its 9 entry rules and sort by how well they fit; one is flagged for missing a rule. The clinician opens the top applicant and sees the record quoted for each rule, then selects the three strongest and invites them to pre-screening."><div class="cw-scr"><div class="cw-in">
+            <div class="cw-app"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"/><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"/><rect x="11" y="11" width="10" height="10" fill="#B48BE9"/></svg><b>Trial Match</b><span class="cw-role">Clinician</span><span class="cw-tabs"><span>Overview</span><span class="on">Applicants</span><span>Invites</span></span><span class="cw-me">A</span></div>
+            <div class="cw-head"><span class="cw-meta">LT-301 · Phase III · Thames Chest Centre, London</span><span class="cw-h">Applicants</span></div>
+            <div class="cw-agent"><span class="sc-spark"><svg viewBox="0 0 24 24"><path d="M12 2c.6 5 3.4 8.6 10 10-6.6 1.4-9.4 5-10 10-.6-5-3.4-8.6-10-10 6.6-1.4 9.4-5 10-10z" fill="#fff"/></svg></span><span class="cw-say sc-say">Reading 5 new applications</span></div>
+            <div class="cw-cols"><span></span><span>Applicant</span><span>Entry rules</span><span>Fit</span></div>
+            <div class="cw-list">
+              <div class="cw-row" data-score="86" data-st="q" data-l="8 met · 1 to check"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0431</b><small>70 · F · London</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="98" data-st="ok" data-l="9 of 9 met"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0412</b><small>63 · F · London</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="31" data-st="x" data-l="Misses 1 rule"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0397</b><small>55 · M · Bristol</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="95" data-st="ok" data-l="9 of 9 met"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0388</b><small>58 · M · Manchester</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="81" data-st="q" data-l="8 met · 1 to check"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0409</b><small>66 · M · Leeds</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+            </div>
+            <div class="cw-ev">
+              <div class="cw-evh"><span><b>P-0412</b><small>63 · F · London · 9 of 9 rules met</small></span><span class="cw-x sc-tp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
+              <span class="cw-evl">Quoted from the record</span>
+              <div class="cw-q"><b><i>✓</i>EGFR exon 19 deletion</b><q><span>EGFR exon 19 deletion detected</span></q><small>Genomic lab report</small></div>
+              <div class="cw-q"><b><i>✓</i>Grew on osimertinib</b><q><span>Progression on osimertinib, stopped 3 weeks ago</span></q><small>Hospital record</small></div>
+              <div class="cw-q"><b><i>✓</i>No untreated brain spread</b><q><span>Yes, and there was no spread</span></q><small>Her answer to her agent, today</small></div>
+              <span class="cw-evf">Every quote is checked against the record before you see it.</span>
+            </div>
+            <div class="cw-bar"><span class="cw-n"><b class="sc-n">1</b> selected</span><span class="cw-go sc-tp"><span class="sc-spin"></span><svg class="cw-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg><svg class="cw-ok sc-draw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Invite to pre-screening</span></span></div>
+            <span class="cw-cur"><svg viewBox="0 0 24 24"><path d="M5 3l14 8.2-6.2 1.4 3.6 6.6-2.6 1.4-3.6-6.6L5 18.6z" fill="#fff" stroke="#131314" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+          </div></div></div>
+        </div><ol class="sc-steps" data-for="cw" aria-hidden="true"><li>Check</li><li>Review</li><li>Invite</li></ol></div>
+      </div>
+      <div class="rv" style="display: flex; flex-direction: column; gap: 20px">
+        <span style="font-size: 14px; color: #6DD58C; font-weight: 500">For trial teams</span>
+        <h3 style="margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">A ranked shortlist in minutes, not weeks.</h3>
+        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Eligibility is checked before patients even arrive. Applicants come ranked by fit, with the record quoted for every rule, and the strongest matches are invited to pre-screening.</p>
+        <a class="more" href="/app/" style="font-size: 16px; font-weight: 500; text-decoration: none">Try it as a clinician <span>→</span></a>
+      </div>
+    </div>
+
+    <!-- no dead ends -->
+    <div class="rv lift" style="border-radius: 28px; padding: 48px; background: linear-gradient(135deg, rgba(66,133,244,.12), rgba(155,114,203,.07) 60%, rgba(217,101,112,.04)), #161719; box-shadow: inset 0 0 0 1px rgba(155,114,203,.22); display: flex; flex-wrap: wrap; gap: 32px 64px; align-items: center">
+      <h3 style="margin: 0; flex: 1 1 320px; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">Every rejection builds a stronger match.</h3>
+      <p style="margin: 0; flex: 2 1 420px; color: #C4C7C5; font-size: 19px">If a patient doesn’t qualify after pre-screening, those results go straight back to their agent, which finds the next trial that fits. When someone finishes a trial, their results start the next search.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">Under the hood</span>
+      <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Each</span> <span class="w">agent</span> <span class="w">does</span> <span class="w">one</span> <span class="w">job.</span> <span class="w" style="color: #6F7378; display: inline-block">Every claim is checked against the record.</span></h2>
+    </div>
+
+    <div class="relay zoomIn">
+      <div class="rl-track" aria-hidden="true">
+        <span class="rl-line"></span>
+        <div class="rl-nodes g5"><i class="rl-node" style="--d: 0s"></i><i class="rl-node" style="--d: 2s"></i><i class="rl-node" style="--d: 4s"></i><i class="rl-node" style="--d: 6s"></i><i class="rl-node" style="--d: 8s"></i></div>
+        <span class="rl-pulse"></span>
+      </div>
+      <ol class="rl-row g5" aria-label="How a match is made, step by step">
+        <li class="ag" style="--d: 0s">
+          <div class="ag-art" aria-hidden="true"><div class="v-doc"><i style="width: 86%"></i><i style="width: 62%"></i><i class="hl" style="width: 78%"></i><i style="width: 48%"></i></div><span class="v-chip c-read">EGFR ex19del</span></div>
+          <div class="ag-txt"><b>Records Reader</b><span class="ag-tag t-blue">MedGemma</span></div>
+        </li>
+        <li class="ag" style="--d: 2s">
+          <div class="ag-art" aria-hidden="true"><span class="v-chip c-ok">EGFR ex19del <em>✓</em></span><span class="v-chip c-bad">KRAS G12C <em>✕</em></span></div>
+          <div class="ag-txt"><b>Skeptic</b><span class="ag-tag t-green">Quote check</span></div>
+        </li>
+        <li class="ag" style="--d: 4s">
+          <div class="ag-art" aria-hidden="true"><span class="v-live"><span class="livedot"></span>LIVE</span><div class="v-trials"><i style="--k: 0s"></i><i style="--k: .25s"></i><i style="--k: .5s"></i></div></div>
+          <div class="ag-txt"><b>Trial Scout</b><span class="ag-tag t-violet">ClinicalTrials.gov</span></div>
+        </li>
+        <li class="ag" style="--d: 6s">
+          <div class="ag-art" aria-hidden="true"><div class="v-rules"><span><em style="--k: .1s">✓</em></span><span><em style="--k: .35s">✓</em></span><span><em style="--k: .6s">✓</em></span><span><em class="q" style="--k: .85s">?</em></span></div></div>
+          <div class="ag-txt"><b>Matcher</b><span class="ag-tag">Rules, not AI</span></div>
+        </li>
+        <li class="ag" style="--d: 8s">
+          <div class="ag-art" aria-hidden="true"><span class="v-person"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><em>✓</em></span><span class="v-btn">Invite</span></div>
+          <div class="ag-txt"><b>Care team</b><span class="ag-tag" style="background: rgba(155,114,203,.12)"><span class="grad">People decide</span></span></div>
+        </li>
+      </ol>
+    </div>
+
+    <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">MedGemma reads.</span> <span style="color: #6DD58C">Code checks.</span> <span style="color: #E3E3E3">Rules match.</span> <span class="grad">People decide.</span></p>
+  </div>
+</section>
+
+<!-- AGENT TEAM: one agent hands work to another, and the record never crosses the line. Every word is in LANDING-COPY.md, "Agent team". -->
+<section id="team" class="sect slide" style="padding: 140px 24px; background: #121314">
+  <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">Watch them work</span>
+      <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Agents</span> <span class="w">hand</span> <span class="w">work</span> <span class="w">to</span> <span class="w">each</span> <span class="w">other.</span> <span class="w" style="color: #6F7378; display: inline-block">Your record never crosses the line.</span></h2>
+      <p style="margin: 0; max-width: 62ch; font-size: 19px; line-height: 1.55; color: #C4C7C5">Ask about a drug and a small team gets to work. Gemini researches it online, with public words only. MedGemma reads what it finds against your record, on your own computer. You see every hand-off as it happens.</p>
+    </div>
+
+    <div class="at zoomIn" role="img" aria-label="Animation: a patient asks how sotorasib compares with docetaxel. The Coordinator hands the question to the Researcher, Gemini, online, which receives three public words and reads PubMed, the FDA label and ClinicalTrials.gov. It sends a cited brief back across the privacy line to the Analyst, MedGemma, on the patient's own computer, which reads it against the record and finds the research is about KRAS G12C while the record shows EGFR.">
+      <div class="at-ask"><span class="at-you">M</span><span class="at-q"><span class="at-typed"></span></span></div>
+
+      <div class="at-co"><span class="at-av c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.5 5.5H15a3.5 3.5 0 0 1 0 7H9a3.5 3.5 0 0 0 0 7h6.5"/></svg></span>
+        <span><strong>Coordinator</strong><em>on this device</em><span class="at-co-say">This needs outside evidence. I’ll hand it to the Researcher online, and the Analyst reads what comes back here.</span></span></div>
+
+      <div class="at-stage">
+        <div class="at-lane loc">
+          <span class="at-lh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>On this device</span>
+          <div class="at-agent" data-a="an" data-state="wait"><span class="at-av m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5M10.5 3v6.2L5.2 18.4A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.6L13.5 9.2V3"/><path d="M7.6 15h8.8"/></svg><span class="at-ok">✓</span></span><span class="at-nm">Analyst<small>MedGemma · your computer</small></span><span class="at-st">Waiting for the brief</span></div>
+          <div class="at-vault"><span class="at-rec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><span><strong>Your record</strong> · 19 facts<small>stays here</small></span></span><span class="at-lines"><i></i><i></i><i></i></span></div>
+        </div>
+
+        <div class="at-wall">
+          <span class="at-gate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <div class="at-guard"><span class="at-gl">Privacy guard</span><span class="at-gs">Going online</span><span class="at-words"><i class="k">compare</i><i>sotorasib</i><i>vs docetaxel</i></span>
+            <span class="at-kept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Kept here: what you typed, your name, age and ID, and your record</span></div>
+        </div>
+
+        <div class="at-lane net">
+          <span class="at-lh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Online</span>
+          <div class="at-agent" data-a="re" data-state="wait"><span class="at-av g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="at-ok">✓</span></span><span class="at-nm">Researcher<small>Gemini · online</small></span><span class="at-st">Waiting for the request</span></div>
+          <div class="at-srcs"><span class="at-src" data-src="pm">PubMed <span class="at-n" data-to="214">214</span></span><span class="at-src" data-src="fda">FDA label <span class="at-n" data-to="1">1</span></span><span class="at-src" data-src="ct">ClinicalTrials.gov <span class="at-n" data-to="6">6</span></span></div>
+        </div>
+
+        <span class="at-pk out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/></svg>3 public words</span>
+        <span class="at-pk in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5"/></svg>brief · 2 sources</span>
+      </div>
+
+      <div class="at-outs">
+        <div class="at-out res">
+          <div class="at-oh"><span class="at-av g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span><span><strong>What the research says</strong><small>Researcher · Gemini · public sources only</small></span></div>
+          <div class="at-txt">Sotorasib blocks KRAS G12C, a gene change in some lung cancers.<span class="at-cite">1</span> In a phase III trial it held the cancer back longer than docetaxel chemotherapy: 5.6 against 4.5 months.<span class="at-cite">2</span> Its common side effects include diarrhoea, tiredness and liver changes.<span class="at-cite">1</span></div>
+          <div class="at-refs"><span><span class="at-cite">1</span>FDA label: Lumakras (sotorasib)</span><span><span class="at-cite">2</span>CodeBreaK 200 · The Lancet · 2023</span></div>
+        </div>
+        <div class="at-out mine">
+          <div class="at-oh"><span class="at-av m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5M10.5 3v6.2L5.2 18.4A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.6L13.5 9.2V3"/><path d="M7.6 15h8.8"/></svg></span><span><strong>What it means for you</strong><small>Analyst · MedGemma · your record never left your computer</small></span></div>
+          <div class="at-txt"><span class="at-k">Who was studied</span><span class="at-ans" data-text="Adults whose KRAS G12C lung cancer grew after earlier treatment."></span><span class="at-k">What fits</span><span class="at-ans" data-text="Your record shows EGFR, not KRAS G12C, so this research isn’t about your cancer’s change."></span><span class="at-k">Worth asking</span><span class="at-ans" data-text="Your care team which EGFR trials are open near you."></span></div>
+          <div class="at-chk"><span class="x">✕</span><span><small>Checked by rules on this device</small>The research is in people with KRAS G12C, but your record shows EGFR.</span></div>
+        </div>
+      </div>
+
+      <div class="at-steps"><span class="at-step" data-k="2">Route</span><span class="at-step" data-k="3">Guard</span><span class="at-step" data-k="4">Research</span><span class="at-step" data-k="6">Hand back</span><span class="at-step" data-k="7">Analyse</span><span class="at-step" data-k="9">Answer</span><span class="at-done">Nothing about you went online</span></div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: baseline; justify-content: space-between">
+      <p class="rv3" style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: #6F7378"><span style="color: #A8C7FA">Gemini researches.</span> <span style="color: #6DD58C">MedGemma reads your record, at home.</span> <span style="color: #E3E3E3">Only public words cross.</span> <span class="grad">You see every hand-off.</span></p>
+      <a class="more" href="/app/" style="color: #A8C7FA; text-decoration: none; font-weight: 500; font-size: 17px">Ask the team in the demo <span aria-hidden="true">→</span></a>
+    </div>
+    <p style="margin: -24px 0 0; font-size: 13px; color: #6F7378">The patient is synthetic. The sources are real: PubMed, FDA labels and ClinicalTrials.gov.</p>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px">
+    <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Every</span> <span class="w">rejection</span> <span class="w">costs</span> <span class="w">both</span> <span class="w">patients</span> <span class="w">and</span> <span class="w">researchers</span> <span class="w">weeks</span> <span class="w">in</span> <span class="w">lost</span> <span class="w">time.</span> <span class="w" style="color: #6F7378; display: inline-block">So we measured that first.</span></h2>
+    <div class="g2" style="gap: 2px; border-radius: 28px; overflow: hidden">
+      <div class="rv dim" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; color: #9AA0A6">Registry search</span>
+        <span style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; color: #6F7378; font-variant-numeric: tabular-nums"><span data-count="c93" data-from="0" data-to="93">93</span>%</span>
+        <span style="font-size: 18px; color: #9AA0A6">of “eligible” matches were wrong</span>
+      </div>
+      <div class="rv3" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; color: #A8C7FA">Trial Match</span>
+        <span class="grad" style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c0" data-from="93" data-to="0">0</span>%</span>
+        <span style="font-size: 18px">wrong, with every real match still found</span>
+      </div>
+    </div>
+    <div class="rv3" style="display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between; align-items: baseline">
+      <span style="font-size: 20px; color: #C4C7C5"><b style="font-weight: 500; color: #E3E3E3"><span data-count="c11" data-from="1" data-to="11">11</span>× fewer trials to review:</b> 1.6 trials per patient instead of 16.7.</span>
+      <span style="font-size: 13px; color: #6F7378">Offline test, 45,600 synthetic patient–trial pairs.</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust" class="sect slide" style="padding: 120px 24px; background: #121314">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+    <h2 style="margin: 0; max-width: 22ch; font-size: clamp(32px, 4vw, 48px); line-height: 1.1; font-weight: 400; letter-spacing: -0.02em"><span class="w">The</span> <span class="w">agent</span> <span class="w">finds</span> <span class="w">and</span> <span class="w">checks.</span> <span class="w" style="color: #6F7378">People decide.</span></h2>
+    <div class="g4" style="gap: 40px">
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="3"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><b style="font-weight: 500">Patients choose what to share</b><span style="color: #9AA0A6; font-size: 15px">Each record is read only with explicit patient consent.</span></div>
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path><path d="M3 3l18 18"></path></svg><b style="font-weight: 500">Patient’s name stays hidden</b><span style="color: #9AA0A6; font-size: 15px">Trial teams see an ID until the patient says yes.</span></div>
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><b style="font-weight: 500">Real humans make the call</b><span style="color: #9AA0A6; font-size: 15px">Clinicians make the decision for every enrolment.</span></div>
+      <div class="rv2 lift" style="display: flex; flex-direction: column; gap: 10px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A8C7FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></svg><b style="font-weight: 500">Patient data remains secure throughout.</b><span style="color: #9AA0A6; font-size: 15px">Data management is designed with UK GDPR in mind.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="sect slide" style="position: relative; padding: 160px 24px; overflow: hidden">
+  <div aria-hidden="true" style="position: absolute; left: 50%; bottom: -420px; width: 1400px; height: 820px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(155,114,203,.20), rgba(66,133,244,.10) 55%, transparent 100%); pointer-events: none"></div>
+  <div style="position: relative; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; align-items: center; text-align: center">
+    <h2 style="margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 1.0; font-weight: 400; letter-spacing: -0.035em"><span class="w">Every</span> <span class="w">patient</span> <span class="w">deserves</span> <span class="w grad">to be asked.</span></h2>
+    <a class="pri rv2" href="/app/" style="height: 56px; padding: 0 32px; border-radius: 28px; background: #A8C7FA; color: #062E6F; font-size: 17px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="padding: 40px 24px 56px; border-top: 1px solid rgba(255,255,255,.06)">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; font-size: 13px; color: #6F7378">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between">
+      <span style="color: #C4C7C5; font-weight: 500">Trial Match</span>
+      <span>Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.</span>
+    </div>
+    <p style="margin: 0; line-height: 1.7">Sources: 95% from <a href="https://doi.org/10.1136/bmjresp-2025-003702">BMJ Open Respiratory Research</a> (UK cancer patients). 63% from an <a href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html">Institute of Cancer Research survey</a> of 500+ patients, 2021. 122 and 169 days (median, industry drug trials) and 4 in 10 (all studies, 2025) from <a href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026">UK Clinical Research Delivery KPIs</a>, 2026.</p>
+  </div>
+</footer>
+
+</div>
+<script>
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var root = document.querySelector('.tm'); if (!root) return;
+  var sel = 'h1 .w, h2 .w, section h3, section h4, section p, section li, section a.pill, section a.pri, section a.sec, section a.more, section b, .rv, .rv2, .rv3, .lift, .zoomIn, .tiltIn, .swipeIn, .slideL, .slideR, .pop, [data-count], footer p, footer span';
+  var els = Array.prototype.slice.call(root.querySelectorAll(sel)).filter(function (el) { return !el.closest('.ph, .cw, .sc-steps'); });   // the product scenes run their own motion
+  Array.prototype.forEach.call(root.querySelectorAll('[data-count]'), function (c) { c.textContent = c.getAttribute('data-from'); });
+  root.classList.add('anim');
+  els.forEach(function (el) { el.classList.add('mo'); });
+  function countTo(el, from, to, delay) {
+    setTimeout(function () {
+      var t0 = null, dur = 850;
+      function step(ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(from + (to - from) * e); if (p < 1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }, delay);
+  }
+  var first = true;
+  var io = new IntersectionObserver(function (entries) {
+    var i = 0, base = first ? 120 : 0;
+    first = false;
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target, d = base + Math.min(i++, 12) * 30;
+      io.unobserve(el); el.style.transitionDelay = d + 'ms'; el.classList.add('in');
+      if (el.hasAttribute('data-count')) countTo(el, Number(el.getAttribute('data-from')), Number(el.getAttribute('data-to')), d + 60);
+      setTimeout(function () { el.classList.remove('mo'); el.classList.remove('in'); el.style.transitionDelay = ''; }, d + 750);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });   // reveal as each top comes into view: a share of the height never arrived for tall blocks like the agent team scene on a phone
+  function start() { els.forEach(function (el) { io.observe(el); }); }
+  if (window.TMLoader && window.TMLoader.leaving) window.TMLoader.leaving.then(start); else start();
+})();
+(function () {
+  // Hero photos take turns. Photo 1 is in the page; the other six are added once the loading screen leaves, so they
+  // never slow it down. Every few seconds the next one sweeps in (heroSweep and heroSheen in the CSS, then heroIn's slow
+  // pull-back) and the credit follows. It waits while the hero is off screen or the tab is hidden, and with reduced
+  // motion it stays on photo 1.
+  var media = document.querySelector('.tm .hero-media'), sheen = media && media.querySelector('.hero-sheen');
+  var credit = document.querySelector('.tm .hero-credit'), by = credit && credit.querySelector('.hero-by');
+  if (!media || !sheen || !by || !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var HOLD = 6500, SWEEP = 2400;   // ms fully shown, ms for the sweep (match heroSweep and heroSheen)
+  // [file in media/hero/, width, height, crop from the top (%), alt text, photographer on Unsplash]
+  var MORE = [
+    ['04-doctor-injection-ward.jpg', 2000, 1620, 30, 'A doctor gives a patient an injection on a ward', 'National Cancer Institute'],
+    ['07-doctor-stethoscope-man.jpg', 2000, 1333, 26, 'An older doctor listens to a man’s chest', 'National Cancer Institute'],
+    ['13-older-woman-injection.jpg', 2000, 1322, 24, 'An older woman gets a shot in the shoulder', 'CDC'],
+    ['14-screening-room.jpg', 2000, 1333, 26, 'A smiling woman in a gown in a screening room', 'National Cancer Institute'],
+    ['16-doctor-chart-patient.jpg', 2000, 1333, 26, 'An older doctor goes over a chart with a patient', 'National Cancer Institute'],
+    ['17-scan-review.jpg', 2000, 1333, 30, 'Clinicians review a scan on screen', 'Accuray']];
+  var first = media.querySelector('.hero-slide');
+  var slides = [{ el: first, img: first.querySelector('img'), by: by.textContent }];
+  var cur = 0, timer = 0, started = false, onScreen = true;
+
+  function build() {
+    MORE.forEach(function (p, i) {
+      var el = document.createElement('div'), img = new Image();
+      el.className = 'hero-slide'; el.setAttribute('aria-hidden', 'true');
+      el.style.setProperty('--y', p[3] + '%');
+      el.style.setProperty('--drift', (i % 2 ? -2 : 2) + '%');   // the pull-back drifts left, then right
+      img.className = 'hero-img'; img.width = p[1]; img.height = p[2]; img.alt = p[4]; img.decoding = 'async';
+      img.src = 'media/hero/' + p[0];
+      el.appendChild(img); media.insertBefore(el, sheen);
+      slides.push({ el: el, img: img, by: p[5] });
+    });
+  }
+  function loaded(im) {
+    var ok = im.complete && im.naturalWidth ? Promise.resolve() : new Promise(function (res, rej) {
+      im.addEventListener('load', res, { once: true }); im.addEventListener('error', rej, { once: true });
+    });
+    return ok.then(function () { return im.decode ? im.decode().catch(function () {}) : null; });
+  }
+  function show(n) {
+    var prev = slides[cur], next = slides[n];
+    next.el.classList.add('is-on', 'is-top', 'is-in'); next.el.removeAttribute('aria-hidden');
+    prev.el.classList.remove('is-top'); prev.el.setAttribute('aria-hidden', 'true');
+    sheen.classList.remove('is-run'); void sheen.offsetWidth; sheen.classList.add('is-run');
+    credit.classList.add('is-swap');
+    setTimeout(function () { by.textContent = next.by; credit.classList.remove('is-swap'); }, SWEEP * 0.4);
+    setTimeout(function () { prev.el.classList.remove('is-on'); next.el.classList.remove('is-in'); }, SWEEP + 60);
+    cur = n;
+  }
+  function plan(ms) { clearTimeout(timer); timer = setTimeout(tick, ms); }
+  function stop() { clearTimeout(timer); timer = 0; }
+  function tick() {
+    timer = 0;
+    if (!onScreen || document.hidden || slides.length < 2) return;
+    var n = (cur + 1) % slides.length;
+    loaded(slides[n].img).then(function () {
+      if (!onScreen || document.hidden) return;
+      show(n); plan(SWEEP + HOLD);
+    }, function () {   // a photo that won't load leaves the rotation
+      if (n) { slides[n].el.remove(); slides.splice(n, 1); }
+      plan(1000);
+    });
+  }
+  function start() {
+    if (started) return;
+    started = true; build();
+    if (onScreen && !document.hidden) plan(HOLD + 1000);   // a little longer on photo 1 while the headline comes in
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stop(); else if (started && onScreen && !timer) plan(HOLD);
+  });
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    onScreen = es[0].isIntersecting;
+    if (!started) return;
+    if (!onScreen) stop(); else if (!timer && !document.hidden) plan(HOLD);
+  }, { threshold: 0.2 }).observe(media.closest('.hero') || media);
+  if (window.TMLoader && window.TMLoader.leaving) window.TMLoader.leaving.then(start);
+  else if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+})();
+(function () {
+  // The top bar turns frosted once the page scrolls.
+  var bar = document.querySelector('.tm .topbar'); if (!bar) return;
+  function upd() { bar.classList.toggle('is-scrolled', window.scrollY > 24); }
+  upd(); window.addEventListener('scroll', upd, { passive: true });
+  // The dot in the sections island sits under the section in view, and follows the pointer over the links.
+  var nav = bar.querySelector('.navlinks'), dot = bar.querySelector('.nav-dot'); if (!nav || !dot) return;
+  var links = Array.prototype.slice.call(nav.querySelectorAll('.nl')), on = null;
+  function put(a) { if (!a) { dot.style.opacity = '0'; return; } dot.style.transform = 'translateX(' + (a.offsetLeft + a.offsetWidth / 2) + 'px)'; dot.style.opacity = '1'; }
+  function setOn(a) { links.forEach(function (l) { l.classList.toggle('is-on', l === a); }); on = a; put(a); }
+  links.forEach(function (a) { a.addEventListener('mouseenter', function () { put(a); }); });
+  nav.addEventListener('mouseleave', function () { put(on); });
+  if (!('IntersectionObserver' in window)) return;
+  var byId = {}; links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) setOn(byId[e.target.id] || null); }); }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(byId).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  var top = document.getElementById('top'); if (top) new IntersectionObserver(function (es) { if (es[0].isIntersecting) setOn(null); }, { rootMargin: '-45% 0px -50% 0px' }).observe(top);
+})();
+(function () {
+  // The agents relay loops only while it is on screen.
+  var r = document.querySelector('.tm .relay'); if (!r) return;
+  if (!('IntersectionObserver' in window)) { r.classList.add('play'); return; }
+  new IntersectionObserver(function (es) { es.forEach(function (e) { r.classList.toggle('play', e.isIntersecting); }); }, { threshold: 0.3 }).observe(r);
+})();
+(function () {
+  // Phones only: the card row follows the running light, and a tap on the track jumps to that step.
+  var row = document.querySelector('.tm .rl-row'), track = document.querySelector('.tm .rl-track');
+  if (!row || !track || !window.matchMedia) return;
+  var small = window.matchMedia('(max-width: 900px)'), still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var cards = Array.prototype.slice.call(row.children), hold = 0;
+  function go(i, smooth) {
+    if (!small.matches || !cards[i]) return;
+    var c = cards[i];   // layout positions, so the section's reveal transform can't skew the maths
+    row.scrollTo({ left: c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2, behavior: smooth && !still.matches ? 'smooth' : 'auto' });
+  }
+  cards.forEach(function (c, i) {
+    function follow(e) { if (e.target === c && e.animationName === 'rlCard' && Date.now() > hold) go(i, true); }
+    c.addEventListener('animationstart', follow);
+    c.addEventListener('animationiteration', follow);
+  });
+  ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { row.addEventListener(ev, function () { hold = Date.now() + 8000; }, { passive: true }); });
+  track.addEventListener('click', function (e) {
+    if (!small.matches) return;
+    var b = track.getBoundingClientRect(), i = Math.round(((e.clientX - b.left) / b.width - 0.1) / 0.2);
+    hold = Date.now() + 8000; go(Math.max(0, Math.min(4, i)), true);
+  });
+  document.addEventListener('touchstart', function () {}, { passive: true });   // lets iOS show :active tap states
+})();
+(function () {
+  // Agent team scene: plays one hand-off while it is on screen, then starts again. Classes s1..s9 drive the CSS;
+  // the script types the question and the answer, moves each agent's status and counts the sources up.
+  // With reduced motion, or no IntersectionObserver, it shows the finished scene.
+  var at = document.querySelector('.tm .at'); if (!at) return;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var Q = 'How does sotorasib compare with docetaxel?';
+  var qEl = at.querySelector('.at-typed'), ans = at.querySelectorAll('.at-ans'), steps = at.querySelectorAll('.at-step'), timers = [], playing = false;
+  function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
+  function stop() { timers.forEach(clearTimeout); timers = []; playing = false; }
+  function stage(n) {
+    for (var i = 1; i <= 9; i++) at.classList.toggle('s' + i, i <= n);
+    var cur = -1;
+    Array.prototype.forEach.call(steps, function (s, j) { var on = +s.getAttribute('data-k') <= n; s.classList.toggle('on', on); if (on) cur = j; });
+    Array.prototype.forEach.call(steps, function (s, j) { s.classList.toggle('now', j === cur && n < 9); });
+    at.style.setProperty('--p', Math.max(0, cur) / (steps.length - 1));
+  }
+  function agent(a, state, label) {
+    var el = at.querySelector('[data-a="' + a + '"]'), st = el.querySelector('.at-st');
+    el.setAttribute('data-state', state);
+    if (st.textContent !== label) { st.textContent = label; st.classList.remove('flip'); void st.offsetWidth; st.classList.add('flip'); }
+  }
+  function count(el, to) {
+    if (still) { el.textContent = to; return; }
+    var t0 = null;
+    (function f(ts) { if (ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / 700); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p >= 1) return; } requestAnimationFrame(f); })();
+  }
+  function src(k, state) {
+    var el = at.querySelector('[data-src="' + k + '"]'), n = el.querySelector('.at-n');
+    if (state) el.setAttribute('data-state', state); else el.removeAttribute('data-state');
+    if (state === 'ok') count(n, +n.getAttribute('data-to'));
+  }
+  function type(el, text, ms, then) {
+    var i = 0, gap = Math.max(14, ms / text.length);
+    el.classList.add('typing');
+    (function next() { el.textContent = text.slice(0, ++i); if (i < text.length) later(gap, next); else { el.classList.remove('typing'); if (then) then(); } })();
+  }
+  function reset() {
+    stage(0); qEl.textContent = ''; qEl.classList.remove('typing');
+    Array.prototype.forEach.call(ans, function (a) { a.textContent = ''; a.classList.remove('typing'); });
+    agent('re', 'wait', 'Waiting for the request'); agent('an', 'wait', 'Waiting for the brief');
+    ['pm', 'fda', 'ct'].forEach(function (k) { src(k, null); });
+  }
+  function finished() {
+    stage(9); qEl.textContent = Q;
+    Array.prototype.forEach.call(ans, function (a) { a.textContent = a.getAttribute('data-text'); });
+    agent('re', 'done', 'Brief ready: 3 sentences, each citing a source it read');
+    agent('an', 'done', 'Done. Your record stayed on your computer');
+    ['pm', 'fda', 'ct'].forEach(function (k) { src(k, 'ok'); });
+  }
+  function play() {
+    stop(); playing = true; reset();
+    later(300, function () { stage(1); type(qEl, Q, 1100); });   // the question bubble appears as it types, never as an empty pill
+    later(1700, function () { stage(2); });
+    later(2700, function () { stage(3); });
+    later(3800, function () { stage(4); agent('re', 'run', 'Got 3 public words. Planning what to look up'); });
+    later(4700, function () { stage(5); src('pm', 'run'); agent('re', 'run', 'Searching PubMed for “sotorasib docetaxel”'); });
+    later(5700, function () { src('pm', 'ok'); src('fda', 'run'); agent('re', 'run', 'Reading the FDA label for Lumakras'); });
+    later(6500, function () { src('fda', 'ok'); src('ct', 'run'); agent('re', 'run', 'Checking ClinicalTrials.gov'); });
+    later(7300, function () { src('ct', 'ok'); agent('re', 'run', 'Writing the brief, citing every sentence'); });
+    later(8400, function () { stage(6); agent('re', 'done', 'Brief ready: 3 sentences, each citing a source it read'); });
+    later(9500, function () { stage(7); agent('an', 'run', 'Reading the brief against your record'); });
+    later(10500, function () {
+      stage(8); var j = 0;
+      (function nextLine() { var a = ans[j++]; if (a) type(a, a.getAttribute('data-text'), 1000, nextLine); })();
+    });
+    later(14200, function () { stage(9); agent('an', 'done', 'Done. Your record stayed on your computer'); });
+    later(20500, play);
+  }
+  if (still || !('IntersectionObserver' in window)) { finished(); return; }
+  reset();
+  // Starts once the scene's top is a quarter of the way up the screen, not when 30% of it shows: on a phone the scene is
+  // taller than two screens, so a share of its height left it sitting empty under the heading.
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting && !playing) play(); else if (!e.isIntersecting && playing) stop(); });
+  }, { rootMargin: '0px 0px -25% 0px' }).observe(at);
+})();
+(function () {
+  // Product scenes: the patient's phone (.ph) and the trial team's window (.cw). Each plays while it is on screen and then
+  // starts again. Classes b1..b8 only move forward; ask, conf, toast, ev, acts and sent open and close things. Numbers tick
+  // into place or count up, results pop, and the highlight in the step pill under each frame slides along with it.
+  // With reduced motion, or no IntersectionObserver, each shows its finished state.
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function Scene(el) {
+    var timers = [], s = { el: el, playing: false };
+    var steps = document.querySelector('.tm .sc-steps[data-for="' + (el.classList.contains('ph') ? 'ph' : 'cw') + '"]');
+    s.later = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+    s.clear = function () { timers.forEach(clearTimeout); timers = []; };
+    s.stop = function () { s.clear(); s.playing = false; };
+    s.beat = function (n) { for (var i = 1; i <= 8; i++) el.classList.toggle('b' + i, i <= n); };
+    s.step = function (k, done) {   // k: the step now showing; done: every step reached, so the highlight fades
+      if (!steps) return;
+      var lis = steps.querySelectorAll('li'), li = lis[k];
+      Array.prototype.forEach.call(lis, function (l, j) { l.classList.toggle('on', j <= k); l.classList.toggle('now', j === k && !done); });
+      if (li) { steps.style.setProperty('--x', li.offsetLeft + 'px'); steps.style.setProperty('--w', li.offsetWidth + 'px'); }
+      steps.style.setProperty('--o', done ? 0 : 1);
+    };
+    s.snap = function (fn) {   // jump to a state with no motion, and drop any one-shot animation classes
+      el.classList.add('sc-rs'); fn();
+      Array.prototype.forEach.call(el.querySelectorAll('.tick, .sc-pop, .flip'), function (n) { n.classList.remove('tick', 'sc-pop', 'flip'); });
+      void el.offsetWidth; el.classList.remove('sc-rs');
+    };
+    s.again = function (node, cls) { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };   // replays a one-shot animation
+    s.say = function (node, html, run) {
+      node.classList.toggle('run', !!run);
+      var ag = node.closest('.ph-agent, .cw-agent'); if (ag) ag.classList.toggle('run-ag', !!run);   // the spark pulses while the agent works
+      if (node.innerHTML === html) return;
+      node.innerHTML = html; s.again(node, 'flip');
+    };
+    s.num = function (node, n) {   // a number that ticks up into place when it changes
+      node._c = (node._c || 0) + 1;
+      if (node.textContent === String(n)) return;
+      node.textContent = n; s.again(node, 'tick');
+    };
+    s.count = function (node, to, ms) {   // counts from what it shows now to `to`, easing out
+      var from = parseInt(node.textContent, 10) || 0, id = node._c = (node._c || 0) + 1, t0 = null;
+      if (still || from === to) { node.textContent = to; return; }
+      requestAnimationFrame(function f(ts) {
+        if (node._c !== id) return;
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / ms);
+        node.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(f);
+      });
+    };
+    s.tap = function (node) { s.again(node, 'tap'); s.later(650, function () { node.classList.remove('tap'); }); };
+    s.ring = function (r, frac, n, tone, ms) {   // ms: count the number up over that time instead of ticking it
+      r.querySelector('.fg').style.strokeDashoffset = String(100 - Math.max(0, Math.min(1, frac)) * 100);
+      var b = r.querySelector('b'); if (ms) s.count(b, n, ms); else s.num(b, n);
+      r.classList.remove('g', 'y', 'r'); if (tone) r.classList.add(tone);
+    };
+    s.run = function (play, reset, finished) {
+      if (still || !('IntersectionObserver' in window)) { finished(); return; }
+      reset();
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting && !s.playing) { s.playing = true; play(); }
+          else if (!e.isIntersecting && s.playing) { s.stop(); reset(); el.classList.remove('out'); }
+        });
+      }, { rootMargin: '0px 0px -15% 0px' }).observe(el);
+    };
+    return s;
+  }
+
+  // The patient's phone: Mei's agent checks LT-301's 9 rules against her record, asks the one it can't settle, and Mei applies.
+  var ph = document.querySelector('.tm .ph');
+  if (ph) (function () {
+    var s = Scene(ph), rules = ph.querySelectorAll('.ph-rules li'), say = ph.querySelector('.ph-say');
+    var cnt = ph.querySelector('.ph-cnt'), cntN = cnt.querySelector('b'), ring = ph.querySelector('.ph-ring'), opt = ph.querySelector('.ph-opt');
+    var cta = ph.querySelector('.ph-cta'), ctaTxt = cta.querySelector('span'), go = ph.querySelector('.ph-go'), goTxt = go.querySelector('span:last-child');
+    var Q = 5, qTag = rules[Q].querySelector('em');   // the brain-scan rule: not in Mei's record, so the agent asks
+    function met(n) { s.ring(ring, n / 9, n, n === 9 ? 'g' : ''); s.num(cntN, n); }
+    function reset() {
+      s.snap(function () {
+        s.clear(); s.beat(0); s.step(0);
+        ph.classList.remove('ask', 'conf', 'toast'); cnt.classList.remove('tc'); ring.classList.remove('done'); go.classList.remove('busy');
+        Array.prototype.forEach.call(rules, function (li) { li.className = ''; });
+        qTag.textContent = 'Not in record'; opt.classList.remove('sel'); met(0);
+        ctaTxt.textContent = 'Apply to LT-301'; goTxt.textContent = 'Apply';
+        s.say(say, 'Checking LT-301 against your record', true);
+      });
+    }
+    function finished() {
+      s.beat(8); s.step(2, true);
+      Array.prototype.forEach.call(rules, function (li, i) { li.className = i === Q ? 'ok ans' : 'ok'; });
+      qTag.textContent = 'Your answer'; met(9);
+      ctaTxt.textContent = 'Applied to LT-301'; s.say(say, 'Applied. Your name stays hidden', false);
+    }
+    function play() {
+      reset(); ph.classList.remove('out');   // reset while hidden, then fade back in
+      var n = 0, T = 900, GAP = 330;
+      s.later(250, function () { s.beat(1); });
+      Array.prototype.forEach.call(rules, function (li, i) {   // each rule lights up, then checks off with a green sweep (or turns amber)
+        s.later(T + i * GAP, function () { li.className = 'now'; });
+        s.later(T + i * GAP + 260, function () { li.className = i === Q ? 'q' : 'ok'; if (i !== Q) met(++n); });
+      });
+      s.later(4100, function () { s.again(cnt, 'tc'); s.say(say, '8 of 9 met. One question for you', false); });
+      s.later(4700, function () { ph.classList.add('ask'); s.step(1); });
+      s.later(6400, function () { s.tap(opt); opt.classList.add('sel'); });
+      s.later(7100, function () { ph.classList.remove('ask'); });
+      s.later(7500, function () {   // the answered rule flips to a check, the ring closes and pulses green
+        rules[Q].className = 'ok ans'; qTag.textContent = 'Your answer'; cnt.classList.remove('tc');
+        met(9); s.again(ring, 'done'); s.beat(5);
+        s.say(say, 'All 9 rules met. Ready when you are', false);
+      });
+      s.later(9000, function () { s.tap(cta); s.step(2); });
+      s.later(9400, function () { ph.classList.add('conf'); });
+      s.later(11000, function () { s.tap(go); go.classList.add('busy'); goTxt.textContent = 'Sending'; });
+      s.later(11600, function () { ph.classList.remove('conf'); });
+      s.later(11900, function () {
+        s.beat(8); ctaTxt.textContent = 'Applied to LT-301'; ph.classList.add('toast');
+        s.say(say, 'Applied. Your name stays hidden', false);
+      });
+      s.later(15000, function () { ph.classList.remove('toast'); s.step(2, true); });
+      s.later(17000, function () { ph.classList.add('out'); });
+      s.later(17700, play);
+    }
+    s.run(play, reset, finished);
+  })();
+
+  // The trial team's window: five applicants arrive already checked and sort by fit; the clinician reads the quoted
+  // evidence for the top one, then selects the strongest three and invites them to pre-screening.
+  var cw = document.querySelector('.tm .cw');
+  if (cw) (function () {
+    var s = Scene(cw), inEl = cw.querySelector('.cw-in'), rows = Array.prototype.slice.call(cw.querySelectorAll('.cw-row'));
+    var say = cw.querySelector('.cw-say'), qs = cw.querySelectorAll('.cw-q'), cur = cw.querySelector('.cw-cur'), x = cw.querySelector('.cw-x');
+    var go = cw.querySelector('.cw-go'), goTxt = go.querySelector('span:last-child'), num = cw.querySelector('.cw-n'), numB = num.querySelector('b');
+    var TONE = { ok: 'g', q: 'y', x: 'r' };
+    function score(r) { return +r.getAttribute('data-score'); }
+    function ranked() { return rows.filter(function (r) { return r.classList.contains('in'); }).sort(function (a, b) { return score(b) - score(a); }); }
+    function sort() { ranked().forEach(function (r, i) { r.style.setProperty('--pos', i); }); }
+    function chip(r, cls, text) { var c = r.querySelector('.cw-chip'); c.className = 'cw-chip ' + cls; c.textContent = text; return c; }
+    function settle(r, ms) {   // the spinner chip pops into its result and the fit score counts up as its ring fills
+      var st = r.getAttribute('data-st');
+      s.again(chip(r, st, r.getAttribute('data-l')), 'sc-pop');
+      r.classList.toggle('x', st === 'x');
+      s.ring(r.querySelector('.cw-ring'), score(r) / 100, score(r), TONE[st], ms);
+    }
+    function invited() { ranked().slice(0, 3).forEach(function (r, i) { s.later(i * 140, function () { s.again(chip(r, 'inv', 'Invited'), 'sc-pop'); }); }); }
+    function reading(k) {   // "Reading application 3 of 5", the number ticking as each one lands
+      var b = say.querySelector('.sc-n');
+      if (b) s.num(b, k); else s.say(say, 'Reading application <b class="sc-n">' + k + '</b> of 5', true);
+    }
+    function at(el, fx, fy) {   // a point inside el, in px from the top left of .cw-in (layout offsets, so transforms don't skew it)
+      var px = 0, py = 0, w = el.offsetWidth, h = el.offsetHeight;
+      for (var n = el; n && n !== inEl; n = n.offsetParent) { px += n.offsetLeft; py += n.offsetTop; }
+      return [px + w * fx, py + h * fy];
+    }
+    function move(p) { cur.style.left = (p[0] - cur.offsetWidth * 0.21) + 'px'; cur.style.top = (p[1] - cur.offsetHeight * 0.12) + 'px'; }
+    function click(node) { cur.classList.add('dn'); s.later(150, function () { cur.classList.remove('dn'); }); if (node) s.tap(node); }
+    function hover(node, on) { node.classList.toggle('hv', on); }
+    function reset() {
+      s.snap(function () {
+        s.clear(); s.beat(0); s.step(0);
+        cw.classList.remove('ev', 'acts', 'sent'); go.classList.remove('busy', 'hv'); x.classList.remove('hv');
+        rows.forEach(function (r) {
+          r.className = 'cw-row'; r.style.setProperty('--pos', 4);
+          chip(r, '', 'Checking'); s.ring(r.querySelector('.cw-ring'), 0, 0, '');
+        });
+        Array.prototype.forEach.call(qs, function (q) { q.classList.remove('in'); });
+        cur.classList.remove('on', 'dn'); move([inEl.offsetWidth * 0.82, inEl.offsetHeight * 0.9]);
+        s.num(numB, 1); num.lastChild.textContent = ' selected'; goTxt.textContent = 'Invite to pre-screening';
+        s.say(say, 'Reading 5 new applications', true);
+      });
+    }
+    function finished() {
+      rows.forEach(function (r) { r.classList.add('in'); settle(r); });
+      sort();
+      ranked().slice(0, 3).forEach(function (r) { r.classList.add('sel'); chip(r, 'inv', 'Invited'); });
+      cw.classList.add('acts', 'sent'); s.num(numB, 3); num.lastChild.textContent = ' invited'; goTxt.textContent = 'Invitations sent';
+      s.say(say, 'Invited 3 to pre-screening. Replies come through their agents', false);
+      s.step(2, true);
+    }
+    function play() {
+      reset(); cw.classList.remove('out');   // reset while hidden, then fade back in
+      rows.forEach(function (r, k) {
+        var t = 700 + k * 700;
+        s.later(t, function () {   // each one lands at the bottom of the list, glowing, then the list re-sorts by fit
+          r.classList.add('sc-rs'); r.style.setProperty('--pos', ranked().length); void r.offsetWidth; r.classList.remove('sc-rs');
+          r.classList.add('in', 'new'); reading(k + 1);
+        });
+        s.later(t + 380, function () { settle(r, 800); sort(); });
+        s.later(t + 1300, function () { r.classList.remove('new'); });
+      });
+      s.later(4500, function () { s.say(say, 'Checked all 9 rules for each. 1 misses a rule, so you can decline fast', false); });
+      s.later(5300, function () { cur.classList.add('on'); move(at(ranked()[0], 0.3, 0.5)); });
+      s.later(6000, function () { hover(ranked()[0], true); });
+      s.later(6200, function () { click(); hover(ranked()[0], false); ranked()[0].classList.add('hl'); cw.classList.add('ev'); s.step(1); });
+      Array.prototype.forEach.call(qs, function (q, i) { s.later(6800 + i * 650, function () { q.classList.add('in'); }); });
+      s.later(9700, function () { move(at(x, 0.5, 0.5)); });
+      s.later(10400, function () { hover(x, true); });
+      s.later(10550, function () { click(x); hover(x, false); });
+      s.later(10750, function () { cw.classList.remove('ev'); ranked()[0].classList.remove('hl'); s.step(2); });
+      [0, 1, 2].forEach(function (i) {   // three ticks; the bar slides up on the first and its count ticks with each
+        s.later(11200 + i * 700, function () { move(at(ranked()[i].querySelector('.cw-box'), 0.5, 0.5)); });
+        s.later(11650 + i * 700, function () {
+          var r = ranked()[i]; click(); r.classList.add('sel'); s.again(r.querySelector('.cw-box'), 'sc-pop');
+          if (!i) cw.classList.add('acts'); else s.num(numB, i + 1);
+        });
+      });
+      s.later(13600, function () { move(at(go, 0.4, 0.5)); });
+      s.later(14250, function () { hover(go, true); });
+      s.later(14400, function () { click(go); go.classList.add('busy'); goTxt.textContent = 'Sending'; });
+      s.later(15000, function () {
+        go.classList.remove('busy', 'hv'); cw.classList.add('sent'); goTxt.textContent = 'Invitations sent';
+        num.lastChild.textContent = ' invited'; s.again(numB, 'tick'); invited();
+        s.say(say, 'Invited 3 to pre-screening. Replies come through their agents', false);
+      });
+      s.later(15800, function () { cur.classList.remove('on'); s.step(2, true); });
+      s.later(18300, function () { cw.classList.add('out'); });
+      s.later(19000, play);
+    }
+    s.run(play, reset, finished);
+  })();
+})();
+</script>
+</body>
+</html>
