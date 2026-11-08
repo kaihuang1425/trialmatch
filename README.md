@@ -9,7 +9,10 @@
 
 <h4 align="center">Find the right patients for your clinical trial, before the trial sits empty.</h4>
 
+<p align="center"><b>🏆 1st place at AgentVerse 2026, UCL AI Society’s flagship hackathon.</b></p>
+
 <p align="center">
+  <img alt="1st place, AgentVerse 2026" src="https://img.shields.io/badge/%F0%9F%8F%86%201st%20place-AgentVerse%202026-F9AB00">
   <img alt="AgentVerse 2026" src="https://img.shields.io/badge/AgentVerse-2026-4285F4">
   <img alt="Biotech track" src="https://img.shields.io/badge/track-Biotech-9B72CB">
   <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white">

@@ -40,7 +40,7 @@ The splash is a syringe that fills while the page loads. Each step shows large, 
 
 ## Hero
 
-- Pill (not a link): Team Legacy
+- Pill (not a link, with a gold trophy icon): Team Legacy · 1st place, AgentVerse 2026
 - Heading (*word by word*): 95% of patients are willing to join trials.
 - Heading, second sentence (*gradient*): Yet few ever hear about them.
 - Intro: Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.
@@ -267,7 +267,7 @@ Every number below comes from `npm run eval` (`eval/results.md`). Change them on
 ## Footer
 
 - Name: Trial Match
-- Line: Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.
+- Line: 1st place at AgentVerse 2026, UCL AI Society’s flagship hackathon. A prototype, not a medical device. Demo data is synthetic.
 - Sources (each linked part is in square brackets, with its link after it):
   Sources: 95% from [BMJ Open Respiratory Research](https://doi.org/10.1136/bmjresp-2025-003702) (UK cancer patients). 63% from an [Institute of Cancer Research survey](https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html) of 500+ patients, 2021. 122 and 169 days (median, industry drug trials) and 4 in 10 (all studies, 2025) from [UK Clinical Research Delivery KPIs](https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026), 2026.
 

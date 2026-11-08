@@ -47,8 +47,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @supports (animation-timeline: scroll()){.tm .bar{animation:tmBar linear both;animation-timeline:scroll(root)}}
 @keyframes tmBar{to{transform:scaleX(1)}}
 @media (max-width:900px){.tm .slide{min-height:0}}
-/* reduced motion: the page still plays everything; reveals fade in place instead of sliding, rotating, zooming or blurring */
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}.tm.anim .mo.mo.mo:not(.in){transform:none!important;filter:none!important}}
+/* motion is the same on every screen and every setting: phones, and phones with Reduce Motion on, play exactly what desktop plays */
 .tm-intro{position:fixed;inset:0;z-index:50;background:#0E0E0F;display:grid;place-items:center;pointer-events:none;animation:tmIntroOut .75s 1.1s cubic-bezier(.7,0,.2,1) forwards}
 .tm-intro .mk{position:relative;display:flex;align-items:center;gap:16px;font-family:'Google Sans Flex','Google Sans',Roboto,Arial,sans-serif;font-size:36px;font-weight:500;color:#E3E3E3;animation:tmMk 1.1s cubic-bezier(.2,.8,.2,1) both}
 .tm-intro .mk svg{width:56px;height:56px;animation:tmLogo 1s cubic-bezier(.2,1.4,.4,1) both}
@@ -64,7 +63,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm-loading .tm header.navIn{opacity:0}
 .tm-ready .tm header.navIn{animation:tmNav .7s .1s cubic-bezier(.2,.8,.2,1) both}
 @keyframes tmNav{from{opacity:0;transform:translateY(-28px)}}
-@media (prefers-reduced-motion:reduce){.tm-intro{display:none}}
 .tm .livedot{width:8px;height:8px;border-radius:50%;background:#F28B82;box-shadow:0 0 0 0 rgba(242,139,130,.6);animation:tmLive 1.6s ease-out infinite}
 @keyframes tmLive{0%{box-shadow:0 0 0 0 rgba(242,139,130,.55)}100%{box-shadow:0 0 0 10px rgba(242,139,130,0)}}
 /* ---------- agents relay: a pulse runs along the track; each card plays when it arrives (10s loop, card i at 2i s) ---------- */
@@ -209,9 +207,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .hero-line{background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4)!important;background-size:200% 100%!important;animation:tmFlow 6s linear infinite}
 .tm a .arr{display:inline-block;margin-left:.3em;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
 .tm a:hover .arr{transform:translateX(4px)}
-/* reduced motion: the photos still take turns, as a crossfade; no pull-back, drift, parallax or light sweep */
-@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media{animation:none!important}.tm .hero-sheen{display:none}.tm .hero-slide.is-in{-webkit-mask-image:none;mask-image:none;animation:heroFade 1.2s ease both}}
-@keyframes heroFade{from{opacity:0}}
 .tm header .nl{color:rgba(255,255,255,.82)!important}
 .tm .hero{position:relative;min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:flex-end;padding:120px 24px 72px;box-sizing:border-box;overflow:hidden;background:#0E0E0F}
 .tm .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% var(--y,30%)}
@@ -224,6 +219,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .hero-row p{margin:0;max-width:34em;font-size:clamp(17px,1.4vw,19px);line-height:1.5;color:rgba(255,255,255,.8)}
 .tm .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
 .tm .hero .pill{align-self:flex-start;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:16px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);color:#fff;font-size:13px}
+.tm .hero .pill svg{width:15px;height:15px;margin-right:8px;flex:none}
 .tm .hero a.sec{background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)!important;color:#fff!important}
 .tm .hero a.sec:hover{background:rgba(255,255,255,.16)}
 .tm .hero-line{position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#4285F4,#9B72CB 55%,#D96570)}
@@ -579,7 +575,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 }
 /* micro-motion in the scenes: numbers tick or count up, results pop, a light sweeps what was just confirmed, a spinner
    while something sends, a check that draws itself, hover under the pointer, and a highlight that slides along the steps.
-   The page's reduced-motion rule turns all of it off and the scenes show their finished state. */
+   They play the same on phones and with Reduce Motion on. */
 .tm .sc-n{display:inline-block;font-variant-numeric:tabular-nums}
 .tm .sc-say .sc-n{color:#E3E3E3;font-weight:500}   /* the shimmer's text clip doesn't reach an inline-block, so it keeps its own colour */
 .tm .sc-n.tick{animation:scTick .42s cubic-bezier(.2,.8,.2,1)}
@@ -640,7 +636,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 </head>
 <body>
 
-<script src="/loader/syringe-loader.js" data-wait="load" data-max="6000"></script><!-- loading screen: the syringe fills while the page loads, then slides up -->
+<script src="/loader/syringe-loader.js" data-wait="load" data-max="6000"></script><script src="/touch-press.js" defer></script><!-- loading screen: the syringe fills while the page loads, then slides up -->
 <div class="tm" style="background: #0E0E0F; color: #E3E3E3; font-family: 'Google Sans Flex', 'Google Sans', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow: hidden">
 
 <!-- NAV -->
@@ -672,7 +668,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-body">
-    <span class="pill">Team Legacy</span>
+    <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#FDD663" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>Team Legacy · 1st place, AgentVerse 2026</span>
     <h1 class="hero-h1"><span class="w">95%</span> <span class="w">of</span> <span class="w">patients</span> <span class="w">are</span> <span class="w">willing</span> <span class="w">to</span> <span class="w">join</span> <span class="w">trials.</span> <span class="w grad-lt">Yet few ever hear about them.</span></h1>
     <div class="hero-row">
       <p>Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.</p>
@@ -972,7 +968,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; font-size: 13px; color: #6F7378">
     <div style="display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between">
       <span style="color: #C4C7C5; font-weight: 500">Trial Match</span>
-      <span>Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.</span>
+      <span>1st place at AgentVerse 2026, UCL AI Society’s flagship hackathon. A prototype, not a medical device. Demo data is synthetic.</span>
     </div>
     <p style="margin: 0; line-height: 1.7">Sources: 95% from <a href="https://doi.org/10.1136/bmjresp-2025-003702">BMJ Open Respiratory Research</a> (UK cancer patients). 63% from an <a href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html">Institute of Cancer Research survey</a> of 500+ patients, 2021. 122 and 169 days (median, industry drug trials) and 4 in 10 (all studies, 2025) from <a href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026">UK Clinical Research Delivery KPIs</a>, 2026.</p>
   </div>
@@ -981,7 +977,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 </div>
 <script>
 (function () {
-  // Blocks reveal as they scroll in. With reduced motion they still reveal, as a plain fade (see the CSS).
+  // Blocks reveal as they scroll in.
   if (!('IntersectionObserver' in window)) return;
   var root = document.querySelector('.tm'); if (!root) return;
   var sel = 'h1 .w, h2 .w, section h3, section h4, section p, section li, section a.pill, section a.pri, section a.sec, section a.more, section b, .rv, .rv2, .rv3, .lift, .zoomIn, .tiltIn, .swipeIn, .slideL, .slideR, .pop, [data-count], footer p, footer span';
@@ -1014,8 +1010,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 (function () {
   // Hero photos take turns. Photo 1 is in the page; the other six are added once the loading screen leaves, so they
   // never slow it down. Every few seconds the next one sweeps in (heroSweep and heroSheen in the CSS, then heroIn's slow
-  // pull-back) and the credit follows. It waits while the hero is off screen or the tab is hidden. With reduced motion
-  // the photos still take turns, as a crossfade (see the CSS).
+  // pull-back) and the credit follows. It waits while the hero is off screen or the tab is hidden.
   var media = document.querySelector('.tm .hero-media'), sheen = media && media.querySelector('.hero-sheen');
   var credit = document.querySelector('.tm .hero-credit'), by = credit && credit.querySelector('.hero-by');
   if (!media || !sheen || !by) return;
@@ -1110,11 +1105,10 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 })();
 (function () {
   // Browsers without scroll-driven animations (Safari before 26, Firefox) get the same scroll progress bar, its glowing
-  // head and the hero parallax, moved from the scroll position instead. Reduced motion drops the parallax, as in the CSS.
+  // head and the hero parallax, moved from the scroll position instead.
   if (window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()')) return;
   var bar = document.querySelector('.tm .topbar .bar'), head = document.querySelector('.tm .bar-head');
   var media = document.querySelector('.tm .hero-media');
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) media = null;
   if (head) head.classList.add('js-head');
   var queued = false;
   function upd() {

@@ -1,5 +1,7 @@
 # Trial Match on Vercel
 
+**1st place at AgentVerse 2026, UCL AI Society’s flagship hackathon.** Live at https://trial-match-ebon.vercel.app.
+
 The landing page (`/`) and the demo app (`/app/`), with the app's agents connected to real services. Static files plus a few Node.js serverless functions, with no build step and no npm dependencies.
 
 | Agent in the app | Connected to | What it does | If not set up |
