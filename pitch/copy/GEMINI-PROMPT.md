@@ -26,7 +26,7 @@ Make the text sound like a careful human wrote it for patients and NHS clinician
 - If a line already reads well, copy it unchanged.
 
 Hard rules (do not break these):
-1. Keep every number, percentage, date and unit exactly as written (95%, 63%, 122, 169, 3 in 10, 77%, 0%, 12×, 0.6, 7.1, 1,080).
+1. Keep every number, percentage, date and unit exactly as written (95%, 63%, 122, 169, 4 in 10, 93%, 0%, 11×, 1.6, 16.7, 45,600, 2,400, 19).
 2. Keep every source name and link text exactly as written.
 3. Keep the words "synthetic", "illustrative", "prototype" and "not a medical device" wherever they appear. Never make the results sound like real-world performance.
 4. Don't add any claim, number, certification, partner or feature that isn't already in the text.
@@ -37,4 +37,4 @@ Hard rules (do not break these):
 ## Notes
 
 - Headings marked *word by word* in `LANDING-COPY.md` animate one word at a time. Any sentence works; the page splits it into words.
-- If you change a number that counts up (95, 63, 122, 3, 77, 12, 98), the animation's start value has to change too. Say so when you send the file back.
+- If you change a number that counts up (95, 63, 122, 4, 93, 11, 98), the animation's start value has to change too. Say so when you send the file back.

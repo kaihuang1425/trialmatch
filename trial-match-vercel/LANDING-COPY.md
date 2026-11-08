@@ -139,23 +139,25 @@ An animated relay. A light runs along a track, and each card plays its own short
 
 ## Results (section link “Results”)
 
-- Heading (*word by word*): Every wrong “yes” costs a patient weeks.
+- Heading (*word by word*): Every rejection costs both patients and researchers weeks in lost time.
 - Heading, second sentence (*grey*): So we measured that first.
+
+Every number below comes from `npm run eval` (`eval/results.md`). Change them only by rerunning it.
 
 ### Comparison
 
 - Left label: Registry search
-- Left number (*counts up from 0*): 77%
+- Left number (*counts up from 0*): 93%
 - Left text: of “eligible” matches were wrong
 - Right label: Trial Match
 - Right number (*gradient*): 0%
-- Right text: wrong on synthetic patients, with every real match still found
+- Right text: wrong among full matches on synthetic patients. Every other real match was flagged “to check”.
 
 ### Below the comparison
 
-- Bold part (*12 counts up from 1*): 12× less to review:
-- Rest of the line: 0.6 trials per patient instead of 7.1.
-- Small print: Offline test, 1,080 synthetic patient–trial pairs.
+- Bold part (*11 counts up from 1*): 11× fewer trials to review:
+- Rest of the line: 1.6 per patient, counting those to check, instead of 16.7.
+- Small print: Offline test on 45,600 synthetic patient–trial pairs (2,400 patients × 19 trials). Rerun it with npm run eval.
 
 ## Trust (section link “Trust”)
 

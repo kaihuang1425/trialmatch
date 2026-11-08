@@ -343,18 +343,18 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     <div class="g2" style="gap: 2px; border-radius: 28px; overflow: hidden">
       <div class="rv dim" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
         <span style="font-size: 14px; color: #9AA0A6">Registry search</span>
-        <span style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; color: #6F7378; font-variant-numeric: tabular-nums"><span data-count="c77" data-from="0" data-to="77">77</span>%</span>
+        <span style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; color: #6F7378; font-variant-numeric: tabular-nums"><span data-count="c93" data-from="0" data-to="93">93</span>%</span>
         <span style="font-size: 18px; color: #9AA0A6">of “eligible” matches were wrong</span>
       </div>
       <div class="rv3" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
         <span style="font-size: 14px; color: #A8C7FA">Trial Match</span>
         <span class="grad" style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; font-variant-numeric: tabular-nums">0%</span>
-        <span style="font-size: 18px">wrong on synthetic patients, with every real match still found</span>
+        <span style="font-size: 18px">wrong among full matches on synthetic patients. Every other real match was flagged “to check”.</span>
       </div>
     </div>
     <div class="rv3" style="display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between; align-items: baseline">
-      <span style="font-size: 20px; color: #C4C7C5"><b style="font-weight: 500; color: #E3E3E3"><span data-count="c12" data-from="1" data-to="12">12</span>× fewer trials to review:</b> 0.6 trials per patient instead of 7.1.</span>
-      <span style="font-size: 13px; color: #6F7378">Offline test, 1,080 synthetic patient–trial pairs.</span>
+      <span style="font-size: 20px; color: #C4C7C5"><b style="font-weight: 500; color: #E3E3E3"><span data-count="c11" data-from="1" data-to="11">11</span>× fewer trials to review:</b> 1.6 per patient, counting those to check, instead of 16.7.</span>
+      <span style="font-size: 13px; color: #6F7378">Offline test on 45,600 synthetic patient–trial pairs (2,400 patients × 19 trials). Rerun it with npm run eval.</span>
     </div>
   </div>
 </section>
