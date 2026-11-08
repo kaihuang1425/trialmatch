@@ -2143,7 +2143,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if (C && C.status().medgemma.on) {   // MedGemma reads it; every fact comes back with the words that state it
       out.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>Records Reader (' + siteAI() + ') is reading the letter…</p></div></div>';
       C.readLetter(txt.slice(0, 12000)).then(function (r) {
-        done(r.facts, 'read by ' + (r.family || siteAI()) + ', each fact checked against the letter', r.evidence, r.rejected || []);
+        done(r.facts, 'read by ' + siteName(r.family) + ', each fact checked against the letter', r.evidence, r.rejected || []);
       }, function (e) { toast(siteAI() + ' couldn’t read it (' + e.message + '), so this device did.'); local(); });
       return;
     }
@@ -2172,7 +2172,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       var clean = cleanFacts(r.facts);
       fhirFound = { facts: clean, server: r.server, id: r.patient.id };
       var c = r.counts || {};
-      var how = 'from ' + r.server + (r.model ? ', read by ' + (r.family || siteAI()) : '') + ' · ' + plural(c.conditions || 0, 'condition') + ', ' + plural(c.observations || 0, 'result') + ', ' + plural(c.medicines || 0, 'medicine');
+      var how = 'from ' + r.server + (r.model ? ', read by ' + siteName(r.family) : '') + ' · ' + plural(c.conditions || 0, 'condition') + ', ' + plural(c.observations || 0, 'result') + ', ' + plural(c.medicines || 0, 'medicine');
       if ($('#fhir-out')) $('#fhir-out').innerHTML = factsHtml(clean, how, r.evidence, (r.rejected || []).length, 'fhir-save', r.notes);
     }, function (e) { if ($('#fhir-out')) $('#fhir-out').innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
   }
@@ -2236,10 +2236,10 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     var rec = {}; Object.keys(pt.rec).forEach(function (k) { var v = pt.rec[k]; if (v != null && v !== 'unk' && v !== '' && v !== false && v !== 'na') rec[k] = v; });
     window.TMConnect.prescreen(nct, rec, pt.age, pt.sex).then(function (r) {
       var el = $('#live-check'); if (!el) return;
-      el.innerHTML = '<div class="sect-h"><h2 style="font-size:16px">' + esc(r.family || siteAI()) + ' pre-check</h2><span class="faint xs">' + r.counts.met + ' met · ' + r.counts.not + ' not met · ' + r.counts.unknown + ' to check</span></div>' +
+      el.innerHTML = '<div class="sect-h"><h2 style="font-size:16px">' + esc(siteName(r.family)) + ' pre-check</h2><span class="faint xs">' + r.counts.met + ' met · ' + r.counts.not + ' not met · ' + r.counts.unknown + ' to check</span></div>' +
         '<div class="rules">' + r.rules.map(function (x) { var s = { met: 'met', not: 'not', unknown: 'unk' }[x.status]; return '<div class="rule"><span class="mk ' + s + '">' + { met: '✓', not: '✕', unk: '?' }[s] + '</span><span>' + esc(x.rule) + '<small>' + (x.type === 'exc' ? 'Exclusion · ' : '') + esc(x.why) + '</small></span></div>'; }).join('') + '</div>' +
-        '<p class="note">AI pre-check by ' + esc(r.family || siteAI()) + ' (' + esc(r.model) + ')' + (siteCloud() ? ' in Google’s cloud, on synthetic data' : '') + '. It can be wrong and it isn’t a decision: a research nurse confirms every rule with you.</p>';
-      event(pt.id, 'Matcher', (r.family || siteAI()) + ' pre-checked ' + nct + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check.', false);
+        '<p class="note">AI pre-check by ' + esc(siteName(r.family)) + (siteCloud() ? ' (simulated; ' + esc(r.model) + ', which stands in for an NHS hospital’s own MedGemma server in this synthetic demo)' : ' (' + esc(r.model) + ')') + '. It can be wrong and it isn’t a decision: a research nurse confirms every rule with you.</p>';
+      event(pt.id, 'Matcher', siteName(r.family) + ' pre-checked ' + nct + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check.', false);
     }, function (e) { var el = $('#live-check'); if (el) el.innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
   }
   /* ---------- Ask your agent: built-in answers worked out from the record and the trial rules, or MedGemma
@@ -2257,7 +2257,9 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function chatThread() { var k = chatKey(); return (CH.threads[k] = CH.threads[k] || []); }
   function chatPush(m) { var th = chatThread(); th.push(m); if (th.length > 40) th.splice(0, th.length - 40); chatSave(); }
   function siteMG() { return !!(window.TMConnect && window.TMConnect.status().medgemma.on); }
-  function siteAI() { var m = window.TMConnect && window.TMConnect.status().medgemma; return (m && m.on && m.family) || 'MedGemma'; }
+  function siteAI() { var m = window.TMConnect && window.TMConnect.status().medgemma; return m && m.on && m.cloud ? 'Hospital server' : (m && m.on && m.family) || 'MedGemma'; }
+  // Gemini on this site plays the part of an NHS hospital's own MedGemma server, and every label says it's simulated.
+  function siteName(f) { return siteCloud() ? 'Hospital server' : (f || siteAI()); }
   function siteCloud() { var m = window.TMConnect && window.TMConnect.status().medgemma; return !!(m && m.on && m.cloud); }
   function siteAgent() { var m = window.TMConnect && window.TMConnect.status().medgemma; return !!(m && m.on && m.agent); }   // can look up live trials
   function chatSource() { var s = CH.src || (siteMG() ? 'site' : 'builtin'); return s === 'site' && !siteMG() ? 'builtin' : s; }
@@ -2297,7 +2299,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
         'Everyone in this demo is synthetic. In a real service your record is read only with your consent, and only to match you to trials.',
         'A trial team sees your facts under your ID (' + pt.id + ') only when you apply. Your name stays hidden until you agree to meet them.',
         Store.mode === 'db' ? 'This demo keeps its data in a shared store so everyone sees the same demo.' : 'This demo keeps its data in this browser.',
-        src === 'local' ? 'Typed questions go to MedGemma running on this computer. Nothing is sent online.' : src === 'site' ? (siteCloud() ? 'Typed questions go to ' + siteAI() + ' in Google’s cloud, with only the facts needed to answer. Fine for this synthetic demo; for real records, use MedGemma on this computer.' + (siteAgent() ? ' When it looks up live trials, ClinicalTrials.gov gets search words only, such as a gene change, never your record.' : '') : 'Typed questions go to MedGemma on this site’s own server, with only the facts needed to answer.') : 'These answers are worked out here from your record and the trial rules. No AI service is used.',
+        src === 'local' ? 'Typed questions go to MedGemma running on this computer. Nothing is sent online.' : src === 'site' ? (siteCloud() ? 'Typed questions go to the hospital server (simulated), with only the facts needed to answer. Gemini stands in for an NHS hospital’s own MedGemma server in this synthetic demo, in Google’s cloud; for real records, a hospital would run MedGemma on its own server, or use MedGemma on this computer.' + (siteAgent() ? ' When it looks up live trials, ClinicalTrials.gov gets search words only, such as a gene change, never your record.' : '') : 'Typed questions go to MedGemma on this site’s own server, with only the facts needed to answer.') : 'These answers are worked out here from your record and the trial rules. No AI service is used.',
         'This chat stays in this browser.'] };
       if (/my application|applied|status|progress|how is my|update on|where am i/.test(q) && !t) {
         var A = appsOf(pt.id);
@@ -3318,7 +3320,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     var pt = me(), room = L.maxCalls - L.calls;
     var next = L.trials.filter(function (x) { return !x.r && !x.err && x.score > 0; }).sort(function (a, b) { return b.score - a.score; }).slice(0, Math.min(LOOP.perRound, room));
     if (!next.length) return Promise.resolve();
-    function said(x) { return x.r ? 'Pre-checked ' + x.nct + ' with ' + (L.family || siteAI()) + ': ' + loopCounts(x.r) + (x.partial ? ' (from the rules it finished before running out of room)' : '') : 'Couldn’t pre-check ' + x.nct + ' (' + x.err + ')'; }
+    function said(x) { return x.r ? 'Pre-checked ' + x.nct + ' with ' + siteName(L.family) + ': ' + loopCounts(x.r) + (x.partial ? ' (from the rules it finished before running out of room)' : '') : 'Couldn’t pre-check ' + x.nct + ' (' + x.err + ')'; }
     if (loopOneByOne()) return loopChain(next, function (x) {
       var i = loopStep(msg)('Test: pre-checking ' + x.nct + ' against the full entry rules with ' + siteAI() + '…');
       // a small local model sometimes thinks itself out of room on one try and answers on the next: one retry, shown as such
@@ -3514,7 +3516,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   // Where the pre-check runs decides which side of the privacy line it sits on
   function loopWhere() {
     if (!siteMG()) return { where: 'off', lane: 'loc', cls: 'm', icon: ICON.flask, label: 'No model on this site' };
-    if (siteCloud()) return { where: 'cloud', lane: 'net', cls: 'g', icon: ICON.spark, label: siteAI() + ' · Google’s cloud' };
+    if (siteCloud()) return { where: 'cloud', lane: 'net', cls: 'g', icon: ICON.spark, label: 'Hospital server (simulated) · Gemini' };
     return { where: onLocalhost() ? 'local' : 'server', lane: 'loc', cls: 'm', icon: ICON.flask, label: 'MedGemma · ' + (onLocalhost() ? 'this computer' : 'this site’s own server') };
   }
   function loopAgentsFrom(pairs) {
@@ -3552,11 +3554,11 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       (L.term ? '<p class="tm-hint">' + esc(L.term) + ' comes from your record, with nothing that says who you are.</p>' : '') +
       '<div class="tm-row"><span class="tm-lbl">Kept here</span>' + ['your name and ID'].concat(W.where === 'cloud' || W.where === 'server' ? [] : ['your age', nf + ' facts from your record', 'your answers in this chat'])
         .map(function (k) { return '<span class="tm-keep">' + ICON.lock + esc(k) + '</span>'; }).join('') + '</div></div>' : '';
-    var pre = W.where === 'cloud' ? '<p class="tm-warn">' + ICON.info + '<span>For the pre-check, ' + nf + ' facts from your record, your age and your answers go to ' + esc(siteAI()) + ' in Google’s cloud. That’s only for this synthetic demo.</span></p>'
+    var pre = W.where === 'cloud' ? '<p class="tm-warn">' + ICON.info + '<span>For the pre-check, ' + nf + ' facts from your record, your age and your answers go to the hospital server (simulated): Gemini stands in for an NHS hospital’s own MedGemma server in this synthetic demo, in Google’s cloud. That’s only for this synthetic demo.</span></p>'
       : W.where === 'server' ? '<p>Read each trial’s full entry rules against your record. Your record’s facts, age and answers go to this site’s own MedGemma server, never a cloud chatbot.</p>'
       : W.where === 'local' ? '<p>Read each trial’s full entry rules against your record, on this computer.</p>' : '<p>No AI model is on, so there’s no pre-check of the full entry rules.</p>';
     var coText = asking ? 'One answer from you settles a rule in ' + plural(m.ask.n, 'trial') + '. It goes into your record, marked as yours.'
-      : first ? 'Trial Scout searches the registry online; the Matcher and the Pre-check read what it finds against your record' + (W.where === 'cloud' ? ' (the Pre-check in ' + siteAI() + '’s cloud)' : W.where === 'off' ? '' : ' here') + '. I ask you when one answer would settle a rule.'
+      : first ? 'Trial Scout searches the registry online; the Matcher and the Pre-check read what it finds against your record' + (W.where === 'cloud' ? ' (the Pre-check on the hospital server, simulated)' : W.where === 'off' ? '' : ' here') + '. I ask you when one answer would settle a rule.'
       : 'Check the trials again with what you said.';
     var agents = [
       { k: 'matcher', name: 'Matcher', icon: ICON.tune, cls: 'c', net: false, sub: 'Fixed rules on this device · no AI', task: '<p>Read every trial’s title, summary and drugs against your record with fixed rules, and rank them.</p>' },
@@ -3596,7 +3598,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       (src === 'local' ? askLocal : askSite)(text, chatContext(built, text))
         .then(function (o) {
           // the agent handed the question to a team: that team runs here, as when the rules route it, and says who sent it
-          var go = o.handoff ? chatHandoff(text, o.handoff, o.family || siteAI()) : null;
+          var go = o.handoff ? chatHandoff(text, o.handoff, siteName(o.family)) : null;
           if (go) { CH.pending = false; go(); return true; }
           if (o.handoff && !o.text) { built.note = 'The team couldn’t take this one, so this is the built-in answer.'; chatPush(built); return; }
           // live trials the agent looked up come first; they open in the app when Trial Scout has them
@@ -3604,7 +3606,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
           if (found.length && window.TMConnect.status().registry.on) loadScout();   // so they open inside the app
           // the model's proposed action, checked by planCard; if it proposed none, the rules may still offer one
           var mi = (o.actions || []).map(actionIntent).filter(Boolean)[0], pc = mi ? planCard(mi) : intent ? planCard(intent) : null;
-          if (pc && pc.cta) pc.by = mi ? 'Chosen by ' + (o.family || siteAI()) : 'Matched by rules';
+          if (pc && pc.cta) pc.by = mi ? 'Chosen by ' + siteName(o.family) : 'Matched by rules';
           if (!mi && pc && !pc.cta) pc = null;   // the model already answered; a rules-only "which trial?" would repeat it
           if (mi && pc && !pc.cta) (o.steps || []).forEach(function (s) { if (/^Offered to /.test(s.label)) { s.ok = false; s.label = s.label.replace(/: waiting for a tap to confirm$/, '') + ', but the app’s safety check stopped it'; } });
           chatPush({ who: 'agent', text: o.text, model: o.model, family: o.family || 'MedGemma', src: src, steps: o.steps, items: found.concat(built.items || []).slice(0, 6), actions: built.actions,
@@ -3628,7 +3630,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if (m.who === 'user') return '<div class="msg user">' + esc(m.text) + '</div>';
     // Your agent speaks; the model's name sits beside it, quietly. Where it runs is under the chat, in "where your agent runs".
     var by = '<span class="spark sm' + (m.pending ? ' live' : '') + '">' + ICON.spark + '</span>Your agent' + (m.model ? '<span class="by-m">' + esc(m.family || 'MedGemma') + '</span>' : '');
-    var tip = m.model ? ' title="' + esc(m.model + (m.src === 'local' ? ' on this computer' : m.family === 'Gemini' ? ' in Google’s cloud' : ' on this site') + '. A draft: check it with the team.') + '"' : '';
+    var tip = m.model ? ' title="' + esc(m.model + (m.src === 'local' ? ' on this computer' : m.family === 'Gemini' ? ' as the simulated hospital server' : ' on this site') + '. A draft: check it with the team.') + '"' : '';
     var text = m.model ? plainChat(m.text) : String(m.text || '');   // answers saved before these fixes clean up too
     if (text.indexOf(CLAIM_NOTE) >= 0) text = text.split(CLAIM_NOTE).join('').trim() + '\n\n' + CLAIM_NOTE;   // older answers may hold the note twice
     return '<div class="msg agent' + (m.model ? ' model' : '') + (m.pending ? ' pending' : '') + '"><span class="by"' + tip + '>' + by + '</span>' +
@@ -3708,7 +3710,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   // Where your agent runs: tucked under the chat. This site's model, MedGemma on this computer (Ollama), or built-in rules.
   function chatHostLabel() {
     var src = chatSource();
-    return src === 'local' ? ICON.lock + 'MedGemma · this computer' : src === 'site' ? (siteCloud() ? ICON.globe + siteAI() + ' · cloud' : ICON.lock + 'MedGemma · this site') : ICON.tune + 'Built-in answers';
+    return src === 'local' ? ICON.lock + 'MedGemma · this computer' : src === 'site' ? (siteCloud() ? ICON.globe + 'Hospital server (simulated)' : ICON.lock + 'MedGemma · this site') : ICON.tune + 'Built-in answers';
   }
   function chatHostHTML() {
     var src = chatSource(), mg = siteMG();
@@ -3718,8 +3720,8 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     }
     return '<div class="host-h"><b>Where your agent runs</b><button type="button" class="iconbtn" data-act="chat-host" aria-label="Close">' + ICON.x + '</button></div>' +
       '<div class="host-os" role="radiogroup" aria-label="Where your agent runs">' +
-        opt('site', ICON.spark, mg ? (siteCloud() ? siteAI() + ' in Google’s cloud' : 'MedGemma on this site’s server') : 'This site’s model',
-          mg ? (siteCloud() ? 'For this synthetic demo only. It can look up live trials.' : 'Records go to this site’s own server, never a cloud chatbot.') : 'Not switched on for this site yet.', !mg) +
+        opt('site', ICON.spark, mg ? (siteCloud() ? 'Hospital server (simulated)' : 'MedGemma on this site’s server') : 'This site’s model',
+          mg ? (siteCloud() ? 'Gemini stands in for an NHS hospital’s own MedGemma server in this synthetic demo. It can look up live trials.' : 'Records go to this site’s own server, never a cloud chatbot.') : 'Not switched on for this site yet.', !mg) +
         opt('local', ICON.lock, 'MedGemma on this computer', 'Private: your questions and record stay on this computer. Free, about 3.3 GB.', false, CH.localState === 'ok') +
         opt('builtin', ICON.tune, 'Built-in answers', 'No AI model. Fixed rules read your record and the trials.') +
       '</div>' + (CH.setup === 'local' && CH.localState !== 'ok' ? chatSetupHTML() : '');
@@ -3746,7 +3748,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     return 'sudo systemctl set-environment OLLAMA_ORIGINS="' + o + '" && sudo systemctl restart ollama && ollama pull ' + m;
   }
   function chatSetupHTML() {
-    if (IS_PHONE) return '<div class="host-setup"><b style="font-weight:500">MedGemma runs on a computer</b><p class="muted sm">A phone can’t run it in the browser. Open this page on a Windows, Mac or Linux computer to set it up there in a few minutes' + (siteMG() ? ', or use ' + siteAI() + ' on this site.' : '. On this phone, the built-in answers work as usual.') + '</p></div>';
+    if (IS_PHONE) return '<div class="host-setup"><b style="font-weight:500">MedGemma runs on a computer</b><p class="muted sm">A phone can’t run it in the browser. Open this page on a Windows, Mac or Linux computer to set it up there in a few minutes' + (siteMG() ? ', or use ' + (siteCloud() ? 'the hospital server (simulated).' : siteAI() + ' on this site.') : '. On this phone, the built-in answers work as usual.') + '</p></div>';
     var os = chatOS(), name = { win: 'Windows (PowerShell)', mac: 'Mac (Terminal)', linux: 'Linux (terminal)' }[os], cmd = chatCmd(os);
     return '<div class="setup host-setup"><b style="font-weight:500">Set up MedGemma on this computer</b><p class="muted sm" style="margin:0">It takes a few minutes. Until it’s ready, questions get the built-in answers.</p>' +
       '<ol><li><b>Install Ollama</b>, the free app that runs the model. <a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer">Download Ollama</a>, install it and open it once.</li>' +
@@ -3788,7 +3790,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
   function connLine() {
     var C = window.TMConnect; if (!C) return '';
     var s = C.status(), on = [];
-    if (s.medgemma.on) on.push(siteAI() + (siteCloud() ? ' (cloud)' : '')); if (s.fhir.on) on.push('FHIR records'); if (s.registry.on) on.push('ClinicalTrials.gov'); if (s.store.on) on.push('shared data');
+    if (s.medgemma.on) on.push(siteCloud() ? 'Hospital server (simulated)' : siteAI()); if (s.fhir.on) on.push('FHIR records'); if (s.registry.on) on.push('ClinicalTrials.gov'); if (s.store.on) on.push('shared data');
     return on.length ? ' Live connections: ' + on.join(', ') + '.' : '';
   }
 
