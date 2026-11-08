@@ -705,11 +705,13 @@ a.cite:hover { background: rgba(168,199,250,.32); }
 .cr-ri .tm-av { width: 24px; height: 24px; } .cr-ri .tm-av svg { width: 12px; height: 12px; }
 .cr-ri small { display: block; font-size: 10.5px; color: var(--faint); }
 .msg .by .by-m { font-weight: 400; color: var(--faint); margin-left: -2px; } .msg .by .by-m::before { content: "·"; margin-right: 6px; }
-@media (max-width: 420px) { .cr-stage { padding: 8px 4px 6px; } .cr-node .cr-nm { font-size: 11.5px; } .cr-node small { font-size: 10px; } .cr-caps { font-size: 9.5px; letter-spacing: .04em; } .cr-caps svg { display: none; } .cr-panel { padding: 12px; } .chat-foot .note { flex-basis: 100%; } }
+@media (max-width: 420px) { .cr-stage { padding: 0 4px 6px; } .cr-top { margin: 0 -4px; padding: 8px 4px 0; } .cr-node .cr-nm { font-size: 11.5px; } .cr-node small { font-size: 10px; } .cr-caps { font-size: 9.5px; letter-spacing: .04em; } .cr-caps svg { display: none; } .cr-panel { padding: 12px; } }
 @media (prefers-reduced-motion: reduce) { .cr-shim, .cr-beam.on, .cr-node[data-state="run"] .cr-ring::before, .cr-node.lead .cr-spark { animation: none !important; } .cr-node[data-state="run"] .cr-ring::before { background: var(--g2); } }
 /* where your agent runs: a quiet link under the chat, and its choices when opened */
 .chat-foot { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; }
 .chat-foot .note { margin: 0; flex: 1; min-width: 180px; }
+/* phones: the note gets its own line, then where it runs and Clear share one row (after the rule above, so its flex: 1 doesn't win) */
+@media (max-width: 420px) { .chat-foot .note { flex-basis: 100%; } .chat-foot .btn.text { margin-left: auto; } }
 .chat-host-b { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 6px 0 10px; border-radius: 14px; font-size: 12px; color: var(--faint); white-space: nowrap; }
 .chat-host-b:hover, .chat-host-b[aria-expanded="true"] { background: var(--surface-2); color: var(--muted); }
 .chat-host-b svg { width: 13px; height: 13px; } .chat-host-b svg:last-child { width: 12px; height: 12px; transition: transform .2s; } .chat-host-b[aria-expanded="true"] svg:last-child { transform: rotate(90deg); }
@@ -845,8 +847,9 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
 .af-tr .v { font-size: 14px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 /* one trial's entry rules as a slim meter: a segment per rule, met first, so it reads like progress */
 .af-rule { display: flex; flex-direction: column; gap: 8px; }
-.af-rule-h { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; min-width: 0; }
-.af-rule-h > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.af-rule-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.35; min-width: 0; }
+/* a long trial name wraps to a second line rather than losing its last words to an ellipsis */
+.af-rule-h > span:first-child { min-width: 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .af-rule-h > span:last-child { white-space: nowrap; }
 .af-units { display: flex; gap: 2px; height: 10px; transform-origin: 0 50%; }
 .af-units i { flex: 1 1 0; min-width: 0; border-radius: 5px; box-sizing: border-box; }
@@ -3091,6 +3094,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     crewPatch(el, c);
   }
   function crewPatch(el, c) {
+    el._c = c;   // the latest picture, for packets still waiting to leave
     if (c.live) el.setAttribute('data-live', '1'); else el.removeAttribute('data-live');
     var open = crewIsOpen(c), head = el.querySelector('.cr-head'), hh = crewHeadHTML(c);
     crewAttr(el, 'data-open', open ? '1' : '0'); crewAttr(head, 'aria-expanded', open ? 'true' : 'false');
@@ -3108,7 +3112,10 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     if (el._pk !== key) {
       var swap = el._psel != null && el._psel !== sel;
       pn.innerHTML = html; el._pk = key; el._psel = sel; el._seen[sel] = sel === 'lead' ? c.steps.length : c.steps.filter(function (s) { return s.a === sel; }).length; crewTickEl(pn);
-      if (swap) { pn.classList.remove('swap'); void pn.offsetWidth; pn.classList.add('swap'); }
+      if (swap) {   // the fade plays on the switch only, not on each update after it
+        pn.classList.remove('swap'); void pn.offsetWidth; pn.classList.add('swap');
+        clearTimeout(el._swapT); el._swapT = setTimeout(function () { pn.classList.remove('swap'); }, 340);
+      }
     }
     if (c.kind === 'team') teamOuts(el, c);
     if (el._tail !== c.tail) { el.querySelector('.cr-tail').innerHTML = c.tail; el._tail = c.tail; }
@@ -3123,17 +3130,19 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     el._want[a.k] = want;
     if (prev === want) { if (!el._fly[a.k]) crewAttr(n, 'data-state', want); return; }
     el._st[a.k] = want;
-    if (anim && (prev == null || prev === 'wait') && want !== 'wait') {
-      el._fly[a.k] = true;
-      crewPacket(el, 'lead', a.k, c.out[a.k], function () {
-        el._fly[a.k] = false; n.setAttribute('data-state', el._want[a.k]); crewHit(n); crewLayout(el);
-        if (el._want[a.k] === 'done') crewPacket(el, a.k, 'lead', c.back[a.k], function () { crewHit(el.querySelector('.cr-node.lead')); });
+    if (!anim) { if (!el._fly[a.k]) crewAttr(n, 'data-state', want); return; }
+    function back() { return (el._c || c).back[a.k]; }
+    function home() { crewHit(el.querySelector('.cr-node.lead')); }
+    if (want !== 'wait' && (prev == null || prev === 'wait' || (prev === 'done' && want === 'run'))) {   // handed a task (again)
+      el._fly[a.k] = (el._fly[a.k] || 0) + 1;
+      crewPacket(el, 'lead', a.k, function () { return (el._c || c).out[a.k]; }, function () {
+        el._fly[a.k]--; if (!el._fly[a.k]) { crewAttr(n, 'data-state', el._want[a.k]); crewLayout(el); } crewHit(n);
       });
+      if (want === 'done') crewPacket(el, a.k, 'lead', back, home);   // finished before its task landed: the result follows
       return;
     }
-    if (el._fly[a.k]) return;
-    n.setAttribute('data-state', want);
-    if (anim && prev === 'run' && want === 'done') crewPacket(el, a.k, 'lead', c.back[a.k], function () { crewHit(el.querySelector('.cr-node.lead')); });
+    if (!el._fly[a.k]) crewAttr(n, 'data-state', want);
+    if (prev === 'run' && want === 'done') crewPacket(el, a.k, 'lead', back, home);
   }
   function crewAttr(n, k, v) { if (n.getAttribute(k) !== v) n.setAttribute(k, v); }
   function crewHit(n) { if (!n) return; n.classList.remove('hit'); void n.offsetWidth; n.classList.add('hit'); }
@@ -3141,30 +3150,32 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     var n = rail.querySelector(k === 'lead' ? '.cr-node.lead .cr-ring' : '.cr-node[data-k="' + k + '"] .cr-ring'); if (!n) return null;
     var r = n.getBoundingClientRect(); return r.left + r.width / 2 - rail.getBoundingClientRect().left;
   }
-  // A task or a result crossing the line between two agents, one after another so each can be read
+  // A task or a result crossing the line between two agents
   function crewPacket(el, from, to, pk, done) {
-    var start = Math.max(Date.now(), el._qn || 0); el._qn = start + 300;
-    setTimeout(function () {
-      var rail = el.querySelector('.cr-rail');
-      if (!el.isConnected || !rail || !rail.offsetWidth) { done(); return; }
-      var x0 = crewX(rail, from), x1 = crewX(rail, to); if (x0 == null || x1 == null) { done(); return; }
-      var kind = pk && pk[0] || 'out', p = document.createElement('span');
-      p.className = 'cr-pk ' + kind; p.setAttribute('aria-hidden', 'true');
-      p.innerHTML = (kind === 'safe' ? ICON.shield : kind === 'out' ? ICON.spark : ICON.doc) + esc(pk && pk[1] || '');
-      rail.appendChild(p);
-      var dur = Math.min(1150, 620 + Math.abs(x1 - x0) * 1.5), fin = false;
-      function end() { if (fin) return; fin = true; p.remove(); done(); }
-      var an = p.animate([{ left: x0 + 'px', opacity: 0, transform: 'translate(-50%,-50%) scale(.6)' }, { offset: .16, opacity: 1, transform: 'translate(-50%,-50%) scale(1)' },
-        { offset: .84, opacity: 1, transform: 'translate(-50%,-50%) scale(1)' }, { left: x1 + 'px', opacity: 0, transform: 'translate(-50%,-50%) scale(.8)' }], { duration: dur, easing: 'cubic-bezier(.5,0,.25,1)', fill: 'forwards' });
-      an.onfinish = end; setTimeout(end, dur + 400);
-      var g = rail.querySelector('.cr-gate');
-      if (g) {   // crossing the privacy guard: it flashes as the packet passes
-        var gr = g.querySelector('i').getBoundingClientRect(), gx = gr.left + gr.width / 2 - rail.getBoundingClientRect().left, f = (gx - x0) / (x1 - x0);
-        if (f > 0 && f < 1) setTimeout(function () { g.classList.remove('flash'); void g.offsetWidth; g.classList.add('flash'); }, f * dur);
-      }
-    }, start - Date.now());
+    // one at a time, in the order things happened: a result goes home before the next task leaves.
+    // pk: [kind, label], or a function giving it, read as the packet leaves so it carries the latest result
+    el._q = (el._q || Promise.resolve()).then(function () {
+      return new Promise(function (next) {
+        var rail = el.querySelector('.cr-rail');
+        if (!el.isConnected || !rail || !rail.offsetWidth) { done(); next(); return; }
+        var x0 = crewX(rail, from), x1 = crewX(rail, to); if (x0 == null || x1 == null) { done(); next(); return; }
+        var v = (typeof pk === 'function' ? pk() : pk) || [], kind = v[0] || 'out', p = document.createElement('span');
+        p.className = 'cr-pk ' + kind; p.setAttribute('aria-hidden', 'true');
+        p.innerHTML = (kind === 'safe' ? ICON.shield : kind === 'out' ? ICON.spark : ICON.doc) + esc(v[1] || '');
+        rail.appendChild(p);
+        var dur = Math.min(950, 520 + Math.abs(x1 - x0) * 1.2), fin = false;
+        function end() { if (fin) return; fin = true; p.remove(); done(); }
+        var an = p.animate([{ left: x0 + 'px', opacity: 0, transform: 'translate(-50%,-50%) scale(.6)' }, { offset: .16, opacity: 1, transform: 'translate(-50%,-50%) scale(1)' },
+          { offset: .84, opacity: 1, transform: 'translate(-50%,-50%) scale(1)' }, { left: x1 + 'px', opacity: 0, transform: 'translate(-50%,-50%) scale(.8)' }], { duration: dur, easing: 'cubic-bezier(.5,0,.25,1)', fill: 'forwards' });
+        an.onfinish = end; setTimeout(end, dur + 400); setTimeout(next, dur * .62);
+        var g = rail.querySelector('.cr-gate');
+        if (g) {   // crossing the privacy guard: it flashes as the packet passes
+          var gr = g.querySelector('i').getBoundingClientRect(), gx = gr.left + gr.width / 2 - rail.getBoundingClientRect().left, f = (gx - x0) / (x1 - x0);
+          if (f > 0 && f < 1) setTimeout(function () { g.classList.remove('flash'); void g.offsetWidth; g.classList.add('flash'); }, f * dur);
+        }
+      });
+    });
   }
-  // The line through the agents, a moving beam from your agent to each one at work, and the panel's pointer
   function crewLayout(el) {
     var rail = el.querySelector('.cr-rail'); if (!rail || !rail.offsetWidth) return;
     var b = rail.getBoundingClientRect(), nodes = Array.prototype.slice.call(rail.querySelectorAll('.cr-node'));
