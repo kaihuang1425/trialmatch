@@ -32,9 +32,7 @@
 Trial Match is a multi-agent system that finds eligible patients for recruiting clinical trials. It reads patient records, checks every entry rule against the evidence, and hands trial teams a ranked shortlist of people who are likely to qualify, enrol and stay to the end. A research nurse pre-screens every match, and their results feed back into the next ranking.
 </p>
 
-<p align="center">
-  <img src="docs/clinician-rank.png" alt="A clinician ranking two applicants for trial LT-305 in the live demo" width="720">
-</p>
+The [one-page report](https://github.com/kaihuang1425/trialmatch/blob/main/One-page%20report.pdf) is included in this repository.
 
 > [!IMPORTANT]
 > **Prototype, not a medical device.** Every patient, trial and hospital in the demo is synthetic. Results are from offline tests and are **not** real-world performance.
