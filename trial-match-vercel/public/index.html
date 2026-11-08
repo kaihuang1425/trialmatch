@@ -59,7 +59,8 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 @keyframes tmHalo{from{transform:scale(.3);opacity:0}to{transform:scale(1.4);opacity:1}}
 .tm .glowIn{animation:tmGlow 1.8s 1.15s cubic-bezier(.2,.8,.2,1) both}
 @keyframes tmGlow{from{opacity:0;transform:translateX(-50%) scale(.5)}to{opacity:1;transform:translateX(-50%) scale(1)}}
-.tm header.navIn{animation:tmNav .7s 1.4s cubic-bezier(.2,.8,.2,1) both}
+.tm-loading .tm header.navIn{opacity:0}
+.tm-ready .tm header.navIn{animation:tmNav .7s .1s cubic-bezier(.2,.8,.2,1) both}
 @keyframes tmNav{from{opacity:0;transform:translateY(-28px)}}
 @media (prefers-reduced-motion:reduce){.tm-intro{display:none}}
 .tm .livedot{width:8px;height:8px;border-radius:50%;background:#F28B82;box-shadow:0 0 0 0 rgba(242,139,130,.6);animation:tmLive 1.6s ease-out infinite}
@@ -150,15 +151,72 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .tm .src::after{content:attr(data-tip);position:absolute;right:-4px;bottom:calc(100% + 8px);white-space:nowrap;font-size:12px;font-weight:400;padding:8px 10px;border-radius:8px;background:#2A2B2E;color:#E3E3E3;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .15s,transform .15s}
 .tm .src:hover::after,.tm .src:focus-visible::after{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){.tm .src,.tm .src::after{transition:none}}
+/* cinematic hero: a full-bleed photo, the headline on a dark fade at the bottom, one frosted match notice */
+/* top bar: fixed, clear over the photo, frosted once scrolled; a flowing Gemini gradient line with the scroll progress on top */
+.tm .topbar{position:fixed;top:0;left:0;right:0;z-index:30;transition:background .35s,-webkit-backdrop-filter .35s,backdrop-filter .35s}
+.tm .topbar.is-scrolled{background:rgba(14,14,15,.72);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2)}
+.tm .topbar-line{position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4);background-size:200% 100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);opacity:.55;animation:tmFlow 8s linear infinite;transition:opacity .35s}
+.tm .topbar.is-scrolled .topbar-line{opacity:.9}
+.tm .topbar .bar{position:absolute;top:auto;bottom:-1px;height:2px;z-index:1}
+@keyframes tmFlow{from{background-position:0% 0}to{background-position:200% 0}}
+/* hero motion: slow push-in on the photo, parallax on scroll, a floating match notice with a pulse, a flowing bottom line, nudging arrows */
+.tm .hero-media{position:absolute;inset:0;overflow:hidden}
+.tm .hero-img{transform:scale(1.1);transform-origin:50% 30%}
+.tm-ready .tm .hero-img{animation:heroIn 9s cubic-bezier(.2,.6,.2,1) both}
+@keyframes heroIn{from{transform:scale(1.1)}to{transform:scale(1)}}
+@supports (animation-timeline: scroll()){.tm .hero-media{animation:heroPar linear both;animation-timeline:scroll(root);animation-range:0 100vh}}
+@keyframes heroPar{to{transform:translateY(16%)}}
+.tm-ready .tm .hero-chip{animation:chipFloat 6s ease-in-out 1.4s infinite}
+@keyframes chipFloat{0%,100%{translate:0 0}50%{translate:0 -7px}}
+.tm .hero-chip-ic{position:relative}
+.tm .hero-chip-ic::after{content:"";position:absolute;inset:-5px;border-radius:50%;box-shadow:0 0 0 2px rgba(168,199,250,.55);opacity:0}
+.tm-ready .tm .hero-chip-ic::after{animation:icPulse 2.6s ease-out 1.2s infinite}
+@keyframes icPulse{0%{opacity:.9;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+.tm-ready .tm .hero-chip-ic svg{animation:chkPop .5s cubic-bezier(.2,1.6,.4,1) .9s both}
+@keyframes chkPop{from{transform:scale(0)}}
+.tm .hero-line{background:linear-gradient(90deg,#4285F4,#9B72CB,#D96570,#9B72CB,#4285F4)!important;background-size:200% 100%!important;animation:tmFlow 6s linear infinite}
+.tm a .arr{display:inline-block;margin-left:.3em;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.tm a:hover .arr{transform:translateX(4px)}
+@media (prefers-reduced-motion:reduce){.tm .hero-img{transform:none;animation:none!important}.tm .hero-media,.tm .hero-chip,.tm .hero-chip-ic::after,.tm .hero-chip-ic svg,.tm .topbar-line,.tm .hero-line{animation:none!important}}
+.tm header .nl{color:rgba(255,255,255,.82)!important}
+.tm .hero{position:relative;min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:flex-end;padding:120px 24px 72px;box-sizing:border-box;overflow:hidden;background:#0E0E0F}
+.tm .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.tm .hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,15,.62) 0%,rgba(14,14,15,0) 16%,rgba(14,14,15,.08) 30%,rgba(14,14,15,.8) 54%,#0E0E0F 92%);pointer-events:none}
+.tm .hero-glow{position:absolute;left:-200px;bottom:-300px;width:1100px;height:600px;background:radial-gradient(closest-side,rgba(66,133,244,.28),rgba(155,114,203,.12) 55%,transparent);pointer-events:none}
+.tm .hero-body{position:relative;z-index:1;width:100%;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.tm .hero-h1{margin:0;max-width:17ch;font-size:clamp(42px,5.6vw,96px);line-height:1.0;font-weight:400;letter-spacing:-.04em;color:#fff}
+.tm .grad-lt{background:linear-gradient(90deg,#8AB4F8 0%,#C58AF9 55%,#F28B82 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tm .hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px}
+.tm .hero-row p{margin:0;max-width:34em;font-size:clamp(17px,1.4vw,19px);line-height:1.5;color:rgba(255,255,255,.8)}
+.tm .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.tm .glass{background:rgba(30,31,34,.55);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 20px 50px rgba(0,0,0,.35)}
+.tm .hero-chip{position:absolute;right:18%;bottom:calc(100% + 140px);display:flex;align-items:center;gap:12px;padding:10px 18px 10px 10px;border-radius:28px;color:#fff}
+.tm .hero-chip-ic{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4285F4,#9B72CB 60%,#D96570)}
+.tm .hero .pill{align-self:flex-start;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:16px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);color:#fff;font-size:13px}
+.tm .hero a.sec{background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)!important;color:#fff!important}
+.tm .hero a.sec:hover{background:rgba(255,255,255,.16)}
+.tm .hero-line{position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#4285F4,#9B72CB 55%,#D96570)}
+.tm .hero-credit{position:absolute;right:24px;bottom:14px;z-index:1;font-size:11px;color:rgba(255,255,255,.55)}
+@media (max-width:900px){
+  .tm .hero{min-height:0;justify-content:flex-start;padding:calc(min(56svh,480px) - 44px) 20px 64px}
+  .tm .hero-img,.tm .hero-scrim{height:min(56svh,480px);bottom:auto}
+  .tm .hero-img{object-position:28% 30%}
+  .tm .hero-scrim{background:linear-gradient(180deg,rgba(14,14,15,.6) 0%,rgba(14,14,15,0) 22%,rgba(14,14,15,0) 58%,#0E0E0F 100%)}
+  .tm .hero-glow{display:none}
+  .tm .hero-h1{font-size:clamp(38px,10.4vw,56px)}
+  .tm .hero-body{gap:22px}
+  .tm .hero-chip{position:static;align-self:flex-start}
+  .tm .hero-credit{left:20px;right:20px;text-align:right}
+}
 </style>
 </head>
 <body>
 
-<div class="tm-intro" aria-hidden="true"><span class="halo"></span><div class="mk"><svg viewBox="0 0 32 32"><defs><linearGradient id="lg0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg0)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg0)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg0)" opacity=".6"></path></svg>Trial Match</div><span class="ln"></span></div>
+<script src="/loader/syringe-loader.js" data-wait="load" data-max="6000"></script><!-- loading screen: the syringe fills while the page loads, then slides up -->
 <div class="tm" style="background: #0E0E0F; color: #E3E3E3; font-family: 'Google Sans Flex', 'Google Sans', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow: hidden">
-<div class="bar" aria-hidden="true"></div>
 
 <!-- NAV -->
+<div class="topbar">
 <header class="navIn" style="position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; align-items: center; gap: 36px">
   <a href="#top" style="display: flex; align-items: center; gap: 10px; color: #E3E3E3; text-decoration: none; font-size: 20px; font-weight: 500; white-space: nowrap">
     <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"></stop><stop offset=".6" stop-color="#9B72CB"></stop><stop offset="1" stop-color="#D96570"></stop></linearGradient></defs><path d="M16 4v9" stroke="url(#lg1)" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M16 12c-2 0-3 1.5-4.6 4.2C9.4 19.8 7 24.6 7 26.2 7 27.8 8.7 28.4 10.2 27.8 13.3 26.7 16 23 16 18Z" fill="url(#lg1)"></path><path d="M16 12c2 0 3 1.5 4.6 4.2 2 3.6 4.4 8.4 4.4 10 0 1.6-1.7 2.2-3.2 1.6C18.7 26.7 16 23 16 18Z" fill="url(#lg1)" opacity=".6"></path></svg>
@@ -172,59 +230,34 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     <a class="nl" href="#trust" style="color: #9AA0A6; text-decoration: none">Trust</a>
   </nav>
   <span style="flex: 1"></span>
-  <a class="pri" href="/app/" style="height: 40px; padding: 0 20px; border-radius: 20px; background: #E3E3E3; color: #0E0E0F; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap">Try the demo →</a>
+  <a class="pri" href="/app/" style="height: 40px; padding: 0 20px; border-radius: 20px; background: #E3E3E3; color: #0E0E0F; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap">Try the demo <span class="arr">→</span></a>
 </header>
+<span class="topbar-line" aria-hidden="true"></span>
+<div class="bar" aria-hidden="true"></div>
+</div>
 
 <!-- HERO -->
-<section id="top" class="slide" style="position: relative; padding: 56px 24px 120px">
-  <div class="glowIn" aria-hidden="true" style="position: absolute; left: 50%; top: -360px; width: 1400px; height: 900px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(66,133,244,.22), rgba(155,114,203,.10) 55%, transparent 100%); pointer-events: none"></div>
-  <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px">
-    <span class="pill" style="display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 14px; border-radius: 17px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.10); color: #C4C7C5; font-size: 14px; text-decoration: none">Team Legacy</span>
-    <h1 style="margin: 0; max-width: 15ch; font-size: clamp(48px, 8.4vw, 112px); line-height: 1.0; font-weight: 400; letter-spacing: -0.035em"><span class="w">95%</span> <span class="w">of</span> <span class="w">patients</span> <span class="w">are</span> <span class="w">willing</span> <span class="w">to</span> <span class="w">join</span> <span class="w">trials.</span> <span class="w grad">Yet few ever hear about them.</span></h1>
-    <p style="margin: 0; max-width: 34em; font-size: clamp(18px, 1.6vw, 21px); color: #9AA0A6; line-height: 1.5">Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.</p>
-    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 4px">
-      <a class="pri" href="/app/" style="height: 52px; padding: 0 28px; border-radius: 26px; background: #A8C7FA; color: #062E6F; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo →</a>
-      <a class="sec" href="#product" style="height: 52px; padding: 0 28px; border-radius: 26px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); color: #E3E3E3; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">See how it works</a>
+<section id="top" class="slide hero">
+  <div class="hero-media"><img class="hero-img" src="media/hero-vaccine.jpg" alt="A smiling woman receives a vaccine from a nurse" width="1800" height="1190" fetchpriority="high" decoding="async"></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-body">
+    <div class="hero-chip glass rv2">
+      <span class="hero-chip-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+      <span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-size: 15px; font-weight: 500">Matched to a trial in London</span><span style="font-size: 13px; color: rgba(255,255,255,.75)">All 9 entry rules met</span></span>
+    </div>
+    <span class="pill">Team Legacy</span>
+    <h1 class="hero-h1"><span class="w">95%</span> <span class="w">of</span> <span class="w">patients</span> <span class="w">are</span> <span class="w">willing</span> <span class="w">to</span> <span class="w">join</span> <span class="w">trials.</span> <span class="w grad-lt">Yet few ever hear about them.</span></h1>
+    <div class="hero-row">
+      <p>Trial Match is a multi-agent system that connects every patient to trials they qualify for, and gives every trial team a shortlist of people ready to join.</p>
+      <div class="hero-ctas">
+        <a class="pri" href="/app/" style="height: 56px; padding: 0 30px; border-radius: 28px; background: #A8C7FA; color: #062E6F; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo <span class="arr">→</span></a>
+        <a class="sec" href="#product" style="height: 56px; padding: 0 30px; border-radius: 28px; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">See how it works</a>
+      </div>
     </div>
   </div>
-
-  <!-- the match -->
-  <div style="position: relative; max-width: 1000px; margin: 88px auto 0">
-    <div class="row3" style="gap: 0">
-      <div class="slideL lift" style="border-radius: 28px; background: #1A1B1D; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px rgba(0,0,0,.5); padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left">
-        <div style="display: flex; align-items: center; gap: 14px">
-          <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #4285F4, #9B72CB); display: grid; place-items: center; font-size: 19px; font-weight: 500; color: #fff; flex: none">M</span>
-          <div><b style="font-weight: 500; font-size: 18px; display: block">Mei, 63</b><span style="font-size: 14px; color: #9AA0A6">Patient · London</span></div>
-        </div>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px">
-          <span style="height: 28px; padding: 0 12px; border-radius: 8px; background: #26282B; font-size: 13px; color: #C4C7C5; display: inline-flex; align-items: center">Lung adenocarcinoma, stage IV</span>
-          <span style="height: 28px; padding: 0 12px; border-radius: 8px; background: #26282B; font-size: 13px; color: #C4C7C5; display: inline-flex; align-items: center">EGFR exon 19 deletion</span>
-          <span style="height: 28px; padding: 0 12px; border-radius: 8px; background: #26282B; font-size: 13px; color: #C4C7C5; display: inline-flex; align-items: center">Grew on osimertinib</span>
-        </div>
-      </div>
-
-      <div class="link" style="position: relative; height: 180px; display: grid; place-items: center">
-        <span aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: linear-gradient(90deg, rgba(66,133,244,.0), rgba(66,133,244,.8) 30%, rgba(155,114,203,.8) 70%, rgba(217,101,112,.0))"></span>
-        <div class="pop" style="position: relative; width: 104px; height: 104px; border-radius: 50%; display: grid; place-items: center">
-          <span class="spin" aria-hidden="true" style="position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, #4285F4, #9B72CB, #D96570, #4285F4)"></span>
-          <span style="position: absolute; inset: 3px; border-radius: 50%; background: #0E0E0F"></span>
-          <span style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1.1"><b data-count="c98" data-from="0" data-to="98" style="font-size: 30px; font-weight: 400">98</b><span style="font-size: 11px; color: #9AA0A6; letter-spacing: .06em">MATCH</span></span>
-        </div>
-      </div>
-
-      <div class="slideR lift" style="border-radius: 28px; background: #1A1B1D; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px rgba(0,0,0,.5); padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left">
-        <div style="display: flex; align-items: center; gap: 14px">
-          <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 50%; background: rgba(109,213,140,.14); color: #6DD58C; display: grid; place-items: center; flex: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M12 8v4M10 10h4"></path></svg></span>
-          <div><b style="font-weight: 500; font-size: 18px; display: block">Phase III trial LT-301</b><span style="font-size: 14px; color: #9AA0A6">Recruiting · London</span></div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px">
-          <span style="display: flex; gap: 10px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6DD58C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>9 of 9 requirements met</span>
-          <span style="display: flex; gap: 10px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6DD58C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Every fact verified against real sources</span>
-        </div>
-      </div>
-    </div>
-    <p style="margin: 28px 0 0; text-align: center; font-size: 13px; color: #6F7378">Illustrative example. Mei and LT-301 are synthetic.</p>
-  </div>
+  <span class="hero-line" aria-hidden="true"></span>
+  <span class="hero-credit">Photo: CDC on Unsplash. The match shown is illustrative.</span>
 </section>
 
 <!-- THE GAP -->
@@ -378,7 +411,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   <div aria-hidden="true" style="position: absolute; left: 50%; bottom: -420px; width: 1400px; height: 820px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(155,114,203,.20), rgba(66,133,244,.10) 55%, transparent 100%); pointer-events: none"></div>
   <div style="position: relative; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; align-items: center; text-align: center">
     <h2 style="margin: 0; font-size: clamp(44px, 7vw, 96px); line-height: 1.0; font-weight: 400; letter-spacing: -0.035em"><span class="w">Every</span> <span class="w">patient</span> <span class="w">deserves</span> <span class="w grad">to be asked.</span></h2>
-    <a class="pri rv2" href="/app/" style="height: 56px; padding: 0 32px; border-radius: 28px; background: #A8C7FA; color: #062E6F; font-size: 17px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo →</a>
+    <a class="pri rv2" href="/app/" style="height: 56px; padding: 0 32px; border-radius: 28px; background: #A8C7FA; color: #062E6F; font-size: 17px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Try the demo <span class="arr">→</span></a>
   </div>
 </section>
 
@@ -413,7 +446,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   }
   var first = true;
   var io = new IntersectionObserver(function (entries) {
-    var i = 0, base = first ? 1250 : 0;
+    var i = 0, base = first ? 120 : 0;
     first = false;
     entries.forEach(function (e) {
       if (!e.isIntersecting) return;
@@ -423,7 +456,14 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       setTimeout(function () { el.classList.remove('mo'); el.classList.remove('in'); el.style.transitionDelay = ''; }, d + 750);
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-  els.forEach(function (el) { io.observe(el); });
+  function start() { els.forEach(function (el) { io.observe(el); }); }
+  if (window.TMLoader && window.TMLoader.leaving) window.TMLoader.leaving.then(start); else start();
+})();
+(function () {
+  // The top bar turns frosted once the page scrolls.
+  var bar = document.querySelector('.tm .topbar'); if (!bar) return;
+  function upd() { bar.classList.toggle('is-scrolled', window.scrollY > 24); }
+  upd(); window.addEventListener('scroll', upd, { passive: true });
 })();
 (function () {
   // The agents relay loops only while it is on screen.

@@ -17,6 +17,16 @@ Notes for editing:
 ## Opening splash (plays once on load)
 
 - Wordmark: Trial Match
+- Step 1: Reading the record
+- Step 1 result: 4 facts, each quoted
+- Step 2: Checking entry rules
+- Step 2 result: 9 of 9 met
+- Step 3: Finding trials that fit
+- Step 3 result: LT-301 · London
+- Last line: Ready
+- Label (read by screen readers): Loading Trial Match
+
+The splash is a syringe that fills while the page loads. Each step shows large, then shrinks into a checked list. Its text lives in `public/loader/syringe-loader.js`, which the demo at `/app/` shares.
 
 ## Top bar
 
@@ -37,20 +47,12 @@ Notes for editing:
 - Main button: Try the demo →
 - Second button: See how it works
 
-### The match illustration
+### The photo
 
-- Patient name: Mei, 63
-- Patient line: Patient · London
-- Tag 1: Lung adenocarcinoma, stage IV
-- Tag 2: EGFR exon 19 deletion
-- Tag 3: Grew on osimertinib
-- Score (*counts up from 0*): 98
-- Score label: MATCH
-- Trial name: Phase III trial LT-301
-- Trial line: Recruiting · London
-- Check 1: 9 of 9 requirements met
-- Check 2: Every fact verified against real sources
-- Caption: Illustrative example. Mei and LT-301 are synthetic.
+- Photo description (read by screen readers): A smiling woman receives a vaccine from a nurse
+- Match notice: Matched to a trial in London
+- Match notice, second line: All 9 entry rules met
+- Photo credit: Photo: CDC on Unsplash. The match shown is illustrative.
 
 ## The gap (section link “The gap”)
 
