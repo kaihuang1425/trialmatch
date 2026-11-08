@@ -19,7 +19,7 @@ The chat offers three sources, and visitors choose between them in the chat itse
 
 - **Built-in.** This works everywhere and needs no setup. The answers are worked out from the record and the trial rules.
 - **MedGemma on this computer (desktop).** The chat detects Windows, Mac or Linux. It shows one copy-paste command that lets the site talk to Ollama, restarts Ollama and downloads `medgemma1.5:4b` (about 3.3 GB). It then finds the model by itself. Questions never leave that computer. The site's security policy allows only `localhost:11434`.
-- **MedGemma on this site.** This works on any device, phones included, once the deployment has a MedGemma server set in the variables below. Any OpenAI-compatible server works, including Ollama's own API (`MEDGEMMA_BASE_URL=http://<host>:11434/v1`, `MEDGEMMA_MODEL=medgemma1.5:4b`). If you serve it with Ollama, start it with `OLLAMA_CONTEXT_LENGTH=16384` so the longer trial pre-check prompts fit.
+- **The site's model.** This works on any device, phones included. It is MedGemma once the deployment has a MedGemma server set in the variables below. Until then, a Gemini API key can stand in: the app then says "Gemini · cloud", tells people their questions go to Google's cloud and are fine for this synthetic demo only, and keeps "MedGemma · this computer" one tap away (with a lock icon) for anyone who wants privacy. MedGemma is always used when both are set. Any OpenAI-compatible server works, including Ollama's own API (`MEDGEMMA_BASE_URL=http://<host>:11434/v1`, `MEDGEMMA_MODEL=medgemma1.5:4b`). If you serve it with Ollama, start it with `OLLAMA_CONTEXT_LENGTH=16384` so the longer trial pre-check prompts fit.
 
 These were tested with MedGemma 1.5 4B on an RTX 5070 Ti laptop: chat answers took about 8 to 20 seconds, including the model's thinking.
 
@@ -44,6 +44,7 @@ vercel deploy --prod
    - **MedGemma:** pick one option.
      - **Vertex AI:** in Model Garden, deploy MedGemma (`medgemma-27b-text-it` reads text best; `medgemma-1.5-4b-it` is smaller and cheaper). Copy the endpoint into `MEDGEMMA_VERTEX_BASE_URL` as `https://{DEDICATED_ENDPOINT_DNS}/v1beta1/projects/{PROJECT_ID}/locations/{REGION}/endpoints/{ENDPOINT_ID}`. Create a service account with the **Vertex AI User** role and paste its JSON key into `GOOGLE_SERVICE_ACCOUNT_JSON`, either raw on one line or base64.
      - **Hugging Face Inference Endpoints, or your own vLLM/TGI server:** set `MEDGEMMA_BASE_URL` (ending in `/v1`), `MEDGEMMA_API_KEY` and `MEDGEMMA_MODEL`. You must accept the model's terms on Hugging Face first.
+     - **No MedGemma server yet:** set `GEMINI_API_KEY` (from Google AI Studio) and optionally `GEMINI_MODEL` (default `gemini-3.6-flash`). Every AI step (Records Reader, pre-check, chat) then uses Gemini and says so. Gemini runs in Google's cloud, so keep to the synthetic demo data.
    - **FHIR:** set `FHIR_BASE_URL`. For testing, `https://r4.smarthealthit.org` is a public sandbox of synthetic patients with no token. `FHIR_DEMO_PATIENT_ID=1a96f2e7-7ce0-4164-b3f6-4fdffeca00fb` is one of its lung cancer patients. Add `FHIR_BEARER_TOKEN` for a server that needs one.
 
 Every variable is described in `.env.example`.

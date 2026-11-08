@@ -397,7 +397,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 .pvcard > .pvbox { border-top: 0; padding-top: 0; }
 .pvbox-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--faint); }
 .pvbox-h small { font-size: 12px; }
-.pvbox .pv-root.pv-embed { --pv-ink: #E3E3E3; --pv-muted: #8E918F; --pv-line: #444746; --pv-link: #A8C7FA; --pv-unk: #FDD663; --pv-unk-ink: #FDD663; --pv-unk-soft: rgba(253,214,99,.13); --pv-neg-ink: #C4C7C5; --pv-neg-soft: #333537; --pv-display: var(--sans); --pv-body: var(--sans); --pv-mono: var(--sans); min-height: 0; height: auto; background: transparent; font-size: 14px; }
+.pvbox .pv-root.pv-embed { --pv-ink: #E3E3E3; --pv-muted: #8E918F; --pv-line: #444746; --pv-link: #A8C7FA; --pv-unk: #FDD663; --pv-unk-ink: #FDD663; --pv-unk-soft: rgba(253,214,99,.13); --pv-neg-ink: #C4C7C5; --pv-neg-soft: #333537; --pv-rail: rgba(19,19,20,.74); --pv-rail-on: #004A77; --pv-rail-on-ink: #C2E7FF; --pv-display: var(--sans); --pv-body: var(--sans); --pv-mono: var(--sans); min-height: 0; height: auto; background: transparent; font-size: 14px; }
 .pvbox .pv-embed .pv-stage { flex: none; height: clamp(220px, 36vh, 320px); border-radius: var(--r); }
 .pvbox .pv-embed .pv-ctl { padding: 10px 0 0; gap: 8px; }
 .pvbox .pv-embed .pv-calm { padding: 4px 0; }
@@ -417,6 +417,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   /* .sheet prefix: these come before the general chat rules below, so they need the extra weight to win */
   .sheet .chat-sug { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px; flex: none; } .sheet .chat-sug::-webkit-scrollbar { display: none; } .sheet .chat-sug button { flex: none; white-space: nowrap; } .sheet .chat-thread { max-height: 46vh; } }
 .chat-src { display: flex; gap: 6px; flex-wrap: wrap; }
+.chat-src button svg { width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; }
 .chat-src button { height: 32px; padding: 0 12px; border-radius: 16px; font-size: 13px; font-weight: 500; color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); display: inline-flex; align-items: center; gap: 6px; }
 .chat-src button[aria-pressed="true"] { background: var(--accent-soft); color: var(--on-soft); box-shadow: none; }
 .chat-src button:disabled { opacity: .45; cursor: default; }
@@ -460,7 +461,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 <div id="app"></div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
 <script src="connectors.js"></script>
-<script src="protein/protein-view.js"></script>
+<script src="protein/protein-view.js?v=1.2.2"></script><!-- bump ?v= when protein-view.js changes: /app/protein is cached for a week -->
 <script>
 (function () {
   'use strict';
@@ -1250,7 +1251,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       body = list.length ? '<div class="list">' + list.map(function (a) { var t = TRIAL[a.trial]; return trow(t, null, null, STAGE_P[a.stage] + ' · updated ' + ago(a.upd), a); }).join('') + '</div>'
         : '<div class="card empty"><h3>' + (S.mtab === 'active' ? 'No applications yet' : 'Nothing here yet') + '</h3><p>' + (S.mtab === 'active' ? 'Swipe right on a trial in Discover to apply.' : 'Finished and closed applications appear here.') + '</p>' + (S.mtab === 'active' ? '<button class="btn tonal" data-act="tab" data-v="discover">Go to Discover</button>' : '') + '</div>';
     }
-    return '<div class="col"><div class="page-h"><div><h1>My trials</h1><p>Every application and where it stands.</p></div></div>' +
+    return '<div class="col"><div class="page-h"><div><h1>My trials</h1></div></div>' +
       '<div class="seg" role="group" style="align-self:flex-start"><button data-act="mtab" data-v="active" aria-pressed="' + (S.mtab === 'active') + '">In progress ' + act.length + '</button><button data-act="mtab" data-v="matches" aria-pressed="' + (S.mtab === 'matches') + '">Matches ' + poss.length + '</button><button data-act="mtab" data-v="closed" aria-pressed="' + (S.mtab === 'closed') + '">Closed ' + closed.length + '</button></div>' + body + '</div>';
   }
   function stepsBar(a) {
@@ -1275,7 +1276,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   var LABS = [['anc', 'Neutrophils', '×10⁹/L', 'Trials often need 1.5 or more'], ['plt', 'Platelets', '×10⁹/L', 'Trials often need 100 or more'], ['crcl', 'Kidney function', 'mL/min', 'Creatinine clearance'], ['bili', 'Bilirubin', '× ULN', 'Liver function']];
   function healthView(pt) {
     var r = pt.rec;
-    if (r.empty) return '<div class="col"><div class="page-h"><div><h1>My health</h1><p>Your record, as your agent sees it.</p></div></div><div class="card empty"><h3>Nothing here yet</h3><p>Connect a record or add details yourself.</p><div class="row" style="justify-content:center;margin-top:16px"><button class="btn pri" data-act="connect">' + ICON.link + 'Connect a record</button><button class="btn tonal" data-act="add">' + ICON.plus + 'Add data</button></div></div></div>';
+    if (r.empty) return '<div class="col"><div class="page-h"><div><h1>My health</h1></div></div><div class="card empty"><h3>Nothing here yet</h3><p>Connect a record or add details yourself.</p><div class="row" style="justify-content:center;margin-top:16px"><button class="btn pri" data-act="connect">' + ICON.link + 'Connect a record</button><button class="btn tonal" data-act="add">' + ICON.plus + 'Add data</button></div></div></div>';
     var src = pt.srcs || {};
     var stats = '<div class="stat"><span class="lbl">Day-to-day fitness</span><span class="val">ECOG ' + (r.ecog == null ? '–' : r.ecog) + '</span><span class="src">' + (r.ecog == null ? 'Not known' : ECOG[r.ecog]) + '</span><span class="src">' + esc(src.ecog || '') + '</span></div>';
     stats += LABS.map(function (L) { var v = r[L[0]], h = (pt.labs || {})[L[0]] || []; if (v == null) return '<div class="stat unknown"><span class="lbl">' + L[1] + '</span><span class="val">Not known</span><span class="src">' + L[3] + '</span></div>'; return '<div class="stat"><span class="lbl">' + L[1] + '</span><span class="val">' + v + '<small>' + L[2] + '</small></span>' + spark(h) + '<span class="src">' + (h.length ? dstr(h[h.length - 1][0]) + ' · ' : '') + esc(src.labs || 'You added this') + '</span></div>'; }).join('');
@@ -1283,7 +1284,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var tx = (pt.tx || []).map(function (x) { return '<div class="item"><span class="ic-circle">' + ICON.pill + '</span><span class="grow"><b>' + esc(x.what) + '</b><small>' + dstr(x.when) + (x.until ? ' to ' + dstr(x.until) : ' onwards') + '</small></span></div>'; }).join('');
     var past = (pt.past || []).map(function (x) { return '<div class="item"><span class="ic-circle">' + ICON.check + '</span><span class="grow"><b>' + esc(x.code + ' · ' + x.name) + '</b><small>' + esc(BR[x.result] || x.result) + ' · ' + x.months + ' months · completed ' + dstr(x.at) + '</small></span></div>'; }).join('');
     var srcs = SOURCES.filter(function (s) { return (pt.sources || []).indexOf(s.id) >= 0; }).map(function (s) { return '<span class="chip">' + s.icon + esc(s.name) + '</span>'; }).join('');
-    return '<div class="col"><div class="page-h"><div><h1>My health</h1><p>Your record, as your agent sees it.</p></div><div class="row"><button class="btn tonal" data-act="connect">' + ICON.link + 'Connect</button><button class="btn pri" data-act="add">' + ICON.plus + 'Add data</button></div></div>' +
+    return '<div class="col"><div class="page-h"><div><h1>My health</h1></div><div class="row"><button class="btn tonal" data-act="connect">' + ICON.link + 'Connect</button><button class="btn pri" data-act="add">' + ICON.plus + 'Add data</button></div></div>' +
       '<div class="card pad-lg dx"><span class="faint sm">Diagnosis</span><h2>' + esc(HIST[r.histology] || '') + ', ' + esc(STAGE[r.stage] || '') + '</h2><div class="chips">' + bioText(r).map(function (b) { return '<span class="chip ' + (/not known/.test(b) ? 'unk' : 'acc') + '">' + esc(b) + '</span>'; }).join('') + '<span class="chip ' + (r.brain === 'unk' ? 'unk' : '') + '">' + brain + '</span></div><p class="muted sm">' + esc(txText(r)) + '</p></div>' +
       '<div class="stats">' + stats + '</div>' +
       ((tx || past) ? '<div class="sect-h"><h2>Treatment and trials</h2></div><div class="list">' + past + tx + '</div>' : '') +
@@ -1292,7 +1293,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 
   function inboxView(pt) {
     var evs = Store.all('events').filter(function (e) { return e.pid === pt.id && e.notice; }).sort(function (a, b) { return b.at - a.at; });
-    var html = '<div class="col"><div class="page-h"><div><h1>Inbox</h1><p>Updates from your agent and your care team.</p></div>' + (evs.some(function (e) { return !e.read; }) ? '<button class="btn text" data-act="readall">Mark all read</button>' : '') + '</div>';
+    var html = '<div class="col"><div class="page-h"><div><h1>Inbox</h1></div>' + (evs.some(function (e) { return !e.read; }) ? '<button class="btn text" data-act="readall">Mark all read</button>' : '') + '</div>';
     html += evs.length ? '<div class="list">' + evs.map(function (e) { var hu = e.who === 'Care team'; return '<div class="item' + (e.read ? '' : ' unread') + '"><span class="ic-circle ' + (hu ? 'hu' : 'ag') + '">' + (hu ? ICON.hosp : ICON.spark) + '</span><span class="grow"><b>' + esc(e.who) + ' <span class="faint xs">' + ago(e.at) + '</span></b><small>' + esc(e.text) + '</small>' + (e.inv && invitesOf(pt).indexOf(e.inv) >= 0 ? '<button class="btn tonal" style="margin-top:10px;height:34px" data-act="trial" data-id="' + e.inv + '">See the invitation</button>' : '') + '</span>' + (e.read ? '' : '<span class="dot"></span>') + '</div>'; }).join('') + '</div>' : '<div class="card empty"><h3>No messages yet</h3><p>You’ll hear here when a trial team replies.</p></div>';
     return html + '</div>';
   }
@@ -1330,7 +1331,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       // Demo trials pass only their name: the plain summary mentions earlier treatments, which must not be read as this trial's drug.
       // Live registry trials pass their listed interventions, so a named drug can be shown as "this trial's drug".
       pvView = window.TMProtein.mount(host, { record: pvRecord(pt, p), trial: liveTrial || { title: t.name, nct: t.code }, theme: 'dark', surface: '#1E1F20',
-        onResolved: function (c) { var h = $('#pv-hint'); if (h) h.hidden = c.kind !== 'structure'; } });
+        onResolved: function (c) { var h = $('#pv-hint'); if (h) h.hidden = c.kind !== 'structure'; },
+        onLevel: function (l) { var h = $('#pv-hint'); if (h) h.textContent = l === 'protein' ? 'Drag to turn · scroll to zoom' : 'Tap the glow or scroll to zoom in'; } });
     } catch (e) { pvView = null; var b = host.closest('.pvbox'); if (b) b.remove(); }
   }
   function sheetHead(title, sub) { return '<div class="sheet-h"><div><h2>' + title + '</h2>' + (sub ? '<p class="muted sm">' + sub + '</p>' : '') + '</div><button class="iconbtn" data-act="close" aria-label="Close">' + ICON.x + '</button></div>'; }
@@ -1513,10 +1515,10 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var local = function () { done(readLetterLocal(txt), 'read on this device'); };
     var C = window.TMConnect;
     if (C && C.status().medgemma.on) {   // MedGemma reads it; every fact comes back with the words that state it
-      out.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>Records Reader (MedGemma) is reading the letter…</p></div></div>';
+      out.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>Records Reader (' + siteAI() + ') is reading the letter…</p></div></div>';
       C.readLetter(txt.slice(0, 12000)).then(function (r) {
-        done(r.facts, 'read by MedGemma, each fact checked against the letter', r.evidence, (r.rejected || []).length);
-      }, function (e) { toast('MedGemma couldn’t read it (' + e.message + '), so this device did.'); local(); });
+        done(r.facts, 'read by ' + (r.family || siteAI()) + ', each fact checked against the letter', r.evidence, (r.rejected || []).length);
+      }, function (e) { toast(siteAI() + ' couldn’t read it (' + e.message + '), so this device did.'); local(); });
       return;
     }
     if (!(window.claude && window.claude.use)) { local(); return; }
@@ -1544,7 +1546,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       var clean = cleanFacts(r.facts);
       fhirFound = { facts: clean, server: r.server, id: r.patient.id };
       var c = r.counts || {};
-      var how = 'from ' + r.server + (r.model ? ', read by MedGemma' : '') + ' · ' + plural(c.conditions || 0, 'condition') + ', ' + plural(c.observations || 0, 'result') + ', ' + plural(c.medicines || 0, 'medicine');
+      var how = 'from ' + r.server + (r.model ? ', read by ' + (r.family || siteAI()) : '') + ' · ' + plural(c.conditions || 0, 'condition') + ', ' + plural(c.observations || 0, 'result') + ', ' + plural(c.medicines || 0, 'medicine');
       if ($('#fhir-out')) $('#fhir-out').innerHTML = factsHtml(clean, how, r.evidence, (r.rejected || []).length, 'fhir-save', r.notes);
     }, function (e) { if ($('#fhir-out')) $('#fhir-out').innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
   }
@@ -1585,21 +1587,21 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       (t.interventions.length ? '<div class="chips">' + t.interventions.slice(0, 5).map(function (i) { return '<span class="chip">' + esc(i.name) + '</span>'; }).join('') + '</div>' : '') +
       '<div class="panel2"><b style="font-weight:500">UK hospitals recruiting</b><p class="sm muted">' + esc(t.sites.slice(0, 8).map(function (s) { return s.facility + (s.city ? ', ' + s.city : ''); }).join(' · ')) + (t.siteCount > 8 ? ' and ' + (t.siteCount - 8) + ' more' : '') + '</p></div>' + pvCard() +
       '<div id="live-check">' + (mg
-        ? '<div class="panel2"><b style="font-weight:500">Check it against your record</b><p class="muted sm">MedGemma reads this trial’s full entry rules and compares them with your record. It’s a pre-check: a research nurse confirms every rule with you.</p><button class="btn pri" data-act="live-check" data-id="' + esc(t.nct) + '" style="align-self:flex-start">' + ICON.spark + 'Pre-check with MedGemma</button></div>'
-        : '<p class="note">Pre-checks need MedGemma, which isn’t connected on this site yet.</p>') + '</div>' +
+        ? '<div class="panel2"><b style="font-weight:500">Check it against your record</b><p class="muted sm">' + siteAI() + ' reads this trial’s full entry rules and compares them with your record. It’s a pre-check: a research nurse confirms every rule with you.</p><button class="btn pri" data-act="live-check" data-id="' + esc(t.nct) + '" style="align-self:flex-start">' + ICON.spark + 'Pre-check with ' + siteAI() + '</button></div>'
+        : '<p class="note">Pre-checks need an AI model, and none is connected on this site yet.</p>') + '</div>' +
       '<a class="btn tonal" href="' + esc(t.url) + '" target="_blank" rel="noopener noreferrer" style="align-self:flex-start;text-decoration:none">View on ClinicalTrials.gov</a>', true);
     var pt = me(); mountPv(pt, P_(pt), null, { title: t.title, interventions: t.interventions, nct: t.nct });
   }
   function runLiveCheck(nct) {
     var pt = me(), box = $('#live-check'); if (!box) return;
-    box.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>MedGemma is reading the entry rules…</p></div></div>';
+    box.innerHTML = '<div class="ev"><span class="av ag">' + ICON.spark + '</span><div><p>' + siteAI() + ' is reading the entry rules…</p></div></div>';
     var rec = {}; Object.keys(pt.rec).forEach(function (k) { var v = pt.rec[k]; if (v != null && v !== 'unk' && v !== '' && v !== false && v !== 'na') rec[k] = v; });
     window.TMConnect.prescreen(nct, rec, pt.age, pt.sex).then(function (r) {
       var el = $('#live-check'); if (!el) return;
-      el.innerHTML = '<div class="sect-h"><h2 style="font-size:16px">MedGemma pre-check</h2><span class="faint xs">' + r.counts.met + ' met · ' + r.counts.not + ' not met · ' + r.counts.unknown + ' to check</span></div>' +
+      el.innerHTML = '<div class="sect-h"><h2 style="font-size:16px">' + esc(r.family || siteAI()) + ' pre-check</h2><span class="faint xs">' + r.counts.met + ' met · ' + r.counts.not + ' not met · ' + r.counts.unknown + ' to check</span></div>' +
         '<div class="rules">' + r.rules.map(function (x) { var s = { met: 'met', not: 'not', unknown: 'unk' }[x.status]; return '<div class="rule"><span class="mk ' + s + '">' + { met: '✓', not: '✕', unk: '?' }[s] + '</span><span>' + esc(x.rule) + '<small>' + (x.type === 'exc' ? 'Exclusion · ' : '') + esc(x.why) + '</small></span></div>'; }).join('') + '</div>' +
-        '<p class="note">AI pre-check by MedGemma (' + esc(r.model) + '). It can be wrong and it isn’t a decision: a research nurse confirms every rule with you.</p>';
-      event(pt.id, 'Matcher', 'MedGemma pre-checked ' + nct + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check.', false);
+        '<p class="note">AI pre-check by ' + esc(r.family || siteAI()) + ' (' + esc(r.model) + ')' + (siteCloud() ? ' in Google’s cloud, on synthetic data' : '') + '. It can be wrong and it isn’t a decision: a research nurse confirms every rule with you.</p>';
+      event(pt.id, 'Matcher', (r.family || siteAI()) + ' pre-checked ' + nct + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check.', false);
     }, function (e) { var el = $('#live-check'); if (el) el.innerHTML = '<p class="sm" style="color:var(--not)">' + esc(e.message) + '</p>'; });
   }
   /* ---------- Ask your agent: built-in answers worked out from the record and the trial rules, or MedGemma
@@ -1616,6 +1618,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function chatThread() { var k = chatKey(); return (CH.threads[k] = CH.threads[k] || []); }
   function chatPush(m) { var th = chatThread(); th.push(m); if (th.length > 40) th.splice(0, th.length - 40); chatSave(); }
   function siteMG() { return !!(window.TMConnect && window.TMConnect.status().medgemma.on); }
+  function siteAI() { var m = window.TMConnect && window.TMConnect.status().medgemma; return (m && m.on && m.family) || 'MedGemma'; }
+  function siteCloud() { var m = window.TMConnect && window.TMConnect.status().medgemma; return !!(m && m.on && m.cloud); }
   function chatSource() { var s = CH.src || (siteMG() ? 'site' : 'builtin'); return s === 'site' && !siteMG() ? 'builtin' : s; }
   function uniqIds(a) { return a.filter(function (x, i) { return x && a.indexOf(x) === i; }); }
 
@@ -1653,7 +1657,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
         'Everyone in this demo is synthetic. In a real service your record is read only with your consent, and only to match you to trials.',
         'A trial team sees your facts under your ID (' + pt.id + ') only when you apply. Your name stays hidden until you agree to meet them.',
         Store.mode === 'db' ? 'This demo keeps its data in a shared store so everyone sees the same demo.' : 'This demo keeps its data in this browser.',
-        src === 'local' ? 'Typed questions go to MedGemma running on this computer. Nothing is sent online.' : src === 'site' ? 'Typed questions go to MedGemma on this site’s own server, with only the facts needed to answer.' : 'These answers are worked out here from your record and the trial rules. No AI service is used.',
+        src === 'local' ? 'Typed questions go to MedGemma running on this computer. Nothing is sent online.' : src === 'site' ? (siteCloud() ? 'Typed questions go to ' + siteAI() + ' in Google’s cloud, with only the facts needed to answer. Fine for this synthetic demo; for real records, use MedGemma on this computer.' : 'Typed questions go to MedGemma on this site’s own server, with only the facts needed to answer.') : 'These answers are worked out here from your record and the trial rules. No AI service is used.',
         'This chat stays in this browser.'] };
       if (/my application|applied|status|progress|how is my|update on|where am i/.test(q) && !t) {
         var A = appsOf(pt.id);
@@ -1797,7 +1801,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   }
   function askSite(question, ctx) {
     return fetch('/api/agents/ask', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: question, context: ctx }) })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.message || 'the server answered ' + r.status); var out = chatFinal(j.text); if (!out) throw new Error('it returned an empty answer'); return { text: out, model: j.model || 'MedGemma' }; }); });
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.message || 'the server answered ' + r.status); var out = chatFinal(j.text); if (!out) throw new Error('it returned an empty answer'); return { text: out, model: j.model || siteAI(), family: j.family || siteAI() }; }); });
   }
   function chatSend(text, fromChip) {
     text = String(text || '').trim();
@@ -1807,8 +1811,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     if (src !== 'builtin' && !fromChip) {
       CH.pending = true; paintChat(true);
       (src === 'local' ? askLocal : askSite)(text, chatContext(built, text))
-        .then(function (o) { chatPush({ who: 'agent', text: o.text, model: o.model, src: src, items: built.items, actions: built.actions }); },
-          function (e) { built.note = 'MedGemma didn’t answer (' + e.message + '), so this is the built-in answer.'; chatPush(built); })
+        .then(function (o) { chatPush({ who: 'agent', text: o.text, model: o.model, family: o.family || 'MedGemma', src: src, items: built.items, actions: built.actions }); },
+          function (e) { built.note = (src === 'local' ? 'MedGemma' : siteAI()) + ' didn’t answer (' + e.message + '), so this is the built-in answer.'; chatPush(built); })
         .then(function () { CH.pending = false; paintChat(true); });
     } else { chatPush(built); paintChat(true); }
   }
@@ -1816,7 +1820,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function chatMsgHTML(m) {
     if (m.who === 'user') return '<div class="msg user">' + esc(m.text) + '</div>';
     var sp = '<span class="spark sm">' + ICON.spark + '</span>';
-    var by = m.pending ? sp + 'MedGemma' : m.model ? sp + 'MedGemma (' + esc(m.model) + ') ' + (m.src === 'local' ? 'on this computer' : 'on this site') + ' · a draft, check with the team' : sp + 'Your agent';
+    var by = m.pending ? sp + (CH.src === 'local' ? 'MedGemma' : siteAI()) : m.model ? sp + esc(m.family || 'MedGemma') + ' (' + esc(m.model) + ') ' + (m.src === 'local' ? 'on this computer' : (m.family === 'Gemini' ? 'in Google’s cloud' : 'on this site')) + ' · a draft, check with the team' : sp + 'Your agent';
     return '<div class="msg agent' + (m.model ? ' model' : '') + (m.pending ? ' pending' : '') + '"><span class="by">' + by + '</span>' +
       (m.text ? '<p' + (m.pending ? ' class="dots"' : '') + '>' + esc(m.text) + '</p>' : '') +
       (m.lines && m.lines.length ? '<ul>' + m.lines.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
@@ -1832,14 +1836,14 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function paintChat(scroll) {
     var box = $('#chat-thread'); if (!box) return;
     var src = chatSource(), team = S.who.role !== 'patient';
-    $('#chat-line').textContent = src === 'local' ? 'MedGemma on this computer · nothing leaves it' : src === 'site' ? 'MedGemma on this site’s server' : 'Built-in answers from ' + (team ? 'applications and the trial rules' : 'your record and the trial rules');
-    $('#chat-src').innerHTML = [['builtin', 'Built-in'], ['local', 'MedGemma · this computer'], ['site', 'MedGemma · this site']].map(function (o) {
+    $('#chat-line').textContent = src === 'local' ? 'MedGemma on this computer · nothing leaves it' : src === 'site' ? (siteCloud() ? siteAI() + ' in Google’s cloud · demo data only. For privacy, switch to MedGemma on this computer.' : 'MedGemma on this site’s server') : 'Built-in answers from ' + (team ? 'applications and the trial rules' : 'your record and the trial rules');
+    $('#chat-src').innerHTML = [['builtin', 'Built-in'], ['local', ICON.lock + 'MedGemma · this computer'], ['site', siteAI() + (siteCloud() ? ' · cloud' : ' · this site')]].map(function (o) {
       var live = (o[0] === 'local' && CH.localState === 'ok') || (o[0] === 'site' && siteMG());
       return '<button type="button" data-act="chat-src" data-v="' + o[0] + '" aria-pressed="' + (src === o[0]) + '">' + (live ? '<span class="live" aria-hidden="true"></span>' : '') + o[1] + '</button>';
     }).join('');
     var th = chatThread(), first = team ? clinName().replace('Dr ', '') : me().name.split(' ')[0];
     box.innerHTML = (th.length ? th.map(chatMsgHTML).join('') : chatMsgHTML({ who: 'agent', text: 'Hi ' + first + '. ' + (team ? 'Ask me who to invite, what’s missing, or who has waited longest.' : 'Ask me about your matches, a trial, or what’s still unknown about you.') })) +
-      (CH.pending ? chatMsgHTML({ who: 'agent', pending: true, text: src === 'local' ? 'MedGemma is thinking on this computer' : 'MedGemma is thinking' }) : '');
+      (CH.pending ? chatMsgHTML({ who: 'agent', pending: true, text: src === 'local' ? 'MedGemma is thinking on this computer' : siteAI() + ' is thinking' }) : '');
     $('#chat-sug').innerHTML = chatSuggestions().map(function (s) { return '<button type="button" data-act="chat-chip" data-v="' + esc(s) + '"' + (CH.pending ? ' disabled' : '') + '>' + esc(s) + '</button>'; }).join('');
     var send = $('#chat-form .send'); if (send) send.disabled = CH.pending;
     if (scroll) box.scrollTop = box.scrollHeight;
@@ -1866,8 +1870,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     return 'sudo systemctl set-environment OLLAMA_ORIGINS="' + o + '" && sudo systemctl restart ollama && ollama pull ' + m;
   }
   function chatSetupHTML(which) {
-    if (which === 'site') return '<div class="panel2"><b style="font-weight:500">MedGemma on this site isn’t switched on yet</b><p class="muted sm">When the site owner connects a MedGemma server, it works here on any device, phones included, with nothing to install. Until then, use the built-in answers' + (IS_PHONE ? '.' : ', or run MedGemma on this computer.') + '</p></div>';
-    if (IS_PHONE) return '<div class="panel2"><b style="font-weight:500">MedGemma runs on a computer</b><p class="muted sm">A phone can’t run it in the browser. Open this page on a Windows, Mac or Linux computer to set it up there in a few minutes' + (siteMG() ? ', or use MedGemma on this site.' : '. On this phone, the built-in answers work as usual.') + '</p></div>';
+    if (which === 'site') return '<div class="panel2"><b style="font-weight:500">No AI model is switched on for this site yet</b><p class="muted sm">When the site owner connects MedGemma, or a Gemini key for this synthetic demo, it works here on any device, phones included. Until then, use the built-in answers' + (IS_PHONE ? '.' : ', or run MedGemma on this computer.') + '</p></div>';
+    if (IS_PHONE) return '<div class="panel2"><b style="font-weight:500">MedGemma runs on a computer</b><p class="muted sm">A phone can’t run it in the browser. Open this page on a Windows, Mac or Linux computer to set it up there in a few minutes' + (siteMG() ? ', or use ' + siteAI() + ' on this site.' : '. On this phone, the built-in answers work as usual.') + '</p></div>';
     var os = chatOS(), name = { win: 'Windows (PowerShell)', mac: 'Mac (Terminal)', linux: 'Linux (terminal)' }[os], cmd = chatCmd(os);
     return '<div class="panel2 setup"><b style="font-weight:500">Set up MedGemma on this computer</b><p class="muted sm" style="margin:0">Free, and private: your questions and record stay on this computer. It takes a few minutes and about 3.3 GB of space.</p>' +
       '<ol><li><b>Install Ollama</b>, the free app that runs the model. <a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer">Download Ollama</a>, install it and open it once.</li>' +
@@ -1912,7 +1916,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function connLine() {
     var C = window.TMConnect; if (!C) return '';
     var s = C.status(), on = [];
-    if (s.medgemma.on) on.push('MedGemma'); if (s.fhir.on) on.push('FHIR records'); if (s.registry.on) on.push('ClinicalTrials.gov'); if (s.store.on) on.push('shared data');
+    if (s.medgemma.on) on.push(siteAI() + (siteCloud() ? ' (cloud)' : '')); if (s.fhir.on) on.push('FHIR records'); if (s.registry.on) on.push('ClinicalTrials.gov'); if (s.store.on) on.push('shared data');
     return on.length ? ' Live connections: ' + on.join(', ') + '.' : '';
   }
 
@@ -1954,7 +1958,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div></div>' +
       '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t</span></div></div>' +
       '<div class="two"><div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>' +
-      '<div class="card"><h3>Where applicants are</h3><p class="muted sm">Everyone who reached each stage</p><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
+      '<div class="card"><h3>Where applicants are</h3><div class="funnel">' + funnel.map(function (f) { return '<div class="frow"><span class="muted">' + STAGE_C[f[0]] + '</span><span class="track"><i style="width:' + Math.round(100 * f[1] / max) + '%"></i></span><b>' + f[1] + '</b></div>'; }).join('') + '</div></div></div>' +
       '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>To rank</th><th>In screening</th><th>Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
       '<p class="note">All patients, trials and sites are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
   }
@@ -1972,23 +1976,23 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var gaps = {}; all.forEach(function (r) { unknownRules(r).forEach(function (u) { gaps[u] = (gaps[u] || 0) + 1; }); });
     var near = [0, 0, 0]; all.forEach(function (r) { near[r.site.d <= 25 ? 0 : (r.site.d <= 50 ? 1 : 2)]++; });
     var last = P.invited.slice().sort(function (a, b) { return b.inv.at - a.inv.at; })[0];
-    var head = '<div class="page-h"><div><h1>Invite people to apply</h1><p>Patients’ agents check ' + t.code + ' against everyone who allows invitations. You see how many could fit, never who.' + (t.opened ? ' ' + t.code + ' opened ' + ago(openedAt(t)) + '.' : '') + '</p></div>' + trialSelect('find-trial', tid) + '</div>';
+    var head = '<div class="page-h"><div><h1>Invite people to apply</h1><p>' + (t.opened ? t.code + ' opened ' + ago(openedAt(t)) + '. ' : '') + 'You see how many people could fit, never who.</p></div>' + trialSelect('find-trial', tid) + '</div>';
     var kpis = '<div class="kpis">' + kpi('Could fit, not invited yet', cnt(fresh.length, true), cnt(strong.length) + ' strong, ' + cnt(fresh.length - strong.length) + ' possible') +
       kpi('Invited', cnt(P.invited.length, true), last ? 'Last sent ' + ago(last.inv.at) : 'None sent yet') +
       kpi('Applied after an invitation', String(yes), 'They chose to share their record') +
       kpi('All applicants', String(P.applied), 'From every route') + '</div>';
-    var left = '<div class="card"><h3>What their agents can’t confirm yet</h3><p class="muted sm">Across everyone who could fit and hasn’t applied. Pre-screening settles these.</p><div class="plist">' +
+    var left = '<div class="card"><h3>What their agents can’t confirm yet</h3><div class="plist">' +
       (Object.keys(gaps).length ? Object.keys(gaps).sort(function (a, b) { return gaps[b] - gaps[a]; }).map(function (k) { return prow(esc(k), cnt(gaps[k])); }).join('') : '<p class="muted sm" style="padding-top:12px">Nothing. Every rule is confirmed from their records.</p>') + '</div>' +
       '<h3 style="margin-top:22px">Distance to the nearest site</h3><div class="plist">' + prow('Within 25 miles', cnt(near[0])) + prow('25 to 50 miles', cnt(near[1])) + prow('Further, and happy to travel', cnt(near[2])) + '</div></div>';
     var msg = 'The ' + t.code + ' team at ' + t.sites[0][0] + ' invited you to apply. Your agent thinks you could fit. They don’t know who you are unless you apply.';
     var right = '<div class="card" style="display:flex;flex-direction:column;gap:16px"><h3>Send an invitation</h3>' +
       (fresh.length ? '<div class="seg fill" role="group" aria-label="Who to invite" style="align-self:flex-start"><button data-act="fwho" data-v="all" aria-pressed="' + (who === 'all') + '">Everyone who could fit (' + esc(cnt(fresh.length, true)) + ')</button><button data-act="fwho" data-v="strong" aria-pressed="' + (who === 'strong') + '"' + (strong.length ? '' : ' disabled') + '>Strong matches (' + esc(cnt(strong.length, true)) + ')</button></div>' +
-        '<div class="panel2"><span class="faint xs">What each person sees, through their agent</span><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><span class="ic-circle hu">' + ICON.hosp + '</span><p class="sm" style="margin:0">' + esc(msg) + '</p></div></div>' +
-        '<button class="btn pri big" data-act="send-invites">' + ICON.send + (n >= 5 ? 'Send ' + n + ' invitations' : 'Send the invitations') + '</button><p class="note" style="margin-top:-6px">Each person sees their nearest site. Saying no is private: you only see who applies.</p>'
+        '<div class="panel2"><span class="faint xs">What each person sees</span><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><span class="ic-circle hu">' + ICON.hosp + '</span><p class="sm" style="margin:0">' + esc(msg) + '</p></div></div>' +
+        '<button class="btn pri big" data-act="send-invites">' + ICON.send + (n >= 5 ? 'Send ' + n + ' invitations' : 'Send the invitations') + '</button>'
         : '<p class="muted">' + (P.invited.length ? 'Everyone who could fit has an invitation. When an agent finds someone new, they’ll be counted here.' : 'No one’s agent finds a fit for ' + t.code + ' yet. Agents check again whenever a record changes.') + '</p>') +
       (P.invited.length ? '<div><h3 style="font-size:16px">Sent so far</h3><div class="plist">' + prow('Invited', cnt(P.invited.length)) + prow('Applied', String(yes)) + prow('Not applied yet', cnt(waiting.length)) + '</div><p class="faint xs" style="margin-top:8px">Last sent ' + ago(last.inv.at) + ' by ' + esc(last.inv.by) + '.' + (yes ? ' <button class="btn text" style="height:auto;padding:0;font-size:12px" data-act="go-rank" data-id="' + tid + '">Rank who applied</button>' : '') + '</p></div>' : '') + '</div>';
     return head + kpis + '<div class="two">' + right + left + '</div>' +
-      '<p class="note">Only people who allow invitations are counted. People on another trial, or who passed on this one, are left out. Counts under 5 show as “fewer than 5” so no one can be singled out. Every patient here is synthetic.</p>';
+      '<p class="note">Counts only include people who allow invitations, and leave out anyone on another trial or who passed on this one. Under 5 shows as “fewer than 5”. Saying no is private. All patients are synthetic.</p>';
   }
   function sendInvites() {
     var tid = S.trial, t = TRIAL[tid], P = poolFor(tid), strong = P.fresh.filter(function (x) { return x.r.tier === 'strong'; });
@@ -2034,7 +2038,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   function rankView() {
     var tid = S.trial, t = TRIAL[tid], r = rstate(tid), before = JSON.stringify(r), pair = rprep(tid, r);
     if (JSON.stringify(r) !== before) setTimeout(function () { Store.put('rankings', tid, r); }, 0);
-    var head = '<div class="page-h"><div><h1>Rank applicants</h1><p>Swipe the new applicant against the one already ranked. The order builds itself.</p></div>' + trialSelect('rank-trial', tid) + '</div>';
+    var head = '<div class="page-h"><div><h1>Rank applicants</h1></div>' + trialSelect('rank-trial', tid) + '</div>';
     if (pair) {
       var A = Store.get('apps', pair.item), B = Store.get('apps', pair.bench), left = remaining(tid, r), done = r.n || 0;
       var nextQ = rqueue(tid, r)[0];
@@ -2078,7 +2082,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var list = base.filter(function (a) { return inFilter(a, S.afilter); }).sort(function (a, b) { return b.upd - a.upd; });
     var chips = FILTERS.map(function (f) { var n = base.filter(function (a) { return inFilter(a, f[0]); }).length; return '<button class="fchip" data-act="afilter" data-v="' + f[0] + '" aria-pressed="' + (S.afilter === f[0]) + '">' + f[1] + ' <span class="n">' + n + '</span></button>'; }).join('');
     var rows = list.map(function (a) { var pt = pid(a), t = TRIAL[a.trial], x = evaluate(P_(pt), t), named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return '<tr class="click" data-act="app" data-id="' + a.id + '"><td><b style="font-weight:500">' + (named ? esc(pt.name) : pt.id) + '</b><br><span class="faint xs">' + pt.id + ' · ' + pt.age + ' ' + pt.sex + ' · ' + esc(pt.city) + '</span></td><td>' + t.code + '</td><td>' + ring(x.score, x.tier) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint">' + (a.by === 'agent' ? 'Agent' : 'Patient') + (a.invited ? ', invited' : '') + '</td><td class="faint">' + ago(a.upd) + '</td></tr>'; }).join('');
-    return '<div class="page-h"><div><h1>Applications</h1><p>Every applicant and the stage they’re at.</p></div>' + trialSelect('apps-trial', S.atrial, true) + '</div>' +
+    return '<div class="page-h"><div><h1>Applications</h1></div>' + trialSelect('apps-trial', S.atrial, true) + '</div>' +
       '<div class="chips">' + chips + '</div>' +
       '<div class="card" style="padding:12px 8px"><div class="tbl-wrap">' + (rows ? '<table><thead><tr><th>Patient</th><th>Trial</th><th>Fit</th><th>Stage</th><th>Sent by</th><th>Updated</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty"><p>No applications here.</p></div>') + '</div></div>';
   }

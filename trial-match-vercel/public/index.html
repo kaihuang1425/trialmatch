@@ -143,6 +143,13 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   .tm .ag:active{transform:scale(.97)}
 }
 @media (prefers-reduced-motion:reduce){.tm .rl-node{background:#A8C7FA}}
+/* source icon beside each figure: opens the source; the tooltip names it */
+.tm .src{display:inline-grid;place-items:center;width:28px;height:28px;margin:6px 0 0 12px;vertical-align:top;border-radius:50%;color:#9AA0A6;background:rgba(255,255,255,.06);position:relative;transition:background .2s,color .2s,transform .2s;font-size:12px;letter-spacing:0;line-height:1}
+.tm .src svg{width:15px;height:15px}
+.tm .src:hover,.tm .src:focus-visible{background:rgba(168,199,250,.16);color:#A8C7FA;transform:translateY(-1px);outline:none}
+.tm .src::after{content:attr(data-tip);position:absolute;right:-4px;bottom:calc(100% + 8px);white-space:nowrap;font-size:12px;font-weight:400;padding:8px 10px;border-radius:8px;background:#2A2B2E;color:#E3E3E3;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .15s,transform .15s}
+.tm .src:hover::after,.tm .src:focus-visible::after{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.tm .src,.tm .src::after{transition:none}}
 </style>
 </head>
 <body>
@@ -227,18 +234,18 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
     <div class="g2 zoomIn" style="gap: 2px; border-radius: 28px; overflow: hidden">
       <div style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 14px">
         <span style="font-size: 14px; color: #9AA0A6">Patients</span>
-        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c95" data-from="0" data-to="95">95</span>%</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c95" data-from="0" data-to="95">95</span>%<a class="src" href="https://doi.org/10.1136/bmjresp-2025-003702" target="_blank" rel="noopener" data-tip="BMJ Open Respiratory Research" aria-label="Source: BMJ Open Respiratory Research"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
         <span style="font-size: 19px">would consider joining a trial</span>
         <span style="height: 1px; background: rgba(255,255,255,.08); margin: 10px 0"></span>
-        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c63" data-from="0" data-to="63">63</span>%</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c63" data-from="0" data-to="63">63</span>%<a class="src" href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html" target="_blank" rel="noopener" data-tip="Institute of Cancer Research survey, 2021" aria-label="Source: Institute of Cancer Research survey, 2021"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
         <span style="font-size: 19px">were never told about one</span>
       </div>
       <div style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 14px">
         <span style="font-size: 14px; color: #9AA0A6">Trials</span>
-        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c122" data-from="169" data-to="122">122</span></span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c122" data-from="169" data-to="122">122</span><a class="src" href="https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/" target="_blank" rel="noopener" data-tip="Health Research Authority, 2026" aria-label="Source: Health Research Authority, 2026"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
         <span style="font-size: 19px">days to open a trial, down from 169</span>
         <span style="height: 1px; background: rgba(255,255,255,.08); margin: 10px 0"></span>
-        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c3" data-from="0" data-to="3">3</span> in 10</span>
+        <span style="font-size: clamp(72px, 9vw, 120px); line-height: .9; letter-spacing: -0.04em; font-weight: 300; font-variant-numeric: tabular-nums; color: #F2B8B5"><span data-count="c3" data-from="0" data-to="3">3</span> in 10<a class="src" href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026" target="_blank" rel="noopener" data-tip="UK Clinical Research Delivery, 2026" aria-label="Source: UK Clinical Research Delivery, 2026"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a></span>
         <span style="font-size: 19px">still have no patient a month after opening</span>
       </div>
     </div>
@@ -292,7 +299,6 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 <section id="agents" class="sect slide" style="padding: 140px 24px; border-top: 1px solid rgba(255,255,255,.06)">
   <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px">
     <div style="display: flex; flex-direction: column; gap: 20px">
-      <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">Under the hood</span>
       <h2 style="margin: 0; max-width: 20ch; font-size: clamp(36px, 5vw, 64px); line-height: 1.05; font-weight: 400; letter-spacing: -0.025em"><span class="w">Each</span> <span class="w">agent</span> <span class="w">does</span> <span class="w">one</span> <span class="w">job.</span> <span class="w" style="color: #6F7378; display: inline-block">Every fact keeps its source.</span></h2>
     </div>
 
@@ -305,7 +311,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       <ol class="rl-row g5" aria-label="How a match is made, step by step">
         <li class="ag" style="--d: 0s">
           <div class="ag-art" aria-hidden="true"><div class="v-doc"><i style="width: 86%"></i><i style="width: 62%"></i><i class="hl" style="width: 78%"></i><i style="width: 48%"></i></div><span class="v-chip c-read">EGFR exon 19</span></div>
-          <div class="ag-txt"><b>Records Reader</b><span class="ag-tag t-blue">MedGemma</span></div>
+          <div class="ag-txt"><b>Records Reader</b><span class="ag-tag t-blue">MedGemma or Gemini</span></div>
         </li>
         <li class="ag" style="--d: 2s">
           <div class="ag-art" aria-hidden="true"><span class="v-chip c-ok">EGFR exon 19 <em>✓</em></span><span class="v-chip c-bad">KRAS G12C <em>✕</em></span></div>
@@ -382,7 +388,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       <span style="color: #C4C7C5; font-weight: 500">Trial Match</span>
       <span>Built for AgentVerse 2026, UCL AI Society. A prototype, not a medical device. Demo data is synthetic.</span>
     </div>
-    <p style="margin: 0; line-height: 1.7">Sources: 95% from <a href="https://bmjopenrespres.bmj.com/content/13/1/e003702">BMJ Open Respiratory Research</a> (UK cancer patients). 63% from an <a href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html">Institute of Cancer Research survey</a> of 500+ patients, 2021. 122 and 169 days from the <a href="https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/">Health Research Authority</a>, 2026. 3 in 10 from <a href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026">UK Clinical Research Delivery figures</a>, 2026 (industry trials).</p>
+    <p style="margin: 0; line-height: 1.7">Sources: 95% from <a href="https://doi.org/10.1136/bmjresp-2025-003702">BMJ Open Respiratory Research</a> (UK cancer patients). 63% from an <a href="https://ca.news.yahoo.com/let-cancer-patients-check-trial-000500467.html">Institute of Cancer Research survey</a> of 500+ patients, 2021. 122 and 169 days from the <a href="https://www.hra.nhs.uk/about-us/news-updates/uk-clinical-trials-reach-150-day-set-up-milestone/">Health Research Authority</a>, 2026. 3 in 10 from <a href="https://www.gov.uk/government/statistics/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026/uk-clinical-research-delivery-key-performance-indicators-data-to-august-2026">UK Clinical Research Delivery figures</a>, 2026 (industry trials).</p>
   </div>
 </footer>
 

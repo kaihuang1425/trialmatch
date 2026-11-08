@@ -63,11 +63,11 @@ export default route(['POST'], async (req, res) => {
     status: STATUS.includes(x && x.status) ? x.status : 'unknown',
     why: clip(x && x.why, 200)
   })).filter((x) => x.rule);
-  if (!rules.length) throw new HttpError(502, 'medgemma_empty', 'MedGemma did not return any rules.');
+  if (!rules.length) throw new HttpError(502, 'medgemma_empty', (r.family || 'The model') + ' did not return any rules.');
   send(res, 200, {
     trial: { nct: trial.nct, title: trial.title, url: trial.url },
     rules,
     counts: { met: rules.filter((x) => x.status === 'met').length, not: rules.filter((x) => x.status === 'not').length, unknown: rules.filter((x) => x.status === 'unknown').length },
-    model: r.model, provider: r.provider
+    model: r.model, provider: r.provider, family: r.family
   });
 });

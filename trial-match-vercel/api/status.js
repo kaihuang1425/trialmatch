@@ -8,7 +8,8 @@ export default route(['GET'], async (req, res) => {
   const mg = medgemmaLabel();
   const fhir = fhirConfig();
   send(res, 200, {
-    medgemma: mg ? { on: true, provider: mg.provider, model: mg.model } : { on: false },
+    // "medgemma" is the site's model slot; family says which model fills it (MedGemma, or Gemini standing in)
+    medgemma: mg ? { on: true, provider: mg.provider, model: mg.model, family: mg.family, cloud: mg.cloud } : { on: false },
     store: { on: redisConfigured() },
     fhir: fhir ? { on: true, server: new URL(fhir.base).host, demoPatient: fhir.demoPatient || null } : { on: false },
     registry: { on: true, name: 'ClinicalTrials.gov' }

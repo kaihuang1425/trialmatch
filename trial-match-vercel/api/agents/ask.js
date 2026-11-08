@@ -18,7 +18,7 @@ export default route(['POST'], async (req, res) => {
   await rateLimit('agent:' + clientIp(req), 30, 600);
   const r = await chat({ system: SYSTEM, user: 'Context (JSON):\n' + context + '\n\nQuestion: ' + question, maxTokens: 1500 });
   let text = r.text;
-  if (!text) throw new HttpError(502, 'medgemma_empty', 'MedGemma ran out of room before answering.');
+  if (!text) throw new HttpError(502, 'medgemma_empty', (r.family || 'The model') + ' ran out of room before answering.');
   if (CLAIM.test(text)) text += '\n\n(Only the trial team can decide eligibility.)';
-  send(res, 200, { text, model: r.model, provider: r.provider });
+  send(res, 200, { text, model: r.model, provider: r.provider, family: r.family });
 });

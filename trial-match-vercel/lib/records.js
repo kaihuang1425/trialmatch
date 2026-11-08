@@ -110,5 +110,5 @@ export async function readRecord(text, kind) {
   const r = await chat({ system, user, maxTokens: 1500 });
   const parsed = parseJson(r.text);
   const g = ground(parsed.facts, text);
-  return { ...g, model: r.model, provider: r.provider };
+  return { ...g, model: r.model, provider: r.provider, family: r.family };
 }

@@ -170,10 +170,10 @@ export async function readFhirPatient(patientId) {
   return {
     facts, evidence,
     rejected: base.rejected.concat(reader ? reader.rejected : []),
-    notes: d.notes.concat(reader ? [] : [medgemmaConfig() ? 'MedGemma could not read this record: ' + (readerError || 'no answer') : 'MedGemma is not connected, so only coded results and named medicines were read.']),
+    notes: d.notes.concat(reader ? [] : [medgemmaConfig() ? 'The AI model could not read this record: ' + (readerError || 'no answer') : 'No AI model is connected, so only coded results and named medicines were read.']),
     counts: { conditions: bundles.conditions.length, observations: bundles.observations.length, medicines: bundles.meds.length, procedures: bundles.procedures.length, reports: bundles.reports.length },
     patient: { id, birthYear: birth, sex: patient.gender || null },
     server: new URL(c.base).host,
-    model: reader ? reader.model : null
+    model: reader ? reader.model : null, family: reader ? reader.family : null
   };
 }

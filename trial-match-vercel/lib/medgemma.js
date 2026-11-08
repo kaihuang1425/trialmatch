@@ -6,6 +6,9 @@
 //     GOOGLE_SERVICE_ACCOUNT_JSON to a service-account key (raw JSON or base64) with the Vertex AI User role.
 //  2. Hugging Face Inference Endpoints, vLLM, TGI or any OpenAI-compatible server. Set MEDGEMMA_BASE_URL
 //     (ending in /v1), MEDGEMMA_API_KEY and MEDGEMMA_MODEL (for example google/medgemma-27b-text-it).
+//  3. No MedGemma server yet: the Gemini API stands in. Set GEMINI_API_KEY (Google AI Studio) and optionally
+//     GEMINI_MODEL. Gemini runs in Google's cloud, so the app labels it as such and points people to MedGemma
+//     on their own computer for privacy. MedGemma always wins when both are set.
 import crypto from 'node:crypto';
 import { HttpError, fetchJson } from './http.js';
 
@@ -19,13 +22,19 @@ export function medgemmaConfig() {
     return { provider: 'openai', base: env.MEDGEMMA_BASE_URL.replace(/\/+$/, ''), key: env.MEDGEMMA_API_KEY || '',
       model: env.MEDGEMMA_MODEL || 'google/medgemma-27b-text-it' };
   }
+  if (env.GEMINI_API_KEY) {
+    // Gemini's OpenAI-compatible endpoint, pinned so nothing else on the machine can reroute it
+    return { provider: 'gemini', base: 'https://generativelanguage.googleapis.com/v1beta/openai', key: env.GEMINI_API_KEY,
+      model: env.GEMINI_MODEL || 'gemini-3.6-flash' };
+  }
   return null;
 }
 
 export function medgemmaLabel() {
   const c = medgemmaConfig();
   if (!c) return null;
-  return { provider: c.provider === 'vertex' ? 'Vertex AI' : 'OpenAI-compatible endpoint', model: c.model || 'MedGemma (Vertex deployment)' };
+  if (c.provider === 'gemini') return { provider: 'Gemini API (Google cloud)', model: c.model, family: 'Gemini', cloud: true };
+  return { provider: c.provider === 'vertex' ? 'Vertex AI' : 'OpenAI-compatible endpoint', model: c.model || 'MedGemma (Vertex deployment)', family: 'MedGemma', cloud: false };
 }
 
 // ---- Google service-account token (JWT bearer grant), cached per instance
@@ -61,20 +70,22 @@ function stripThinking(text) {
 
 export async function chat({ system, user, maxTokens = 1500 }) {
   const c = medgemmaConfig();
-  if (!c) throw new HttpError(503, 'medgemma_not_configured', 'MedGemma is not connected.');
+  if (!c) throw new HttpError(503, 'medgemma_not_configured', 'No AI model is connected on this site.');
+  const name = c.provider === 'gemini' ? 'Gemini' : 'MedGemma';
   const auth = c.provider === 'vertex' ? await googleToken() : c.key;
   // One user turn: some MedGemma servers reject a separate system role.
   const messages = [{ role: 'user', content: (system ? system + '\n\n' : '') + user }];
   const out = await fetchJson(c.base + '/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(auth ? { Authorization: 'Bearer ' + auth } : {}) },
-    body: JSON.stringify({ model: c.model, messages, max_tokens: maxTokens, temperature: 0 })
+    // Gemini thinks before answering; keep that short so the answer fits inside max_tokens
+    body: JSON.stringify({ model: c.model, messages, max_tokens: maxTokens, temperature: 0, ...(c.provider === 'gemini' ? { reasoning_effort: 'low' } : {}) })
   }, 55000);
   const msg = out && out.choices && out.choices[0] && out.choices[0].message;
   let content = msg && msg.content;
   if (Array.isArray(content)) content = content.map((p) => (typeof p === 'string' ? p : p.text || '')).join('');
-  if (typeof content !== 'string') throw new HttpError(502, 'medgemma_empty', 'MedGemma returned no text.');
-  return { text: stripThinking(content), model: out.model || c.model || 'medgemma', provider: c.provider };
+  if (typeof content !== 'string') throw new HttpError(502, 'medgemma_empty', name + ' returned no text.');
+  return { text: stripThinking(content), model: out.model || c.model || 'medgemma', provider: c.provider, family: name };
 }
 
 // Pulls the first JSON object out of a model reply (tolerates ```json fences and stray prose).

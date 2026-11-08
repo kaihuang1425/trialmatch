@@ -331,6 +331,7 @@
     '--pv-staff:#127c72;--pv-staff-ink:#0f6b62;--pv-staff-soft:#e3f3f1;--pv-change:#e2445c;--pv-change-ink:#c8304a;--pv-change-soft:#fdecef;',
     '--pv-unk:#6b5bd2;--pv-unk-ink:#4f43b3;--pv-unk-soft:#efedfc;--pv-neg-ink:#3d4a5a;--pv-neg-soft:#eef1f5;--pv-link:#2b6fd6;',
     '--pv-cartoon:#a7b2c1;--pv-partner:#d5dce4;--pv-scrim:rgba(20,32,46,.32);--pv-toast:#14202e;--pv-toast-ink:#ffffff;',
+    '--pv-rail:rgba(255,255,255,.82);--pv-rail-on:#d3e3fd;--pv-rail-on-ink:#041e49;',
     '--pv-shadow:0 10px 40px rgba(20,32,46,.18),0 2px 6px rgba(20,32,46,.06);',
     '--pv-display:"Bricolage Grotesque","IBM Plex Sans","Segoe UI",system-ui,sans-serif;',
     '--pv-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--pv-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;',
@@ -402,6 +403,22 @@
     '.pv-embed{display:flex;flex-direction:column;height:100%;min-height:420px;background:var(--pv-surface);color:var(--pv-ink)}',
     '.pv-embed .pv-stage{flex:1 1 auto;height:auto;min-height:240px;margin:0}',
     '.pv-embed .pv-ctl{flex:none;padding:12px 4px 4px}.pv-embed .pv-calm{flex:1;padding:8px 4px}',
+    // zoom levels: illustrated body, lung and cell over the 3D stage, with a rail to move between them
+    '.pv-zoom{position:absolute;inset:0;z-index:1;overflow:hidden}',
+    '.pv-zbg{position:absolute;inset:0;background:var(--pv-surface)}',
+    '.pv-sc{position:absolute;inset:0;will-change:transform,opacity}',
+    '.pv-sc svg{display:block;width:100%;height:100%}',
+    '.pv-root .pv-hot{position:absolute;z-index:2;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%}',
+    '.pv-hot::before,.pv-hot::after{content:"";position:absolute;inset:12px;border-radius:50%;box-shadow:0 0 0 2px var(--pv-change);animation:pv-ping 2s var(--pv-ease) infinite}',
+    '.pv-hot::after{animation-delay:1s}',
+    '.pv-hot:focus-visible{outline-offset:-4px}',
+    '.pv-rail{position:absolute;z-index:3;top:10px;left:10px;display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--pv-rail);',
+    '-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px var(--pv-line)}',
+    '.pv-root .pv-railb{height:28px;padding:0 11px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--pv-muted);white-space:nowrap;',
+    'transition:background-color .2s ease,color .2s ease}',
+    '.pv-root .pv-railb:hover{color:var(--pv-ink)}',
+    '.pv-root .pv-railb[aria-pressed=true]{background:var(--pv-rail-on);color:var(--pv-rail-on-ink)}',
+    '@keyframes pv-ping{0%{transform:scale(.55);opacity:1}100%{transform:scale(1.6);opacity:0}}',
     '@keyframes pv-rise{to{opacity:1;transform:none}}',
     '@keyframes pv-breathe{from{transform:scale(.92);opacity:.5}to{transform:scale(1);opacity:.95}}',
     '@keyframes pv-toast{0%{opacity:0;transform:translateY(16px) scale(.97)}100%{opacity:1;transform:none}}',
@@ -420,6 +437,7 @@
     '--pv-staff:#3cc2b3;--pv-staff-ink:#5fd6c8;--pv-staff-soft:#12302d;--pv-change:#ff6b81;--pv-change-ink:#ff8a9b;--pv-change-soft:#3a1c24;' +
     '--pv-unk:#a99bff;--pv-unk-ink:#c3b9ff;--pv-unk-soft:#26214a;--pv-neg-ink:#c9d2dc;--pv-neg-soft:#223040;--pv-link:#7fb0ff;' +
     '--pv-cartoon:#9aa8bb;--pv-partner:#56657a;--pv-scrim:rgba(4,8,14,.55);--pv-toast:#e8edf3;--pv-toast-ink:#14202e;' +
+    '--pv-rail:rgba(16,17,18,.74);--pv-rail-on:#004a77;--pv-rail-on-ink:#c2e7ff;' +
     '--pv-shadow:0 10px 40px rgba(0,0,0,.5);color-scheme:dark';
 
   var ICON = {
@@ -428,6 +446,65 @@
     q: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke-dasharray="2.4 2"/><path d="M6.4 6.3a1.7 1.7 0 1 1 2.3 1.6c-.5.2-.7.6-.7 1.1"/><path d="M8 11.3h.01"/></svg>',
     ribbon: '<svg width="64" height="40" viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M4 30c6-14 12-14 16 0s10 14 14 0 10-24 16-12 8 10 10 4"/></svg>'
   };
+
+  // ------------------------------------------------------------------ zoom levels: body -> lung -> cell -> protein
+  // The first three are illustrations (never the patient's scan); the last is the real crystal structure.
+  var LEVELS = ['body', 'lung', 'cell', 'protein'];
+  var LEVEL_NAME = { body: 'Body', lung: 'Lung', cell: 'Cell', protein: 'Protein' };
+  var UID = 0;
+  var MEMBRANE = /^(EGFR|MET)$/;   // receptors that sit in the cell's surface; the rest work just inside it
+  function sceneSvg(level, gene, uid) {
+    var g = 'pvz' + uid + level, line = 'fill:none;stroke:var(--pv-cartoon);stroke-linecap:round;stroke-linejoin:round;';
+    var defs = '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/>' +
+      '<stop offset=".55" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient>' +
+      '<radialGradient id="' + g + 'h"><stop offset="0" style="stop-color:var(--pv-change);stop-opacity:.55"/>' +
+      '<stop offset="1" style="stop-color:var(--pv-change);stop-opacity:0"/></radialGradient></defs>';
+    var o = '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + defs;
+    if (level === 'body') {
+      o += '<circle cx="200" cy="58" r="30" style="' + line + 'stroke-opacity:.55;stroke-width:2"/>' +
+        '<path d="M188 88v20M212 88v20M100 300C100 222 104 172 132 154C152 141 176 134 188 108M212 108C224 134 248 141 268 154C296 172 300 222 300 300" style="' + line + 'stroke-opacity:.55;stroke-width:2"/>' +
+        '<path d="M192 166C178 154 150 162 142 198C134 236 138 270 154 282C170 292 190 282 192 262Z" fill="url(#' + g + ')" fill-opacity=".2" stroke="url(#' + g + ')" stroke-width="1.6"/>' +
+        '<path d="M208 166C222 154 250 162 258 198C266 236 262 270 246 282C230 292 210 282 208 262Z" fill="url(#' + g + ')" fill-opacity=".2" stroke="url(#' + g + ')" stroke-width="1.6"/>' +
+        '<path d="M200 112V160M200 160L188 174M200 160L212 174" style="' + line + 'stroke-opacity:.6;stroke-width:2"/>' +
+        '<circle cx="160" cy="196" r="18" fill="url(#' + g + 'h)"/><circle data-focus cx="160" cy="196" r="5" style="fill:var(--pv-change)"/>';
+    } else if (level === 'lung') {
+      var dots = [[150, 236], [176, 262], [128, 200], [210, 252], [120, 168], [232, 214], [226, 160], [174, 54], [212, 40], [118, 140]];
+      o += '<path d="M262 26C218 10 150 30 122 104C96 176 100 254 140 282C182 306 244 290 262 240Z" fill="url(#' + g + ')" fill-opacity=".13" stroke="url(#' + g + ')" stroke-width="2"/>' +
+        '<path d="M304 0L262 58L222 100L190 142L164 184L146 224M222 100L210 160L204 222L182 256M190 142L150 138M262 58L246 120L240 190M246 120L270 150M204 222L222 262" style="' + line + 'stroke-opacity:.45;stroke-width:3"/>' +
+        '<path d="M164 184L136 190M210 160L232 170M240 190L250 222M150 138L128 118M222 100L200 64" style="' + line + 'stroke-opacity:.35;stroke-width:1.6"/>' +
+        dots.map(function (d) { return '<circle cx="' + d[0] + '" cy="' + d[1] + '" r="4" style="' + line + 'stroke-opacity:.3;stroke-width:1.2"/>'; }).join('') +
+        '<circle cx="154" cy="102" r="40" fill="url(#' + g + 'h)"/>' +
+        '<path data-focus d="M140 92c5-12 22-14 29-5 9 3 11 16 4 23-3 11-18 13-27 8-11-1-13-16-6-26z" style="fill:var(--pv-change);fill-opacity:.85"/>';
+    } else {
+      var rad = Math.PI / 180, pt = function (a, r) { return [(200 + r * Math.cos(a * rad)).toFixed(1), (150 + r * Math.sin(a * rad)).toFixed(1)]; };
+      var y = function (a, r0, len, style) {   // a Y-shaped receptor standing out of the membrane at angle a
+        var b = pt(a, r0), m = pt(a, r0 + len), l = pt(a - 7, r0 + len * 1.55), r = pt(a + 7, r0 + len * 1.55);
+        return '<path d="M' + b + 'L' + m + 'M' + m + 'L' + l + 'M' + m + 'L' + r + '" style="' + style + '"/>';
+      };
+      var others = [-150, -120, -90, -30, 0, 30, 60, 90, 120, 150, 180].map(function (a) { return y(a, 112, 14, line + 'stroke-opacity:.45;stroke-width:2.4'); }).join('');
+      var onSurface = MEMBRANE.test(gene), f = onSurface ? pt(-60, 136) : pt(-60, 92), lab = onSurface ? pt(-60, 160) : pt(-60, 66);
+      o += '<circle cx="200" cy="150" r="112" fill="url(#' + g + ')" fill-opacity=".08" stroke="url(#' + g + ')" stroke-width="3"/>' +
+        '<circle cx="200" cy="150" r="104" style="' + line + 'stroke-opacity:.22;stroke-width:1.4"/>' +
+        '<circle cx="186" cy="162" r="40" style="fill:var(--pv-cartoon);fill-opacity:.1;stroke:var(--pv-cartoon);stroke-opacity:.4;stroke-width:1.4"/>' +
+        '<circle cx="176" cy="154" r="9" style="fill:var(--pv-cartoon);fill-opacity:.22"/>' +
+        '<ellipse cx="250" cy="196" rx="16" ry="7" transform="rotate(-24 250 196)" style="' + line + 'stroke-opacity:.35;stroke-width:1.4"/>' +
+        '<ellipse cx="132" cy="112" rx="13" ry="6" transform="rotate(30 132 112)" style="' + line + 'stroke-opacity:.35;stroke-width:1.4"/>' +
+        others +
+        '<circle cx="' + f[0] + '" cy="' + f[1] + '" r="26" fill="url(#' + g + 'h)"/>' +
+        (onSurface ? y(-60, 112, 14, 'fill:none;stroke:var(--pv-change);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round')
+          : '<circle cx="' + f[0] + '" cy="' + f[1] + '" r="7" style="fill:var(--pv-change)"/>') +
+        '<circle data-focus cx="' + f[0] + '" cy="' + f[1] + '" r="3" style="fill:var(--pv-change)"/>' +
+        '<text x="' + lab[0] + '" y="' + lab[1] + '" text-anchor="middle" dominant-baseline="middle" style="fill:var(--pv-change-ink);font:600 14px var(--pv-body)">' + esc(gene) + '</text>';
+    }
+    return o + '</svg>';
+  }
+  function levelCaption(level, gene) {
+    if (level === 'body') return '<span class="pv-k">The tumour</span> grows in the lung.';
+    if (level === 'lung') return 'It is made of cancer cells that carry <span class="pv-k">the same change</span>.';
+    return '<span class="pv-k">' + esc(gene) + '</span> ' + (MEMBRANE.test(gene) ? 'sits in the cell’s surface' : 'works just inside the cell') + ' and tells it to grow.';
+  }
+  var LEVEL_ARIA = { body: 'Illustration: a body with a tumour in the right lung', lung: 'Illustration: the right lung with the tumour',
+    cell: 'Illustration: a cancer cell with the changed protein highlighted' };
 
   var LIVE = { views: 0 };   // views holding a 3Dmol viewer; the last one out releases the WebGL context
 
@@ -544,7 +621,8 @@
     var w = document.createElement('div');
     w.className = 'pv-view' + (embed ? ' pv-root pv-embed' : '');
     w.innerHTML =
-      '<div class="pv-stage" role="img" aria-label=""><div class="pv-gl"></div></div>' +
+      '<div class="pv-stage" role="img" aria-label=""><div class="pv-gl"></div>' +
+        '<div class="pv-zoom" hidden><div class="pv-zbg"></div></div><div class="pv-rail" role="group" aria-label="Zoom level" hidden></div></div>' +
       '<div class="pv-calm" hidden></div>' +
       '<div class="pv-ctl">' +
         '<div class="pv-seg" role="radiogroup" aria-label="What to show" data-mode="change">' +
@@ -559,12 +637,15 @@
     if (embed && opts.surface) w.style.setProperty('--pv-surface', opts.surface);
     host.appendChild(w);
     var el = V.el = { root: w, stage: w.querySelector('.pv-stage'), gl: w.querySelector('.pv-gl'), calm: w.querySelector('.pv-calm'),
-      seg: w.querySelector('.pv-seg'), cap: w.querySelector('.pv-cap'), honest: w.querySelector('.pv-honest'), pdb: w.querySelector('.pv-pdb') };
+      seg: w.querySelector('.pv-seg'), cap: w.querySelector('.pv-cap'), honest: w.querySelector('.pv-honest'), pdb: w.querySelector('.pv-pdb'),
+      zoom: w.querySelector('.pv-zoom'), zbg: w.querySelector('.pv-zbg'), rail: w.querySelector('.pv-rail') };
 
     function on(target, ev, fn, o) { target.addEventListener(ev, fn, o); V.offs.push(function () { target.removeEventListener(ev, fn, o); }); }
     on(w, 'click', function (e) {
       var b = e.target.closest('[data-pv-mode]');
       if (b) setMode(b.getAttribute('data-pv-mode'), true);
+      var lv = e.target.closest('[data-pv-level]');
+      if (lv) go(lv.getAttribute('data-pv-level'), false);
     });
     on(el.seg, 'keydown', function (e) {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].indexOf(e.key) < 0) return;
@@ -577,6 +658,7 @@
     if (root.ResizeObserver) {
       V.ro = new root.ResizeObserver(function () {
         if (V.viewer && V.alive) { try { V.viewer.resize(); V.viewer.render(); } catch (e) { /* ignore */ } }
+        if (J) placeHot();
       });
       V.ro.observe(el.stage);
     }
@@ -609,6 +691,7 @@
         el.calm.innerHTML = calmHtml(c);
       }
       syncSeg();
+      if (structure && J) syncLevel(false);
     }
     function setCaption(html, animate) {
       var cap = el.cap, olds = Array.prototype.slice.call(cap.children), span = document.createElement('span');
@@ -632,6 +715,7 @@
       var changed = mode !== V.mode;
       V.mode = mode;
       syncSeg();
+      if (J && J.level !== 'protein') { if (V.viewer && V.models) toMode(mode, false); go('protein', false); return; }
       if (user) {
         var b = el.seg.querySelector('[data-pv-mode="' + mode + '"]');
         if (b && document.activeElement !== b && el.seg.contains(document.activeElement)) b.focus();
@@ -781,6 +865,7 @@
       el.gl.classList.add('pv-on');                 // moment 1: fade in (CSS, 180 ms) ...
       ready('3d');
       if (!motion) return;
+      if (J && J.level !== 'protein') return;      // the zoom levels hand over to the 3D view when they reach it
       var id = V.tween;
       setTimeout(function () {                      // ... then fly to the fault and glow once
         if (id !== V.tween || !V.alive) return;
@@ -838,6 +923,140 @@
       refreshColors();
     }
 
+    // ---------------- zoom levels (body -> lung -> cell -> protein)
+    var J = null;
+    function gene() { return (V.c && V.c.title && V.c.title.gene) || 'The protein'; }
+    function initJourney() {
+      if (J || opts.journey === false || !V.c || V.c.kind !== 'structure') return;
+      var uid = ++UID;
+      J = { level: 'protein', busy: false, user: false, auto: 0, next: null, cool: 0, sc: {} };
+      ['body', 'lung', 'cell'].forEach(function (l) {
+        var d = document.createElement('div');
+        d.className = 'pv-sc'; d.hidden = true; d.innerHTML = sceneSvg(l, gene(), uid);
+        el.zoom.appendChild(d); J.sc[l] = d;
+      });
+      J.hot = document.createElement('button');
+      J.hot.type = 'button'; J.hot.className = 'pv-hot';
+      el.zoom.appendChild(J.hot);
+      el.rail.innerHTML = LEVELS.map(function (l) { return '<button type="button" class="pv-railb" data-pv-level="' + l + '" aria-pressed="false">' + LEVEL_NAME[l] + '</button>'; }).join('');
+      el.rail.hidden = false;
+      on(el.zoom, 'wheel', function (e) { e.preventDefault(); step(e.deltaY < 0 ? 1 : -1); }, { passive: false });
+      var d0 = 0;   // two-finger pinch on the illustrations moves a level
+      function dist(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY); }
+      on(el.zoom, 'touchstart', function (e) { d0 = e.touches.length === 2 ? dist(e.touches) : 0; }, { passive: true });
+      on(el.zoom, 'touchmove', function (e) {
+        if (!d0 || e.touches.length !== 2) return;
+        var r = dist(e.touches) / d0;
+        if (r > 1.3 || r < .75) { step(r > 1 ? 1 : -1); d0 = 0; }
+      }, { passive: true });
+      var seen = false;
+      try { seen = root.sessionStorage.getItem('pv-zoom-seen') === '1'; } catch (e) { /* storage blocked */ }
+      if (!seen && !reduced()) { jump('body'); watchIntro(); } else syncLevel(false);
+    }
+    function step(d) {
+      if (!J || J.busy || now() < J.cool) return;
+      var i = LEVELS.indexOf(J.level) + d;
+      if (i < 0 || i >= LEVELS.length) return;
+      J.cool = now() + 420;
+      go(LEVELS[i], false);
+    }
+    function focusOf(sc, rel) {   // centre of the scene's [data-focus] element, in px from `rel`'s corner
+      var f = sc.querySelector('[data-focus]'), b = (rel || sc).getBoundingClientRect();
+      if (!f) return { x: b.width / 2, y: b.height / 2 };
+      var r = f.getBoundingClientRect();
+      return { x: r.left + r.width / 2 - b.left, y: r.top + r.height / 2 - b.top };
+    }
+    function placeHot() {
+      if (!J || !J.hot) return;
+      var sc = J.sc[J.level];
+      J.hot.hidden = !sc || J.busy;
+      if (!sc || J.busy) return;
+      var p = focusOf(sc, el.zoom), nxt = LEVELS[LEVELS.indexOf(J.level) + 1];
+      J.hot.style.left = p.x + 'px'; J.hot.style.top = p.y + 'px';
+      J.hot.setAttribute('data-pv-level', nxt);
+      J.hot.setAttribute('aria-label', 'Zoom in to the ' + (nxt === 'protein' ? gene() + ' protein' : nxt === 'cell' ? 'cancer cell' : nxt));
+    }
+    function syncLevel(animate) {
+      var l = J.level, P = l === 'protein';
+      Array.prototype.forEach.call(el.rail.querySelectorAll('[data-pv-level]'), function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-pv-level') === l ? 'true' : 'false');
+      });
+      el.honest.textContent = P ? V.c.honesty : 'Illustration, not this patient’s scan.';
+      el.pdb.hidden = !P;
+      setCaption(P ? V.c.captions[V.mode].html : levelCaption(l, gene()), animate);
+      el.stage.setAttribute('aria-label', P ? V.c.aria[V.mode] : LEVEL_ARIA[l]);
+      placeHot();
+      if (opts.onLevel) { try { opts.onLevel(l); } catch (e) { /* host error */ } }
+    }
+    function jump(level) {   // no animation
+      J.level = level;
+      LEVELS.forEach(function (l) { if (J.sc[l]) J.sc[l].hidden = l !== level; });
+      el.zoom.hidden = level === 'protein';
+      syncLevel(false);
+    }
+    function watchIntro() {
+      if (!root.IntersectionObserver) { playIntro(); return; }
+      var io = new root.IntersectionObserver(function (es) {
+        if (es.some(function (x) { return x.intersectionRatio >= .6; })) { io.disconnect(); playIntro(); }
+      }, { threshold: [.6] });
+      io.observe(el.stage);
+      V.offs.push(function () { io.disconnect(); });
+    }
+    function playIntro() {   // once per visit: body, lung, cell, then the protein
+      try { root.sessionStorage.setItem('pv-zoom-seen', '1'); } catch (e) { /* storage blocked */ }
+      var steps = ['lung', 'cell', 'protein'], i = 0;
+      (function next() {
+        if (!V.alive || J.user || i >= steps.length) return;
+        J.auto = setTimeout(function () { if (V.alive && !J.user) go(steps[i++], true, next); }, i === 0 ? 1100 : 700);
+      })();
+    }
+    function go(target, auto, done) {
+      if (!J || !V.alive || LEVELS.indexOf(target) < 0) return;
+      if (!auto) { J.user = true; clearTimeout(J.auto); }
+      if (J.busy) { J.next = target; return; }
+      var from = J.level;
+      if (target === from) { if (done) done(); return; }
+      var inward = LEVELS.indexOf(target) > LEVELS.indexOf(from), dur = reduced() ? 0 : 720, A = [], total = 0;
+      var outEl = J.sc[from] || null, inEl = J.sc[target] || null;
+      var easeIn = 'cubic-bezier(.55,.05,.8,.35)', easeOut = 'cubic-bezier(.2,.8,.25,1)';
+      function anim(node, frames, o) {
+        if (!node || !node.animate || !dur) return;
+        o.fill = 'both'; total = Math.max(total, (o.delay || 0) + o.duration); A.push(node.animate(frames, o));
+      }
+      J.busy = true; J.level = target;
+      el.zoom.hidden = false;
+      if (inEl) inEl.hidden = false;
+      // zooming in grows the old scene around its highlighted spot; zooming out does the same to the scene we return to
+      if (outEl && inward) { var fo = focusOf(outEl); outEl.style.transformOrigin = fo.x + 'px ' + fo.y + 'px'; }
+      if (inEl && !inward) { var fi = focusOf(inEl); inEl.style.transformOrigin = fi.x + 'px ' + fi.y + 'px'; }
+      anim(outEl, [{ transform: 'none', opacity: 1 }, { transform: inward ? 'scale(7)' : 'scale(.35)', opacity: 0 }], { duration: dur, easing: easeIn });
+      anim(inEl, [{ transform: inward ? 'scale(.35)' : 'scale(7)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: dur, delay: dur * .3, easing: easeOut });
+      var world = [el.gl].concat(V.still ? [V.still] : []);
+      if (target === 'protein') {
+        if (V.viewer && V.frames && dur) { V.tween++; V.viewer.setView(V.frames.overview); V.viewer.render(); }
+        anim(el.zbg, [{ opacity: 1 }, { opacity: 0 }], { duration: dur * .7, delay: dur * .45, easing: 'ease' });
+        world.forEach(function (n) { anim(n, [{ transform: 'scale(.35)' }, { transform: 'none' }], { duration: dur, delay: dur * .3, easing: easeOut }); });
+      } else if (from === 'protein') {
+        V.tween++;
+        anim(el.zbg, [{ opacity: 0 }, { opacity: 1 }], { duration: dur * .6, easing: 'ease' });
+        world.forEach(function (n) { anim(n, [{ transform: 'none' }, { transform: 'scale(.35)' }], { duration: dur * .7, easing: easeIn }); });
+      }
+      syncLevel(true);
+      // finish on a timer rather than on the animations' own events: those stall in a background tab
+      setTimeout(function () {
+        if (!V.alive) return;
+        LEVELS.forEach(function (l) { var sc = J.sc[l]; if (sc) { sc.hidden = l !== J.level; sc.style.transformOrigin = ''; } });
+        el.zoom.hidden = J.level === 'protein';
+        A.forEach(function (a) { try { a.cancel(); } catch (e) { /* done */ } });
+        J.busy = false;
+        placeHot();
+        if (J.level === 'protein' && V.viewer && V.frames && dur) {
+          tweenTo(V.frames[V.mode], 720, function () { if (V.mode === 'change' && V.models && V.models.hot) pulse(); });
+        }
+        if (J.next) { var n = J.next; J.next = null; go(n, false); } else if (done) done();
+      }, A.length ? total + 40 : 0);
+    }
+
     // ---------------- lifecycle
     function show() {
       var req = ++V.req;
@@ -845,6 +1064,7 @@
       fill();
       if (opts.onResolved) opts.onResolved(V.c);
       if (V.c.kind !== 'structure') { ready('none'); return V.c; }
+      initJourney();
       var spin = document.createElement('div');
       spin.className = 'pv-load';
       el.stage.appendChild(spin);
@@ -886,6 +1106,7 @@
       if (!V.alive) return;
       V.alive = false;
       V.req++; V.tween++; V.glow++; V.fade++;
+      if (J) clearTimeout(J.auto);
       releaseGl();
       V.offs.forEach(function (f) { f(); });
       V.offs = [];
@@ -894,7 +1115,7 @@
     }
 
     if (embed) setTheme(opts.theme || 'auto');
-    return { el: el, state: V, show: show, setMode: setMode, setTheme: setTheme, destroy: destroy,
+    return { el: el, state: V, show: show, setMode: setMode, setTheme: setTheme, destroy: destroy, level: function (l) { if (l) go(l, false); return J ? J.level : null; },
       mode: function () { return V.mode; }, resolved: function () { return V.c; } };
   }
 
@@ -1028,6 +1249,7 @@
       get resolved() { return view.resolved(); },
       element: view.el.root,
       setMode: function (m) { view.setMode(m, false); },
+      level: view.level,
       setTheme: view.setTheme,
       mode: view.mode,
       destroy: view.destroy,
@@ -1036,7 +1258,7 @@
   }
 
   root.TMProtein = {
-    version: '1.1.0',
+    version: '1.2.2',
     resolve: resolve,
     open: open,
     close: close,
