@@ -8,7 +8,7 @@ The landing page (`/`) and the demo app (`/app/`), with the app's agents connect
 | **Skeptic** check | Server code | Drops any fact whose quote isn't in the source word for word, or doesn't state the value. The app lists what it left out, and **Try a trick letter** loads a letter that plants an instruction, a relative's result and a scan that hasn't been done, so anyone can test it | Always on |
 | **Connect a record** | **FHIR R4 server** + MedGemma | Reads conditions, results, medicines and reports, read-only; maps lab codes (LOINC) directly, and MedGemma reads the rest | Shows the synthetic demo records |
 | **Trial Scout** | **ClinicalTrials.gov API v2** | Lists recruiting phase III lung cancer trials with UK hospitals, live. `?term=` narrows it to a gene change or drug, which the chat uses to search from a patient's record | Needs no setup |
-| **Pre-check** (Matcher, live trials) | **MedGemma** + ClinicalTrials.gov | Reads a live trial's full entry rules and checks them against the record: met / not met / to check | Button hidden, with a note |
+| **Pre-check** (Matcher, live trials) | **MedGemma** + ClinicalTrials.gov | Reads a live trial's full entry rules and checks them against the record: met / not met / to check. It also counts answers the patient gave in the chat, labelled as theirs, and for each rule it can't settle it names the one fact that would | Button hidden, with a note |
 | **Research agent** (in the chat) | **Europe PMC** (PubMed and preprints) + the site's model | Finds recent papers on a trial's drug or target, and writes a short summary in which every sentence cites one of them | Lists the papers, with no summary |
 | **Shared demo data** | **Upstash Redis** | Everyone who opens the site sees and changes the same demo | Changes stay in each browser |
 | Matching for the demo's own trials (LT-301…) | Rules in code | Unchanged and deterministic: an agent never decides eligibility | n/a |
@@ -40,7 +40,13 @@ With `GEMINI_API_KEY` set (and no MedGemma server), the site calls the Gemini AP
 
 - **Offer to act.** A request such as "apply me to LT-311", "my brain scan was clear", "I can travel 50 miles" or, for a trial team, "invite people to LT-319" becomes a card. Nothing happens until the person taps it, and the action is logged as the agent's. On Gemini the model chooses the action with `propose_action`. With the built-in answers or MedGemma, fixed rules read the request, and the card says "Matched by rules". Either way the page runs its own checks before offering the card: already applied, already on a trial, entry rules not met, or no model for a pre-check. Patients can apply, pass, withdraw, turn apply-for-me or invitations on and off, add a brain scan result, change how far they'll travel and pre-check a live trial. Trial teams can invite the people who could fit and open Rank.
 - **Research a drug** (`api/agents/research.js`). A question such as "what's known about this drug?" searches Europe PMC for papers since 2019 on the trial's drug or target. Live trials use their listed treatments, and the demo trials have search phrases in the app. With a model connected, it reads the top 5 abstracts and writes at most 90 words. Citations to papers it wasn't given are removed, and so is any sentence left with no citation. The agent only sees search words, never the record.
-- **Find and check.** "Search for live trials" makes the patient's agent search ClinicalTrials.gov from their record (EGFR, ALK, KRAS G12C, ROS1, or PD-L1 of 50% or more). It ranks the results with fixed rules, with no AI. When the site has a model, it pre-checks the closest trial and says which unknown entry rules would settle it. Each step shows above the answer.
+- **Find and check, in rounds.** "Search for live trials" starts a loop of search, check, ask and check again. Every round shows as steps above the answer:
+  1. **Search.** The agent plans a search from the record (EGFR, ALK, KRAS G12C, ROS1, or PD-L1 of 50% or more), and Trial Scout runs it on ClinicalTrials.gov.
+  2. **Check.** The Matcher's fixed rules rank every result, with no AI. When the site has a model, it pre-checks the closest 2 trials against their full entry rules, side by side.
+  3. **Ask.** The one fact that would settle unknown rules in the most trials becomes a question with answer buttons, such as "Did the cancer grow on your latest treatment?" The answer goes into the record, marked as the patient's own until the care team confirms it, and the same trials are checked again. "Not sure" passes the question to the care team. The agent only asks what a patient can know: brain scans, how they manage day to day, earlier treatments and when the last one was, lung inflammation, autoimmune disease and current infections. It never asks about gene results, stage or blood counts.
+  4. **Widen.** If every trial it checked is ruled out, it checks the next closest ones, then widens the search to all lung cancer trials.
+
+  It stops when nothing the patient can answer is left, when every trial it checked is ruled out, or after 4 rounds or 8 model checks. **Keep checking** gives it the same budget again. The outcome goes to the activity log, and **My health** lists what the patient told the agent. It never applies for anyone. With no model, it still searches and ranks with the Matcher.
 
 The status endpoint `GET /api/status` shows which connectors are live, and the app's sign-in screen lists them.
 
@@ -92,7 +98,7 @@ Run the tests with:
 npm test
 ```
 
-They cover the fact checks, plus the Gemini calls, the chat agent's tool loop and its action proposals against a stubbed network.
+They cover the fact checks, plus the Gemini calls, the chat agent's tool loop and its action proposals against a stubbed network. They also cover how the pre-check handles chat answers and names the fact each unknown rule needs.
 
 ## Evaluation
 
@@ -139,7 +145,7 @@ api/status.js              which connectors are live
 api/store.js               shared demo data (Redis)
 api/agents/records-reader.js   MedGemma reads a letter
 api/agents/trial-scout.js      ClinicalTrials.gov search, optionally narrowed by ?term= (cached for an hour)
-api/agents/prescreen.js        MedGemma pre-check of a live trial
+api/agents/prescreen.js        MedGemma pre-check of a live trial, with the patient's chat answers
 api/agents/research.js         Research agent: Europe PMC papers, with a cited summary
 api/connectors/fhir.js         FHIR record reader
 api/agents/ask.js              the chat: Gemini agent with live-trial and action tools, or MedGemma in one step
@@ -149,7 +155,7 @@ scripts/dev.mjs            local server; scripts/mock-medgemma.mjs  local stand-
 scripts/demo-medgemma.mjs  the whole site on MedGemma through Ollama (npm run demo)
 scripts/eval.mjs           offline matching test (npm run eval); results in eval/
 tools/prepare_targets.py   builds targets.js from the Protein Data Bank
-tests/                     npm test (fact checks, Gemini calls, the chat agent's tools and actions)
+tests/                     npm test (fact checks, Gemini calls, the chat agent's tools and actions, the pre-check)
 LANDING-COPY.md            every word on the landing page, for editing
 ```
 
@@ -159,4 +165,5 @@ LANDING-COPY.md            every word on the landing page, for editing
 - **No sign-in.** Anyone with the link can change the shared demo data (size limits and rate limits apply). Anyone can also use the MedGemma endpoints, up to 30 calls per IP every 10 minutes, so watch your model costs. The Research agent has its own limit of 20 calls per IP every 10 minutes, and its summaries also use the model.
 - **Pre-checks are AI output.** They're labelled that way, and they never change the deterministic matching for the demo's own trials.
 - **The chat only offers actions.** Every action is a card that the person confirms with a tap, after the page's own checks. Nothing a model returns applies anyone to a trial by itself.
+- **Chat answers are the patient's own word.** Answers given in the chat go into the record marked as the patient's, and when the pre-check uses one, its reason starts with "You said". The care team confirms them at pre-screening.
 - **Bilirubin from FHIR** is converted to "× upper limit of normal" using a typical limit (1.2 mg/dL or 21 µmol/L), and the app says so.
