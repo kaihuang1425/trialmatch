@@ -1,0 +1,53 @@
+===== MESSAGE 1 of 3 =====
+
+*Trial Match: update (8 Nov)*
+
+*Live now*
+- Landing: https://trial-match-ebon.vercel.app
+- Demo: https://trial-match-ebon.vercel.app/app/
+- Code: GitHub kaihuang1425/agentic-legacy, branch trial-match-vercel
+
+*In the demo*
+- 3D protein view in each applicant's sheet
+- 19 synthetic trials. Mei has 11 to decide on; Ray is paused because he's already on a trial; clinicians have 4 new applicants to invite or reject
+- "Ask your agent" chat for patients and clinicians: built-in answers, or MedGemma (on your own laptop through Ollama, or on the site once we host it)
+- Real connections: live UK trials from ClinicalTrials.gov, FHIR test records, and MedGemma reading clinic letters, with every fact checked against a quote from the letter
+- New animated "Under the hood" section on the landing page, working on phones too
+
+===== MESSAGE 2 of 3 =====
+
+*Checked against the AgentVerse Biotech brief (AV slides.pptx)*
+Judged on: uniqueness, real-world need, science/data/evaluation, agent + live demo, safety/responsible design.
+We submit: demo, public repo + README, a 1-page write-up, and a 4-min pitch + 2 min for the judges to test it.
+
+*Must fix* ❌
+1. The repo is *private*, but the brief says public. The deployed version is also on a branch, and main has other uploads, so we need to agree which version we submit and merge it to main
+2. *No 1-page write-up* yet (problem, who it helps, data, evaluation, limits and safeguards)
+3. The landing page's results (77% vs 0%, 12x, 1,080 pairs) *aren't produced by anything in the repo*. We need an evaluation script against a baseline, or different numbers
+4. *"95% would consider joining"*: the cited BMJ article can't be found. Replace it (e.g. ICR survey: only 11% of patients took part in a trial) or remove it
+5. No list of our datasets and their licences
+
+*Wording fixes* ⚠️
+- "122 days, down from 169" is only true for *industry* trials (HRA, Apr 2026)
+- "3 in 10 trials have no patient after a month": "1 in 3 UK studies" is the sturdier figure (63 studies, Feb 2026)
+- The big "0% wrong" line must say *on synthetic patients*
+
+*Strong* ✅ unusual two-sided agent, a live demo judges can poke at, safeguards built into the code
+
+===== MESSAGE 3 of 3 =====
+
+*Target case (verified, England lung cancer audit 2024)*
+- 39,409 diagnosed, 41% at stage 4, median age 74
+- Median 63 days from referral to treatment for advanced NSCLC; median survival about a year
+- 63% of cancer patients never heard about trials (ICR, 2021)
+- 1 in 3 UK studies have no patient a month after opening (DHSC, Feb 2026)
+Named user: a research nurse pre-screening referrals by hand (about 20-45 min per chart in published studies)
+
+*Proposals*
+- *Look more medical:* a "Safety and standards" section saying what's true today and what we're "built to meet" (UK GDPR, NHS DTAC, NHS clinical safety standard DCB0129). NO "certified" badges, NO NHS logo, NO testimonials. False claims lose the responsible-design marks
+- *Marketing:* an iPad on the table with the live demo for the judges' test, an iPad loop + QR poster, a numbers poster with sources printed, a 3D protein loop. AI images of happy patients: avoid them, or label each one as AI-generated
+- *Paying patients to sign up* is an ethics red flag. Reframe as travel reimbursement, with sites/sponsors paying per qualified referral
+
+*Judges:* André Shamsabadi (Isomorphic Labs, AI for therapeutics), Zayd Lakhi (AmpliSynth), Francesco Farina (Basecamp Research), Diana Cojocaru (UCL). Only André's background is confirmed online. Does anyone have their LinkedIns?
+
+*Also ready:* 12 logo options to pick from, and all the landing text in a spreadsheet for editing (with a Gemini prompt to humanise it)
