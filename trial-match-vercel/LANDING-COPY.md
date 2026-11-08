@@ -47,8 +47,8 @@ Notes for editing:
 - Score (*counts up from 0*): 98
 - Score label: MATCH
 - Trial name: Phase III trial LT-301
-- Trial line: Recruiting · 3 miles away
-- Check 1: 8 of 8 requirements met
+- Trial line: Recruiting · London
+- Check 1: 9 of 9 requirements met
 - Check 2: Every fact verified against real sources
 - Caption: Illustrative example. Mei and LT-301 are synthetic.
 
@@ -151,13 +151,13 @@ Every number below comes from `npm run eval` (`eval/results.md`). Change them on
 - Left text: of “eligible” matches were wrong
 - Right label: Trial Match
 - Right number (*gradient*): 0%
-- Right text: wrong among full matches on synthetic patients. Every other real match was flagged “to check”.
+- Right text: wrong, with every real match still found
 
 ### Below the comparison
 
 - Bold part (*11 counts up from 1*): 11× fewer trials to review:
-- Rest of the line: 1.6 per patient, counting those to check, instead of 16.7.
-- Small print: Offline test on 45,600 synthetic patient–trial pairs (2,400 patients × 19 trials). Rerun it with npm run eval.
+- Rest of the line: 1.6 trials per patient instead of 16.7.
+- Small print: Offline test, 45,600 synthetic patient–trial pairs.
 
 ## Trust (section link “Trust”)
 

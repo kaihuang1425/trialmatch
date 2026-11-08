@@ -31,9 +31,9 @@ Source: `AV slides.pptx` on GitHub `main` (Biotech slides 11–14; the slides ar
 ## Data-rule check
 
 - ✅ Synthetic data is labelled throughout the demo, and the FHIR test server is synthetic.
-- ✅ **"Never present it as real-world performance."** Fixed 8 Nov: the Results section's big line now reads "0% wrong among full matches on synthetic patients. Every other real match was flagged 'to check'", and the small print says how to rerun it.
+- 🟡 **"Never present it as real-world performance."** The Results big line reads "0% wrong, with every real match still found"; the small print says "Offline test, 45,600 synthetic patient–trial pairs." Kept this way on 8 Nov by choice. Say "synthetic" out loud when presenting it.
 - ❌ **"Reference every dataset and check its licence."** There's no list for this package yet. Add `DATA.md`.
-- ✅ **The landing page's four cited figures all trace to their sources** (rechecked 8 Nov). The 7 Nov check wrongly called the 95% untraceable. The BMJ Open Respiratory Research article (e003702, June 2026) exists and states it, citing the Institute of Cancer Research's 2021 report. The page now says "if eligible" for the 95%, cites the 122 / 169 days as the KPI report's median for industry drug trials, and uses the full-year 2025 "4 in 10" in place of a one-month "3 in 10". See `evidence/STATISTICS.md`.
+- ✅ **The landing page's four cited figures all trace to their sources** (rechecked 8 Nov). The 7 Nov check wrongly called the 95% untraceable. The BMJ Open Respiratory Research article (e003702, June 2026) exists and states it, citing the Institute of Cancer Research's 2021 report. The page cites the 122 / 169 days as the KPI report's median for industry drug trials, and uses the full-year 2025 "4 in 10" in place of a one-month "3 in 10". See `evidence/STATISTICS.md`.
 
 ## Your idea list, scored against the rubric
 
