@@ -374,6 +374,267 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   .tm .at-step{font-size:11px}
   .tm .at-done{position:static;display:block;margin-top:10px;text-align:center;grid-column:1/-1}
 }
+.tm .at-ask{opacity:0;transform:translateY(8px);transition:opacity .4s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.tm .at.s1 .at-ask{opacity:1;transform:none}
+/* ---------- product scenes: the patient's phone and the trial team's window, drawn in code. No swiping: the agent checks,
+   asks, and the person taps to act. The script below plays each one while it is on screen, then starts again; classes b1..b8
+   only move forward, and ask, conf, toast, ev, acts and sent open and close things. Inside, everything is in em, and 1em
+   follows the screen's width, so a scene scales with its frame. ---------- */
+.tm .sc-col{display:flex;flex-direction:column;align-items:center;gap:18px;width:100%}
+.tm .sc-rs,.tm .sc-rs *{transition:none!important;animation:none!important}
+.tm .sc-steps{display:flex;gap:4px;list-style:none;margin:0;padding:4px;border-radius:17px;background:rgba(255,255,255,.05)}
+.tm .sc-steps li{display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 12px;border-radius:13px;font-size:12px;color:#8E918F;transition:color .4s,background .4s}
+.tm .sc-steps li::before{content:"";width:6px;height:6px;border-radius:50%;background:#3C4043;transition:background .4s,box-shadow .4s}
+.tm .sc-steps li.on{color:#C4C7C5}
+.tm .sc-steps li.on::before{background:#A8C7FA}
+.tm .sc-steps li.now{background:rgba(168,199,250,.12);color:#E3E3E3}
+.tm .sc-steps li.now::before{box-shadow:0 0 0 3px rgba(168,199,250,.25)}
+.tm .sc-spark{flex:none;width:2.6em;height:2.6em;border-radius:50%;display:grid;place-items:center;background:#131314;box-shadow:inset 0 0 0 .14em rgba(197,138,249,.7)}
+.tm .sc-spark svg{width:1.3em;height:1.3em}
+.tm .sc-say{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#C4C7C5}
+.tm .sc-say.run{background:linear-gradient(90deg,#C4C7C5 30%,#fff 50%,#C4C7C5 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:atShim 1.8s linear infinite}
+.tm .sc-say.flip{animation:atFlip .35s ease-out}
+.tm .sc-say.run.flip{animation:atFlip .35s ease-out,atShim 1.8s linear infinite}
+.tm .sc-ring{position:relative;flex:none}
+.tm .sc-ring svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+.tm .sc-ring circle{fill:none;stroke-width:3.4}
+.tm .sc-ring .tr{stroke:#2C2E31}
+.tm .sc-ring .fg{stroke:#A8C7FA;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset .5s cubic-bezier(.2,.8,.2,1),stroke .4s}
+.tm .sc-ring.g .fg{stroke:#6DD58C}.tm .sc-ring.y .fg{stroke:#FDD663}.tm .sc-ring.r .fg{stroke:#F2B8B5}
+.tm .sc-ring>span{position:absolute;inset:0;display:grid;place-items:center;font-weight:500;font-variant-numeric:tabular-nums}
+.tm .sc-tp{position:relative;overflow:hidden;transition:transform .2s cubic-bezier(.2,.8,.2,1),background .35s,color .35s,box-shadow .35s}
+.tm .sc-tp::after{content:"";position:absolute;left:50%;top:50%;width:3em;height:3em;margin:-1.5em 0 0 -1.5em;border-radius:50%;background:currentColor;opacity:0;pointer-events:none}
+.tm .sc-tp.tap{transform:scale(.96)}
+.tm .sc-tp.tap::after{animation:scTap .65s ease-out}
+@keyframes scTap{0%{opacity:.3;transform:scale(.2)}100%{opacity:0;transform:scale(7)}}
+/* the patient's phone */
+.tm .ph{position:relative;border-radius:36px;overflow:hidden;background:#131314;aspect-ratio:390/844;container-type:inline-size;isolation:isolate}
+.tm .ph-in{position:absolute;inset:0;font-size:8.75px;font-size:calc(100cqw / 32);line-height:1.35;color:#E3E3E3;transition:opacity .6s}
+.tm .ph.out .ph-in{opacity:0}
+.tm .ph-in svg{flex:none}
+.tm .ph-bar{display:flex;justify-content:space-between;align-items:center;height:3em;padding:0 2.6em 0 2.9em}
+.tm .ph-bar b{font-size:1.15em;font-weight:500}
+.tm .ph-sys{display:flex;gap:.45em;align-items:center}
+.tm .ph-sys svg{height:1.1em;width:auto}
+.tm .ph-app{display:flex;align-items:center;gap:.7em;padding:.4em 1.6em}
+.tm .ph-app>svg{width:1.9em;height:1.9em}
+.tm .ph-app b{font-size:1.45em;font-weight:500}
+.tm .ph-role{font-size:.95em;color:#9AA0A6;padding:.1em .55em;border-radius:.5em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tm .ph-me{margin-left:auto;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4285F4,#9B72CB);font-size:1.15em;font-weight:500;color:#fff}
+.tm .ph-hi{width:max-content;margin:.2em 0 .25em .64em;font-size:2.5em;line-height:1.2;letter-spacing:-.01em;background:linear-gradient(90deg,#8AB4F8,#C58AF9 60%,#F28B82);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tm .ph-agent{display:flex;gap:.9em;align-items:center;margin:0 1.2em;padding:.95em 1.1em;border-radius:1.7em;background:linear-gradient(135deg,rgba(66,133,244,.16),rgba(155,114,203,.1) 60%,rgba(217,101,112,.06)),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(168,199,250,.16)}
+.tm .ph-at{min-width:0;flex:1}
+.tm .ph-at b{display:block;font-size:1.1em;font-weight:500}
+.tm .ph-say{font-size:1.1em}
+.tm .ph-trial{position:relative;margin:1em 1.2em 0;padding:1.1em 1.3em 1.2em;border-radius:1.8em;background:#1E1F21;opacity:0;transform:translateY(1.5em);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.tm .ph.b1 .ph-trial{opacity:1;transform:none}
+.tm .ph-top{position:relative;height:2.3em;margin-right:4.4em}
+.tm .ph-meta,.tm .ph-match{position:absolute;left:0;top:50%;white-space:nowrap;transition:opacity .4s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+.tm .ph-meta{font-size:1em;color:#9AA0A6;transform:translateY(-50%)}
+.tm .ph-match{font-size:1em;padding:.3em .7em;border-radius:.6em;background:rgba(109,213,140,.14);color:#6DD58C;opacity:0;transform:translateY(-50%) scale(.85);transform-origin:0 50%}
+.tm .ph.b5 .ph-meta{opacity:0}
+.tm .ph.b5 .ph-match{opacity:1;transform:translateY(-50%)}
+.tm .ph-ring{position:absolute;right:1.1em;top:.8em;width:3.6em;height:3.6em}
+.tm .ph-ring>span b{font-size:1.25em}
+.tm .ph-ring>span small{font-size:.8em;color:#9AA0A6;font-weight:400}
+.tm .ph-tt{display:block;margin:.35em 0 .45em;font-size:1.5em;line-height:1.25}
+.tm .ph-site{display:flex;align-items:center;gap:.4em;font-size:1em;color:#9AA0A6}
+.tm .ph-site svg{width:1.15em;height:1.15em}
+.tm .ph-rh{display:flex;justify-content:space-between;align-items:baseline;margin:1.15em 1.75em .4em;font-size:1.05em}
+.tm .ph-rh span:first-child{color:#C4C7C5;font-weight:500}
+.tm .ph-cnt{color:#9AA0A6;font-variant-numeric:tabular-nums}
+.tm .ph-rules{list-style:none;margin:0 1.2em;padding:0}
+.tm .ph-rules li{display:flex;align-items:center;gap:.75em;height:2.6em;padding:0 .55em;border-radius:.9em;transition:background .3s}
+.tm .ph-rules li.now{background:rgba(168,199,250,.07)}
+.tm .ph-rules i{flex:none;width:1.75em;height:1.75em;border-radius:50%;box-shadow:inset 0 0 0 .12em #3C4043;display:grid;place-items:center;font-style:normal;font-weight:700;transition:background .3s,box-shadow .3s,color .3s}
+.tm .ph-rules i::after{content:"";transform:scale(0);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.tm .ph-rules li.now i{animation:phPing 1s ease-out infinite}
+.tm .ph-rules li.ok i{background:rgba(109,213,140,.16);box-shadow:none;color:#6DD58C}
+.tm .ph-rules li.ok i::after{content:"✓";transform:scale(1)}
+.tm .ph-rules li.q i{background:rgba(253,214,99,.15);box-shadow:none;color:#FDD663}
+.tm .ph-rules li.q i::after{content:"?";transform:scale(1)}
+.tm .ph-rules span{flex:1;min-width:0;font-size:1.15em;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .3s}
+.tm .ph-rules li.ok span,.tm .ph-rules li.q span,.tm .ph-rules li.now span{color:#E3E3E3}
+.tm .ph-rules em{flex:none;font-style:normal;font-size:.92em;padding:.2em .6em;border-radius:.7em;background:#26282B;color:#9AA0A6;opacity:0;transform:translateX(.6em);transition:opacity .35s,transform .35s,background .35s,color .35s}
+.tm .ph-rules li.ok em,.tm .ph-rules li.q em{opacity:1;transform:none}
+.tm .ph-rules li.q em{background:rgba(253,214,99,.12);color:#FDD663}
+.tm .ph-rules li.ans em{background:rgba(168,199,250,.14);color:#A8C7FA}
+@keyframes phPing{0%{box-shadow:inset 0 0 0 .12em #A8C7FA,0 0 0 0 rgba(168,199,250,.5)}100%{box-shadow:inset 0 0 0 .12em #A8C7FA,0 0 0 .55em rgba(168,199,250,0)}}
+.tm .ph-cta{position:absolute;left:1.2em;right:1.2em;bottom:6.5em;height:4.2em;border-radius:2.1em;display:flex;align-items:center;justify-content:center;gap:.5em;background:#26282B;color:#8E918F}
+.tm .ph-cta span{font-size:1.3em;font-weight:500}
+.tm .ph-cta svg{display:none;width:1.5em;height:1.5em}
+.tm .ph.b5 .ph-cta{background:#A8C7FA;color:#062E6F;box-shadow:0 .6em 2em rgba(66,133,244,.35)}
+.tm .ph.b8 .ph-cta{background:rgba(109,213,140,.16);color:#6DD58C;box-shadow:none}
+.tm .ph.b8 .ph-cta svg{display:block}
+.tm .ph-nav{position:absolute;left:0;right:0;bottom:0;height:5.8em;display:flex;justify-content:space-around;padding-top:.75em;background:#1A1B1D}
+.tm .ph-nav>span{position:relative;display:flex;flex-direction:column;align-items:center;gap:.25em;width:6.4em;color:#9AA0A6}
+.tm .ph-nav svg{width:4em;height:2.3em;padding:.35em 0;border-radius:1.15em;box-sizing:border-box}
+.tm .ph-nav small{font-size:.92em}
+.tm .ph-nav .on{color:#E3E3E3}
+.tm .ph-nav .on svg{background:#004A77;color:#C2E7FF}
+.tm .ph-nav b{position:absolute;top:-.25em;right:1em;min-width:1.6em;height:1.6em;border-radius:.8em;display:grid;place-items:center;background:#F2B8B5;color:#601410;font-size:.9em;font-weight:500;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.tm .ph.b8 .ph-nav b{transform:scale(1)}
+.tm .ph-scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .4s;pointer-events:none}
+.tm .ph.ask .ph-scrim,.tm .ph.conf .ph-scrim{opacity:1}
+.tm .ph-sheet{position:absolute;left:0;right:0;bottom:0;padding:.8em 1.6em 2.6em;border-radius:2.4em 2.4em 0 0;background:#1E1F21;box-shadow:0 -1em 3em rgba(0,0,0,.4);transform:translateY(105%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tm .ph.ask .ph-ask,.tm .ph.conf .ph-conf{transform:none}
+.tm .ph-grab{display:block;width:3.6em;height:.4em;margin:0 auto 1.3em;border-radius:.2em;background:#444746}
+.tm .ph-turn{display:inline-block;font-size:.95em;padding:.25em .7em;border-radius:.6em;background:rgba(253,214,99,.14);color:#FDD663}
+.tm .ph-sub{display:block;margin-top:.8em;font-size:1.05em;color:#9AA0A6}
+.tm .ph-qq{display:block;margin:.2em 0 .7em;font-size:1.65em;line-height:1.25}
+.tm .ph-opt{display:block;margin-top:.55em;padding:.85em 1.1em;border-radius:1.3em;background:#26282B;font-size:1.15em;line-height:1.3;color:#E3E3E3}
+.tm .ph-opt.sel{background:rgba(168,199,250,.16);box-shadow:inset 0 0 0 .1em #A8C7FA}
+.tm .ph-ct{display:block;font-size:1.65em;line-height:1.25}
+.tm .ph-cb{display:block;margin:.55em 0 .8em;font-size:1.15em;line-height:1.45;color:#C4C7C5}
+.tm .ph-cl{display:flex;align-items:center;gap:.6em;margin-top:.45em;font-size:1.1em;color:#C4C7C5}
+.tm .ph-cl svg{width:1.2em;height:1.2em;color:#6DD58C}
+.tm .ph-btns{display:flex;align-items:center;gap:1.6em;margin-top:1.5em}
+.tm .ph-go{height:3.6em;padding:0 2em;border-radius:1.8em;display:inline-flex;align-items:center;background:#A8C7FA;color:#062E6F}
+.tm .ph-go span,.tm .ph-no{font-size:1.2em;font-weight:500}
+.tm .ph-no{color:#A8C7FA}
+.tm .ph-toast{position:absolute;left:1.2em;right:1.2em;top:3.4em;padding:1em 1.2em;border-radius:1.2em;background:#E3E3E3;color:#1F1F1F;box-shadow:0 .8em 2em rgba(0,0,0,.45);opacity:0;transform:translateY(-160%);transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.tm .ph-toast span{font-size:1.1em;line-height:1.35}
+.tm .ph.toast .ph-toast{opacity:1;transform:none}
+/* the trial team's window */
+.tm .cw{position:relative;container-type:inline-size}
+.tm .cw-scr{position:relative;aspect-ratio:1000/680;overflow:hidden;background:#131314;isolation:isolate}
+.tm .cw-in{position:absolute;inset:0;font-size:10px;font-size:calc(100cqw / 58);line-height:1.35;color:#E3E3E3;transition:opacity .6s}
+.tm .cw.out .cw-in{opacity:0}
+.tm .cw-in svg{flex:none}
+.tm .cw-app{display:flex;align-items:center;gap:.8em;height:4.4em;padding:0 2em;border-bottom:1px solid rgba(255,255,255,.06)}
+.tm .cw-app>svg{width:1.7em;height:1.7em}
+.tm .cw-app>b{font-size:1.3em;font-weight:500;white-space:nowrap}
+.tm .cw-role{font-size:.9em;color:#9AA0A6;padding:.1em .55em;border-radius:.5em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tm .cw-tabs{display:flex;gap:.3em;margin-left:1.4em}
+.tm .cw-tabs span{font-size:1.1em;color:#C4C7C5;padding:.4em .9em;border-radius:1.2em;white-space:nowrap}
+.tm .cw-tabs .on{background:#004A77;color:#C2E7FF}
+.tm .cw-me{margin-left:auto;width:2.5em;height:2.5em;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#188038,#12807A);font-size:1.05em;font-weight:500;color:#fff}
+.tm .cw-head{padding:1.4em 2em .9em}
+.tm .cw-meta{display:block;font-size:1.05em;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm .cw-h{display:block;margin-top:.1em;font-size:2.1em;line-height:1.2;letter-spacing:-.01em}
+.tm .cw-agent{display:flex;align-items:center;gap:.9em;margin:0 2em;padding:.75em 1.1em;border-radius:1.4em;background:linear-gradient(135deg,rgba(66,133,244,.14),rgba(155,114,203,.08) 60%),#1A1B1D;box-shadow:inset 0 0 0 1px rgba(168,199,250,.14)}
+.tm .cw-agent .sc-spark{width:2.4em;height:2.4em}
+.tm .cw-say{flex:1;min-width:0;font-size:1.15em}
+.tm .cw-cols,.tm .cw-row{display:grid;grid-template-columns:1.6em minmax(0,1fr) 12em 3.4em;gap:0 1.1em;align-items:center;padding:0 1.1em}
+.tm .cw-cols{margin:1.1em 2em .45em}
+.tm .cw-cols span{font-size:.95em;color:#8E918F}
+.tm .cw-list{position:relative;margin:0 2em;height:20.5em}
+.tm .cw-row{position:absolute;left:0;right:0;top:calc(var(--pos, 4) * 4.1em);height:3.7em;border-radius:1.2em;background:#1A1B1D;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);opacity:0;transform:translateY(1.4em);transition:top .6s cubic-bezier(.2,.8,.2,1),opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s}
+.tm .cw-row.in{opacity:1;transform:none}
+.tm .cw-row.in.x{opacity:.55}
+.tm .cw-row.hl{background:#202124;box-shadow:inset 0 0 0 1px rgba(168,199,250,.55)}
+.tm .cw-box{width:1.6em;height:1.6em;border-radius:.4em;box-shadow:inset 0 0 0 .13em #5F6368;display:grid;place-items:center;color:#062E6F;transition:background .25s,box-shadow .25s}
+.tm .cw-box svg{width:1.15em;height:1.15em;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.tm .cw-row.sel .cw-box{background:#A8C7FA;box-shadow:none}
+.tm .cw-row.sel .cw-box svg{transform:scale(1)}
+.tm .cw-who{min-width:0;line-height:1.3}
+.tm .cw-who b{display:block;font-size:1.2em;font-weight:500}
+.tm .cw-who small{display:block;font-size:1em;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm .cw-chip{justify-self:start;display:inline-flex;align-items:center;height:2.3em;padding:0 .85em;border-radius:1.15em;font-size:1em;white-space:nowrap;background:#26282B;color:#9AA0A6;transition:background .3s,color .3s}
+.tm .cw-chip.ok{background:rgba(109,213,140,.14);color:#6DD58C}
+.tm .cw-chip.q{background:rgba(253,214,99,.13);color:#FDD663}
+.tm .cw-chip.x{background:rgba(242,184,181,.14);color:#F2B8B5}
+.tm .cw-chip.inv{background:rgba(168,199,250,.16);color:#A8C7FA}
+.tm .cw-ring{width:3.4em;height:3.4em}
+.tm .cw-ring>span b{font-size:1.1em}
+.tm .cw-ev{position:absolute;top:4.9em;right:1.2em;bottom:1.2em;width:27em;padding:1.3em 1.5em;border-radius:1.8em;background:#1E1F21;box-shadow:0 1.6em 4em rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08);display:flex;flex-direction:column;gap:1em;transform:translateX(115%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tm .cw.ev .cw-ev{transform:none}
+.tm .cw-evh{display:flex;align-items:flex-start;gap:1em}
+.tm .cw-evh b{display:block;font-size:1.4em;font-weight:500}
+.tm .cw-evh small{display:block;font-size:1em;color:#9AA0A6}
+.tm .cw-x{margin-left:auto;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;color:#C4C7C5;background:#26282B}
+.tm .cw-x svg{width:1.2em;height:1.2em}
+.tm .cw-evl{font-size:.95em;font-weight:500;color:#9BE0AE;text-transform:uppercase;letter-spacing:.06em}
+.tm .cw-q{display:flex;flex-direction:column;gap:.3em;opacity:0;transform:translateY(.8em);transition:opacity .4s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.tm .cw-q.in{opacity:1;transform:none}
+.tm .cw-q>b{display:flex;align-items:center;gap:.55em;font-size:1.1em;font-weight:500}
+.tm .cw-q>b i{width:1.45em;height:1.45em;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.8em;background:rgba(109,213,140,.16);color:#6DD58C}
+.tm .cw-q q{display:block;margin-left:1.4em;padding-left:.8em;border-left:.18em solid rgba(109,213,140,.5);font-size:1.1em;line-height:1.4;color:#E3E3E3}
+.tm .cw-q small{margin-left:2.4em;font-size:.95em;color:#8E918F}
+.tm .cw-evf{margin-top:auto;font-size:.95em;line-height:1.4;color:#8E918F}
+.tm .cw-bar{position:absolute;left:50%;bottom:1.4em;display:flex;align-items:center;gap:1.2em;height:4.6em;padding:0 .6em 0 1.6em;border-radius:2.3em;background:#2A2B2E;box-shadow:0 1.2em 3em rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.1);white-space:nowrap;transform:translate(-50%,180%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tm .cw.acts .cw-bar{transform:translate(-50%,0)}
+.tm .cw-n{font-size:1.15em;color:#C4C7C5}
+.tm .cw-go{height:3.4em;padding:0 1.5em;border-radius:1.7em;display:inline-flex;align-items:center;gap:.5em;background:#A8C7FA;color:#062E6F}
+.tm .cw-go svg{width:1.4em;height:1.4em}
+.tm .cw-go span{font-size:1.15em;font-weight:500}
+.tm .cw.sent .cw-go{background:rgba(109,213,140,.16);color:#6DD58C}
+.tm .cw-cur{position:absolute;left:0;top:0;z-index:5;width:2.2em;height:2.2em;opacity:0;pointer-events:none;transform-origin:20% 12%;transition:left .75s cubic-bezier(.45,0,.2,1),top .75s cubic-bezier(.45,0,.2,1),opacity .3s,transform .15s;filter:drop-shadow(0 .2em .4em rgba(0,0,0,.5))}
+.tm .cw-cur.on{opacity:1}
+.tm .cw-cur.dn{transform:scale(.8)}
+.tm .cw-cur svg{display:block;width:100%;height:100%}
+@container (max-width:460px){
+  .tm .cw-scr{aspect-ratio:4/5}
+  .tm .cw-in{font-size:calc(100cqw / 36)}
+  .tm .cw-role,.tm .cw-tabs span:not(.on){display:none}
+  .tm .cw-tabs{margin-left:.4em}
+  .tm .cw-app,.tm .cw-head{padding-left:1.4em;padding-right:1.4em}
+  .tm .cw-agent,.tm .cw-list,.tm .cw-cols{margin-left:1.4em;margin-right:1.4em}
+  .tm .cw-agent{align-items:flex-start}
+  .tm .cw-say{white-space:normal;min-height:2.7em}
+  .tm .cw-cols,.tm .cw-row{grid-template-columns:1.6em minmax(0,1fr) auto 3.2em;gap:0 .8em;padding:0 .9em}
+  .tm .cw-ring{width:3.2em;height:3.2em}
+  .tm .cw-ev{left:1em;right:1em;width:auto}
+}
+/* micro-motion in the scenes: numbers tick or count up, results pop, a light sweeps what was just confirmed, a spinner
+   while something sends, a check that draws itself, hover under the pointer, and a highlight that slides along the steps.
+   The page's reduced-motion rule turns all of it off and the scenes show their finished state. */
+.tm .sc-n{display:inline-block;font-variant-numeric:tabular-nums}
+.tm .sc-say .sc-n{color:#E3E3E3;font-weight:500}   /* the shimmer's text clip doesn't reach an inline-block, so it keeps its own colour */
+.tm .sc-n.tick{animation:scTick .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes scTick{0%{transform:translateY(.5em);opacity:.15}100%{transform:none;opacity:1}}
+.tm .sc-pop{animation:scPop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes scPop{0%{transform:scale(.7);opacity:.3}100%{transform:none;opacity:1}}
+.tm .sc-ring::after{content:"";position:absolute;inset:0;border-radius:50%;opacity:0;pointer-events:none}
+.tm .sc-ring.done::after{animation:scDone 1s ease-out}
+@keyframes scDone{0%{opacity:1;box-shadow:0 0 0 0 rgba(109,213,140,.6)}100%{opacity:0;box-shadow:0 0 0 1em rgba(109,213,140,0)}}
+.tm .cw-ring .fg{transition-duration:.85s}
+.tm .run-ag .sc-spark svg{animation:scSpark 1.6s ease-in-out infinite}
+.tm .run-ag .sc-spark{animation:scHalo 1.6s ease-in-out infinite}
+@keyframes scSpark{0%,100%{transform:none}50%{transform:scale(.78) rotate(45deg)}}
+@keyframes scHalo{0%,100%{box-shadow:inset 0 0 0 .14em rgba(197,138,249,.7)}50%{box-shadow:inset 0 0 0 .14em rgba(168,199,250,1),0 0 1.1em rgba(155,114,203,.55)}}
+.tm .sc-spin{display:none;width:1.15em;height:1.15em;box-sizing:border-box;border-radius:50%;border:.16em solid currentColor;border-right-color:transparent;animation:tmSpin .7s linear infinite}
+.tm .busy .sc-spin{display:block}
+.tm .busy>svg{display:none}
+.tm .sc-draw path{stroke-dasharray:22;animation:scDraw .45s .1s cubic-bezier(.4,0,.2,1) backwards}
+@keyframes scDraw{from{stroke-dashoffset:22}to{stroke-dashoffset:0}}
+.tm .sc-steps{position:relative}
+.tm .sc-steps::after{content:"";position:absolute;top:4px;bottom:4px;left:var(--x,4px);width:var(--w,0);border-radius:13px;background:rgba(168,199,250,.13);opacity:var(--o,0);transition:left .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.tm .sc-steps li{position:relative;z-index:1}
+.tm .sc-steps li.now{background:none}
+/* phone */
+.tm .ph-cnt b{font-weight:500;color:#E3E3E3}
+.tm .ph-tc{display:none;margin-left:.35em;color:#FDD663}
+.tm .ph-cnt.tc .ph-tc{display:inline-block;animation:scPop .5s cubic-bezier(.3,1.6,.5,1)}
+.tm .ph-rules li{position:relative;overflow:hidden}
+.tm .ph-rules li::before{content:"";position:absolute;top:0;bottom:0;left:0;width:60%;background:linear-gradient(90deg,transparent,rgba(109,213,140,.16),transparent);transform:translateX(-100%);pointer-events:none}
+.tm .ph-rules li.ok::before{animation:scSweep .75s ease-out}
+@keyframes scSweep{to{transform:translateX(180%)}}
+.tm .ph-rules li.q i{animation:phAmber 1.4s ease-out infinite}
+@keyframes phAmber{0%{box-shadow:0 0 0 0 rgba(253,214,99,.45)}100%{box-shadow:0 0 0 .6em rgba(253,214,99,0)}}
+.tm .ph-rules li.ans i{animation:scFlip .55s cubic-bezier(.3,1.4,.5,1)}
+@keyframes scFlip{0%{transform:rotateY(90deg) scale(.8)}100%{transform:none}}
+.tm .ph-opt{position:relative}
+.tm .ph-tick{position:absolute;right:1em;top:50%;width:1.3em;height:1.3em;margin-top:-.65em;color:#A8C7FA;opacity:0;transition:opacity .2s}
+.tm .ph-tick path{stroke-dasharray:22;stroke-dashoffset:22;transition:stroke-dashoffset .4s .1s cubic-bezier(.4,0,.2,1)}
+.tm .ph-opt.sel .ph-tick{opacity:1}
+.tm .ph-opt.sel .ph-tick path{stroke-dashoffset:0}
+.tm .ph-cta::before{content:"";position:absolute;top:0;bottom:0;left:-45%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);pointer-events:none;opacity:0}
+.tm .ph.b5:not(.b8) .ph-cta::before{animation:scShine 1.1s .3s ease-out}
+@keyframes scShine{0%{left:-45%;opacity:1}100%{left:110%;opacity:1}}
+.tm .ph-go{gap:.55em}
+.tm .ph.b8 .ph-nav>span:last-child svg{animation:scWiggle .6s .25s ease-in-out}
+@keyframes scWiggle{25%{transform:rotate(-12deg)}50%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}}
+/* window */
+.tm .cw-chip:not(.ok):not(.q):not(.x):not(.inv)::before{content:"";width:.85em;height:.85em;margin-right:.5em;box-sizing:border-box;border-radius:50%;border:.14em solid currentColor;border-right-color:transparent;animation:tmSpin .8s linear infinite}
+.tm .cw-row.new{box-shadow:inset 0 0 0 1px rgba(168,199,250,.5),0 0 1.4em -.3em rgba(66,133,244,.45)}
+.tm .cw-row.hv{background:#202124}
+.tm .cw-go.hv,.tm .cw-x.hv{filter:brightness(1.15)}
+.tm .cw-q q span{padding:0 .15em;border-radius:.25em;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(rgba(109,213,140,.18),rgba(109,213,140,.18)) no-repeat 0 0/0% 100%;transition:background-size .8s .3s cubic-bezier(.2,.8,.2,1)}
+.tm .cw-q.in q span{background-size:100% 100%}
+.tm .cw-n b{font-weight:500;color:#E3E3E3}
+.tm .cw-go .cw-ok,.tm .cw.sent .cw-go .cw-send{display:none}
+.tm .cw.sent .cw-go .cw-ok{display:block}
 </style>
 </head>
 <body>
@@ -460,26 +721,90 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       <div class="rv" style="display: flex; flex-direction: column; gap: 20px">
         <span style="font-size: 14px; color: #A8C7FA; font-weight: 500">For patients</span>
         <h3 style="margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">An agent that finds every trial you qualify for.</h3>
-        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Connect your record once. Your agent checks every open trial, asks for required information when something is missing, and shows only the trials that fit. Swipe right to apply, or let it apply for you.</p>
+        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Connect your record once. Your agent checks every open trial, asks for required information when something is missing, and shows only the trials that fit. Apply when you’re ready, or let it apply for you.</p>
         <a class="more" href="/app/" style="font-size: 16px; font-weight: 500; text-decoration: none">Try it as a patient <span>→</span></a>
       </div>
       <div style="display: flex; justify-content: center">
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 18px"><div class="tiltIn" style="width: 300px; max-width: 100%; border-radius: 44px; padding: 10px; background: #26282B; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08)">
-          <div style="border-radius: 36px; overflow: hidden; background: #131314; aspect-ratio: 390 / 844"><video src="media/patient.mp4" poster="media/patient.jpg" autoplay muted loop playsinline preload="auto" aria-label="Recording of the patient app: answering a question, then swiping right to apply" style="display: block; width: 100%; height: 100%; object-fit: cover"></video></div>
-        </div><span style="display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 12px; border-radius: 14px; background: rgba(255,255,255,.06); font-size: 12px; color: #C4C7C5"><span class="livedot"></span>Recorded live from the working app</span></div>
+        <div class="sc-col"><div class="tiltIn" style="width: 300px; max-width: 100%; border-radius: 44px; padding: 10px; background: #26282B; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08)">
+          <!-- patient scene: Mei's agent checks LT-301's 9 entry rules against her record, asks the one it can't settle, and she applies with a tap. Same data as the demo app. -->
+          <div class="ph" role="img" aria-label="Animation of the patient app. Mei’s agent checks trial LT-301’s 9 entry rules against her record and finds 8 met. It asks her the one thing the record doesn’t say: has a scan checked her brain? She answers, all 9 rules are met, and she applies with one tap. Her name stays hidden from the trial team until she says yes."><div class="ph-in">
+            <div class="ph-bar"><b>9:41</b><span class="ph-sys"><svg viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1.5 4.5a9.5 9.5 0 0 1 13 0M4 7.3a6 6 0 0 1 8 0"/><circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/></svg><svg viewBox="0 0 26 12"><rect x=".75" y=".75" width="21.5" height="10.5" rx="3" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.5"/><rect x="2.5" y="2.5" width="15" height="7" rx="1.6" fill="currentColor"/><rect x="23.5" y="4" width="2" height="4" rx="1" fill="currentColor" fill-opacity=".45"/></svg></span></div>
+            <div class="ph-app"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"/><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"/><rect x="11" y="11" width="10" height="10" fill="#B48BE9"/></svg><b>Trial Match</b><span class="ph-role">Patient</span><span class="ph-me">M</span></div>
+            <div class="ph-hi">Hello, Mei</div>
+            <div class="ph-agent"><span class="sc-spark"><svg viewBox="0 0 24 24"><path d="M12 2c.6 5 3.4 8.6 10 10-6.6 1.4-9.4 5-10 10-.6-5-3.4-8.6-10-10 6.6-1.4 9.4-5 10-10z" fill="#fff"/></svg></span><span class="ph-at"><b>Your agent</b><span class="ph-say sc-say">Checking LT-301 against your record</span></span></div>
+            <div class="ph-trial">
+              <div class="ph-top"><span class="ph-meta">LT-301 · Phase III · Targeted tablet</span><span class="ph-match">Strong match · all rules met</span></div>
+              <span class="sc-ring ph-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><span><b class="sc-n">0</b><small>/9</small></span></span></span>
+              <span class="ph-tt">A new targeted tablet after EGFR treatment stops working</span>
+              <span class="ph-site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Thames Chest Centre, London</span>
+            </div>
+            <div class="ph-rh"><span>Entry rules</span><span class="ph-cnt"><b class="sc-n">0</b><span> of 9 met</span><span class="ph-tc">· 1 to check</span></span></div>
+            <ul class="ph-rules">
+              <li><i></i><span>Lung cancer, stage IV</span><em>GP record</em></li>
+              <li><i></i><span>EGFR exon 19 deletion</span><em>Genomic lab</em></li>
+              <li><i></i><span>Grew on osimertinib</span><em>Hospital</em></li>
+              <li><i></i><span>Last treatment 2+ weeks ago</span><em>Hospital</em></li>
+              <li><i></i><span>Fitness (ECOG) 0–1</span><em>Hospital</em></li>
+              <li><i></i><span>No untreated brain spread</span><em>Not in record</em></li>
+              <li><i></i><span>No lung inflammation</span><em>Hospital</em></li>
+              <li><i></i><span>Blood counts in range</span><em>Blood test</em></li>
+              <li><i></i><span>Kidney function in range</span><em>Blood test</em></li>
+            </ul>
+            <div class="ph-cta sc-tp"><svg class="sc-draw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Apply to LT-301</span></div>
+            <div class="ph-nav">
+              <span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="7" y="3" width="10" height="16" rx="2"/><path d="M4 6v12M20 6v12" stroke-linecap="round"/></svg><small>Discover</small></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><small>My trials</small></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg><small>My health</small></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13l2.5-8h11L20 13v6H4z"/><path d="M4 13h5l1 2h4l1-2h5"/></svg><small>Inbox</small><b>1</b></span>
+            </div>
+            <div class="ph-scrim"></div>
+            <div class="ph-sheet ph-ask"><span class="ph-grab"></span><span class="ph-turn">Your turn</span><span class="ph-sub">One answer settles the last rule</span><span class="ph-qq">Has a scan checked your brain?</span>
+              <span class="ph-opt sc-tp">Yes, and there was no spread<svg class="ph-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="ph-opt">Spread was found, treated, and is stable</span><span class="ph-opt">Spread was found and isn’t treated yet</span><span class="ph-opt">I’m not sure. My team can check.</span></div>
+            <div class="ph-sheet ph-conf"><span class="ph-grab"></span><span class="ph-ct">Apply to LT-301?</span><span class="ph-cb">Your agent fills in the application from your record and sends it under your ID, P-0412.</span>
+              <span class="ph-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You meet all 9 entry rules</span>
+              <span class="ph-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Your name stays hidden until you say yes</span>
+              <span class="ph-btns"><span class="ph-go sc-tp"><span class="sc-spin"></span><span>Apply</span></span><span class="ph-no">Not now</span></span></div>
+            <div class="ph-toast"><span>Applied to LT-301. You’ll hear back in your inbox.</span></div>
+          </div></div>
+        </div><ol class="sc-steps" data-for="ph" aria-hidden="true"><li>Check</li><li>Ask</li><li>Apply</li></ol></div>
       </div>
     </div>
 
     <!-- trial teams -->
     <div class="g2" style="gap: 80px; align-items: center">
       <div style="display: flex; justify-content: center">
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 18px; width: 100%"><div class="zoomIn" style="width: 100%; max-width: 580px; border-radius: 24px; background: #1A1B1D; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden">
-          <div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.06)"><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="margin-left: 10px; font-size: 12px; color: #9AA0A6">Trial Match · Rank applicants</span></div><video src="media/clinician.mp4" poster="media/clinician.jpg" autoplay muted loop playsinline preload="auto" aria-label="Recording of the clinician app: swiping to rank applicants, then inviting the top three" style="display: block; width: 100%; aspect-ratio: 1000 / 680; object-fit: cover; background: #131314"></video></div><span style="display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 12px; border-radius: 14px; background: rgba(255,255,255,.06); font-size: 12px; color: #C4C7C5"><span class="livedot"></span>Recorded live from the working app</span></div>
+        <div class="sc-col"><div class="zoomIn" style="width: 100%; max-width: 580px; border-radius: 24px; background: #1A1B1D; box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.06)"><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3C4043"></span><span style="margin-left: 10px; font-size: 12px; color: #9AA0A6">Trial Match · Applicants</span></div>
+          <!-- trial team scene: applicants for LT-301 arrive already checked against the 9 rules and sort by fit; the clinician reads the quoted evidence and invites the top three. -->
+          <div class="cw" role="img" aria-label="Animation of the trial team’s view. Five applicants for LT-301 arrive already checked against its 9 entry rules and sort by how well they fit; one is flagged for missing a rule. The clinician opens the top applicant and sees the record quoted for each rule, then selects the three strongest and invites them to pre-screening."><div class="cw-scr"><div class="cw-in">
+            <div class="cw-app"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="11" width="28" height="10" rx="5" fill="#7B9BFE"/><rect x="11" y="2" width="10" height="28" rx="5" fill="#E48FB0"/><rect x="11" y="11" width="10" height="10" fill="#B48BE9"/></svg><b>Trial Match</b><span class="cw-role">Clinician</span><span class="cw-tabs"><span>Overview</span><span class="on">Applicants</span><span>Invites</span></span><span class="cw-me">A</span></div>
+            <div class="cw-head"><span class="cw-meta">LT-301 · Phase III · Thames Chest Centre, London</span><span class="cw-h">Applicants</span></div>
+            <div class="cw-agent"><span class="sc-spark"><svg viewBox="0 0 24 24"><path d="M12 2c.6 5 3.4 8.6 10 10-6.6 1.4-9.4 5-10 10-.6-5-3.4-8.6-10-10 6.6-1.4 9.4-5 10-10z" fill="#fff"/></svg></span><span class="cw-say sc-say">Reading 5 new applications</span></div>
+            <div class="cw-cols"><span></span><span>Applicant</span><span>Entry rules</span><span>Fit</span></div>
+            <div class="cw-list">
+              <div class="cw-row" data-score="86" data-st="q" data-l="8 met · 1 to check"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0431</b><small>70 · F · London</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="98" data-st="ok" data-l="9 of 9 met"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0412</b><small>63 · F · London</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="31" data-st="x" data-l="Misses 1 rule"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0397</b><small>55 · M · Bristol</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="95" data-st="ok" data-l="9 of 9 met"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0388</b><small>58 · M · Manchester</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+              <div class="cw-row" data-score="81" data-st="q" data-l="8 met · 1 to check"><span class="cw-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="cw-who"><b>P-0409</b><small>66 · M · Leeds</small></span><span class="cw-chip">Checking</span><span class="sc-ring cw-ring"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="15.5" pathLength="100"/><circle class="fg" cx="18" cy="18" r="15.5" pathLength="100"/></svg><span><b class="sc-n">0</b></span></span></div>
+            </div>
+            <div class="cw-ev">
+              <div class="cw-evh"><span><b>P-0412</b><small>63 · F · London · 9 of 9 rules met</small></span><span class="cw-x sc-tp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
+              <span class="cw-evl">Quoted from the record</span>
+              <div class="cw-q"><b><i>✓</i>EGFR exon 19 deletion</b><q><span>EGFR exon 19 deletion detected</span></q><small>Genomic lab report</small></div>
+              <div class="cw-q"><b><i>✓</i>Grew on osimertinib</b><q><span>Progression on osimertinib, stopped 3 weeks ago</span></q><small>Hospital record</small></div>
+              <div class="cw-q"><b><i>✓</i>No untreated brain spread</b><q><span>Yes, and there was no spread</span></q><small>Her answer to her agent, today</small></div>
+              <span class="cw-evf">Every quote is checked against the record before you see it.</span>
+            </div>
+            <div class="cw-bar"><span class="cw-n"><b class="sc-n">1</b> selected</span><span class="cw-go sc-tp"><span class="sc-spin"></span><svg class="cw-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg><svg class="cw-ok sc-draw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Invite to pre-screening</span></span></div>
+            <span class="cw-cur"><svg viewBox="0 0 24 24"><path d="M5 3l14 8.2-6.2 1.4 3.6 6.6-2.6 1.4-3.6-6.6L5 18.6z" fill="#fff" stroke="#131314" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+          </div></div></div>
+        </div><ol class="sc-steps" data-for="cw" aria-hidden="true"><li>Check</li><li>Review</li><li>Invite</li></ol></div>
       </div>
       <div class="rv" style="display: flex; flex-direction: column; gap: 20px">
         <span style="font-size: 14px; color: #6DD58C; font-weight: 500">For trial teams</span>
         <h3 style="margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 400; letter-spacing: -0.015em">A ranked shortlist in minutes, not weeks.</h3>
-        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Eligibility is checked before patients even arrive. From there, a quick swipe between two candidates builds the ranking, and the strongest matches are invited to pre-screening.</p>
+        <p style="margin: 0; color: #9AA0A6; font-size: 18px">Eligibility is checked before patients even arrive. Applicants come ranked by fit, with the record quoted for every rule, and the strongest matches are invited to pre-screening.</p>
         <a class="more" href="/app/" style="font-size: 16px; font-weight: 500; text-decoration: none">Try it as a clinician <span>→</span></a>
       </div>
     </div>
@@ -608,7 +933,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       </div>
       <div class="rv3" style="background: #161719; padding: 40px; display: flex; flex-direction: column; gap: 10px">
         <span style="font-size: 14px; color: #A8C7FA">Trial Match</span>
-        <span class="grad" style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; font-variant-numeric: tabular-nums">0%</span>
+        <span class="grad" style="font-size: clamp(80px, 11vw, 150px); line-height: .9; letter-spacing: -0.05em; font-weight: 300; font-variant-numeric: tabular-nums"><span data-count="c0" data-from="93" data-to="0">0</span>%</span>
         <span style="font-size: 18px">wrong, with every real match still found</span>
       </div>
     </div>
@@ -659,7 +984,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   if (!('IntersectionObserver' in window)) return;
   var root = document.querySelector('.tm'); if (!root) return;
   var sel = 'h1 .w, h2 .w, section h3, section h4, section p, section li, section a.pill, section a.pri, section a.sec, section a.more, section b, .rv, .rv2, .rv3, .lift, .zoomIn, .tiltIn, .swipeIn, .slideL, .slideR, .pop, [data-count], footer p, footer span';
-  var els = Array.prototype.slice.call(root.querySelectorAll(sel));
+  var els = Array.prototype.slice.call(root.querySelectorAll(sel)).filter(function (el) { return !el.closest('.ph, .cw, .sc-steps'); });   // the product scenes run their own motion
   Array.prototype.forEach.call(root.querySelectorAll('[data-count]'), function (c) { c.textContent = c.getAttribute('data-from'); });
   root.classList.add('anim');
   els.forEach(function (el) { el.classList.add('mo'); });
@@ -681,7 +1006,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
       if (el.hasAttribute('data-count')) countTo(el, Number(el.getAttribute('data-from')), Number(el.getAttribute('data-to')), d + 60);
       setTimeout(function () { el.classList.remove('mo'); el.classList.remove('in'); el.style.transitionDelay = ''; }, d + 750);
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  }, { rootMargin: '0px 0px -8% 0px' });   // reveal as each top comes into view: a share of the height never arrived for tall blocks like the agent team scene on a phone
   function start() { els.forEach(function (el) { io.observe(el); }); }
   if (window.TMLoader && window.TMLoader.leaving) window.TMLoader.leaving.then(start); else start();
 })();
@@ -864,7 +1189,7 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   }
   function play() {
     stop(); playing = true; reset();
-    later(300, function () { type(qEl, Q, 1100); });
+    later(300, function () { stage(1); type(qEl, Q, 1100); });   // the question bubble appears as it types, never as an empty pill
     later(1700, function () { stage(2); });
     later(2700, function () { stage(3); });
     later(3800, function () { stage(4); agent('re', 'run', 'Got 3 public words. Planning what to look up'); });
@@ -883,9 +1208,229 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
   }
   if (still || !('IntersectionObserver' in window)) { finished(); return; }
   reset();
+  // Starts once the scene's top is a quarter of the way up the screen, not when 30% of it shows: on a phone the scene is
+  // taller than two screens, so a share of its height left it sitting empty under the heading.
   new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting && !playing) play(); else if (!e.isIntersecting && playing) stop(); });
-  }, { threshold: 0.3 }).observe(at);
+  }, { rootMargin: '0px 0px -25% 0px' }).observe(at);
+})();
+(function () {
+  // Product scenes: the patient's phone (.ph) and the trial team's window (.cw). Each plays while it is on screen and then
+  // starts again. Classes b1..b8 only move forward; ask, conf, toast, ev, acts and sent open and close things. Numbers tick
+  // into place or count up, results pop, and the highlight in the step pill under each frame slides along with it.
+  // With reduced motion, or no IntersectionObserver, each shows its finished state.
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function Scene(el) {
+    var timers = [], s = { el: el, playing: false };
+    var steps = document.querySelector('.tm .sc-steps[data-for="' + (el.classList.contains('ph') ? 'ph' : 'cw') + '"]');
+    s.later = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+    s.clear = function () { timers.forEach(clearTimeout); timers = []; };
+    s.stop = function () { s.clear(); s.playing = false; };
+    s.beat = function (n) { for (var i = 1; i <= 8; i++) el.classList.toggle('b' + i, i <= n); };
+    s.step = function (k, done) {   // k: the step now showing; done: every step reached, so the highlight fades
+      if (!steps) return;
+      var lis = steps.querySelectorAll('li'), li = lis[k];
+      Array.prototype.forEach.call(lis, function (l, j) { l.classList.toggle('on', j <= k); l.classList.toggle('now', j === k && !done); });
+      if (li) { steps.style.setProperty('--x', li.offsetLeft + 'px'); steps.style.setProperty('--w', li.offsetWidth + 'px'); }
+      steps.style.setProperty('--o', done ? 0 : 1);
+    };
+    s.snap = function (fn) {   // jump to a state with no motion, and drop any one-shot animation classes
+      el.classList.add('sc-rs'); fn();
+      Array.prototype.forEach.call(el.querySelectorAll('.tick, .sc-pop, .flip'), function (n) { n.classList.remove('tick', 'sc-pop', 'flip'); });
+      void el.offsetWidth; el.classList.remove('sc-rs');
+    };
+    s.again = function (node, cls) { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };   // replays a one-shot animation
+    s.say = function (node, html, run) {
+      node.classList.toggle('run', !!run);
+      var ag = node.closest('.ph-agent, .cw-agent'); if (ag) ag.classList.toggle('run-ag', !!run);   // the spark pulses while the agent works
+      if (node.innerHTML === html) return;
+      node.innerHTML = html; s.again(node, 'flip');
+    };
+    s.num = function (node, n) {   // a number that ticks up into place when it changes
+      node._c = (node._c || 0) + 1;
+      if (node.textContent === String(n)) return;
+      node.textContent = n; s.again(node, 'tick');
+    };
+    s.count = function (node, to, ms) {   // counts from what it shows now to `to`, easing out
+      var from = parseInt(node.textContent, 10) || 0, id = node._c = (node._c || 0) + 1, t0 = null;
+      if (still || from === to) { node.textContent = to; return; }
+      requestAnimationFrame(function f(ts) {
+        if (node._c !== id) return;
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / ms);
+        node.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(f);
+      });
+    };
+    s.tap = function (node) { s.again(node, 'tap'); s.later(650, function () { node.classList.remove('tap'); }); };
+    s.ring = function (r, frac, n, tone, ms) {   // ms: count the number up over that time instead of ticking it
+      r.querySelector('.fg').style.strokeDashoffset = String(100 - Math.max(0, Math.min(1, frac)) * 100);
+      var b = r.querySelector('b'); if (ms) s.count(b, n, ms); else s.num(b, n);
+      r.classList.remove('g', 'y', 'r'); if (tone) r.classList.add(tone);
+    };
+    s.run = function (play, reset, finished) {
+      if (still || !('IntersectionObserver' in window)) { finished(); return; }
+      reset();
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting && !s.playing) { s.playing = true; play(); }
+          else if (!e.isIntersecting && s.playing) { s.stop(); reset(); el.classList.remove('out'); }
+        });
+      }, { rootMargin: '0px 0px -15% 0px' }).observe(el);
+    };
+    return s;
+  }
+
+  // The patient's phone: Mei's agent checks LT-301's 9 rules against her record, asks the one it can't settle, and Mei applies.
+  var ph = document.querySelector('.tm .ph');
+  if (ph) (function () {
+    var s = Scene(ph), rules = ph.querySelectorAll('.ph-rules li'), say = ph.querySelector('.ph-say');
+    var cnt = ph.querySelector('.ph-cnt'), cntN = cnt.querySelector('b'), ring = ph.querySelector('.ph-ring'), opt = ph.querySelector('.ph-opt');
+    var cta = ph.querySelector('.ph-cta'), ctaTxt = cta.querySelector('span'), go = ph.querySelector('.ph-go'), goTxt = go.querySelector('span:last-child');
+    var Q = 5, qTag = rules[Q].querySelector('em');   // the brain-scan rule: not in Mei's record, so the agent asks
+    function met(n) { s.ring(ring, n / 9, n, n === 9 ? 'g' : ''); s.num(cntN, n); }
+    function reset() {
+      s.snap(function () {
+        s.clear(); s.beat(0); s.step(0);
+        ph.classList.remove('ask', 'conf', 'toast'); cnt.classList.remove('tc'); ring.classList.remove('done'); go.classList.remove('busy');
+        Array.prototype.forEach.call(rules, function (li) { li.className = ''; });
+        qTag.textContent = 'Not in record'; opt.classList.remove('sel'); met(0);
+        ctaTxt.textContent = 'Apply to LT-301'; goTxt.textContent = 'Apply';
+        s.say(say, 'Checking LT-301 against your record', true);
+      });
+    }
+    function finished() {
+      s.beat(8); s.step(2, true);
+      Array.prototype.forEach.call(rules, function (li, i) { li.className = i === Q ? 'ok ans' : 'ok'; });
+      qTag.textContent = 'Your answer'; met(9);
+      ctaTxt.textContent = 'Applied to LT-301'; s.say(say, 'Applied. Your name stays hidden', false);
+    }
+    function play() {
+      reset(); ph.classList.remove('out');   // reset while hidden, then fade back in
+      var n = 0, T = 900, GAP = 330;
+      s.later(250, function () { s.beat(1); });
+      Array.prototype.forEach.call(rules, function (li, i) {   // each rule lights up, then checks off with a green sweep (or turns amber)
+        s.later(T + i * GAP, function () { li.className = 'now'; });
+        s.later(T + i * GAP + 260, function () { li.className = i === Q ? 'q' : 'ok'; if (i !== Q) met(++n); });
+      });
+      s.later(4100, function () { s.again(cnt, 'tc'); s.say(say, '8 of 9 met. One question for you', false); });
+      s.later(4700, function () { ph.classList.add('ask'); s.step(1); });
+      s.later(6400, function () { s.tap(opt); opt.classList.add('sel'); });
+      s.later(7100, function () { ph.classList.remove('ask'); });
+      s.later(7500, function () {   // the answered rule flips to a check, the ring closes and pulses green
+        rules[Q].className = 'ok ans'; qTag.textContent = 'Your answer'; cnt.classList.remove('tc');
+        met(9); s.again(ring, 'done'); s.beat(5);
+        s.say(say, 'All 9 rules met. Ready when you are', false);
+      });
+      s.later(9000, function () { s.tap(cta); s.step(2); });
+      s.later(9400, function () { ph.classList.add('conf'); });
+      s.later(11000, function () { s.tap(go); go.classList.add('busy'); goTxt.textContent = 'Sending'; });
+      s.later(11600, function () { ph.classList.remove('conf'); });
+      s.later(11900, function () {
+        s.beat(8); ctaTxt.textContent = 'Applied to LT-301'; ph.classList.add('toast');
+        s.say(say, 'Applied. Your name stays hidden', false);
+      });
+      s.later(15000, function () { ph.classList.remove('toast'); s.step(2, true); });
+      s.later(17000, function () { ph.classList.add('out'); });
+      s.later(17700, play);
+    }
+    s.run(play, reset, finished);
+  })();
+
+  // The trial team's window: five applicants arrive already checked and sort by fit; the clinician reads the quoted
+  // evidence for the top one, then selects the strongest three and invites them to pre-screening.
+  var cw = document.querySelector('.tm .cw');
+  if (cw) (function () {
+    var s = Scene(cw), inEl = cw.querySelector('.cw-in'), rows = Array.prototype.slice.call(cw.querySelectorAll('.cw-row'));
+    var say = cw.querySelector('.cw-say'), qs = cw.querySelectorAll('.cw-q'), cur = cw.querySelector('.cw-cur'), x = cw.querySelector('.cw-x');
+    var go = cw.querySelector('.cw-go'), goTxt = go.querySelector('span:last-child'), num = cw.querySelector('.cw-n'), numB = num.querySelector('b');
+    var TONE = { ok: 'g', q: 'y', x: 'r' };
+    function score(r) { return +r.getAttribute('data-score'); }
+    function ranked() { return rows.filter(function (r) { return r.classList.contains('in'); }).sort(function (a, b) { return score(b) - score(a); }); }
+    function sort() { ranked().forEach(function (r, i) { r.style.setProperty('--pos', i); }); }
+    function chip(r, cls, text) { var c = r.querySelector('.cw-chip'); c.className = 'cw-chip ' + cls; c.textContent = text; return c; }
+    function settle(r, ms) {   // the spinner chip pops into its result and the fit score counts up as its ring fills
+      var st = r.getAttribute('data-st');
+      s.again(chip(r, st, r.getAttribute('data-l')), 'sc-pop');
+      r.classList.toggle('x', st === 'x');
+      s.ring(r.querySelector('.cw-ring'), score(r) / 100, score(r), TONE[st], ms);
+    }
+    function invited() { ranked().slice(0, 3).forEach(function (r, i) { s.later(i * 140, function () { s.again(chip(r, 'inv', 'Invited'), 'sc-pop'); }); }); }
+    function reading(k) {   // "Reading application 3 of 5", the number ticking as each one lands
+      var b = say.querySelector('.sc-n');
+      if (b) s.num(b, k); else s.say(say, 'Reading application <b class="sc-n">' + k + '</b> of 5', true);
+    }
+    function at(el, fx, fy) {   // a point inside el, in px from the top left of .cw-in (layout offsets, so transforms don't skew it)
+      var px = 0, py = 0, w = el.offsetWidth, h = el.offsetHeight;
+      for (var n = el; n && n !== inEl; n = n.offsetParent) { px += n.offsetLeft; py += n.offsetTop; }
+      return [px + w * fx, py + h * fy];
+    }
+    function move(p) { cur.style.left = (p[0] - cur.offsetWidth * 0.21) + 'px'; cur.style.top = (p[1] - cur.offsetHeight * 0.12) + 'px'; }
+    function click(node) { cur.classList.add('dn'); s.later(150, function () { cur.classList.remove('dn'); }); if (node) s.tap(node); }
+    function hover(node, on) { node.classList.toggle('hv', on); }
+    function reset() {
+      s.snap(function () {
+        s.clear(); s.beat(0); s.step(0);
+        cw.classList.remove('ev', 'acts', 'sent'); go.classList.remove('busy', 'hv'); x.classList.remove('hv');
+        rows.forEach(function (r) {
+          r.className = 'cw-row'; r.style.setProperty('--pos', 4);
+          chip(r, '', 'Checking'); s.ring(r.querySelector('.cw-ring'), 0, 0, '');
+        });
+        Array.prototype.forEach.call(qs, function (q) { q.classList.remove('in'); });
+        cur.classList.remove('on', 'dn'); move([inEl.offsetWidth * 0.82, inEl.offsetHeight * 0.9]);
+        s.num(numB, 1); num.lastChild.textContent = ' selected'; goTxt.textContent = 'Invite to pre-screening';
+        s.say(say, 'Reading 5 new applications', true);
+      });
+    }
+    function finished() {
+      rows.forEach(function (r) { r.classList.add('in'); settle(r); });
+      sort();
+      ranked().slice(0, 3).forEach(function (r) { r.classList.add('sel'); chip(r, 'inv', 'Invited'); });
+      cw.classList.add('acts', 'sent'); s.num(numB, 3); num.lastChild.textContent = ' invited'; goTxt.textContent = 'Invitations sent';
+      s.say(say, 'Invited 3 to pre-screening. Replies come through their agents', false);
+      s.step(2, true);
+    }
+    function play() {
+      reset(); cw.classList.remove('out');   // reset while hidden, then fade back in
+      rows.forEach(function (r, k) {
+        var t = 700 + k * 700;
+        s.later(t, function () {   // each one lands at the bottom of the list, glowing, then the list re-sorts by fit
+          r.classList.add('sc-rs'); r.style.setProperty('--pos', ranked().length); void r.offsetWidth; r.classList.remove('sc-rs');
+          r.classList.add('in', 'new'); reading(k + 1);
+        });
+        s.later(t + 380, function () { settle(r, 800); sort(); });
+        s.later(t + 1300, function () { r.classList.remove('new'); });
+      });
+      s.later(4500, function () { s.say(say, 'Checked all 9 rules for each. 1 misses a rule, so you can decline fast', false); });
+      s.later(5300, function () { cur.classList.add('on'); move(at(ranked()[0], 0.3, 0.5)); });
+      s.later(6000, function () { hover(ranked()[0], true); });
+      s.later(6200, function () { click(); hover(ranked()[0], false); ranked()[0].classList.add('hl'); cw.classList.add('ev'); s.step(1); });
+      Array.prototype.forEach.call(qs, function (q, i) { s.later(6800 + i * 650, function () { q.classList.add('in'); }); });
+      s.later(9700, function () { move(at(x, 0.5, 0.5)); });
+      s.later(10400, function () { hover(x, true); });
+      s.later(10550, function () { click(x); hover(x, false); });
+      s.later(10750, function () { cw.classList.remove('ev'); ranked()[0].classList.remove('hl'); s.step(2); });
+      [0, 1, 2].forEach(function (i) {   // three ticks; the bar slides up on the first and its count ticks with each
+        s.later(11200 + i * 700, function () { move(at(ranked()[i].querySelector('.cw-box'), 0.5, 0.5)); });
+        s.later(11650 + i * 700, function () {
+          var r = ranked()[i]; click(); r.classList.add('sel'); s.again(r.querySelector('.cw-box'), 'sc-pop');
+          if (!i) cw.classList.add('acts'); else s.num(numB, i + 1);
+        });
+      });
+      s.later(13600, function () { move(at(go, 0.4, 0.5)); });
+      s.later(14250, function () { hover(go, true); });
+      s.later(14400, function () { click(go); go.classList.add('busy'); goTxt.textContent = 'Sending'; });
+      s.later(15000, function () {
+        go.classList.remove('busy', 'hv'); cw.classList.add('sent'); goTxt.textContent = 'Invitations sent';
+        num.lastChild.textContent = ' invited'; s.again(numB, 'tick'); invited();
+        s.say(say, 'Invited 3 to pre-screening. Replies come through their agents', false);
+      });
+      s.later(15800, function () { cur.classList.remove('on'); s.step(2, true); });
+      s.later(18300, function () { cw.classList.add('out'); });
+      s.later(19000, play);
+    }
+    s.run(play, reset, finished);
+  })();
 })();
 </script>
 </body>

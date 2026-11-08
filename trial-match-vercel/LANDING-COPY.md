@@ -93,19 +93,54 @@ Seven photos take turns, about every 9 seconds. Each has its own description (re
 
 - Label: For patients
 - Heading: An agent that finds every trial you qualify for.
-- Text: Connect your record once. Your agent checks every open trial, asks for required information when something is missing, and shows only the trials that fit. Swipe right to apply, or let it apply for you.
+- Text: Connect your record once. Your agent checks every open trial, asks for required information when something is missing, and shows only the trials that fit. Apply when you’re ready, or let it apply for you.
 - Link: Try it as a patient →
-- Video description (read by screen readers): Recording of the patient app: answering a question, then swiping right to apply
-- Badge under the video: Recorded live from the working app
+
+#### The phone animation
+
+Drawn in code inside the phone frame (no video, no swiping). It plays while it is on screen, about 18 seconds, then starts again. With reduced motion it shows the last screen. The data matches the demo app: Mei (P-0412) and trial LT-301.
+
+Small motions, no words: the ring and the rule count tick up together, each rule gets a green sweep as it checks off, the open rule pulses amber, the answered rule flips to a check and the ring pulses when it reaches 9 of 9, the Apply button gets a shine when it turns on, a spinner while it sends, and a check that draws itself.
+
+- Status bar: 9:41
+- App bar: Trial Match · Patient · M
+- Greeting: Hello, Mei
+- Agent card title: Your agent
+- Agent card lines, in order: Checking LT-301 against your record / 8 of 9 met. One question for you / All 9 rules met. Ready when you are / Applied. Your name stays hidden
+- Trial card: LT-301 · Phase III · Targeted tablet (becomes “Strong match · all rules met”) / A new targeted tablet after EGFR treatment stops working / Thames Chest Centre, London
+- Rules heading: Entry rules. Counter (*ticks up*): 0 of 9 met, up to 8 of 9 met, then “· 1 to check” pops in beside it, then 9 of 9 met
+- The 9 rules, each with where it was found: Lung cancer, stage IV (GP record) · EGFR exon 19 deletion (Genomic lab) · Grew on osimertinib (Hospital) · Last treatment 2+ weeks ago (Hospital) · Fitness (ECOG) 0–1 (Hospital) · No untreated brain spread (Not in record, then Your answer) · No lung inflammation (Hospital) · Blood counts in range (Blood test) · Kidney function in range (Blood test)
+- Question sheet: Your turn / One answer settles the last rule / Has a scan checked your brain? / Yes, and there was no spread · Spread was found, treated, and is stable · Spread was found and isn’t treated yet · I’m not sure. My team can check.
+- Button: Apply to LT-301 (then “Applied to LT-301”)
+- Confirm sheet: Apply to LT-301? / Your agent fills in the application from your record and sends it under your ID, P-0412. / You meet all 9 entry rules / Your name stays hidden until you say yes / Apply · Not now (Apply shows “Sending” with a spinner when tapped)
+- Message at the top: Applied to LT-301. You’ll hear back in your inbox.
+- Tabs: Discover · My trials · My health · Inbox
+- Steps under the phone: Check · Ask · Apply
+- Description (read by screen readers): Animation of the patient app. Mei’s agent checks trial LT-301’s 9 entry rules against her record and finds 8 met. It asks her the one thing the record doesn’t say: has a scan checked her brain? She answers, all 9 rules are met, and she applies with one tap. Her name stays hidden from the trial team until she says yes.
 
 ### For trial teams
 
-- Window title above the video: Trial Match · Rank applicants
-- Video description (read by screen readers): Recording of the clinician app: swiping to rank applicants, then inviting the top three
-- Badge under the video: Recorded live from the working app
+#### The window animation
+
+Drawn in code inside the window frame, like the phone. About 19 seconds, then it starts again. On narrow screens the window gets taller and hides the extra tabs.
+
+Small motions, no words: each applicant lands with a glow, its “Checking” chip spins and then pops into its result, and its fit score *counts up* as the ring fills before the list re-sorts. The quotes get a highlighter sweep, the pointer shows hover before each click, checkboxes pop, and the invite button shows a spinner (“Sending”) and then a check.
+
+- Window title: Trial Match · Applicants
+- App bar: Trial Match · Clinician · Overview · Applicants · Invites · A
+- Above the heading: LT-301 · Phase III · Thames Chest Centre, London
+- Heading: Applicants
+- Agent line, in order: Reading 5 new applications / Reading application 1 of 5 (*ticks up* to 5 as each one lands) / Checked all 9 rules for each. 1 misses a rule, so you can decline fast / Invited 3 to pre-screening. Replies come through their agents
+- Column labels: Applicant · Entry rules · Fit
+- Applicants (they arrive one at a time and sort by fit): P-0412, 63 · F · London, 9 of 9 met, 98 · P-0388, 58 · M · Manchester, 9 of 9 met, 95 · P-0431, 70 · F · London, 8 met · 1 to check, 86 · P-0409, 66 · M · Leeds, 8 met · 1 to check, 81 · P-0397, 55 · M · Bristol, Misses 1 rule, 31. Each starts as “Checking”.
+- Evidence panel (opens on P-0412): P-0412 / 63 · F · London · 9 of 9 rules met / Quoted from the record / EGFR exon 19 deletion: “EGFR exon 19 deletion detected” (Genomic lab report) / Grew on osimertinib: “Progression on osimertinib, stopped 3 weeks ago” (Hospital record) / No untreated brain spread: “Yes, and there was no spread” (Her answer to her agent, today) / Every quote is checked against the record before you see it.
+- Bar at the bottom: 1 selected (counts to 3) · Invite to pre-screening, then 3 invited · Invitations sent. The three chosen show “Invited”.
+- Steps under the window: Check · Review · Invite
+- Description (read by screen readers): Animation of the trial team’s view. Five applicants for LT-301 arrive already checked against its 9 entry rules and sort by how well they fit; one is flagged for missing a rule. The clinician opens the top applicant and sees the record quoted for each rule, then selects the three strongest and invites them to pre-screening.
+
 - Label: For trial teams
 - Heading: A ranked shortlist in minutes, not weeks.
-- Text: Eligibility is checked before patients even arrive. From there, a quick swipe between two candidates builds the ranking, and the strongest matches are invited to pre-screening.
+- Text: Eligibility is checked before patients even arrive. Applicants come ranked by fit, with the record quoted for every rule, and the strongest matches are invited to pre-screening.
 - Link: Try it as a clinician →
 
 ### No dead ends
@@ -198,7 +233,7 @@ Every number below comes from `npm run eval` (`eval/results.md`). Change them on
 - Left number (*counts up from 0*): 93%
 - Left text: of “eligible” matches were wrong
 - Right label: Trial Match
-- Right number (*gradient*): 0%
+- Right number (*gradient*, *counts down from 93*): 0%
 - Right text: wrong, with every real match still found
 
 ### Below the comparison
