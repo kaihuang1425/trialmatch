@@ -32,16 +32,9 @@
 Trial Match is a multi-agent system that finds eligible patients for recruiting clinical trials. It reads patient records, checks every entry rule against the evidence, and hands trial teams a ranked shortlist of people who are likely to qualify, enrol and stay to the end. A research nurse pre-screens every match, and their results feed back into the next ranking.
 </p>
 
-<table align="center">
-  <tr>
-    <th align="center">Trial team: ranked applicants</th>
-    <th align="center">Patient: swipe to apply</th>
-  </tr>
-  <tr>
-    <td align="center"><img src="docs/clinician.gif" alt="Ranking applicants for a trial" width="420"></td>
-    <td align="center"><img src="docs/patient.gif" alt="A patient's agent finding trials" width="420"></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="docs/clinician.gif" alt="Ranking applicants for a trial" width="640">
+</p>
 
 > [!IMPORTANT]
 > **Prototype, not a medical device.** Every patient, trial and hospital in the demo is synthetic. Results are from offline tests and are **not** real-world performance.
@@ -59,8 +52,8 @@ Trial Match is a multi-agent system that finds eligible patients for recruiting 
 **Run it locally:**
 
 ```bash
-git clone https://github.com/kaihuang1425/agentic-legacy.git
-cd agentic-legacy
+git clone https://github.com/kaihuang1425/trialmatch.git
+cd trialmatch
 pip install -r requirements.txt
 
 python fetch_trials.py                                      # pull recruiting Phase III trials
