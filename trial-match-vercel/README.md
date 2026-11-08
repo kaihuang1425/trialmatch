@@ -67,6 +67,14 @@ npm test
 
 They cover the fact checks.
 
+## Evaluation
+
+```bash
+npm run eval
+```
+
+This runs the matcher from `public/app/index.html` and a registry-search baseline (condition, phase and recruiting status, the way ClinicalTrials.gov filters) on synthetic patients. It writes `eval/results.md`, which says how the patients and labels were made and what the numbers do and don't show. It's synthetic data only, so the numbers aren't real-world performance. The run takes a few seconds and gives the same numbers every time.
+
 ## The 3D zoom (body, lungs, cell, protein)
 
 Each trial's 3D box can zoom from a whole body to the lungs (with the tumour), into a cancer cell, and down to the real protein structure. The protein is 3Dmol with a crystal structure from the Protein Data Bank. The body, lungs and cell are illustrations built in code with three.js: signed distance fields meshed with surface nets, drawn as Gemini-style glowing silhouettes. There is no model file to license. The 3D only loads when someone zooms out of the protein. Without WebGL, the zoom falls back to flat drawings.
@@ -95,6 +103,7 @@ api/agents/prescreen.js        MedGemma pre-check of a live trial
 api/connectors/fhir.js         FHIR record reader
 lib/                       shared server code (MedGemma client, Redis, FHIR mapping, record schema and checks)
 scripts/dev.mjs            local server; scripts/mock-medgemma.mjs  local stand-in model
+scripts/eval.mjs           offline matching test (npm run eval); results in eval/
 LANDING-COPY.md            every word on the landing page, for editing
 ```
 

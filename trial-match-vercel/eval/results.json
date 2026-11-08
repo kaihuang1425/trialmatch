@@ -1,0 +1,1503 @@
+{
+  "synthetic": true,
+  "note": "Synthetic patients and synthetic trials. Not real-world performance.",
+  "date": "2026-11-08",
+  "command": "npm run eval",
+  "firstSeed": 2026,
+  "batches": 20,
+  "patientsPerBatch": 120,
+  "patients": 2400,
+  "trials": 19,
+  "pairs": 45600,
+  "matcher": {
+    "file": "public/app/index.html",
+    "sha256": "81f3bfdf5e366156642757c08a811886d9607b764c7cb79522b40f9e3cda1ce4"
+  },
+  "definitions": {
+    "registry": "condition + phase 3 + recruiting, the ClinicalTrials.gov search filters",
+    "tmStrong": "deployed matcher tier \"strong\": every rule met by a recorded value",
+    "tmReview": "deployed matcher tier \"strong\" or \"possible\": nothing ruled out, possibly waiting on missing facts",
+    "wrongShare": "listed pairs whose patient is not truly eligible / listed pairs",
+    "recall": "truly eligible pairs listed / truly eligible pairs",
+    "perPatient": "listed pairs / patients"
+  },
+  "main": {
+    "registry": {
+      "listed": 40140,
+      "wrong": 37190,
+      "wrongShare": 0.9265072247135028,
+      "eligible": 2950,
+      "found": 2950,
+      "missed": 0,
+      "recall": 1,
+      "perPatient": 16.725
+    },
+    "tmStrong": {
+      "listed": 1268,
+      "wrong": 0,
+      "wrongShare": 0,
+      "eligible": 2950,
+      "found": 1268,
+      "missed": 1682,
+      "recall": 0.42983050847457627,
+      "perPatient": 0.5283333333333333
+    },
+    "tmReview": {
+      "listed": 3753,
+      "wrong": 803,
+      "wrongShare": 0.21396216360245138,
+      "eligible": 2950,
+      "found": 2950,
+      "missed": 0,
+      "recall": 1,
+      "perPatient": 1.56375
+    },
+    "ratioStrong": 31.65615141955836,
+    "ratioReview": 10.695443645083932,
+    "eligiblePerPatient": 1.2291666666666667,
+    "ruledOutWrongly": 0,
+    "notMetRows": 92610,
+    "notMetButTrue": 0,
+    "possible": {
+      "pairs": 2485,
+      "trulyEligible": 1682
+    }
+  },
+  "spread": {
+    "registryWrong": {
+      "min": 0.9013452914798207,
+      "max": 0.9451918285999004
+    },
+    "registryRecall": {
+      "min": 1,
+      "max": 1
+    },
+    "registryPerPatient": {
+      "min": 16.725,
+      "max": 16.725
+    },
+    "strongWrong": {
+      "min": 0,
+      "max": 0
+    },
+    "strongRecall": {
+      "min": 0.2695035460992908,
+      "max": 0.5677966101694916
+    },
+    "strongPerPatient": {
+      "min": 0.31666666666666665,
+      "max": 0.8083333333333333
+    },
+    "reviewWrong": {
+      "min": 0.13812154696132597,
+      "max": 0.2760416666666667
+    },
+    "reviewRecall": {
+      "min": 1,
+      "max": 1
+    },
+    "reviewPerPatient": {
+      "min": 1.225,
+      "max": 2.2
+    },
+    "ratioStrong": {
+      "min": 20.690721649484537,
+      "max": 52.81578947368421
+    },
+    "ratioReview": {
+      "min": 7.6022727272727275,
+      "max": 13.653061224489797
+    },
+    "ruledOutWrongly": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "perBatch": [
+    {
+      "seed": 2026,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1881,
+        "wrongShare": 0.9372197309417041,
+        "eligible": 126,
+        "found": 126,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 50,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 126,
+        "found": 50,
+        "missed": 76,
+        "recall": 0.3968253968253968,
+        "perPatient": 0.4166666666666667
+      },
+      "tmReview": {
+        "listed": 147,
+        "wrong": 21,
+        "wrongShare": 0.14285714285714285,
+        "eligible": 126,
+        "found": 126,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.225
+      },
+      "ratioStrong": 40.14,
+      "ratioReview": 13.653061224489797,
+      "eligiblePerPatient": 1.05,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4780,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 97,
+        "trulyEligible": 76
+      }
+    },
+    {
+      "seed": 2027,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1897,
+        "wrongShare": 0.9451918285999004,
+        "eligible": 110,
+        "found": 110,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 52,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 110,
+        "found": 52,
+        "missed": 58,
+        "recall": 0.4727272727272727,
+        "perPatient": 0.43333333333333335
+      },
+      "tmReview": {
+        "listed": 151,
+        "wrong": 41,
+        "wrongShare": 0.271523178807947,
+        "eligible": 110,
+        "found": 110,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.2583333333333333
+      },
+      "ratioStrong": 38.59615384615385,
+      "ratioReview": 13.291390728476822,
+      "eligiblePerPatient": 0.9166666666666666,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4804,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 99,
+        "trulyEligible": 58
+      }
+    },
+    {
+      "seed": 2028,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1862,
+        "wrongShare": 0.9277528649725959,
+        "eligible": 145,
+        "found": 145,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 50,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 145,
+        "found": 50,
+        "missed": 95,
+        "recall": 0.3448275862068966,
+        "perPatient": 0.4166666666666667
+      },
+      "tmReview": {
+        "listed": 174,
+        "wrong": 29,
+        "wrongShare": 0.16666666666666666,
+        "eligible": 145,
+        "found": 145,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.45
+      },
+      "ratioStrong": 40.14,
+      "ratioReview": 11.53448275862069,
+      "eligiblePerPatient": 1.2083333333333333,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4573,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 124,
+        "trulyEligible": 95
+      }
+    },
+    {
+      "seed": 2029,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1854,
+        "wrongShare": 0.9237668161434978,
+        "eligible": 153,
+        "found": 153,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 61,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 153,
+        "found": 61,
+        "missed": 92,
+        "recall": 0.39869281045751637,
+        "perPatient": 0.5083333333333333
+      },
+      "tmReview": {
+        "listed": 185,
+        "wrong": 32,
+        "wrongShare": 0.17297297297297298,
+        "eligible": 153,
+        "found": 153,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.5416666666666667
+      },
+      "ratioStrong": 32.90163934426229,
+      "ratioReview": 10.848648648648648,
+      "eligiblePerPatient": 1.275,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4579,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 124,
+        "trulyEligible": 92
+      }
+    },
+    {
+      "seed": 2030,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1866,
+        "wrongShare": 0.929745889387145,
+        "eligible": 141,
+        "found": 141,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 38,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 141,
+        "found": 38,
+        "missed": 103,
+        "recall": 0.2695035460992908,
+        "perPatient": 0.31666666666666665
+      },
+      "tmReview": {
+        "listed": 167,
+        "wrong": 26,
+        "wrongShare": 0.15568862275449102,
+        "eligible": 141,
+        "found": 141,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.3916666666666666
+      },
+      "ratioStrong": 52.81578947368421,
+      "ratioReview": 12.017964071856287,
+      "eligiblePerPatient": 1.175,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4757,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 129,
+        "trulyEligible": 103
+      }
+    },
+    {
+      "seed": 2031,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1809,
+        "wrongShare": 0.9013452914798207,
+        "eligible": 198,
+        "found": 198,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 97,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 198,
+        "found": 97,
+        "missed": 101,
+        "recall": 0.4898989898989899,
+        "perPatient": 0.8083333333333333
+      },
+      "tmReview": {
+        "listed": 264,
+        "wrong": 66,
+        "wrongShare": 0.25,
+        "eligible": 198,
+        "found": 198,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 2.2
+      },
+      "ratioStrong": 20.690721649484537,
+      "ratioReview": 7.6022727272727275,
+      "eligiblePerPatient": 1.65,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4556,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 167,
+        "trulyEligible": 101
+      }
+    },
+    {
+      "seed": 2032,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1851,
+        "wrongShare": 0.922272047832586,
+        "eligible": 156,
+        "found": 156,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 49,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 156,
+        "found": 49,
+        "missed": 107,
+        "recall": 0.3141025641025641,
+        "perPatient": 0.4083333333333333
+      },
+      "tmReview": {
+        "listed": 181,
+        "wrong": 25,
+        "wrongShare": 0.13812154696132597,
+        "eligible": 156,
+        "found": 156,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.5083333333333333
+      },
+      "ratioStrong": 40.95918367346939,
+      "ratioReview": 11.088397790055248,
+      "eligiblePerPatient": 1.3,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4664,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 132,
+        "trulyEligible": 107
+      }
+    },
+    {
+      "seed": 2033,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1858,
+        "wrongShare": 0.9257598405580468,
+        "eligible": 149,
+        "found": 149,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 42,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 149,
+        "found": 42,
+        "missed": 107,
+        "recall": 0.28187919463087246,
+        "perPatient": 0.35
+      },
+      "tmReview": {
+        "listed": 197,
+        "wrong": 48,
+        "wrongShare": 0.2436548223350254,
+        "eligible": 149,
+        "found": 149,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.6416666666666666
+      },
+      "ratioStrong": 47.785714285714285,
+      "ratioReview": 10.187817258883248,
+      "eligiblePerPatient": 1.2416666666666667,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4462,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 155,
+        "trulyEligible": 107
+      }
+    },
+    {
+      "seed": 2034,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1889,
+        "wrongShare": 0.9412057797708022,
+        "eligible": 118,
+        "found": 118,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 67,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 118,
+        "found": 67,
+        "missed": 51,
+        "recall": 0.5677966101694916,
+        "perPatient": 0.5583333333333333
+      },
+      "tmReview": {
+        "listed": 153,
+        "wrong": 35,
+        "wrongShare": 0.22875816993464052,
+        "eligible": 118,
+        "found": 118,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.275
+      },
+      "ratioStrong": 29.955223880597014,
+      "ratioReview": 13.117647058823529,
+      "eligiblePerPatient": 0.9833333333333333,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4552,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 86,
+        "trulyEligible": 51
+      }
+    },
+    {
+      "seed": 2035,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1870,
+        "wrongShare": 0.931738913801694,
+        "eligible": 137,
+        "found": 137,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 60,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 137,
+        "found": 60,
+        "missed": 77,
+        "recall": 0.43795620437956206,
+        "perPatient": 0.5
+      },
+      "tmReview": {
+        "listed": 179,
+        "wrong": 42,
+        "wrongShare": 0.2346368715083799,
+        "eligible": 137,
+        "found": 137,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.4916666666666667
+      },
+      "ratioStrong": 33.45,
+      "ratioReview": 11.212290502793296,
+      "eligiblePerPatient": 1.1416666666666666,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4604,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 119,
+        "trulyEligible": 77
+      }
+    },
+    {
+      "seed": 2036,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1868,
+        "wrongShare": 0.9307424015944196,
+        "eligible": 139,
+        "found": 139,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 73,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 139,
+        "found": 73,
+        "missed": 66,
+        "recall": 0.5251798561151079,
+        "perPatient": 0.6083333333333333
+      },
+      "tmReview": {
+        "listed": 192,
+        "wrong": 53,
+        "wrongShare": 0.2760416666666667,
+        "eligible": 139,
+        "found": 139,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.6
+      },
+      "ratioStrong": 27.493150684931507,
+      "ratioReview": 10.453125,
+      "eligiblePerPatient": 1.1583333333333334,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4702,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 119,
+        "trulyEligible": 66
+      }
+    },
+    {
+      "seed": 2037,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1840,
+        "wrongShare": 0.916791230692576,
+        "eligible": 167,
+        "found": 167,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 78,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 167,
+        "found": 78,
+        "missed": 89,
+        "recall": 0.46706586826347307,
+        "perPatient": 0.65
+      },
+      "tmReview": {
+        "listed": 209,
+        "wrong": 42,
+        "wrongShare": 0.20095693779904306,
+        "eligible": 167,
+        "found": 167,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.7416666666666667
+      },
+      "ratioStrong": 25.73076923076923,
+      "ratioReview": 9.602870813397129,
+      "eligiblePerPatient": 1.3916666666666666,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4661,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 131,
+        "trulyEligible": 89
+      }
+    },
+    {
+      "seed": 2038,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1854,
+        "wrongShare": 0.9237668161434978,
+        "eligible": 153,
+        "found": 153,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 58,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 153,
+        "found": 58,
+        "missed": 95,
+        "recall": 0.3790849673202614,
+        "perPatient": 0.48333333333333334
+      },
+      "tmReview": {
+        "listed": 210,
+        "wrong": 57,
+        "wrongShare": 0.2714285714285714,
+        "eligible": 153,
+        "found": 153,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.75
+      },
+      "ratioStrong": 34.60344827586207,
+      "ratioReview": 9.557142857142857,
+      "eligiblePerPatient": 1.275,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4504,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 152,
+        "trulyEligible": 95
+      }
+    },
+    {
+      "seed": 2039,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1869,
+        "wrongShare": 0.9312406576980568,
+        "eligible": 138,
+        "found": 138,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 49,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 138,
+        "found": 49,
+        "missed": 89,
+        "recall": 0.35507246376811596,
+        "perPatient": 0.4083333333333333
+      },
+      "tmReview": {
+        "listed": 178,
+        "wrong": 40,
+        "wrongShare": 0.2247191011235955,
+        "eligible": 138,
+        "found": 138,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.4833333333333334
+      },
+      "ratioStrong": 40.95918367346939,
+      "ratioReview": 11.275280898876405,
+      "eligiblePerPatient": 1.15,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4694,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 129,
+        "trulyEligible": 89
+      }
+    },
+    {
+      "seed": 2040,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1848,
+        "wrongShare": 0.9207772795216741,
+        "eligible": 159,
+        "found": 159,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 73,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 159,
+        "found": 73,
+        "missed": 86,
+        "recall": 0.4591194968553459,
+        "perPatient": 0.6083333333333333
+      },
+      "tmReview": {
+        "listed": 195,
+        "wrong": 36,
+        "wrongShare": 0.18461538461538463,
+        "eligible": 159,
+        "found": 159,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.625
+      },
+      "ratioStrong": 27.493150684931507,
+      "ratioReview": 10.292307692307693,
+      "eligiblePerPatient": 1.325,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4571,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 122,
+        "trulyEligible": 86
+      }
+    },
+    {
+      "seed": 2041,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1842,
+        "wrongShare": 0.9177877428998505,
+        "eligible": 165,
+        "found": 165,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 66,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 165,
+        "found": 66,
+        "missed": 99,
+        "recall": 0.4,
+        "perPatient": 0.55
+      },
+      "tmReview": {
+        "listed": 221,
+        "wrong": 56,
+        "wrongShare": 0.25339366515837103,
+        "eligible": 165,
+        "found": 165,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.8416666666666666
+      },
+      "ratioStrong": 30.40909090909091,
+      "ratioReview": 9.081447963800905,
+      "eligiblePerPatient": 1.375,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4537,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 155,
+        "trulyEligible": 99
+      }
+    },
+    {
+      "seed": 2042,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1839,
+        "wrongShare": 0.9162929745889388,
+        "eligible": 168,
+        "found": 168,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 78,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 168,
+        "found": 78,
+        "missed": 90,
+        "recall": 0.4642857142857143,
+        "perPatient": 0.65
+      },
+      "tmReview": {
+        "listed": 214,
+        "wrong": 46,
+        "wrongShare": 0.21495327102803738,
+        "eligible": 168,
+        "found": 168,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.7833333333333334
+      },
+      "ratioStrong": 25.73076923076923,
+      "ratioReview": 9.378504672897197,
+      "eligiblePerPatient": 1.4,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4582,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 136,
+        "trulyEligible": 90
+      }
+    },
+    {
+      "seed": 2043,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1841,
+        "wrongShare": 0.9172894867962132,
+        "eligible": 166,
+        "found": 166,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 94,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 166,
+        "found": 94,
+        "missed": 72,
+        "recall": 0.5662650602409639,
+        "perPatient": 0.7833333333333333
+      },
+      "tmReview": {
+        "listed": 208,
+        "wrong": 42,
+        "wrongShare": 0.20192307692307693,
+        "eligible": 166,
+        "found": 166,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.7333333333333334
+      },
+      "ratioStrong": 21.351063829787233,
+      "ratioReview": 9.649038461538462,
+      "eligiblePerPatient": 1.3833333333333333,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4661,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 114,
+        "trulyEligible": 72
+      }
+    },
+    {
+      "seed": 2044,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1872,
+        "wrongShare": 0.9327354260089686,
+        "eligible": 135,
+        "found": 135,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 75,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 135,
+        "found": 75,
+        "missed": 60,
+        "recall": 0.5555555555555556,
+        "perPatient": 0.625
+      },
+      "tmReview": {
+        "listed": 164,
+        "wrong": 29,
+        "wrongShare": 0.17682926829268292,
+        "eligible": 135,
+        "found": 135,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.3666666666666667
+      },
+      "ratioStrong": 26.76,
+      "ratioReview": 12.237804878048781,
+      "eligiblePerPatient": 1.125,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4719,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 89,
+        "trulyEligible": 60
+      }
+    },
+    {
+      "seed": 2045,
+      "registry": {
+        "listed": 2007,
+        "wrong": 1880,
+        "wrongShare": 0.9367214748380668,
+        "eligible": 127,
+        "found": 127,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 58,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 127,
+        "found": 58,
+        "missed": 69,
+        "recall": 0.4566929133858268,
+        "perPatient": 0.48333333333333334
+      },
+      "tmReview": {
+        "listed": 164,
+        "wrong": 37,
+        "wrongShare": 0.22560975609756098,
+        "eligible": 127,
+        "found": 127,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 1.3666666666666667
+      },
+      "ratioStrong": 34.60344827586207,
+      "ratioReview": 12.237804878048781,
+      "eligiblePerPatient": 1.0583333333333333,
+      "ruledOutWrongly": 0,
+      "notMetRows": 4648,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 106,
+        "trulyEligible": 69
+      }
+    }
+  ],
+  "criterionCheck": {
+    "checks": 326400,
+    "agree": 326400,
+    "disagreements": {}
+  },
+  "whatIfs": [
+    {
+      "id": "silent",
+      "label": "The record never mentions autoimmune disease, lung disease, infection or earlier immunotherapy, even when the patient has them",
+      "registry": {
+        "listed": 40140,
+        "wrong": 37190,
+        "wrongShare": 0.9265072247135028,
+        "eligible": 2950,
+        "found": 2950,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 1312,
+        "wrong": 57,
+        "wrongShare": 0.04344512195121951,
+        "eligible": 2950,
+        "found": 1255,
+        "missed": 1695,
+        "recall": 0.42542372881355933,
+        "perPatient": 0.5466666666666666
+      },
+      "tmReview": {
+        "listed": 3856,
+        "wrong": 957,
+        "wrongShare": 0.24818464730290457,
+        "eligible": 2950,
+        "found": 2899,
+        "missed": 51,
+        "recall": 0.9827118644067797,
+        "perPatient": 1.6066666666666667
+      },
+      "ratioStrong": 30.59451219512195,
+      "ratioReview": 10.409751037344398,
+      "eligiblePerPatient": 1.2291666666666667,
+      "ruledOutWrongly": 51,
+      "notMetRows": 92610,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 2544,
+        "trulyEligible": 1644
+      },
+      "wrongBecause": {
+        "No autoimmune disease treated in the last 2 years": 37,
+        "No interstitial lung disease or pneumonitis": 14,
+        "No pneumonitis after radiotherapy": 3,
+        "No earlier immunotherapy": 2,
+        "No earlier treatment for advanced disease": 1,
+        "No infection being treated now": 1
+      },
+      "ruledOutBy": {
+        "Cancer grew after platinum chemotherapy and immunotherapy": 45,
+        "Cancer grew after at least one earlier treatment for advanced disease": 6
+      }
+    },
+    {
+      "id": "nostage",
+      "label": "The stage is missing from the record",
+      "registry": {
+        "listed": 40140,
+        "wrong": 37190,
+        "wrongShare": 0.9265072247135028,
+        "eligible": 2950,
+        "found": 2950,
+        "missed": 0,
+        "recall": 1,
+        "perPatient": 16.725
+      },
+      "tmStrong": {
+        "listed": 0,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 2950,
+        "found": 0,
+        "missed": 2950,
+        "recall": 0,
+        "perPatient": 0
+      },
+      "tmReview": {
+        "listed": 0,
+        "wrong": 0,
+        "wrongShare": 0,
+        "eligible": 2950,
+        "found": 0,
+        "missed": 2950,
+        "recall": 0,
+        "perPatient": 0
+      },
+      "ratioStrong": 40140,
+      "ratioReview": 40140,
+      "eligiblePerPatient": 1.2291666666666667,
+      "ruledOutWrongly": 2950,
+      "notMetRows": 92610,
+      "notMetButTrue": 0,
+      "possible": {
+        "pairs": 0,
+        "trulyEligible": 0
+      },
+      "wrongBecause": {},
+      "ruledOutBy": {
+        "Non-small cell lung cancer, stage IV": 2614,
+        "Non-small cell lung cancer, stage II–IIIA, operable": 112,
+        "Non-small cell lung cancer, stage III not operable or stage IV": 103,
+        "Small cell lung cancer, extensive stage": 64,
+        "Non-small cell lung cancer, stage III not operable": 57
+      }
+    }
+  ],
+  "first9": {
+    "trials": [
+      "LT-301",
+      "LT-302",
+      "LT-303",
+      "LT-304",
+      "LT-305",
+      "LT-306",
+      "LT-307",
+      "LT-308",
+      "LT-309"
+    ],
+    "pairs": 21600,
+    "registry": {
+      "listed": 17940,
+      "wrong": 16753,
+      "wrongShare": 0.933835005574136,
+      "eligible": 1187,
+      "found": 1187,
+      "missed": 0,
+      "recall": 1,
+      "perPatient": 7.475
+    },
+    "tmStrong": {
+      "listed": 496,
+      "wrong": 0,
+      "wrongShare": 0,
+      "eligible": 1187,
+      "found": 496,
+      "missed": 691,
+      "recall": 0.41786015164279694,
+      "perPatient": 0.20666666666666667
+    },
+    "tmReview": {
+      "listed": 1633,
+      "wrong": 446,
+      "wrongShare": 0.27311696264543783,
+      "eligible": 1187,
+      "found": 1187,
+      "missed": 0,
+      "recall": 1,
+      "perPatient": 0.6804166666666667
+    },
+    "ratioStrong": 36.16935483870968,
+    "ratioReview": 10.985915492957746,
+    "eligiblePerPatient": 0.4945833333333333,
+    "ruledOutWrongly": 0,
+    "notMetRows": 42268,
+    "notMetButTrue": 0,
+    "possible": {
+      "pairs": 1137,
+      "trulyEligible": 691
+    }
+  },
+  "perTrial": [
+    {
+      "code": "LT-301",
+      "name": "A new targeted tablet after EGFR treatment stops working",
+      "rules": 9,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 130,
+      "registry": 2220,
+      "strong": 39,
+      "strongWrong": 0,
+      "possible": 131,
+      "possibleEligible": 91,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-302",
+      "name": "A newer ALK tablet as a first treatment",
+      "rules": 5,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 103,
+      "registry": 2220,
+      "strong": 63,
+      "strongWrong": 0,
+      "possible": 216,
+      "possibleEligible": 40,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-303",
+      "name": "A KRAS G12C tablet combination after earlier treatment",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 45,
+      "registry": 2220,
+      "strong": 13,
+      "strongWrong": 0,
+      "possible": 64,
+      "possibleEligible": 32,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-304",
+      "name": "Immunotherapy combination for high PD-L1",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 125,
+      "registry": 2220,
+      "strong": 52,
+      "strongWrong": 0,
+      "possible": 132,
+      "possibleEligible": 73,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-305",
+      "name": "Adding a new antibody to chemo-immunotherapy",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 301,
+      "registry": 2220,
+      "strong": 107,
+      "strongWrong": 0,
+      "possible": 236,
+      "possibleEligible": 194,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-306",
+      "name": "Immunotherapy after chemoradiotherapy for stage III",
+      "rules": 7,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 57,
+      "registry": 2220,
+      "strong": 36,
+      "strongWrong": 0,
+      "possible": 31,
+      "possibleEligible": 21,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-307",
+      "name": "Immunotherapy before and after surgery",
+      "rules": 5,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 112,
+      "registry": 2220,
+      "strong": 80,
+      "strongWrong": 0,
+      "possible": 33,
+      "possibleEligible": 32,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-308",
+      "name": "A new antibody for extensive small cell lung cancer",
+      "rules": 7,
+      "registryCondition": "Small cell lung cancer",
+      "eligible": 64,
+      "registry": 180,
+      "strong": 28,
+      "strongWrong": 0,
+      "possible": 48,
+      "possibleEligible": 36,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-309",
+      "name": "An antibody–drug conjugate after earlier treatment",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 250,
+      "registry": 2220,
+      "strong": 78,
+      "strongWrong": 0,
+      "possible": 246,
+      "possibleEligible": 172,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-310",
+      "name": "A two-target antibody with chemotherapy after EGFR treatment",
+      "rules": 9,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 120,
+      "registry": 2220,
+      "strong": 36,
+      "strongWrong": 0,
+      "possible": 126,
+      "possibleEligible": 84,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-311",
+      "name": "A HER3-targeted antibody–drug conjugate",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 147,
+      "registry": 2220,
+      "strong": 63,
+      "strongWrong": 0,
+      "possible": 115,
+      "possibleEligible": 84,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-312",
+      "name": "Adding a TROP2 antibody–drug conjugate to the EGFR tablet",
+      "rules": 7,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 238,
+      "registry": 2220,
+      "strong": 88,
+      "strongWrong": 0,
+      "possible": 183,
+      "possibleEligible": 150,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-313",
+      "name": "Keeping the EGFR tablet and adding chemotherapy",
+      "rules": 7,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 162,
+      "registry": 2220,
+      "strong": 80,
+      "strongWrong": 0,
+      "possible": 114,
+      "possibleEligible": 82,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-314",
+      "name": "Targeted radiotherapy for a few growing spots",
+      "rules": 6,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 214,
+      "registry": 2220,
+      "strong": 121,
+      "strongWrong": 0,
+      "possible": 116,
+      "possibleEligible": 93,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-315",
+      "name": "A next-generation EGFR tablet for resistance changes",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 149,
+      "registry": 2220,
+      "strong": 44,
+      "strongWrong": 0,
+      "possible": 141,
+      "possibleEligible": 105,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-316",
+      "name": "Immunotherapy and a blood-vessel blocker with chemotherapy",
+      "rules": 8,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 204,
+      "registry": 2220,
+      "strong": 101,
+      "strongWrong": 0,
+      "possible": 137,
+      "possibleEligible": 103,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-317",
+      "name": "A brain-reaching EGFR tablet for spread to the brain",
+      "rules": 5,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 144,
+      "registry": 2220,
+      "strong": 84,
+      "strongWrong": 0,
+      "possible": 126,
+      "possibleEligible": 60,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-318",
+      "name": "The two-target antibody as a quick injection",
+      "rules": 7,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 187,
+      "registry": 2220,
+      "strong": 78,
+      "strongWrong": 0,
+      "possible": 134,
+      "possibleEligible": 109,
+      "ruledOutWrongly": 0
+    },
+    {
+      "code": "LT-319",
+      "name": "A fresh biopsy to choose the next targeted treatment",
+      "rules": 6,
+      "registryCondition": "Non-small cell lung cancer",
+      "eligible": 198,
+      "registry": 2220,
+      "strong": 77,
+      "strongWrong": 0,
+      "possible": 156,
+      "possibleEligible": 121,
+      "ruledOutWrongly": 0
+    }
+  ],
+  "perType": [
+    {
+      "type": "egfr_after_tablet",
+      "label": "EGFR-positive, after an EGFR tablet",
+      "patients": 480,
+      "eligible": 4.19375,
+      "registry": 18,
+      "strong": 1.7708333333333333,
+      "review": 5.097916666666666
+    },
+    {
+      "type": "egfr_first",
+      "label": "EGFR-positive, untreated",
+      "patients": 100,
+      "eligible": 0,
+      "registry": 18,
+      "strong": 0,
+      "review": 0
+    },
+    {
+      "type": "alk",
+      "label": "ALK-positive",
+      "patients": 140,
+      "eligible": 0.75,
+      "registry": 18,
+      "strong": 0.45714285714285713,
+      "review": 0.7714285714285715
+    },
+    {
+      "type": "kras",
+      "label": "KRAS G12C",
+      "patients": 200,
+      "eligible": 0.5,
+      "registry": 18,
+      "strong": 0.165,
+      "review": 0.61
+    },
+    {
+      "type": "nodriver_first",
+      "label": "No EGFR/ALK, untreated stage IV",
+      "patients": 680,
+      "eligible": 0.6073529411764705,
+      "registry": 18,
+      "strong": 0.225,
+      "review": 0.9411764705882353
+    },
+    {
+      "type": "nodriver_later",
+      "label": "No EGFR/ALK, after first treatment",
+      "patients": 280,
+      "eligible": 0.30714285714285716,
+      "registry": 18,
+      "strong": 0.08571428571428572,
+      "review": 0.48928571428571427
+    },
+    {
+      "type": "stage3",
+      "label": "Stage III, after chemoradiotherapy",
+      "patients": 200,
+      "eligible": 0.285,
+      "registry": 18,
+      "strong": 0.18,
+      "review": 0.55
+    },
+    {
+      "type": "operable",
+      "label": "Operable stage II–IIIA",
+      "patients": 140,
+      "eligible": 0.8,
+      "registry": 18,
+      "strong": 0.5714285714285714,
+      "review": 0.8071428571428572
+    },
+    {
+      "type": "sclc",
+      "label": "Small cell lung cancer",
+      "patients": 180,
+      "eligible": 0.35555555555555557,
+      "registry": 1,
+      "strong": 0.15555555555555556,
+      "review": 0.4222222222222222
+    }
+  ],
+  "missingFactsKeepingEligiblePairsToCheck": {
+    "Blood counts: neutrophils ≥1.5, platelets ≥100": 774,
+    "No untreated or symptomatic brain metastases": 474,
+    "Kidney function: creatinine clearance ≥45 mL/min": 271,
+    "Liver function: bilirubin ≤1.5× upper limit": 201,
+    "Fitness (ECOG) 0–1": 194,
+    "Cancer grew on an EGFR tablet (e.g. osimertinib)": 139,
+    "EGFR exon 19 deletion or L858R": 99,
+    "At least 2 weeks since last cancer treatment": 94,
+    "No EGFR, ALK or ROS1 change": 86,
+    "At least 3 weeks since last cancer treatment": 58,
+    "PD-L1 score below 50%": 43,
+    "Spread to the brain (treated or not)": 43,
+    "Kidney function: creatinine clearance ≥50 mL/min": 41,
+    "Fitness (ECOG) 0–2": 38,
+    "Kidney function: creatinine clearance ≥30 mL/min": 33,
+    "EGFR and ALK negative": 23,
+    "Cancer grew after at least one earlier treatment for advanced disease": 23,
+    "PD-L1 score of 50% or more": 17,
+    "Finished chemoradiotherapy in the last 6 weeks": 12,
+    "Cancer grew on a third-generation EGFR tablet (e.g. osimertinib)": 9,
+    "Cancer has not grown since chemoradiotherapy": 6,
+    "Cancer grew after platinum chemotherapy and immunotherapy": 6
+  }
+}
