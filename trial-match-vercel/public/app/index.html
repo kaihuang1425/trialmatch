@@ -82,6 +82,7 @@ svg { flex: none; width: 20px; height: 20px; }
 }
 
 main { max-width: 1240px; margin: 0 auto; padding-block: 8px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 761px) { main { padding-bottom: 104px; } }   /* clear of the floating "Ask your agent" button (24px up, 52px tall) */
 .col { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
 .wide { display: flex; flex-direction: column; gap: 24px; }
 .page-h { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 16px; }
@@ -284,6 +285,10 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .prow { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
 .prow:first-child { border-top: 0; }
 .prow b { font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* the strong matches as a group: small sections side by side, one column on a phone */
+.sm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 0 28px; }
+.sm-sec { min-width: 0; }
+.sm-sec h4 { margin: 18px 0 0; font-size: 13px; font-weight: 500; color: var(--muted); }
 .seg button:disabled { opacity: .38; pointer-events: none; }
 .seg.fill button { flex: 1 1 auto; }
 .inv-line { display: flex; align-items: center; gap: 8px; align-self: flex-start; margin: 0; padding: 6px 12px 6px 10px; border-radius: 14px; background: var(--met-soft); color: var(--met); font-size: 13px; font-weight: 500; }
@@ -298,6 +303,10 @@ table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; font-weight: 500; color: var(--faint); font-size: 12px; padding: 0 12px 10px; white-space: nowrap; }
 td { padding: 12px; border-top: 1px solid var(--surface-3); vertical-align: middle; }
 tr.click { cursor: pointer; }
+/* tables on a phone: the .wide columns step aside and their facts move into the first cell (.ph-only),
+   so the table fits the screen instead of hiding columns past its right edge */
+.ph-tbl .ph-only { display: none; }
+@media (max-width: 560px) { .ph-tbl .wide { display: none; } .ph-tbl .ph-only { display: inline; } .ph-tbl th, .ph-tbl td { padding-left: 8px; padding-right: 8px; } }
 tr.click:hover td { background: var(--surface-2); }
 .trialpick { min-width: 0; max-width: 100%; }
 .trialpick select { height: 40px; border-radius: 20px; padding-left: 16px; font-size: 14px; font-weight: 500; background-color: var(--surface-2); background-position: calc(100% - 20px) 17px, calc(100% - 15px) 17px; max-width: 100%; }
@@ -3939,7 +3948,14 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     TRIALS.filter(function (t) { return t.opened && t.opened <= 14 && !apps.some(function (a) { return a.trial === t.id; }); }).forEach(function (t) {
       var n = poolFor(t.id).fresh.length; if (n) needs.unshift(['find', t.id, t.code + ' opened ' + ago(openedAt(t)) + ' with no applicants. ' + cnt(n).replace(/^f/, 'F') + ' people could fit', ICON.people]);
     });
-    var rows = TRIALS.map(function (t) { var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length; return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(clinWho(t)) + '</span><br><span class="faint xs">' + esc(clinWhat(t)) + '</span></td><td class="num">' + A.length + '</td><td class="num">' + (A.filter(function (a) { return a.stage === 'applied'; }).length || '–') + '</td><td class="num">' + (A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length || '–') + '</td><td><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>'; }).join('');
+    var rows = TRIALS.map(function (t) {
+      var A = apps.filter(function (a) { return a.trial === t.id; }); var e = A.filter(function (a) { return a.stage === 'enrolled' || a.stage === 'completed'; }).length;
+      var nr = A.filter(function (a) { return a.stage === 'applied'; }).length, ns = A.filter(function (a) { return ['prescreen', 'screening', 'eligibility', 'approval'].indexOf(a.stage) >= 0; }).length;
+      // on a phone the four count columns fold into one line under the trial
+      var brief = [plural(A.length, 'applicant')].concat(nr ? [nr + ' to rank'] : [], ns ? [ns + ' in screening'] : [], [e + ' of ' + t.goal + ' enrolled']).join(' · ');
+      return '<tr class="click" data-act="goto-trial" data-id="' + t.id + '"><td><b style="font-weight:500">' + t.code + '</b><br><span class="muted">' + esc(clinWho(t)) + '</span><br><span class="faint xs">' + esc(clinWhat(t)) + '</span><span class="ph-only"><br><span class="xs">' + brief + '</span></span></td>' +
+        '<td class="num wide">' + A.length + '</td><td class="num wide">' + (nr || '–') + '</td><td class="num wide">' + (ns || '–') + '</td><td class="wide"><div class="mini"><i style="width:' + Math.min(100, Math.round(100 * e / t.goal)) + '%"></i></div><span class="num faint xs">' + e + ' of ' + t.goal + '</span></td></tr>';
+    }).join('');
     var intro = afIntro('c:' + c.id);
     var needsCard = '<div class="card"><h3>Needs you</h3><div class="list" style="margin-top:12px">' + (needs.map(function (n) { return '<button class="item" style="background:var(--surface-2)" data-act="need" data-v="' + n[0] + '" data-id="' + n[1] + '"><span class="ic-circle">' + n[3] + '</span><span class="grow"><b>' + esc(n[2]) + '</b></span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') || '<p class="muted">All clear.</p>') + '</div></div>';
     return '<div class="page-h"><div><h1><span class="grad-text">Hello, ' + esc(c.name.replace('Dr ', 'Dr ')) + '</span></h1><p>' + (needs.length ? plural(needs.length, 'thing needs', 'things need') + ' you today.' : 'Nothing needs you right now.') + '</p></div>' +
@@ -3948,13 +3964,45 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
       afClinicianCard(apps, needs, intro) +
       '<div class="kpis"><div class="kpi"><span class="lbl">To rank</span><span class="val">' + toRank + '</span><span class="hint">' + byAgent + ' of ' + apps.length + ' applications sent by patients’ agents</span></div><div class="kpi"><span class="lbl">In screening</span><span class="val">' + inScr + '</span><span class="hint">Pre-screen to sign-off</span></div><div class="kpi"><span class="lbl">Enrolled</span><span class="val">' + enr + '</span><span class="hint">of ' + goal + ' across ' + TRIALS.length + ' demo trials</span></div><div class="kpi"><span class="lbl">Pre-screen pass rate</span><span class="val">' + rate + '%</span><span class="hint">' + passed + ' passed, ' + failed + ' didn’t · demo applications</span></div></div>' +
       afInsights(apps, needsCard, intro) +
-      '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Trial</th><th>Applicants</th><th>To rank</th><th>In screening</th><th>Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+      '<div class="card"><h3>Trials</h3><div class="tbl-wrap" style="margin-top:12px"><table class="ph-tbl"><thead><tr><th>Trial</th><th class="wide">Applicants</th><th class="wide">To rank</th><th class="wide">In screening</th><th class="wide">Enrolled</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
       '<p class="note">All patients, sites and LT- trials are synthetic. <button class="btn text" style="height:auto;padding:0;font-size:13px" data-act="reset">Reset demo data</button></p>';
   }
 
   /* ---------- find: invite people whose agents say they could fit (counts only, never names) ---------- */
   function kpi(l, v, h) { return '<div class="kpi"><span class="lbl">' + l + '</span><span class="val">' + esc(v) + '</span><span class="hint">' + h + '</span></div>'; }
   function prow(l, v) { return '<div class="prow"><span>' + l + '</span><b>' + esc(v) + '</b></div>'; }
+  // A split of a group whose size is shown. Under 5 reads "fewer than 5"; and when only one count is hidden, the largest
+  // other count reads "5 or more", so the hidden one can't be worked out by taking the rest from the total.
+  function groupCells(cells, dropZero) {
+    cells = cells.filter(function (c) { return !dropZero || c[1]; });
+    var hid = cells.filter(function (c) { return c[1] > 0 && c[1] < 5; }), big = null;
+    if (hid.length === 1) cells.forEach(function (c) { if (c[1] >= 5 && (!big || c[1] > big[1])) big = c; });
+    return cells.map(function (c) { return prow(esc(c[0]), c === big ? '5 or more' : cnt(c[1])); }).join('');
+  }
+  // how many of the group share a fact, without revealing a small number on either side of it
+  function groupShare(n, k) { return n === k ? 'all ' + k : n === 0 ? 'none' : n < 5 ? 'fewer than 5' : k - n < 5 ? 'all but a few' : String(n); }
+  // The strong matches for a trial, described as a group so the team can judge an invitation round. Counts only, never who.
+  function strongCard(t, strong) {
+    var k = strong.length;
+    if (k < 5) return '<div class="card"><h3>The strong matches</h3><p class="muted sm" style="padding-top:12px">' + (k ? 'Fewer than 5 people are strong matches, so there’s no breakdown: with so few, any count could single someone out.' : 'No one is a strong match yet.') + '</p></div>';
+    var X = strong.map(function (x) { return { r: x.r, p: P_(x.pt) }; });
+    var n = function (f) { return X.filter(f).length; };
+    var sec = function (title, rows) { return '<div class="sm-sec"><h4>' + title + '</h4><div class="plist">' + rows + '</div></div>'; };
+    var med = Math.round(afMedian(X.map(function (x) { return x.r.score; })));
+    var secs = [
+      sec('How well they fit', groupCells([['90 and above', n(function (x) { return x.r.score >= 90; })], ['80 to 89', n(function (x) { return x.r.score >= 80 && x.r.score < 90; })], ['Under 80', n(function (x) { return x.r.score < 80; })]])),
+      sec('Could they take part', prow('A site within their travel limit', groupShare(n(function (x) { return x.r.travelOK; }), k)) + prow('Can manage the visits', groupShare(n(function (x) { return x.r.visitsOK; }), k)) +
+        (/randomi/i.test(t.design) ? prow('Happy to be randomised', groupShare(n(function (x) { return x.p.rand === 'yes'; }), k)) : '') +
+        '<p class="faint xs" style="margin:2px 0 0">Visits on ' + t.code + ': ' + esc(VISIT[t.visits][1].toLowerCase()) + '.</p>')
+    ];
+    if (t.target === 'EGFR') secs.push(sec('EGFR change', groupCells([['Exon 19 deletion', n(function (x) { return x.p.egfr === 'ex19del'; })], ['L858R', n(function (x) { return x.p.egfr === 'L858R'; })]], true)));
+    else if (t.kind === 'nodriver') secs.push(sec('PD-L1', groupCells([['50% or more', n(function (x) { return x.p.pdl1 >= 50; })], ['1 to 49%', n(function (x) { return x.p.pdl1 != null && x.p.pdl1 >= 1 && x.p.pdl1 < 50; })], ['Under 1%', n(function (x) { return x.p.pdl1 != null && x.p.pdl1 < 1; })], ['Not tested', n(function (x) { return x.p.pdl1 == null; })]], true)));
+    if (t.sites.length > 1) secs.push(sec('Nearest site', groupCells(t.sites.map(function (s) { return [s[0], n(function (x) { return x.r.site.name === s[0]; })]; }), true)));
+    secs.push(sec('Age', groupCells([['Under 50', n(function (x) { return x.p.age < 50; })], ['50 to 64', n(function (x) { return x.p.age >= 50 && x.p.age < 65; })], ['65 and over', n(function (x) { return x.p.age >= 65; })]])));
+    secs.push(sec('Fitness (ECOG)', groupCells([['0 · fully active', n(function (x) { return x.p.ecog === 0; })], ['1 · light work only', n(function (x) { return x.p.ecog === 1; })], ['2 or more', n(function (x) { return x.p.ecog >= 2; })]], true)));
+    return '<div class="card"><h3>The ' + k + ' strong matches</h3><p class="muted sm" style="margin:4px 0 0">Every entry rule is confirmed from their records. Median fit ' + med + '. Counts only, never who.</p>' +
+      '<div class="sm-grid">' + secs.join('') + '</div></div>';
+  }
   function findView() {
     var tid = S.trial, t = TRIAL[tid], P = poolFor(tid), fresh = P.fresh;
     var strong = fresh.filter(function (x) { return x.r.tier === 'strong'; });
@@ -3973,6 +4021,7 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     var left = '<div class="card"><h3>What their agents can’t confirm yet</h3><div class="plist">' +
       (Object.keys(gaps).length ? Object.keys(gaps).sort(function (a, b) { return gaps[b] - gaps[a]; }).map(function (k) { return prow(esc(k), cnt(gaps[k])); }).join('') : '<p class="muted sm" style="padding-top:12px">Nothing. Every rule is confirmed from their records.</p>') + '</div>' +
       '<h3 style="margin-top:22px">Distance to the nearest site</h3><div class="plist">' + prow('Within 25 miles', cnt(near[0])) + prow('25 to 50 miles', cnt(near[1])) + prow('Further, and happy to travel', cnt(near[2])) + '</div></div>';
+    if (who === 'strong') left = strongCard(t, strong);   // the card follows the toggle: invite strong matches, see the strong matches
     var msg = 'The ' + t.code + ' team at ' + t.sites[0][0] + ' invited you to apply. Your agent thinks you could fit. They don’t know who you are unless you apply.';
     var right = '<div class="card" style="display:flex;flex-direction:column;gap:16px"><h3>Send an invitation</h3>' +
       (fresh.length ? '<div class="seg fill" role="group" aria-label="Who to invite" style="align-self:flex-start"><button data-act="fwho" data-v="all" aria-pressed="' + (who === 'all') + '">Everyone who could fit (' + esc(cnt(fresh.length, true)) + ')</button><button data-act="fwho" data-v="strong" aria-pressed="' + (who === 'strong') + '"' + (strong.length ? '' : ' disabled') + '>Strong matches (' + esc(cnt(strong.length, true)) + ')</button></div>' +
@@ -4070,10 +4119,10 @@ button.af-who:hover { background: rgba(255,255,255,.04); }
     var base = Store.all('apps').filter(function (a) { return S.atrial === 'all' || a.trial === S.atrial; });
     var list = base.filter(function (a) { return inFilter(a, S.afilter); }).sort(function (a, b) { return b.upd - a.upd; });
     var chips = FILTERS.map(function (f) { var n = base.filter(function (a) { return inFilter(a, f[0]); }).length; return '<button class="fchip" data-act="afilter" data-v="' + f[0] + '" aria-pressed="' + (S.afilter === f[0]) + '">' + f[1] + ' <span class="n">' + n + '</span></button>'; }).join('');
-    var rows = list.map(function (a) { var pt = pid(a), t = TRIAL[a.trial], x = evaluate(P_(pt), t), named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return '<tr class="click" data-act="app" data-id="' + a.id + '"><td><b style="font-weight:500">' + (named ? esc(pt.name) : pt.id) + '</b><br><span class="faint xs">' + pt.id + ' · ' + pt.age + ' ' + pt.sex + ' · ' + esc(pt.city) + '</span></td><td>' + t.code + '</td><td>' + ring(x.score, x.tier) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint">' + (a.by === 'agent' ? 'Agent' : 'Patient') + (a.invited ? ', invited' : '') + '</td><td class="faint">' + ago(a.upd) + '</td></tr>'; }).join('');
+    var rows = list.map(function (a) { var pt = pid(a), t = TRIAL[a.trial], x = evaluate(P_(pt), t), named = FLOW.indexOf(a.stage) >= 1 || ['screenfail', 'withdrawn'].indexOf(a.stage) >= 0; return '<tr class="click" data-act="app" data-id="' + a.id + '"><td><b style="font-weight:500">' + (named ? esc(pt.name) : pt.id) + '</b><br><span class="faint xs">' + pt.id + ' · ' + pt.age + ' ' + pt.sex + ' · ' + esc(pt.city) + '<span class="ph-only"> · ' + ago(a.upd) + '</span></span></td><td>' + t.code + '</td><td>' + ring(x.score, x.tier) + '</td><td><span class="chip ' + stageCls(a.stage) + '">' + STAGE_C[a.stage] + '</span></td><td class="faint wide">' + (a.by === 'agent' ? 'Agent' : 'Patient') + (a.invited ? ', invited' : '') + '</td><td class="faint wide">' + ago(a.upd) + '</td></tr>'; }).join('');
     return '<div class="page-h"><div><h1>Applications</h1></div>' + trialSelect('apps-trial', S.atrial, true) + '</div>' +
       '<div class="chips">' + chips + '</div>' +
-      '<div class="card" style="padding:12px 8px"><div class="tbl-wrap">' + (rows ? '<table><thead><tr><th>Patient</th><th>Trial</th><th>Fit</th><th>Stage</th><th>Sent by</th><th>Updated</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty"><p>No applications here.</p></div>') + '</div></div>';
+      '<div class="card" style="padding:12px 8px"><div class="tbl-wrap">' + (rows ? '<table class="ph-tbl"><thead><tr><th>Patient</th><th>Trial</th><th>Fit</th><th>Stage</th><th class="wide">Sent by</th><th class="wide">Updated</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty"><p>No applications here.</p></div>') + '</div></div>';
   }
   function stageCls(s) { return { applied: 'acc', completed: 'met', enrolled: 'met', rejected: 'not', screenfail: 'not', withdrawn: '', waitlist: 'unk' }[s] || ''; }
   var BR = { cr: 'Complete response', pr: 'Partial response', sd: 'Stable disease', pd: 'Cancer grew' };
