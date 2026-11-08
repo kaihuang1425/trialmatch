@@ -45,7 +45,9 @@ export async function drugLabel(name) {
   const n = clean(name, 40).replace(/[^\p{L}\p{N} -]/gu, '').trim();
   if (n.length < 3) return null;
   const word = n.split(' ')[0];
-  const tries = ['openfda.generic_name:"' + n + '"', 'openfda.brand_name:"' + n + '"', 'openfda.generic_name:' + word + '*'];
+  // Some labels (Tagrisso, osimertinib, among them) carry no openfda names, so the last try reads the product's own
+  // listing ("TAGRISSO osimertinib OSIMERTINIB ..."), and takes the names from it.
+  const tries = ['openfda.generic_name:"' + n + '"', 'openfda.brand_name:"' + n + '"', 'openfda.generic_name:' + word + '*', 'spl_product_data_elements:"' + n + '"'];
   for (const search of tries) {
     let out;
     try { out = await fetchJson(FDA + '?' + new URLSearchParams({ search, limit: '1' }), {}, 12000); }
@@ -53,7 +55,9 @@ export async function drugLabel(name) {
     const r = out && out.results && out.results[0];
     if (!r) continue;
     const of = r.openfda || {};
-    const generic = String((of.generic_name || [])[0] || n), brand = String((of.brand_name || [])[0] || '');
+    const listed = String((r.spl_product_data_elements || [])[0] || '').split(/\s+/);
+    const named = !of.generic_name && listed.length > 1 && /^[A-Z][A-Z0-9-]+$/.test(listed[0]) && /^[a-z]/.test(listed[1]);
+    const generic = String((of.generic_name || [])[0] || (named ? listed[1] : n)), brand = String((of.brand_name || [])[0] || (named ? listed[0] : ''));
     const date = String(r.effective_time || '');
     return {
       brand, generic,

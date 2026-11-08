@@ -101,7 +101,8 @@ export function tidyRules(list, said = {}, rec = {}) {
       type: x && x.type === 'exc' ? 'exc' : 'inc',
       status,
       why,
-      needs: status === 'unknown' && x && FIELDS[x.needs] ? x.needs : 'other'
+      // a fact the record or the chat already has can't settle the rule by being asked again
+      needs: status === 'unknown' && x && FIELDS[x.needs] && !(x.needs in have) ? x.needs : 'other'
     };
   }).filter((x) => {
     const key = x.rule.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
