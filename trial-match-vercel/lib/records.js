@@ -99,6 +99,27 @@ function fieldList() {
   }).join('\n');
 }
 
+// What Gemini's reply must look like (structured output). The value is text for every field, so one schema covers
+// options, numbers and "true"; cleanValue turns it back into the right type, and ground() still checks every quote.
+export const FACTS_SCHEMA = {
+  type: 'object',
+  properties: {
+    facts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          key: { type: 'string', enum: Object.keys(FIELDS) },
+          value: { type: 'string', description: 'One allowed option, a number such as 3.1, or true' },
+          quote: { type: 'string', description: 'The exact words from the text that state this fact, copied character for character' }
+        },
+        required: ['key', 'value', 'quote']
+      }
+    }
+  },
+  required: ['facts']
+};
+
 export async function readRecord(text, kind) {
   const system =
     'You are the Records Reader for a lung cancer clinical-trial matching service. You read ' + kind + '.\n' +
@@ -107,7 +128,7 @@ export async function readRecord(text, kind) {
     'Allowed keys and values:\n' + fieldList() + '\n\n' +
     'Reply with JSON only, no prose: {"facts":[{"key":"...","value":...,"quote":"..."}]}';
   const user = 'Text:\n"""\n' + text + '\n"""';
-  const r = await chat({ system, user, maxTokens: 1500 });
+  const r = await chat({ system, user, maxTokens: 1500, schema: FACTS_SCHEMA });
   const parsed = parseJson(r.text);
   const g = ground(parsed.facts, text);
   return { ...g, model: r.model, provider: r.provider, family: r.family };

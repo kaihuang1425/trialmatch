@@ -6,11 +6,12 @@
 //     GOOGLE_SERVICE_ACCOUNT_JSON to a service-account key (raw JSON or base64) with the Vertex AI User role.
 //  2. Hugging Face Inference Endpoints, vLLM, TGI or any OpenAI-compatible server. Set MEDGEMMA_BASE_URL
 //     (ending in /v1), MEDGEMMA_API_KEY and MEDGEMMA_MODEL (for example google/medgemma-27b-text-it).
-//  3. No MedGemma server yet: the Gemini API stands in. Set GEMINI_API_KEY (Google AI Studio) and optionally
-//     GEMINI_MODEL. Gemini runs in Google's cloud, so the app labels it as such and points people to MedGemma
-//     on their own computer for privacy. MedGemma always wins when both are set.
+//  3. No MedGemma server yet: Gemini, called natively (lib/gemini.js) with structured output. Set GEMINI_API_KEY
+//     (Google AI Studio) and optionally GEMINI_MODEL. Gemini runs in Google's cloud, so the app labels it as such and
+//     points people to MedGemma on their own computer for privacy. MedGemma always wins when both are set.
 import crypto from 'node:crypto';
 import { HttpError, fetchJson } from './http.js';
+import { generate, geminiConfig } from './gemini.js';
 
 export function medgemmaConfig() {
   const env = process.env;
@@ -22,18 +23,16 @@ export function medgemmaConfig() {
     return { provider: 'openai', base: env.MEDGEMMA_BASE_URL.replace(/\/+$/, ''), key: env.MEDGEMMA_API_KEY || '',
       model: env.MEDGEMMA_MODEL || 'google/medgemma-27b-text-it' };
   }
-  if (env.GEMINI_API_KEY) {
-    // Gemini's OpenAI-compatible endpoint, pinned so nothing else on the machine can reroute it
-    return { provider: 'gemini', base: 'https://generativelanguage.googleapis.com/v1beta/openai', key: env.GEMINI_API_KEY,
-      model: env.GEMINI_MODEL || 'gemini-3.6-flash' };
-  }
+  const g = geminiConfig();
+  if (g) return { provider: 'gemini', model: g.model };
   return null;
 }
 
 export function medgemmaLabel() {
   const c = medgemmaConfig();
   if (!c) return null;
-  if (c.provider === 'gemini') return { provider: 'Gemini API (Google cloud)', model: c.model, family: 'Gemini', cloud: true };
+  // agent: the chat can call tools (live ClinicalTrials.gov lookups); only the Gemini path has them
+  if (c.provider === 'gemini') return { provider: 'Gemini API (Google cloud)', model: c.model, family: 'Gemini', cloud: true, agent: true };
   return { provider: c.provider === 'vertex' ? 'Vertex AI' : 'OpenAI-compatible endpoint', model: c.model || 'MedGemma (Vertex deployment)', family: 'MedGemma', cloud: false };
 }
 
@@ -68,18 +67,25 @@ function stripThinking(text) {
   return (i >= 0 ? text.slice(i + '<unused95>'.length) : text).replace(/<unused\d+>/g, '').trim();
 }
 
-export async function chat({ system, user, maxTokens = 1500 }) {
+// `schema` (a JSON Schema) makes Gemini's reply match it exactly. MedGemma servers get the same shape described in the
+// prompt, and parseJson reads their reply leniently.
+export async function chat({ system, user, maxTokens = 1500, schema }) {
   const c = medgemmaConfig();
   if (!c) throw new HttpError(503, 'medgemma_not_configured', 'No AI model is connected on this site.');
-  const name = c.provider === 'gemini' ? 'Gemini' : 'MedGemma';
+  if (c.provider === 'gemini') {
+    // maxOutputTokens counts Gemini's thinking too, so give it room on top of the answer
+    const r = await generate({ system, contents: [{ role: 'user', parts: [{ text: user }] }], schema, maxTokens: maxTokens + 2048, timeoutMs: 50000 });
+    if (!r.text) throw new HttpError(502, 'medgemma_empty', r.finish === 'MAX_TOKENS' ? 'Gemini ran out of room before answering.' : 'Gemini returned no text.');
+    return { text: r.text, model: r.model, provider: 'gemini', family: 'Gemini' };
+  }
+  const name = 'MedGemma';
   const auth = c.provider === 'vertex' ? await googleToken() : c.key;
   // One user turn: some MedGemma servers reject a separate system role.
   const messages = [{ role: 'user', content: (system ? system + '\n\n' : '') + user }];
   const out = await fetchJson(c.base + '/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(auth ? { Authorization: 'Bearer ' + auth } : {}) },
-    // Gemini thinks before answering; keep that short so the answer fits inside max_tokens
-    body: JSON.stringify({ model: c.model, messages, max_tokens: maxTokens, temperature: 0, ...(c.provider === 'gemini' ? { reasoning_effort: 'low' } : {}) })
+    body: JSON.stringify({ model: c.model, messages, max_tokens: maxTokens, temperature: 0 })
   }, 55000);
   const msg = out && out.choices && out.choices[0] && out.choices[0].message;
   let content = msg && msg.content;

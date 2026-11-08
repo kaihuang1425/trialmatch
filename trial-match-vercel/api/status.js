@@ -9,7 +9,8 @@ export default route(['GET'], async (req, res) => {
   const fhir = fhirConfig();
   send(res, 200, {
     // "medgemma" is the site's model slot; family says which model fills it (MedGemma, or Gemini standing in)
-    medgemma: mg ? { on: true, provider: mg.provider, model: mg.model, family: mg.family, cloud: mg.cloud } : { on: false },
+    // agent: the chat can look up live trials itself (Gemini only)
+    medgemma: mg ? { on: true, provider: mg.provider, model: mg.model, family: mg.family, cloud: mg.cloud, agent: !!mg.agent } : { on: false },
     store: { on: redisConfigured() },
     fhir: fhir ? { on: true, server: new URL(fhir.base).host, demoPatient: fhir.demoPatient || null } : { on: false },
     registry: { on: true, name: 'ClinicalTrials.gov' }

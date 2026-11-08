@@ -8,6 +8,27 @@ import { FIELDS, cleanRecord } from '../../lib/records.js';
 import { chat, parseJson } from '../../lib/medgemma.js';
 
 const STATUS = ['met', 'not', 'unknown'];
+// Gemini's reply must match this (structured output); MedGemma gets the same shape in the prompt.
+const RULES_SCHEMA = {
+  type: 'object',
+  properties: {
+    rules: {
+      type: 'array',
+      maxItems: 16,
+      items: {
+        type: 'object',
+        properties: {
+          rule: { type: 'string' },
+          type: { type: 'string', enum: ['inc', 'exc'] },
+          status: { type: 'string', enum: STATUS },
+          why: { type: 'string' }
+        },
+        required: ['rule', 'type', 'status', 'why']
+      }
+    }
+  },
+  required: ['rules']
+};
 const clip = (s, n) => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim().slice(0, n) : '');
 
 const NAMES = { histology: 'Tumour type', stage: 'Stage', egfr: 'EGFR', alk: 'ALK', ros1: 'ROS1', kras: 'KRAS', pdl1: 'PD-L1 TPS %',
@@ -46,16 +67,16 @@ export default route(['POST'], async (req, res) => {
 
   const system =
     'You pre-screen lung cancer patients for clinical trials. A research nurse confirms every result, so be strict and honest.\n' +
-    'From the eligibility criteria, pick the 6 to 14 rules that decide eligibility most (diagnosis, stage, gene changes, earlier treatment, fitness, brain metastases, organ function, key exclusions). Rewrite each as one short plain-English line.\n' +
+    'From the eligibility criteria, pick the 6 to 10 rules that decide eligibility most (diagnosis, stage, gene changes, earlier treatment, fitness, brain metastases, organ function, key exclusions). Rewrite each as one short plain-English line.\n' +
     'For each rule set "status":\n' +
     '- "met" only if the recorded facts clearly satisfy it;\n' +
     '- "not" only if a recorded fact clearly breaks it;\n' +
     '- "unknown" if the facts needed are NOT RECORDED or do not settle it. Never assume a missing fact.\n' +
     '"why" names the recorded fact used, or what is missing (under 20 words). "type" is "inc" for inclusion and "exc" for exclusion.\n' +
     'Reply with JSON only: {"rules":[{"rule":"...","type":"inc","status":"met","why":"..."}]}';
-  const user = 'Trial: ' + trial.title + ' (' + trial.nct + ')\n\nEligibility criteria:\n"""\n' + trial.criteria +
+  const user = 'Trial: ' + trial.title + ' (' + trial.nct + ')\n\nEligibility criteria:\n"""\n' + trial.criteria.slice(0, 7000) +   // the deciding rules come first; a shorter prompt keeps MedGemma's thinking in budget
     '\n"""\n\nPatient facts on record:\n' + describe(rec, Number(body.age), body.sex);
-  const r = await chat({ system, user, maxTokens: 1800 });
+  const r = await chat({ system, user, maxTokens: 3600, schema: RULES_SCHEMA });   // MedGemma 1.5 thinks before the JSON, inside this budget
   const parsed = parseJson(r.text);
   const rules = (Array.isArray(parsed.rules) ? parsed.rules : []).slice(0, 16).map((x) => ({
     rule: clip(x && x.rule, 220),
