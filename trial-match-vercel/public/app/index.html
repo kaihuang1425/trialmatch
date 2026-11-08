@@ -458,6 +458,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
 .act-h small { display: block; color: var(--muted); font-size: 12.5px; }
 .act-by { flex: none; align-self: flex-start; font-size: 11.5px; color: var(--muted); padding: 3px 8px; border-radius: 10px; background: rgba(255,255,255,.06); }
 .act-card .sm { margin: 0; }
+.loop-opts .opt { min-height: 44px; padding: 10px 14px; font-size: 14px; background: var(--surface-3); }
+.loop-opts .opt:hover { background: var(--hover); }
 .act-done { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13.5px; color: var(--met); }
 .act-done svg { width: 16px; height: 16px; flex: none; }
 .chat-src button svg { width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; }
@@ -1336,10 +1338,12 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     var tx = (pt.tx || []).map(function (x) { return '<div class="item"><span class="ic-circle">' + ICON.pill + '</span><span class="grow"><b>' + esc(x.what) + '</b><small>' + dstr(x.when) + (x.until ? ' to ' + dstr(x.until) : ' onwards') + '</small></span></div>'; }).join('');
     var past = (pt.past || []).map(function (x) { return '<div class="item"><span class="ic-circle">' + ICON.check + '</span><span class="grow"><b>' + esc(x.code + ' · ' + x.name) + '</b><small>' + esc(BR[x.result] || x.result) + ' · ' + x.months + ' months · completed ' + dstr(x.at) + '</small></span></div>'; }).join('');
     var srcs = SOURCES.filter(function (s) { return (pt.sources || []).indexOf(s.id) >= 0; }).map(function (s) { return '<span class="chip">' + s.icon + esc(s.name) + '</span>'; }).join('');
+    var said = Object.keys(pt.said || {}).filter(function (k) { return LOOP_Q[k]; }).map(function (k) { var x = pt.said[k], h = LOOP_Q[k].short; return '<div class="item"><span class="ic-circle">' + ICON.spark + '</span><span class="grow"><b>' + esc(h.charAt(0).toUpperCase() + h.slice(1)) + '</b><small>You said “' + esc(x.label) + '” · ' + dstr(x.at) + '</small></span></div>'; }).join('');
     return '<div class="col"><div class="page-h"><div><h1>My health</h1></div><div class="row"><button class="btn tonal" data-act="connect">' + ICON.link + 'Connect</button><button class="btn pri" data-act="add">' + ICON.plus + 'Add data</button></div></div>' +
       '<div class="card pad-lg dx"><span class="faint sm">Diagnosis</span><h2>' + esc(HIST[r.histology] || '') + ', ' + esc(STAGE[r.stage] || '') + '</h2><div class="chips">' + bioText(r).map(function (b) { return '<span class="chip ' + (/not known/.test(b) ? 'unk' : 'acc') + '">' + esc(b) + '</span>'; }).join('') + '<span class="chip ' + (r.brain === 'unk' ? 'unk' : '') + '">' + brain + '</span></div><p class="muted sm">' + esc(txText(r)) + '</p></div>' +
       '<div class="stats">' + stats + '</div>' +
       ((tx || past) ? '<div class="sect-h"><h2>Treatment and trials</h2></div><div class="list">' + past + tx + '</div>' : '') +
+      (said ? '<div class="sect-h"><h2>You told your agent</h2></div><p class="muted sm">In the chat. Your care team confirms these at pre-screening.</p><div class="list">' + said + '</div>' : '') +
       '<div class="sect-h"><h2>Connected records</h2></div><div class="chips">' + (srcs || '<span class="muted sm">None yet</span>') + '</div></div>';
   }
 
@@ -1689,6 +1693,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
   var CH = (function () {
     var d = { threads: {}, src: null, ctx: {}, local: { url: 'http://localhost:11434', model: 'medgemma1.5:4b' } };
     try { var s = JSON.parse(localStorage.getItem(CKEY) || 'null'); if (s) { d.threads = s.threads || {}; d.src = s.src || null; d.ctx = s.ctx || {}; if (s.local && s.local.url) d.local = s.local; } } catch (e) {}
+    Object.keys(d.threads).forEach(function (k) { (d.threads[k] || []).forEach(function (m) { if (m.pending) { m.pending = false; if (!m.text) m.text = 'This run stopped when the page reloaded. Ask again to restart it.'; } }); });
     d.pending = false; d.localState = null; d.polls = 0; d.setup = null; return d;
   })();
   var IS_PHONE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
@@ -2074,42 +2079,200 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     if ((t.sites || []).some(function (s) { return s.city === pt.city; })) { score += 1; notes.push('a hospital in ' + pt.city); }
     return { score: score, notes: notes };
   }
-  function agentRun() {
-    var pt = me(), rec = pt.rec, steps = [], msg = { who: 'agent', text: '', steps: steps, items: [], pending: true, run: true };
-    var term = ['ex19del', 'L858R', 'ex20ins', 'other'].indexOf(rec.egfr) >= 0 ? 'EGFR' : rec.alk === 'pos' ? 'ALK' : rec.kras === 'G12C' ? 'KRAS G12C' : rec.ros1 === 'pos' ? 'ROS1' : rec.pdl1 >= 50 ? 'PD-L1' : '';
-    var model = siteMG();
-    chatPush(msg); CH.pending = true; CH.quiet = true; paintChat(true);
-    function step(label, ok) { steps.push({ ok: ok !== false, label: label }); chatSave(); paintChat(true); }
-    step('Planned the search from your record: ' + (term ? term + ', ' : '') + 'stage ' + (rec.stage || 'unknown') + ', near ' + (pt.city || 'you'));
-    window.TMConnect.scout(term).then(function (d) {
+  // Test and learn: find and check, in rounds, until nothing the patient can answer is left.
+  //   Design: plan the search from the record.  Build: Trial Scout searches ClinicalTrials.gov.
+  //   Test: the Matcher's fixed rules rank every result, then the model pre-checks the closest against the full entry rules.
+  //   Learn: rules the record can't settle become questions, one at a time. Each answer goes into the record as the patient's
+  //   own (the care team confirms it at pre-screening) and the same trials are checked again. If everything is ruled out it
+  //   checks the next closest, then widens the search. It stops when no question is left, everything is ruled out, or the
+  //   budget is spent. It never applies for anyone, and with no model it still searches and ranks with the Matcher.
+  var LOOP = { rounds: 4, calls: 8, perRound: 2 };
+  var YN = [['Yes', 'yes'], ['No', 'no']];
+  var LOOP_Q = {   // facts a patient can answer themselves, by record key; gene results, stage and blood counts go to the care team
+    brain: { short: 'your brain scan', ask: 'Has a scan checked your brain? What did it show?', opts: [['No spread to the brain', 'none'], ['Spread, treated and stable', 'treated_stable'], ['Spread, not treated yet', 'untreated']] },
+    ecog: { short: 'how you manage day to day', ask: 'How are you managing day to day?', opts: ECOG.slice(0, 4).map(function (e, i) { return [e, i]; }) },
+    progressed: { short: 'whether the cancer grew on your latest treatment', ask: 'Did the cancer grow on your latest treatment?', opts: YN },
+    lastTxWeeks: { short: 'when your last treatment was', ask: 'When was your last cancer treatment?', opts: [['Less than 2 weeks ago', 1], ['2 to 4 weeks ago', 3], ['More than 4 weeks ago', 6]] },
+    priorEGFR: { short: 'whether you’ve had an EGFR tablet', ask: 'Have you taken an EGFR tablet, such as osimertinib?', opts: YN },
+    priorChemo: { short: 'whether you’ve had chemotherapy', ask: 'Have you had chemotherapy for this cancer?', opts: YN },
+    priorIO: { short: 'whether you’ve had immunotherapy', ask: 'Have you had immunotherapy, such as pembrolizumab or nivolumab?', opts: YN },
+    priorALK: { short: 'whether you’ve had an ALK tablet', ask: 'Have you taken an ALK tablet, such as alectinib?', opts: YN },
+    priorCRT: { short: 'whether you’ve had chemoradiotherapy', ask: 'Have you had chemotherapy and radiotherapy together?', opts: YN },
+    ild: { short: 'lung inflammation', ask: 'Have you ever been told you have lung inflammation, called pneumonitis or interstitial lung disease?', opts: YN },
+    autoimmune: { short: 'autoimmune disease', ask: 'In the last 2 years, have you been treated for an autoimmune disease, such as lupus, rheumatoid arthritis or Crohn’s?', opts: YN },
+    infection: { short: 'a current infection', ask: 'Are you being treated for an infection right now?', opts: YN },
+    pdl1: { short: 'your PD-L1 score', ask: 'Do you know your PD-L1 score? It’s on your pathology report.', opts: [['50% or higher', 60], ['1% to 49%', 20], ['Less than 1%', 0]] }
+  };
+  var LOOP_ORDER = Object.keys(LOOP_Q);
+  function loopOpts(Q) { return Q.opts.concat([['I’m not sure. My team can check.', null]]); }
+  function loopRec(pt) { var o = {}; Object.keys(pt.rec).forEach(function (k) { var v = pt.rec[k]; if (v != null && v !== 'unk' && v !== '' && v !== false && v !== 'na') o[k] = v; }); return o; }
+  function loopSaid(pt) { var o = {}; Object.keys(pt.said || {}).forEach(function (k) { o[k] = pt.said[k].v; }); return o; }
+  function loopStep(msg) { return function (label, ok) { msg.steps.push({ ok: ok !== false, label: label }); chatSave(); paintChat(true); return msg.steps.length - 1; }; }
+  function loopBusy(msg, on) { msg.pending = on; CH.pending = on; CH.quiet = on; chatSave(); paintChat(true); }
+  function loopCounts(r) { return r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check'; }
+  function loopWhy(notes) {   // the Matcher's notes as one sentence: "it aims at your EGFR change, and has a hospital in London"
+    return notes.length ? ': it ' + notes.map(function (n) { return n.replace(/^for /, 'is for ').replace(/^a hospital/, 'has a hospital'); }).join(', and ') : '';
+  }
+  function loopRank(x) { return x.r ? (x.out ? -50 + x.score : 100 + 2 * x.r.counts.met - x.r.counts.unknown) : x.score; }
+  function loopCheck(L, pt, x) {   // one model pre-check; the patient's chat answers go with the record, marked as theirs
+    L.calls++;
+    return window.TMConnect.prescreen(x.nct, loopRec(pt), pt.age, pt.sex, loopSaid(pt)).then(function (r) {
+      x.r = { counts: r.counts, rules: (r.rules || []).map(function (y) { return { rule: y.rule, status: y.status, needs: y.needs || 'other' }; }) };
+      x.out = r.counts.not > 0; L.family = r.family || L.family; return null;
+    }, function (e) { if (!x.r) x.err = e.message; return e.message; });
+  }
+  function loopCheckNext(msg, L) {   // pre-check the closest trials not checked yet, two at a time
+    var pt = me(), room = L.maxCalls - L.calls;
+    var next = L.trials.filter(function (x) { return !x.r && !x.err && x.score > 0; }).sort(function (a, b) { return b.score - a.score; }).slice(0, Math.min(LOOP.perRound, room));
+    if (!next.length) return Promise.resolve();
+    var i = loopStep(msg)('Test: pre-checking ' + next.map(function (x) { return x.nct; }).join(' and ') + ' against the full entry rules with ' + siteAI() + '…');
+    return Promise.all(next.map(function (x) { return loopCheck(L, pt, x); })).then(function () {
+      msg.steps[i] = { ok: next.some(function (x) { return x.r; }), label: next.map(function (x) { return x.r ? 'Pre-checked ' + x.nct + ' with ' + (L.family || siteAI()) + ': ' + loopCounts(x.r) : 'Couldn’t pre-check ' + x.nct + ' (' + x.err + ')'; }).join('. ') };
+      chatSave(); paintChat(true);
+    });
+  }
+  function loopSearch(msg, L, term) {   // Build and test: search, rank with fixed rules, pre-check the closest
+    var pt = me(), step = loopStep(msg);
+    return window.TMConnect.scout(term).then(function (d) {
       if (!SCOUT.data) SCOUT.data = { trials: [] };
       d.trials.forEach(function (x) { if (!SCOUT.data.trials.some(function (y) { return y.nct === x.nct; })) SCOUT.data.trials.push(x); });
-      step('Trial Scout searched ClinicalTrials.gov' + (term ? ' for ' + term : '') + ': ' + plural(d.trials.length, 'recruiting phase III trial') + ' with UK hospitals');
-      var ranked = d.trials.map(function (t) { return { t: t, q: quickFit(t, pt), r: null }; }).sort(function (a, b) { return (b.q.score - a.q.score) || (b.t.siteCount - a.t.siteCount); });
-      var good = ranked.filter(function (x) { return x.q.score > 0; });
-      step('Matcher read every title, summary and drug with fixed rules (no AI): ' + plural(good.length, 'trial') + ' look relevant to your record');
-      var list = ranked.slice(0, 5);
-      if (!model || !list.length) { if (!model) step('No AI model on this site, so no deeper pre-check', false); return list; }
-      var top = list[0];
-      step('Pre-checking the closest, ' + top.t.nct + ', against its full entry rules with ' + siteAI() + '…');
-      var recLite = {}; Object.keys(rec).forEach(function (k2) { var v = rec[k2]; if (v != null && v !== 'unk' && v !== '' && v !== false && v !== 'na') recLite[k2] = v; });
-      return window.TMConnect.prescreen(top.t.nct, recLite, pt.age, pt.sex).then(function (r) {
-        top.r = r; steps[steps.length - 1] = { ok: true, label: 'Pre-checked ' + top.t.nct + ' with ' + (r.family || siteAI()) + ': ' + r.counts.met + ' met, ' + r.counts.not + ' not met, ' + r.counts.unknown + ' to check' };
-        return list;
-      }, function (e) { steps[steps.length - 1] = { ok: false, label: 'Couldn’t finish the pre-check of ' + top.t.nct + ' (' + e.message + ')' }; return list; });
-    }).then(function (list) {
-      var top = list[0], unknown = top && top.r ? (top.r.rules || []).filter(function (x) { return x.status === 'unknown'; }).slice(0, 2) : [];
-      msg.text = !list.length ? 'I found no live trials for that search.'
-        : top.q.score <= 0 ? 'None of the live trials clearly matches your record yet. I’ll keep watching the registry.'
-        : top.t.nct + ' looks closest: it ' + top.q.notes.slice(0, 2).join(', and ') + '.' + (top.r ? (top.r.counts.not ? ' The pre-check found ' + plural(top.r.counts.not, 'rule') + ' your record may break.' : ' The pre-check found nothing on record that rules you out.') : '') +
-          (unknown.length ? ' What would settle it: ' + unknown.map(function (x) { return x.rule.replace(/\.$/, ''); }).join('; ') + '. Your care team can confirm these.' : '');
-      msg.items = list.map(function (x) {
-        return { act: 'live', id: x.t.nct, label: x.t.title, sub: x.t.nct + ' · ' + (x.r ? x.r.counts.met + ' met, ' + x.r.counts.not + ' not met, ' + x.r.counts.unknown + ' to check' : (x.q.notes[0] || 'no clear link to your record')) };
-      });
-      if (list.length) step('Ranked them: what the rules found first, then nearest hospitals');
-      event(pt.id, 'Trial Scout', 'Searched the live registry' + (term ? ' for ' + term : '') + (top ? '. Closest: ' + top.t.nct + '.' : '.'), false);
-    }, function (e) { msg.text = 'Trial Scout couldn’t reach ClinicalTrials.gov (' + e.message + ').'; })
-      .then(function () { msg.pending = false; CH.pending = false; CH.quiet = false; chatSave(); paintChat(true); });
+      step('Build: Trial Scout searched ClinicalTrials.gov' + (term ? ' for ' + term : ' for all lung cancer trials') + ': ' + plural(d.trials.length, 'recruiting phase III trial') + ' with UK hospitals');
+      var have = L.trials.map(function (x) { return x.nct; });
+      var ranked = d.trials.filter(function (t) { return have.indexOf(t.nct) < 0; }).map(function (t) { return { t: t, q: quickFit(t, pt) }; })
+        .sort(function (a, b) { return (b.q.score - a.q.score) || (b.t.siteCount - a.t.siteCount); });
+      step('Test: the Matcher read every title, summary and drug with fixed rules (no AI): ' + plural(ranked.filter(function (x) { return x.q.score > 0; }).length, 'trial') + ' look relevant to your record');
+      ranked.slice(0, 5).forEach(function (x) { L.trials.push({ nct: x.t.nct, title: x.t.title, notes: x.q.notes.slice(0, 2), score: x.q.score, r: null }); });
+      if (!siteMG()) { step('No AI model on this site, so no pre-check of the full entry rules', false); return; }
+      return loopCheckNext(msg, L);
+    });
+  }
+  function loopNext(L, pt) {   // Learn: the question that settles rules in the most trials still in play
+    var n = {}, skip = L.asked.concat(Object.keys(pt.said || {}));
+    L.trials.forEach(function (x) {
+      if (!x.r || x.out) return;
+      uniqIds(x.r.rules.filter(function (y) { return y.status === 'unknown' && LOOP_Q[y.needs] && skip.indexOf(y.needs) < 0; }).map(function (y) { return y.needs; }))
+        .forEach(function (k) { n[k] = (n[k] || 0) + 1; });
+    });
+    var keys = Object.keys(n).sort(function (a, b) { return (n[b] - n[a]) || (LOOP_ORDER.indexOf(a) - LOOP_ORDER.indexOf(b)); });
+    if (!keys.length) return null;
+    var ncts = L.trials.filter(function (x) { return x.r && !x.out && x.r.rules.some(function (y) { return y.status === 'unknown' && y.needs === keys[0]; }); }).map(function (x) { return x.nct; });
+    return { key: keys[0], n: n[keys[0]], ncts: ncts };
+  }
+  function loopSpent(L) { return L.calls >= L.maxCalls || L.round >= L.maxRounds; }
+  function loopAfter(msg, L) {   // after each round: check the next ones, widen, ask, or stop
+    var pt = me(), step = loopStep(msg), model = siteMG();
+    var inPlay = L.trials.filter(function (x) { return model ? x.r && !x.out : x.score > 0; });
+    var spent = loopSpent(L);
+    if (!inPlay.length && !spent) {
+      var out = L.trials.filter(function (x) { return x.r && x.out; }).length;
+      if (model && L.trials.some(function (x) { return !x.r && !x.err && x.score > 0; })) {
+        L.round++;
+        step('Round ' + L.round + ', design: ' + (out === 1 ? 'that trial was' : out ? 'all ' + out + ' were' : 'nothing could be') + (out ? ' ruled out' : ' checked') + ', so next I check the closest ones left');
+        return loopCheckNext(msg, L).then(function () { return loopAfter(msg, L); });
+      }
+      if (L.term && !L.wide) {
+        L.round++; L.wide = true;
+        step('Round ' + L.round + ', design: nothing for ' + L.term + ' fits yet, so I widened the search to all lung cancer trials');
+        return loopSearch(msg, L, '').then(function () { return loopAfter(msg, L); });
+      }
+    }
+    var left = model && L.trials.some(function (x) { return !x.r && !x.err && x.score > 0; });
+    var q = model && !spent ? loopNext(L, pt) : null;
+    if (q) {
+      var best = inPlay.slice().sort(function (a, b) { return loopRank(b) - loopRank(a); })[0];
+      var unk = inPlay.reduce(function (s2, x) { return s2 + x.r.counts.unknown; }, 0);
+      step('Learn: ' + plural(unk, 'rule') + ' can’t be settled from your record yet. The one you can answer that matters most: ' + LOOP_Q[q.key].short + ' (' + plural(q.n, 'trial') + ')');
+      msg.text = best.nct + ' looks closest so far' + loopWhy(best.notes) + '. Your answer settles a rule in ' +
+        (q.ncts.length > 1 && q.ncts.length === inPlay.length ? (q.ncts.length === 2 ? 'both' : 'all ' + q.ncts.length) + ' of the trials still in play' : q.ncts.join(' and ')) + '.';
+      msg.ask = { lid: L.id, key: q.key, n: q.n, state: 'open' };
+      loopBusy(msg, false); return;
+    }
+    loopStop(msg, L, !inPlay.length ? (spent && left ? 'budget' : 'out') : spent ? 'budget' : 'settled');
+  }
+  function loopStop(msg, L, why) {
+    var pt = me(), model = siteMG(), step = loopStep(msg);
+    var ranked = L.trials.slice().sort(function (a, b) { return loopRank(b) - loopRank(a); });
+    var best = ranked.filter(function (x) { return model ? x.r && !x.out : x.score > 0; })[0], firstOut = ranked.filter(function (x) { return x.out; })[0];
+    var care = best && best.r ? best.r.rules.filter(function (y) { return y.status === 'unknown'; }) : [];
+    var more = why === 'budget' && model && (loopNext(L, pt) || L.trials.some(function (x) { return !x.r && !x.err && x.score > 0; }));
+    step('Stopped after ' + plural(L.round, 'round') + ' and ' + plural(L.calls, 'model check') + ': ' + ({ settled: model ? 'nothing you can answer is left' : 'without a model there are no entry rules to ask you about', out: model ? 'every trial checked was ruled out' : 'no trial clearly matches',
+      budget: L.round >= L.maxRounds ? 'that’s this run’s limit of ' + L.maxRounds + ' rounds' : 'that’s this run’s limit of ' + L.maxCalls + ' checks' })[why], why !== 'out');
+    if (!L.trials.length) msg.text = 'I found no live trials for that search.';
+    else if (!best) msg.text = (model && firstOut ? 'Every live trial I checked' + (more ? ' so far' : '') + ' was ruled out by your record' + (function () { var no = firstOut.r.rules.filter(function (y) { return y.status === 'not'; })[0]; return no ? '. For example, ' + firstOut.nct + ' has the rule “' + no.rule.replace(/\.$/, '') + '”, and your record doesn’t fit it' : ''; })() + '.' : 'None of the live trials clearly matches your record yet.') + (more ? '' : ' I’ll keep watching the registry.');
+    else msg.text = best.nct + ' looks closest' + loopWhy(best.notes) + '.' +
+      (best.r ? ' The pre-check: ' + loopCounts(best.r) + '.' + (care.length ? ' Your care team can settle the rest: ' + care.slice(0, 3).map(function (y) { return y.rule.replace(/\.$/, ''); }).join('; ') + '.' : ' Nothing on record rules you out.') : '') +
+      (L.answers.length ? ' Your answers are in your record, marked as yours until your care team confirms them.' : '') +
+      (more ? (best ? ' There’s more you could answer' : ' There are more trials to check') + ': tap Keep checking to go on.' : '') +
+      (!model && best ? ' With a model on, I’d also pre-check the full entry rules and ask you what would settle them.' : '');
+    if (more) msg.actions = [{ act: 'loop-more', id: L.id, label: 'Keep checking' }];
+    msg.items = ranked.slice(0, 6).map(function (x) { return { act: 'live', id: x.nct, label: x.title, sub: x.nct + ' · ' + (x.r ? (x.out ? 'ruled out · ' : '') + loopCounts(x.r) : (x.notes[0] || 'no clear link to your record')) }; });
+    event(pt.id, 'Trial Scout', 'Test and learn: ' + plural(L.round, 'round') + ', ' + plural(L.answers.length, 'answer') + ' from you, ' + plural(L.calls, 'model check') + '. ' +
+      (best ? 'Closest live trial: ' + best.nct + (best.r ? ' (' + loopCounts(best.r) + ')' : '') + '.' : 'No live trial fits yet.'), false);
+    loopBusy(msg, false);
+  }
+  function agentRun() {
+    var pt = me(), rec = pt.rec;
+    var term = ['ex19del', 'L858R', 'ex20ins', 'other'].indexOf(rec.egfr) >= 0 ? 'EGFR' : rec.alk === 'pos' ? 'ALK' : rec.kras === 'G12C' ? 'KRAS G12C' : rec.ros1 === 'pos' ? 'ROS1' : rec.pdl1 >= 50 ? 'PD-L1' : '';
+    var L = { id: rid(), term: term, wide: false, round: 1, calls: 0, maxRounds: LOOP.rounds, maxCalls: LOOP.calls, asked: [], answers: [], trials: [], family: null };
+    var msg = { who: 'agent', text: '', steps: [], items: [], run: true, lid: L.id, loop: L };
+    chatPush(msg); loopBusy(msg, true);
+    var on = onTrial(pt.id);
+    loopStep(msg)('Round 1, design: planned the search from your record: ' + (term ? term + ', ' : '') + 'stage ' + (rec.stage || 'unknown') + ', near ' + (pt.city || 'you') +
+      (on && TRIAL[on.trial] ? '. You’re on ' + TRIAL[on.trial].code + ', so this is only to know your options' : ''));
+    loopSearch(msg, L, term).then(function () { loopAfter(msg, L); }, function (e) { msg.text = 'Trial Scout couldn’t reach ClinicalTrials.gov (' + e.message + ').'; loopBusy(msg, false); });
+  }
+  function loopAnswer(lid, i) {   // the patient tapped an answer: it goes into the record as theirs, then the same trials are checked again
+    if (CH.pending) return;
+    var th = chatThread(), run = th.filter(function (m) { return m.lid === lid && m.loop; })[0];
+    var asked = th.filter(function (m) { return m.ask && m.ask.lid === lid && m.ask.state === 'open'; }).pop();
+    if (!run || !asked) return;
+    var L = run.loop, key = asked.ask.key, Q = LOOP_Q[key], o = Q && loopOpts(Q)[+i];
+    if (!o) return;
+    asked.ask.state = 'done'; asked.ask.picked = o[0]; L.asked.push(key);
+    chatPush({ who: 'user', text: o[0] });
+    var msg = { who: 'agent', text: '', steps: [], items: [] }, step = loopStep(msg);
+    chatPush(msg); loopBusy(msg, true);
+    if (o[1] == null) { step('Learn: you’re not sure about ' + Q.short + ', so your care team will check it'); loopAfter(msg, L); return; }
+    var pt = clone(me()), now = Date.now();
+    pt.said = pt.said || {}; pt.said[key] = { v: o[1], label: o[0], at: now };
+    pt.rec[key] = Q.opts === YN ? o[1] === 'yes' : o[1];
+    if (key === 'progressed') pt.rec.progressed = o[1];
+    if (key === 'brain' || key === 'ecog') pt.srcs[key] = 'You said this in the chat, ' + dstr(now);
+    savePatient(pt);
+    L.answers.push({ key: key, label: o[0] }); L.round++;
+    step('Round ' + L.round + ', learn: you said “' + o[0] + '”. It’s in your record as yours; your care team confirms it at pre-screening');
+    var again = L.trials.filter(function (x) { return x.r && !x.out && x.r.rules.some(function (y) { return y.status === 'unknown' && y.needs === key; }); }).slice(0, Math.min(LOOP.perRound, L.maxCalls - L.calls));
+    if (!again.length) { loopAfter(msg, L); return; }
+    var before = again.map(function (x) { return x.r.counts.unknown; });
+    var at = step('Test: checking ' + again.map(function (x) { return x.nct; }).join(' and ') + ' again with ' + siteAI() + '…');
+    Promise.all(again.map(function (x) { return loopCheck(L, me(), x); })).then(function (errs) {
+      msg.steps[at] = { ok: errs.some(function (e) { return !e; }), label: again.map(function (x, j) {
+        if (errs[j]) return 'Couldn’t check ' + x.nct + ' again (' + errs[j] + ')';
+        var settled = before[j] - x.r.counts.unknown;
+        return 'Checked ' + x.nct + ' again: ' + (x.out ? 'your answer rules it out' : (settled > 0 ? plural(settled, 'rule') + ' settled' : 'nothing new settled') + ', ' + x.r.counts.unknown + ' left to check');
+      }).join('. ') };
+      chatSave(); loopAfter(msg, L);
+    });
+  }
+  function loopMore(lid) {   // the person asked for more rounds: a fresh budget, the same trials and answers
+    if (CH.pending) return;
+    var th = chatThread(), run = th.filter(function (m) { return m.lid === lid && m.loop; })[0];
+    if (!run) return;
+    th.forEach(function (m) { if (m.actions) m.actions = m.actions.filter(function (a) { return !(a.act === 'loop-more' && a.id === lid); }); });
+    var L = run.loop; L.maxRounds = L.round + LOOP.rounds - 1; L.maxCalls = L.calls + LOOP.calls;
+    chatPush({ who: 'user', text: 'Keep checking' });
+    var msg = { who: 'agent', text: '', steps: [], items: [] };
+    chatPush(msg); loopBusy(msg, true);
+    loopStep(msg)('More budget: up to ' + plural(LOOP.rounds - 1, 'more round') + ' and ' + LOOP.calls + ' more checks');
+    loopAfter(msg, L);
+  }
+  function loopAskHTML(a) {
+    var Q = LOOP_Q[a.key];
+    if (!Q) return '';
+    if (a.state === 'done') return '<p class="act-done">' + ICON.check + 'You said: ' + esc(a.picked) + '</p>';
+    return '<div class="act-card"><div class="act-h"><span class="spark sm">' + ICON.spark + '</span><span class="grow"><b>' + esc(Q.ask) + '</b><small>It settles a rule in ' + plural(a.n, 'trial') + ' I checked</small></span></div>' +
+      '<div class="opts loop-opts">' + loopOpts(Q).map(function (o, i) { return '<button class="opt" data-act="loop-ans" data-id="' + esc(a.lid) + '" data-v="' + i + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>' +
+      '<p class="sm muted">Source: you, in this chat. It goes into your record as yours, and your care team confirms it at pre-screening.</p></div>';
   }
 
   function chatSend(text, fromChip) {
@@ -2157,7 +2320,7 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
       (m.lines && m.lines.length ? '<ul>' + m.lines.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
       (m.items && m.items.length ? '<div class="list">' + m.items.map(function (it) { return '<button class="item" data-act="' + it.act + '" data-id="' + esc(it.id || '') + '" data-v="' + esc(it.v || '') + '"><span class="grow"><b>' + esc(it.label) + '</b>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</span>' + ICON.chev.replace('<svg', '<svg class="chev"') + '</button>'; }).join('') + '</div>' : '') +
       (m.actions && m.actions.length ? '<div class="row">' + m.actions.map(function (a, i) { return '<button class="btn ' + (i ? 'text' : 'tonal') + '" data-act="' + a.act + '" data-id="' + esc(a.id || '') + '" data-v="' + esc(a.v || '') + '">' + esc(a.label) + '</button>'; }).join('') + '</div>' : '') +
-      (m.propose ? chatCardHTML(m.propose) : '') +
+      (m.propose ? chatCardHTML(m.propose) : '') + (m.ask ? loopAskHTML(m.ask) : '') +
       (m.note ? '<p class="note">' + esc(m.note) + '</p>' : '') + '</div>';
   }
   // Chips get built-in answers. An agent chip (shown when the site's model can look up live trials) goes to the model.
@@ -2535,6 +2698,8 @@ input[type="checkbox"]:not(.switch) { width: 18px; height: 18px; accent-color: v
     'chat-src': function (el) { chatSetSource(el.dataset.v); },
     'chat-chip': function (el) { chatSend(el.dataset.v, !el.dataset.model); },
     'chat-do': function (el) { chatDo(el.dataset.id); },
+    'loop-ans': function (el) { loopAnswer(el.dataset.id, el.dataset.v); },
+    'loop-more': function (el) { loopMore(el.dataset.id); },
     'chat-skip': function (el) { var c = chatCard(el.dataset.id); if (c && c.state === 'open') { c.state = 'skipped'; chatSave(); paintChat(false); } },
     paper: function (el) { if (/^https:\/\//.test(el.dataset.id || '')) window.open(el.dataset.id, '_blank', 'noopener'); },
     'chat-clear': function () { CH.threads[chatKey()] = []; delete CH.ctx[chatKey()]; chatSave(); paintChat(true); },
